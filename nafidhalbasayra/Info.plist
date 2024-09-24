@@ -4,10 +4,10 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>"BahijTheSansArabic-Bold.ttf"</string>
-		<string>"Almarai-Bold.ttf"</string>
-		<string>"BahijTheSansArabic-ExtraBold.ttf"</string>
-		<string>"Amiri-Bold.ttf"</string>
+		<string>BahijTheSansArabic-Bold.ttf</string>
+		<string>Almarai-Bold.ttf</string>
+		<string>BahijTheSansArabic-ExtraBold.ttf</string>
+		<string>Amiri-Bold.ttf</string>
 	</array>
 </dict>
 </plist>
