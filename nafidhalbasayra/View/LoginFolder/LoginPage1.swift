@@ -15,12 +15,14 @@ struct LoginPage1: View {
         VStack (spacing: 6){
             Spacer()
             Image("Group 3")
+//
+                
             Spacer()
             
             //
             Text("تسجيل الدخول")
+                .font(.custom("Amiri-Bold", size: 40))
                 .foregroundStyle(Color(UIColor(red: 0x1B / 255.0, green: 0x3E / 255.0, blue: 0x5D / 255.0, alpha: 1.0)))
-                .font(.title)
                 .bold()
            
             Spacer()
@@ -36,11 +38,11 @@ struct LoginPage1: View {
             //
             
             VStack {
-                TextField("Type something here...", text: $textFieldText)
-                    .frame(height: 42)
+                TextField("اسم المستخدم", text: $textFieldText)
+                    .frame(height: 40)
                     .padding(.horizontal)
                     .background(Color.white)
-                    .cornerRadius(10)
+                    .cornerRadius(3)
                 
             }
             //
@@ -59,11 +61,11 @@ struct LoginPage1: View {
             }
             
             VStack {
-                TextField("Type something here...", text: $textFieldText)
-                    .frame(height: 42)
+                TextField("كلمة المرور", text: $textFieldText)
+                    .frame(height: 40)
                     .padding(.horizontal)
                     .background(Color.white)
-                    .cornerRadius(10)
+                    .cornerRadius(3)
                 
             }
             
@@ -76,10 +78,10 @@ struct LoginPage1: View {
                 Text("تسجيل الدخول")
                     .foregroundStyle(Color.white)
             })
-            .frame(height: 42)
+            .frame(height: 40)
                 .frame(maxWidth: .infinity)
                 .background(Color(UIColor(red: 0x1B / 255.0, green: 0x3E / 255.0, blue: 0x5D / 255.0, alpha: 1.0)))
-                .cornerRadius(10)
+                .cornerRadius(3)
                
             
             Spacer()

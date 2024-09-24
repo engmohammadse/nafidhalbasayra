@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LoginPage: View {
+struct LoginPage0: View {
     var body: some View {
         VStack {
             Spacer()
@@ -39,5 +39,5 @@ struct LoginPage: View {
 }
 
 #Preview {
-    LoginPage()
+    LoginPage0()
 }
