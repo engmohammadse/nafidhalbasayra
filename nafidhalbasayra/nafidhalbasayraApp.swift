@@ -10,12 +10,32 @@ import SwiftUI
 @main
 struct nafidhalbasayraApp: App {
     let persistenceController = PersistenceController.shared
+    @State private var showSplash = true
 
     var body: some Scene {
         WindowGroup {
             
             NavigationStack{
-                LoginPage1()
+                
+                if showSplash {
+                    
+                    LoginPage0()
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                showSplash = false // Hide splash screen after 3 seconds
+                                
+                                
+                                
+                            }
+                            
+                        }
+                    
+                    
+                } else{
+                    LoginPage1()
+                }
+                
+                
             }
             
 //            ContentView()
