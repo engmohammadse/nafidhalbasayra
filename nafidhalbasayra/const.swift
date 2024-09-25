@@ -12,15 +12,15 @@ import UIKit
 func dynamicFontSize1() -> CGFloat {
     let screenWidth = UIScreen.main.bounds.width
     if screenWidth > 1000 { // Large screens like iPads
-        return 70
-    } else if screenWidth > 600 { // Medium screens like large phones or small tablets
         return 60
+    } else if screenWidth > 600 { // Medium screens like large phones or small tablets
+        return 40
         
     }else if screenWidth > 250  {
-            return 40
+            return 30
         
     } else { // Small screens like phones
-        return 30
+        return 25
     }
 }
 
