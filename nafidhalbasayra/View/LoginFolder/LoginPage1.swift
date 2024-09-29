@@ -17,6 +17,8 @@ struct LoginPage1: View {
     @FocusState private var isTextFieldFocused1: Bool // State to track focus
     @FocusState private var isTextFieldFocused2: Bool
     @State private var isPasswordVisible: Bool = false
+    
+
 
 
 
@@ -60,7 +62,7 @@ struct LoginPage1: View {
 
                 
                 Spacer()
-                    .frame(height: geoH * 0.05)
+                    .frame(height: geoH * 0.04)
                 
 
                 
@@ -69,12 +71,12 @@ struct LoginPage1: View {
                     Text("اسم المستخدم")
                         .alignmentGuide(.leading) { d in d[.trailing] } // Custom alignment
                         .frame(maxWidth: .infinity, alignment: .trailing) // Push
-                        .font(.custom("BahijTheSansArabic-Bold", size: geoW * 0.03))
-                        .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? geoW * 0.18 : geoW * 0.05)
+                        .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.03 : geoW * 0.02))
+                        .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? geoW * 0.2 : geoW * 0.05)
                        
                     
                   
-                        TextField("user1      ", text: $textFieldText1)
+                        TextField("user1          ", text: $textFieldText1)
                             .frame(maxWidth: geoH * 0.4)
                             .frame(maxHeight: geoH * 0.05)
                             .multilineTextAlignment(.trailing)
@@ -87,7 +89,7 @@ struct LoginPage1: View {
                             .overlay(
                             RoundedRectangle(cornerRadius: 5)
                               .stroke(isTextFieldFocused1 ? Color(red: 113/255, green: 138/255, blue: 161/255)
-                                      : .clear, lineWidth: geoW * 0.006) // Border color and thickness
+                                      : .clear, lineWidth: geoW * 0.004) // Border color and thickness
                                         )
 
                         
@@ -111,63 +113,76 @@ struct LoginPage1: View {
                     Text("كلمة المرور")
                         .alignmentGuide(.leading) { d in d[.trailing] } // Custom alignment
                         .frame(maxWidth: .infinity, alignment: .trailing) // Push
-                        .font(.custom("BahijTheSansArabic-Bold", size: geoW * 0.03))
-                        .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? geoW * 0.18 : geoW * 0.05)
+                        .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.03 : geoW * 0.02))
+                        .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? geoW * 0.2 : geoW * 0.05)
                     
                     
-                    
-                    if isPasswordVisible {
+                    ZStack{
                         
-                        TextField("1233", text: $textFieldText2)
-                            .keyboardType(.numberPad) // Set keyboard to number pad
-                            .frame(maxWidth: geoH * 0.4)
-                            .frame(maxHeight: geoH * 0.05)
-                            .multilineTextAlignment(.trailing)
-                            .padding(.horizontal)
-                            .padding(.vertical, 0)
-                            .background(Color.white)
-                            .cornerRadius(5)
-                            .focused($isTextFieldFocused2) // Bind focus state to the TextField
-                            .border(isTextFieldFocused2 ? Color(red: 113/255, green: 138/255, blue: 161/255)
-         : .clear)
-                            .overlay(
-                            RoundedRectangle(cornerRadius: 5)
-                              .stroke(isTextFieldFocused2 ? Color(red: 113/255, green: 138/255, blue: 161/255)
-                                      : .clear, lineWidth: geoW * 0.006) // Border color and thickness
-                                        )
-                    } else {
+                        if isPasswordVisible {
+                            
+                            TextField("1233       ", text: $textFieldText2)
+                                .keyboardType(.numberPad) // Set keyboard to number pad
+                                .frame(maxWidth: geoH * 0.4)
+                                .frame(maxHeight: geoH * 0.05)
+                                .multilineTextAlignment(.trailing)
+                                .padding(.horizontal)
+                                .padding(.vertical, 0)
+                                .background(Color.white)
+                                .cornerRadius(5)
+                                .focused($isTextFieldFocused2) // Bind focus state to the TextField
+                                .border(isTextFieldFocused2 ? Color(red: 113/255, green: 138/255, blue: 161/255)
+             : .clear)
+                                .overlay(
+                                RoundedRectangle(cornerRadius: 5)
+                                  .stroke(isTextFieldFocused2 ? Color(red: 113/255, green: 138/255, blue: 161/255)
+                                          : .clear, lineWidth: geoW * 0.004) // Border color and thickness
+                                            )
+                        } else {
+                            
+                            SecureField("1233", text: $textFieldText2)
+                                .keyboardType(.numberPad) // Set keyboard to number pad
+                                .frame(maxWidth: geoH * 0.4)
+                                .frame(maxHeight: geoH * 0.05)
+                                .multilineTextAlignment(.trailing)
+                                .padding(.horizontal)
+                                .padding(.vertical, 0)
+                                .background(Color.white)
+                                .cornerRadius(5)
+                                .focused($isTextFieldFocused2) // Bind focus state to the TextField
+                                .border(isTextFieldFocused2 ? Color(red: 113/255, green: 138/255, blue: 161/255)
+             : .clear)
+                                .overlay(
+                                RoundedRectangle(cornerRadius: 5)
+                                  .stroke(isTextFieldFocused2 ? Color(red: 113/255, green: 138/255, blue: 161/255)
+                                          : .clear, lineWidth: geoW * 0.004) // Border color and thickness
+                                            )
+                            
+                            
+                            
+                        }
                         
-                        SecureField("1233", text: $textFieldText2)
-                            .keyboardType(.numberPad) // Set keyboard to number pad
-                            .frame(maxWidth: geoH * 0.4)
-                            .frame(maxHeight: geoH * 0.05)
-                            .multilineTextAlignment(.trailing)
-                            .padding(.horizontal)
-                            .padding(.vertical, 0)
-                            .background(Color.white)
-                            .cornerRadius(5)
-                            .focused($isTextFieldFocused2) // Bind focus state to the TextField
-                            .border(isTextFieldFocused2 ? Color(red: 113/255, green: 138/255, blue: 161/255)
-         : .clear)
-                            .overlay(
-                            RoundedRectangle(cornerRadius: 5)
-                              .stroke(isTextFieldFocused2 ? Color(red: 113/255, green: 138/255, blue: 161/255)
-                                      : .clear, lineWidth: geoW * 0.006) // Border color and thickness
-                                        )
+                        Button(action: {
+                                          isPasswordVisible.toggle()
+                                      }) {
+                                          
+                                         // "eye.slash.fill" : "eye.fill"
+                                          Image(systemName: isPasswordVisible ? "eye" : "eye.slash")
+                                              .resizable()
+                                              .aspectRatio(contentMode: .fit)
+                                              .foregroundColor(.gray)
+                                              .padding(.trailing, 10)
+                                              .frame(maxHeight: geoH * 0.017)
+                                      }
+                                      .padding(.horizontal, UIDevice.current.userInterfaceIdiom == .phone ? geoW * -0.38 : geoW * -0.25)
+                                     // .offset(x: -10)
+                        
+                        
                     }
                     
                     
-                    
-                    
-                }
+                    }
                 
-                Button(action: {
-                                  isPasswordVisible.toggle()
-                              }) {
-                                  Image(systemName: isPasswordVisible ? "eye.slash.fill" : "eye.fill")
-                                      .foregroundColor(.gray)
-                                      .padding(.trailing, 10)
-                              }
                 //
                 
 //                Color.clear
@@ -192,7 +207,7 @@ struct LoginPage1: View {
                 }, label: {
                     Text("تسجيل الدخول")
                         
-                        .font(.custom("BahijTheSansArabic-Bold", size: geoW * 0.03))
+                        .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.03 : geoW * 0.02))
                         .frame(maxWidth: geoH * 0.4)
                         .frame(maxHeight: geoH * 0.05)
                         .foregroundStyle(Color.white)
@@ -208,11 +223,14 @@ struct LoginPage1: View {
                 Spacer()
                     .frame(maxHeight: geoH * 0.3)
                 
-            }.padding(.horizontal, 40)
+            }
+            .padding(.horizontal, 40)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(red: 236/255, green: 242/255, blue: 245/255))
+           
+           
             
-        }
+        }.ignoresSafeArea(.keyboard, edges: .bottom)
         
        
     }
