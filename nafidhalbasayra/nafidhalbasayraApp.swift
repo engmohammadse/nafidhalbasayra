@@ -32,7 +32,7 @@ struct nafidhalbasayraApp: App {
                     
                     
                 } else{
-                    LoginPage1()
+                    LoginPageWelcom()
                 }
                 
                 
