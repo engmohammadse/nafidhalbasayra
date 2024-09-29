@@ -24,6 +24,7 @@
 		41BD62DD2CA3092800529765 /* Amiri-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62D92CA3092800529765 /* Amiri-Bold.ttf */; };
 		41BD62DE2CA3092800529765 /* Amiri-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62DA2CA3092800529765 /* Amiri-Italic.ttf */; };
 		41BD62DF2CA3092800529765 /* Amiri-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62DB2CA3092800529765 /* Amiri-BoldItalic.ttf */; };
+		526790C22CA93EC8006A9A89 /* AdaptiveTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526790C12CA93EC8006A9A89 /* AdaptiveTextFieldView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		41BD62D92CA3092800529765 /* Amiri-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amiri-Bold.ttf"; sourceTree = "<group>"; };
 		41BD62DA2CA3092800529765 /* Amiri-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amiri-Italic.ttf"; sourceTree = "<group>"; };
 		41BD62DB2CA3092800529765 /* Amiri-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amiri-BoldItalic.ttf"; sourceTree = "<group>"; };
+		526790C12CA93EC8006A9A89 /* AdaptiveTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveTextFieldView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				41BD62C62CA2E4AF00529765 /* LoginFolder */,
+				526790C12CA93EC8006A9A89 /* AdaptiveTextFieldView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				526790C22CA93EC8006A9A89 /* AdaptiveTextFieldView.swift in Sources */,
 				41BD62C82CA2E69400529765 /* LoginPage1.swift in Sources */,
 				413E4B982CA1C78400B1EEC5 /* Persistence.swift in Sources */,
 				413E4B912CA1C78200B1EEC5 /* ContentView.swift in Sources */,
@@ -357,7 +361,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -387,7 +391,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
