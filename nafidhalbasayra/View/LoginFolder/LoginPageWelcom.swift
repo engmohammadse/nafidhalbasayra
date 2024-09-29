@@ -26,25 +26,43 @@ struct LoginPageWelcom: View {
 //                            .padding(.bottom, 10)
                         
                         // Description text in bullet points
-                VStack(alignment: .trailing, spacing: geoH * 0.15) {
+                VStack(alignment: .trailing, spacing: geoH * 0.1) {
               
                     Text("• اهلا وسهلا بكم في تطبيق نافذ البصيرة.")
+                        .frame(maxWidth: geoW * 0.7)  // Adjust width for wrapping
+                             .lineLimit(nil)
+                             .multilineTextAlignment(.trailing)
+                    
+                    
                     Text("• أعد هذا التطبيق لإدارة مشروع الدورات الصيفية.")
+                        .frame(maxWidth: geoW * 0.7)  // Adjust width for wrapping
+                             .lineLimit(nil)
+                             .multilineTextAlignment(.trailing)
+                    
                     Text("• يرجى البدء بعملية تسجيل البيانات الشخصية لأستاذ الدورة.")
+                        .frame(maxWidth: geoW * 0.7)  // Adjust width for wrapping
+                             .lineLimit(nil)
+                             .multilineTextAlignment(.trailing)
+
                     Text("• للمتابعة، يرجى الضغط على زر التالي.")
+                        .frame(maxWidth: geoW * 0.7)  // Adjust width for wrapping
+                             .lineLimit(nil)
+                             .multilineTextAlignment(.trailing)
         
                 }
                 
-                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.04 : geoW * 0.03))
+                .font(.custom("BahijTheSansArabic-Plain", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.05 : geoW * 0.03))
+         
                 .padding()  // Padding inside the VStack
+                
                 .background(Color.white)  // Background color for the VStack
 //                .frame(width: geoW * 0.99)  // Adjust the width as per geoW
 //                .frame(height: geoH * 0.99 )
-                .cornerRadius(10)  // Rounded corners (optional)
+                .cornerRadius(5)  // Rounded corners (optional)
                 .shadow(radius: 5)  // Add shadow (optional for style)
                 .multilineTextAlignment(.trailing)  // Aligns text from right to left
-                .offset(x: geoW * -0.1)
-                .bold()
+                .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? geoW * -0.11 : geoW * -0.15)
+                //.bold()
 
 
                        
