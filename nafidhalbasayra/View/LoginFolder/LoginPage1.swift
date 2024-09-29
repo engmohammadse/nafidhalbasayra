@@ -11,6 +11,8 @@ struct LoginPage1: View {
     
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
+    @State var showError: Bool = true
+    
     @State var textFieldText1: String = ""
     @State var textFieldText2: String = ""
     @State private var isPressed = false
@@ -58,6 +60,24 @@ struct LoginPage1: View {
                     .foregroundStyle(Color(UIColor(red: 0x1B / 255.0, green: 0x3E / 255.0, blue: 0x5D / 255.0, alpha: 1.0)))
                     .bold()
                   
+                
+                if showError {
+               
+                        Text("هنالك مشكلة في تسجيل الدخول")
+                        .frame(maxWidth: geoH * 0.4, maxHeight: geoH * 0.05) // Use maxWidth and idealHeight to set desired dimensions
+                        .padding(.horizontal)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5) // Allows text to shrink down to 50% of its original size if needed
+                            .font(.custom("BahijTheSansArabic-Bold", size: geoW * 0.03))
+                            .foregroundStyle(Color(red: 160 / 255.0, green: 70 / 255.0, blue: 70 / 255.0))
+                            .bold()
+                            //.padding() // Add some padding for better spacing
+                            .background(Color(red: 160 / 255.0, green: 70 / 255.0, blue: 70 / 255.0).opacity(0.1))
+                           
+                        .cornerRadius(5)
+                       
+                }
+
                 
 
                 
@@ -195,6 +215,9 @@ struct LoginPage1: View {
                     
                     // Toggle the pressed state
                     isPressed.toggle()
+                    withAnimation(.easeInOut(duration: 0.5)) { // Control the duration here
+                           showError.toggle()
+                       }
 
                     // Try to convert password input to Int (if needed)
                     if let passwordNumber = Int(textFieldText2) {
