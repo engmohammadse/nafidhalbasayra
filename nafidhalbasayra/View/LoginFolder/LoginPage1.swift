@@ -8,22 +8,27 @@
 import SwiftUI
 
 struct LoginPage1: View {
+    
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    
     @State var textFieldText1: String = ""
     @State var textFieldText2: String = ""
     @State private var isPressed = false
     @FocusState private var isTextFieldFocused1: Bool // State to track focus
     @FocusState private var isTextFieldFocused2: Bool
+    @State private var isPasswordVisible: Bool = false
 
 
 
     var body: some View {
+   
        
         GeometryReader { geometry in
             
             let geoH = geometry.size.height
-           //   let geoW = geometry.size.width
+              let geoW = geometry.size.width
             
-            VStack (spacing: 6){
+            VStack (spacing: 2){
                 Spacer()
                     .frame(height: geoH * 0.02)
                     .onAppear {
@@ -38,10 +43,7 @@ struct LoginPage1: View {
                     .frame(width: geometry.size.width * 0.15, // Adjust size based on available width
                        height: geometry.size.height * 0.15)
                
-    //
-                    
-//                Color.clear
-//                    .frame(height: 25)
+
                 Spacer()
                     .frame(height: geoH * 0.02)
                 
@@ -49,7 +51,7 @@ struct LoginPage1: View {
                 Text("تسجيل الدخول")
                     .lineLimit(1)
                     .minimumScaleFactor(0.5) // Allows text to shrink down to 50% of its original size if needed
-                    .font(.custom("BahijTheSansArabic-Bold", size: dynamicFontSize1()))
+                    .font(.custom("BahijTheSansArabic-Bold", size: geoW * 0.08))
                 
                     .foregroundStyle(Color(UIColor(red: 0x1B / 255.0, green: 0x3E / 255.0, blue: 0x5D / 255.0, alpha: 1.0)))
                     .bold()
@@ -57,40 +59,38 @@ struct LoginPage1: View {
                 
 
                 
-    //            Color.clear
-    //                .frame(height: 25)
                 Spacer()
                     .frame(height: geoH * 0.05)
                 
-                HStack{
-                    Spacer()
-                        .frame(minWidth: 20, maxWidth: UIScreen.main.bounds.width * 0.4)
-                    Text("اسم المستخدم")
-                        .font(.custom("BahijTheSansArabic-Bold", size: dynamicFontSize2()))
-                        //.font(.custom("BahijTheSansArabic-Bold", size: 15))
-                        .font(.footnote)
-                        .bold()
-                }
-                //
+
                 
-                VStack {
-                    TextField("user1      ", text: $textFieldText1)
+                VStack(spacing: 2) {
+                    
+                    Text("اسم المستخدم")
+                        .alignmentGuide(.leading) { d in d[.trailing] } // Custom alignment
+                        .frame(maxWidth: .infinity, alignment: .trailing) // Push
+                        .font(.custom("BahijTheSansArabic-Bold", size: geoW * 0.03))
+                        .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? geoW * 0.18 : geoW * 0.05)
+                       
+                    
+                  
+                        TextField("user1      ", text: $textFieldText1)
+                            .frame(maxWidth: geoH * 0.4)
+                            .frame(maxHeight: geoH * 0.05)
+                            .multilineTextAlignment(.trailing)
+                            .padding(.horizontal)
+                            .background(Color.white)
+                            .cornerRadius(5)
+                            .focused($isTextFieldFocused1) // Bind focus state to the TextField
+                            .border(isTextFieldFocused1 ? Color(red: 113/255, green: 138/255, blue: 161/255)
+         : .clear)
+                            .overlay(
+                            RoundedRectangle(cornerRadius: 5)
+                              .stroke(isTextFieldFocused1 ? Color(red: 113/255, green: 138/255, blue: 161/255)
+                                      : .clear, lineWidth: geoW * 0.006) // Border color and thickness
+                                        )
+
                         
-                        .frame(maxWidth: geoH * 0.4)
-                        .frame(maxHeight: geoH * 0.055)
-                        .multilineTextAlignment(.trailing)
-                        .padding(.horizontal)
-                        .background(Color.white)
-                        .cornerRadius(5)
-                        .focused($isTextFieldFocused1) // Bind focus state to the TextField
-                        .border(isTextFieldFocused1 ? Color(red: 113/255, green: 138/255, blue: 161/255)
-     : .clear)
-                        .overlay(
-                        RoundedRectangle(cornerRadius: 5)
-                          .stroke(isTextFieldFocused1 ? Color(red: 113/255, green: 138/255, blue: 161/255)
-                                  : .clear, lineWidth: 4) // Border color and thickness
-                                    )
-    //                    .cornerRadius(5)
                     
                 }
                 //
@@ -100,43 +100,80 @@ struct LoginPage1: View {
                 Spacer()
                     .frame(height: geoH * 0.02)
                 //
-                
-                
-                HStack{
-                    Spacer()
-                        .frame(minWidth: 20, maxWidth: UIScreen.main.bounds.width * 0.44)
-                    Text("كلمة المرور")
-                        .font(.custom("BahijTheSansArabic-Bold", size: dynamicFontSize2()))
-                       // .font(.custom("BahijTheSansArabic-Bold", size: 15))
-                        .bold()
-                }
+ 
                 //
-                VStack {
-                    TextField("1233", text: $textFieldText2)
-                        .keyboardType(.numberPad) // Set keyboard to number pad
-                        .frame(maxWidth: geoH * 0.4)
-                        .frame(maxHeight: geoH * 0.055)
-                        .multilineTextAlignment(.trailing)
-                        .padding(.horizontal)
-                        .background(Color.white)
-                        .cornerRadius(5)
-                        .focused($isTextFieldFocused2) // Bind focus state to the TextField
-                        .border(isTextFieldFocused2 ? Color(red: 113/255, green: 138/255, blue: 161/255)
-     : .clear)
-                        .overlay(
-                        RoundedRectangle(cornerRadius: 5)
-                          .stroke(isTextFieldFocused2 ? Color(red: 113/255, green: 138/255, blue: 161/255)
-                                  : .clear, lineWidth: 4) // Border color and thickness
-                                    )
-                       //.cornerRadius(5)
+                
+                
+               
+                
+                VStack(spacing: 2) {
+                    
+                    Text("كلمة المرور")
+                        .alignmentGuide(.leading) { d in d[.trailing] } // Custom alignment
+                        .frame(maxWidth: .infinity, alignment: .trailing) // Push
+                        .font(.custom("BahijTheSansArabic-Bold", size: geoW * 0.03))
+                        .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? geoW * 0.18 : geoW * 0.05)
+                    
+                    
+                    
+                    if isPasswordVisible {
+                        
+                        TextField("1233", text: $textFieldText2)
+                            .keyboardType(.numberPad) // Set keyboard to number pad
+                            .frame(maxWidth: geoH * 0.4)
+                            .frame(maxHeight: geoH * 0.05)
+                            .multilineTextAlignment(.trailing)
+                            .padding(.horizontal)
+                            .padding(.vertical, 0)
+                            .background(Color.white)
+                            .cornerRadius(5)
+                            .focused($isTextFieldFocused2) // Bind focus state to the TextField
+                            .border(isTextFieldFocused2 ? Color(red: 113/255, green: 138/255, blue: 161/255)
+         : .clear)
+                            .overlay(
+                            RoundedRectangle(cornerRadius: 5)
+                              .stroke(isTextFieldFocused2 ? Color(red: 113/255, green: 138/255, blue: 161/255)
+                                      : .clear, lineWidth: geoW * 0.006) // Border color and thickness
+                                        )
+                    } else {
+                        
+                        SecureField("1233", text: $textFieldText2)
+                            .keyboardType(.numberPad) // Set keyboard to number pad
+                            .frame(maxWidth: geoH * 0.4)
+                            .frame(maxHeight: geoH * 0.05)
+                            .multilineTextAlignment(.trailing)
+                            .padding(.horizontal)
+                            .padding(.vertical, 0)
+                            .background(Color.white)
+                            .cornerRadius(5)
+                            .focused($isTextFieldFocused2) // Bind focus state to the TextField
+                            .border(isTextFieldFocused2 ? Color(red: 113/255, green: 138/255, blue: 161/255)
+         : .clear)
+                            .overlay(
+                            RoundedRectangle(cornerRadius: 5)
+                              .stroke(isTextFieldFocused2 ? Color(red: 113/255, green: 138/255, blue: 161/255)
+                                      : .clear, lineWidth: geoW * 0.006) // Border color and thickness
+                                        )
+                    }
+                    
+                    
+                    
                     
                 }
+                
+                Button(action: {
+                                  isPasswordVisible.toggle()
+                              }) {
+                                  Image(systemName: isPasswordVisible ? "eye.slash.fill" : "eye.fill")
+                                      .foregroundColor(.gray)
+                                      .padding(.trailing, 10)
+                              }
                 //
                 
 //                Color.clear
 //                    .frame(height: 20)
                 Spacer()
-                    .frame(height: geoH * 0.01)
+                    .frame(height: geoH * 0.015)
                 
                 // button
                 Button(action: {
@@ -155,9 +192,9 @@ struct LoginPage1: View {
                 }, label: {
                     Text("تسجيل الدخول")
                         
-                        .font(.custom("BahijTheSansArabic-Bold", size: 16))
+                        .font(.custom("BahijTheSansArabic-Bold", size: geoW * 0.03))
                         .frame(maxWidth: geoH * 0.4)
-                        .frame(maxHeight: geoH * 0.055)
+                        .frame(maxHeight: geoH * 0.05)
                         .foregroundStyle(Color.white)
                         .padding(.horizontal)
                 }
@@ -176,146 +213,31 @@ struct LoginPage1: View {
             .background(Color(red: 236/255, green: 242/255, blue: 245/255))
             
         }
+        
+       
+    }
+    
+    
+    // Helper function to adjust the font size based on device type
+    func getFontSize(for size: CGSize) -> CGFloat {
+        if horizontalSizeClass == .regular {
+            // Regular size class (iPads)
+            return size.width * 0.05 // Scaled for iPads
+        } else {
+            // Compact size class (iPhones)
+            return size.width * 0.04 // Scaled for iPhones
+        }
+    }
+     
+}
+
+
+
+
+struct LoginPage1_Previews: PreviewProvider {
+    static var previews: some View {
+        LoginPage1()
     }
 }
 
-#Preview {
-    LoginPage1()
-}
 
-//
-//import SwiftUI
-//
-//struct LoginPage1: View {
-//    @State var textFieldText1: String = ""
-//    @State var textFieldText2: String = "" // Change to String
-//    @State private var isPressed = false
-//    @FocusState private var isTextFieldFocused1: Bool
-//    @FocusState private var isTextFieldFocused2: Bool
-//
-//    var body: some View {
-//        GeometryReader { geometry in
-//            let geoH = geometry.size.height
-//
-//            VStack (spacing: 6) {
-//                Spacer()
-//                    .frame(height: geoH * 0.02)
-//                    .onAppear {
-//                        // Print the screen width to the console
-//                        print("UIScreen.main.bounds.width: \(UIScreen.main.bounds.width)")
-//                    }
-//
-//                Image("Group 3")
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fit)
-//                    .frame(width: geometry.size.width * 0.15, height: geometry.size.height * 0.15)
-//
-//                Spacer()
-//                    .frame(height: geoH * 0.02)
-//
-//                Text("تسجيل الدخول")
-//                    .lineLimit(1)
-//                    .minimumScaleFactor(0.5)
-//                    .font(.custom("BahijTheSansArabic-Bold", size: dynamicFontSize1()))
-//                    .foregroundStyle(Color(UIColor(red: 0x1B / 255.0, green: 0x3E / 255.0, blue: 0x5D / 255.0, alpha: 1.0)))
-//                    .bold()
-//
-//                Spacer()
-//                    .frame(height: geoH * 0.05)
-//
-//                HStack {
-//                    Spacer()
-//                        .frame(minWidth: 20, maxWidth: UIScreen.main.bounds.width * 0.4)
-//                    Text("اسم المستخدم")
-//                        .font(.custom("BahijTheSansArabic-Bold", size: dynamicFontSize2()))
-//                        .font(.footnote)
-//                        .bold()
-//                }
-//
-//                VStack {
-//                    TextField("user1", text: $textFieldText1)
-//                        .frame(maxWidth: geoH * 0.4, maxHeight: geoH * 0.055)
-//                        .multilineTextAlignment(.trailing)
-//                        .padding(.horizontal)
-//                        .background(Color.white)
-//                        .cornerRadius(5)
-//                        .focused($isTextFieldFocused1)
-//                        .border(isTextFieldFocused1 ? Color(red: 113/255, green: 138/255, blue: 161/255) : .clear)
-//                        .overlay(
-//                            RoundedRectangle(cornerRadius: 5)
-//                                .stroke(isTextFieldFocused1 ? Color(red: 113/255, green: 138/255, blue: 161/255) : .clear, lineWidth: 4)
-//                        )
-//                }
-//
-//                Spacer()
-//                    .frame(height: geoH * 0.02)
-//
-//                HStack {
-//                    Spacer()
-//                        .frame(minWidth: 20, maxWidth: UIScreen.main.bounds.width * 0.44)
-//                    Text("كلمة المرور")
-//                        .font(.custom("BahijTheSansArabic-Bold", size: dynamicFontSize2()))
-//                        .bold()
-//                }
-//
-//                VStack {
-//                    TextField("1233", text: $textFieldText2) // Now it's a String
-//                        .keyboardType(.numberPad) // Set keyboard to number pad
-//                        .frame(maxWidth: geoH * 0.4, maxHeight: geoH * 0.055)
-//                        .multilineTextAlignment(.trailing)
-//                        .padding(.horizontal)
-//                        .background(Color.white)
-//                        .cornerRadius(5)
-//                        .focused($isTextFieldFocused2)
-//                        .border(isTextFieldFocused2 ? Color(red: 113/255, green: 138/255, blue: 161/255) : .clear)
-//                        .overlay(
-//                            RoundedRectangle(cornerRadius: 5)
-//                                .stroke(isTextFieldFocused2 ? Color(red: 113/255, green: 138/255, blue: 161/255) : .clear, lineWidth: 4)
-//                        )
-//                }
-//
-//                Spacer()
-//                    .frame(height: geoH * 0.01)
-//
-//                Button(action: {
-//                    // Toggle the pressed state
-//                    isPressed.toggle()
-//
-//                    // Try to convert password input to Int (if needed)
-//                    if let passwordNumber = Int(textFieldText2) {
-//                        print("Password as Int: \(passwordNumber)")
-//                    } else {
-//                        print("Invalid number input.")
-//                    }
-//                }, label: {
-//                    Text("تسجيل الدخول")
-//                        .font(.custom("BahijTheSansArabic-Bold", size: 16))
-//                        .frame(maxWidth: geoH * 0.4, maxHeight: geoH * 0.055)
-//                        .foregroundStyle(Color.white)
-//                        .padding(.horizontal)
-//                })
-//                .background(isPressed ? Color.black : Color(UIColor(red: 0x1B / 255.0, green: 0x3E / 255.0, blue: 0x5D / 255.0, alpha: 1.0)))
-//                .cornerRadius(5)
-//
-//                Spacer()
-//                    .frame(maxHeight: geoH * 0.3)
-//            }
-//            .padding(.horizontal, 40)
-//            .frame(maxWidth: .infinity, maxHeight: .infinity)
-//            .background(Color(red: 236/255, green: 242/255, blue: 245/255))
-//        }
-//    }
-//
-//    // Dummy dynamic font size functions for the preview
-//    func dynamicFontSize1() -> CGFloat {
-//        return 24
-//    }
-//    
-//    func dynamicFontSize2() -> CGFloat {
-//        return 16
-//    }
-//}
-//
-//#Preview {
-//    LoginPage1()
-//}

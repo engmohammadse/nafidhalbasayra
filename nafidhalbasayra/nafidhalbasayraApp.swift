@@ -32,7 +32,7 @@ struct nafidhalbasayraApp: App {
                     
                     
                 } else{
-                    AdaptiveTextFieldView()
+                    LoginPage1()
                 }
                 
                 
