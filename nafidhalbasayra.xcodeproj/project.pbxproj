@@ -25,6 +25,7 @@
 		41BD62DD2CA3092800529765 /* Amiri-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62D92CA3092800529765 /* Amiri-Bold.ttf */; };
 		41BD62DE2CA3092800529765 /* Amiri-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62DA2CA3092800529765 /* Amiri-Italic.ttf */; };
 		41BD62DF2CA3092800529765 /* Amiri-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62DB2CA3092800529765 /* Amiri-BoldItalic.ttf */; };
+		41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0B52CAAE4C500BD7853 /* registerPage.swift */; };
 		526790C22CA93EC8006A9A89 /* AdaptiveTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526790C12CA93EC8006A9A89 /* AdaptiveTextFieldView.swift */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		41BD62D92CA3092800529765 /* Amiri-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amiri-Bold.ttf"; sourceTree = "<group>"; };
 		41BD62DA2CA3092800529765 /* Amiri-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amiri-Italic.ttf"; sourceTree = "<group>"; };
 		41BD62DB2CA3092800529765 /* Amiri-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amiri-BoldItalic.ttf"; sourceTree = "<group>"; };
+		41F9D0B52CAAE4C500BD7853 /* registerPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage.swift; sourceTree = "<group>"; };
 		526790C12CA93EC8006A9A89 /* AdaptiveTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveTextFieldView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -119,6 +121,7 @@
 				413E4BA22CA1C83100B1EEC5 /* LoginPage0.swift */,
 				41BD62C72CA2E69400529765 /* LoginPage1.swift */,
 				41325AA62CA9B83D00664847 /* LoginPageWelcom.swift */,
+				41F9D0B52CAAE4C500BD7853 /* registerPage.swift */,
 			);
 			path = LoginFolder;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				41325AA72CA9B83D00664847 /* LoginPageWelcom.swift in Sources */,
 				413E4B982CA1C78400B1EEC5 /* Persistence.swift in Sources */,
 				413E4B912CA1C78200B1EEC5 /* ContentView.swift in Sources */,
+				41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */,
 				413E4B9B2CA1C78400B1EEC5 /* nafidhalbasayra.xcdatamodeld in Sources */,
 				416D8BE92CA4482500E2E6D8 /* const.swift in Sources */,
 				413E4BA32CA1C83100B1EEC5 /* LoginPage0.swift in Sources */,

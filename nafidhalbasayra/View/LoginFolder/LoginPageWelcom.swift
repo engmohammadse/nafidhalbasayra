@@ -8,8 +8,15 @@
 import SwiftUI
 
 struct LoginPageWelcom: View {
+    
+  
+    
+    @State  private var isNavigate: Bool = false
+    
+    
     var body: some View {
         
+       
         GeometryReader { geometry in
             
             let geoH = geometry.size.height
@@ -103,6 +110,8 @@ struct LoginPageWelcom: View {
                             
                             Button(action: {
                                 // Action for next button
+                                
+                                isNavigate = true
                             }) {
                                 Text("التالي")
                                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.04 : geoW * 0.03))
@@ -111,6 +120,9 @@ struct LoginPageWelcom: View {
                            // .background(Color.black.opacity(0.8))
                             .foregroundColor(.white)
                             .cornerRadius(10)
+                            .navigationDestination(isPresented: $isNavigate) {
+                                registerPage()
+                            }
                             
                             
                             Image("Group 16")
