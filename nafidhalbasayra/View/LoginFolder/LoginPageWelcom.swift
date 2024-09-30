@@ -9,10 +9,7 @@ import SwiftUI
 
 struct LoginPageWelcom: View {
     
-  
-    
     @State  private var isNavigate: Bool = false
-    
     
     var body: some View {
         
@@ -22,17 +19,16 @@ struct LoginPageWelcom: View {
             let geoH = geometry.size.height
             let geoW = geometry.size.width
             
+         
+                
+           
+            
             VStack {
+               
+             
                 Spacer()
-            .frame(height: geoW * 0.05)
-                        // Header text
-                       
-//                            .font(.headline)
-//                            .foregroundColor(.blue)
-//                            .multilineTextAlignment(.center)
-//                            .padding(.bottom, 10)
-                        
-                        // Description text in bullet points
+                   .frame(height: geoW * 0.05)
+      
                 VStack(alignment: .trailing, spacing: geoH * 0.1) {
               
                     Text("• اهلا وسهلا بكم في تطبيق نافذ البصيرة.")
@@ -144,6 +140,11 @@ struct LoginPageWelcom: View {
                     .padding()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color(red: 236/255, green: 242/255, blue: 245/255))
+            
+                    ZStack {
+                        LogoIUserInfo()
+                            
+                    }
                    
         }
     }
