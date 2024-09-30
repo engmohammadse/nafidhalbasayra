@@ -19,6 +19,7 @@ struct LoginPage1: View {
     @FocusState private var isTextFieldFocused1: Bool // State to track focus
     @FocusState private var isTextFieldFocused2: Bool
     @State private var isPasswordVisible: Bool = false
+    @State private var isNavigate: Bool = false
     
 
 
@@ -213,6 +214,8 @@ struct LoginPage1: View {
                 // button
                 Button(action: {
                     
+                    isNavigate = true
+                    
                     // Toggle the pressed state
                     isPressed.toggle()
                     withAnimation(.easeInOut(duration: 0.5)) { // Control the duration here
@@ -240,6 +243,9 @@ struct LoginPage1: View {
                 
                 .background( isPressed ? Color.black : Color(UIColor(red: 0x1B / 255.0, green: 0x3E / 255.0, blue: 0x5D / 255.0, alpha: 1.0)))
                     .cornerRadius(5)
+                    .navigationDestination(isPresented: $isNavigate){
+                        LoginPageWelcom()
+                    }
                 
                    //
                 
@@ -254,6 +260,8 @@ struct LoginPage1: View {
            
             
         }.ignoresSafeArea(.keyboard, edges: .bottom)
+        
+        
         
        
     }
