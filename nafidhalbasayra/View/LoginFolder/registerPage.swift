@@ -436,9 +436,10 @@ struct registerPage: View {
                     
                     
                     
-                }.background(Color(UIColor(red: 20 / 255, green: 30 / 255, blue: 39 / 255, alpha: 1.0)))
-                    .cornerRadius(5)
-                    .padding()
+                }
+                .background(Color(UIColor(red: 20 / 255, green: 30 / 255, blue: 39 / 255, alpha: 1.0)))
+                .cornerRadius(5)
+                .padding()
                 
             }
             .padding(.horizontal, 40)
