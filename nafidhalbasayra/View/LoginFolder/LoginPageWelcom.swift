@@ -62,9 +62,9 @@ struct LoginPageWelcom: View {
 //                .frame(width: geoW * 0.99)  // Adjust the width as per geoW
 //                .frame(height: geoH * 0.99 )
                 .cornerRadius(5)  // Rounded corners (optional)
-                .shadow(radius: 5)  // Add shadow (optional for style)
+                .shadow(radius: 0.5)  // Add shadow (optional for style)
                 .multilineTextAlignment(.trailing)  // Aligns text from right to left
-                .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? geoW * -0.11 : geoW * -0.15)
+//                .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? geoW * -0.11 : geoW * -0.15)
                 //.bold()
 
 
