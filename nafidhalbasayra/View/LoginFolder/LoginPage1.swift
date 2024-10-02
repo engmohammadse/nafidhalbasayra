@@ -215,7 +215,7 @@ struct LoginPage1: View {
                 Button(action: {
                     
                     isNavigate = true
-                    
+                   
                     // Toggle the pressed state
                     isPressed.toggle()
                     withAnimation(.easeInOut(duration: 0.5)) { // Control the duration here
@@ -244,7 +244,9 @@ struct LoginPage1: View {
                 .background( isPressed ? Color.black : Color(UIColor(red: 0x1B / 255.0, green: 0x3E / 255.0, blue: 0x5D / 255.0, alpha: 1.0)))
                     .cornerRadius(5)
                     .navigationDestination(isPresented: $isNavigate){
-                        LoginPageWelcom()
+                   
+                            LoginPageWelcom()
+                      
                     }
                 
                    //

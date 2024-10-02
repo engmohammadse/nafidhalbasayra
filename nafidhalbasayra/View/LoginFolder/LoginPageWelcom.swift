@@ -19,9 +19,6 @@ struct LoginPageWelcom: View {
             let geoH = geometry.size.height
             let geoW = geometry.size.width
             
-         
-                
-           
             
             VStack {
                
@@ -73,8 +70,10 @@ struct LoginPageWelcom: View {
                     .frame(height: geoW * 0.05)
                         
                         // Navigation buttons
-                PreviousNextButton(previousAction: {}, nextAction: {}, geoW: geoW, geoH: geoH, isNextNavigating: true, destination: AnyView(registerPage()), color: Color(UIColor(red: 90 / 255, green: 97 / 255, blue: 103 / 255, alpha: 1.0)))
+                PreviousNextButton(previousAction: {}, nextAction: {}, geoW: geoW, geoH: geoH, isNextNavigating: true, isPreviosNavigating: false, destination: AnyView(registerPage()), destinationBack: AnyView(EmptyView()), color: Color(UIColor(red: 90 / 255, green: 97 / 255, blue: 103 / 255, alpha: 1.0)), imageName: "Group 9_5")
                        // .padding(.bottom, 20)
+                
+                //Color(UIColor(red: 90 / 255, green: 97 / 255, blue: 103 / 255, alpha: 1.0))
                         
                     }
                     .padding()

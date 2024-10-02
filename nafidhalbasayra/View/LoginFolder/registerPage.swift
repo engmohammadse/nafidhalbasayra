@@ -382,7 +382,7 @@ struct registerPage: View {
                 
                 
                 // bottom
-                PreviousNextButton(previousAction: {}, nextAction: {}, geoW: geoW, geoH: geoH, isNextNavigating: true, destination: AnyView(registerPage()),color: Color.white)
+                PreviousNextButton(previousAction: {}, nextAction: {}, geoW: geoW, geoH: geoH, isNextNavigating: true, isPreviosNavigating: true, destination: AnyView(EmptyView()), destinationBack: AnyView(LoginPageWelcom()) , color: Color.white, imageName: "Group 9")
                  
             }
             
