@@ -74,66 +74,7 @@ struct LoginPageWelcom: View {
                     .frame(height: geoW * 0.05)
                         
                         // Navigation buttons
-                        HStack {
-                            
-                            Image("Group 9")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(maxWidth: geoW * 0.05)
-                                .padding(.vertical, geoH * 0.01)
-                                .padding(.leading, UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.05: geoW * 0.025)
-                            
-                            
-                            
-                            Button(action: {
-                                // Action for previous button
-                            }) {
-                                Text("السابق")
-                                    .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.04 : geoW * 0.03))
-                                    .foregroundStyle(Color(UIColor(red: 90 / 255, green: 97 / 255, blue: 103 / 255, alpha: 1.0))
-)
-                            }
-                            .padding(.horizontal, geoW * 0.005)
-                           // .background(Color.black.opacity(0.8))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            
-                            Image("Line 1")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: geoH * 0.01 ,height: geoH * 0.04)
-                                .padding(.vertical, geoH * 0.01)
-                            
-                            Button(action: {
-                                // Action for next button
-                                
-                                isNavigate = true
-                            }) {
-                                Text("التالي")
-                                    .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.04 : geoW * 0.03))
-                            }
-                            .padding(.horizontal, geoW * 0.005)
-                           // .background(Color.black.opacity(0.8))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .navigationDestination(isPresented: $isNavigate) {
-                                registerPage()
-                            }
-                            
-                            
-                            Image("Group 16")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(maxWidth: geoW * 0.05)
-                                .padding(.vertical, geoH * 0.01)
-                                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.05: geoW * 0.025 )
-                            
-                            
-                            
-                        }
-                        .background(Color(UIColor(red: 20 / 255, green: 30 / 255, blue: 39 / 255, alpha: 1.0)))
-                        .cornerRadius(5)
-                        .padding()
+                PreviousNextButton(previousAction: {}, nextAction: {}, geoW: geoW, geoH: geoH, isNextNavigating: true, destination: AnyView(registerPage()))
                        // .padding(.bottom, 20)
                         
                     }
