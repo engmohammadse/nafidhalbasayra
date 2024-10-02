@@ -260,6 +260,8 @@ struct registerPage: View {
             
             VStack(spacing: 10) {
                 
+                Spacer().frame(maxHeight: geoH * 0.02)
+                
                 Text("الأسم الرباعي واللقب")
                     .alignmentGuide(.leading) { d in d[.trailing] } // Custom alignment
                     .frame(maxWidth: .infinity, alignment: .trailing) // Push
@@ -380,17 +382,28 @@ struct registerPage: View {
                 
                 
                 // bottom
-                PreviousNextButton(previousAction: {}, nextAction: {}, geoW: geoW, geoH: geoH, isNextNavigating: true, destination: AnyView(registerPage()))
+                PreviousNextButton(previousAction: {}, nextAction: {}, geoW: geoW, geoH: geoH, isNextNavigating: true, destination: AnyView(registerPage()),color: Color.white)
                  
             }
-            .padding(.horizontal, 40)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
             
+            .padding(UIScreen.main.bounds.width < 400 ? 16 : 0)
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color(red: 236/255, green: 242/255, blue: 245/255))
+    
+         
             ZStack {
-                LogoIUserInfo()
+                VStack {
+                    Spacer().frame(maxHeight: geoH * 0.015)
+                    LogoIUserInfo()
+                }
             }
-        }
+            
+            
+        }.navigationBarBackButtonHidden(true)
+        
+        
+        
         // Show the DatePicker as a sheet
         .sheet(isPresented: $isPickerVisible) {
             VStack {

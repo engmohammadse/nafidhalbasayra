@@ -26,8 +26,7 @@ struct LoginPageWelcom: View {
             VStack {
                
              
-                Spacer()
-                   .frame(height: geoW * 0.05)
+                Spacer().frame(maxHeight: geoH * 0.02)
       
                 VStack(alignment: .trailing, spacing: geoH * 0.1) {
               
@@ -74,7 +73,7 @@ struct LoginPageWelcom: View {
                     .frame(height: geoW * 0.05)
                         
                         // Navigation buttons
-                PreviousNextButton(previousAction: {}, nextAction: {}, geoW: geoW, geoH: geoH, isNextNavigating: true, destination: AnyView(registerPage()))
+                PreviousNextButton(previousAction: {}, nextAction: {}, geoW: geoW, geoH: geoH, isNextNavigating: true, destination: AnyView(registerPage()), color: Color(UIColor(red: 90 / 255, green: 97 / 255, blue: 103 / 255, alpha: 1.0)))
                        // .padding(.bottom, 20)
                         
                     }
@@ -83,11 +82,13 @@ struct LoginPageWelcom: View {
                     .background(Color(red: 236/255, green: 242/255, blue: 245/255))
             
                     ZStack {
-                        LogoIUserInfo()
-                            
+                        VStack {
+                            Spacer().frame(maxHeight: geoH * 0.015)
+                            LogoIUserInfo()
+                        }
                     }
                    
-        }
+        }.navigationBarBackButtonHidden(true)
     }
 }
 
