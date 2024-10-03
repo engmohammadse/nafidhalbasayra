@@ -5,6 +5,10 @@
 //  Created by muhammad on 29/09/2024.
 //
 
+
+
+
+
 import SwiftUI
 
 struct LoginPageWelcom: View {
@@ -62,6 +66,10 @@ struct LoginPageWelcom: View {
                 .multilineTextAlignment(.trailing)  // Aligns text from right to left
 //                .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? geoW * -0.11 : geoW * -0.15)
                 //.bold()
+                
+                
+                
+                
 
 
                        
@@ -71,6 +79,7 @@ struct LoginPageWelcom: View {
                         
                         // Navigation buttons
                 PreviousNextButton(previousAction: {}, nextAction: {}, geoW: geoW, geoH: geoH, isNextNavigating: true, isPreviosNavigating: false, destination: AnyView(registerPage()), destinationBack: AnyView(EmptyView()), color: Color(UIColor(red: 90 / 255, green: 97 / 255, blue: 103 / 255, alpha: 1.0)), imageName: "Group 9_5")
+                
                        // .padding(.bottom, 20)
                 
                 //Color(UIColor(red: 90 / 255, green: 97 / 255, blue: 103 / 255, alpha: 1.0))

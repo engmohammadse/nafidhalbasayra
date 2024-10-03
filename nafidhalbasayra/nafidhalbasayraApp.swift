@@ -32,8 +32,13 @@ struct nafidhalbasayraApp: App {
                     
                     
                 } else{
+                    
                     NavigationStack{
-                        LoginPage1()
+                        
+                       
+                            LoginPage1()
+                        
+                       
                     }
                 }
                 

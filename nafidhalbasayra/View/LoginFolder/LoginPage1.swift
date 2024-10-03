@@ -22,8 +22,9 @@ struct LoginPage1: View {
     @State private var isNavigate: Bool = false
     
 
-
-
+//    @Environment(\.geoWidth) var geoW
+//        @Environment(\.geoHeight) var geoH
+        
 
     var body: some View {
    
