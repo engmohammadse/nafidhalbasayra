@@ -27,22 +27,14 @@ struct registerPage: View {
     }
     
     var body: some View {
-        
-        
-        
-//        .overlay{
-//        
-//        PreviousNextButton(previousAction: {}, nextAction: {}, geoW: screenWidth, geoH: screenHeight, isNextNavigating: true, isPreviosNavigating: true, destination: AnyView(EmptyView()), destinationBack: AnyView(LoginPageWelcom()) , color: Color.white, imageName: "Group 9")
-//    }
-//    .offset(y: screenHeight * 0.02)
-        
-        ZStack {
+
+        VStack {
             
             
             ScrollView {
                 VStack(spacing: 10) {
                     
-                    Spacer().frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.07 : screenHeight * 0.10)
+                    Spacer().frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.03 : screenHeight * 0.10)
                     
                     // Field: Name
                     Text("الأسم الرباعي واللقب")
@@ -200,13 +192,18 @@ struct registerPage: View {
                     }
             }
             
-            
-            PreviousNextButton(previousAction: {}, nextAction: {}, geoW: screenWidth, geoH: screenHeight, isNextNavigating: true, isPreviosNavigating: true, destination: AnyView(EmptyView()), destinationBack: AnyView(LoginPageWelcom()) , color: Color.white, imageName: "Group 9")
-         
-                .offset(y: screenHeight * 0.4)
-            
+          
+           
             
         }.navigationBarBackButtonHidden(true)
+            .overlay{
+                
+                
+                PreviousNextButton(previousAction: {}, nextAction: {}, geoW: screenWidth, geoH: screenHeight, isNextNavigating: true, isPreviosNavigating: true, destination: AnyView(EmptyView()), destinationBack: AnyView(LoginPageWelcom()) , color: Color.white, imageName: "Group 9")
+             
+                    .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.4)
+                
+            }
         
         
         
