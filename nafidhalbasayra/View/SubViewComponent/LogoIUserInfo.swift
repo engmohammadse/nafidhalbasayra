@@ -37,8 +37,11 @@ struct LogoIUserInfo: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(maxWidth: geoW * 0.42 )
                         .foregroundColor(Color(UIColor(red: 27 / 255, green: 62 / 255, blue: 93 / 255, alpha: 1.0)))
+                        .padding(.bottom, 10)
                 }
                 .padding(.horizontal, 40)
+                .background(Color(red: 236/255, green: 242/255, blue: 245/255))
+             
                     
             
             

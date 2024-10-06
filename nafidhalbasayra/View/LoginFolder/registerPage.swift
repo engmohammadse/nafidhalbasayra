@@ -71,6 +71,7 @@ struct registerPage: View {
                     .padding(.horizontal)
                     .background(Color.white)
                     .cornerRadius(5)
+                    .onTapGesture(perform: {isPickerVisible.toggle()})
                     .overlay{
                         Button(action: {
                             isPickerVisible.toggle()
@@ -181,16 +182,25 @@ struct registerPage: View {
             
             
             .sheet(isPresented: $isPickerVisible) {
-                DatePicker("Select Date", selection: $selectedDate, displayedComponents: .date)
-                    .datePickerStyle(WheelDatePickerStyle())
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button("Done") {
-                                isPickerVisible = false
-                            }
+                VStack {
+                    HStack {
+                        Spacer()
+                        Button("Done") {
+                            isPickerVisible = false
                         }
+                        .padding(.trailing)
                     }
+                    .padding(.top)
+                    
+                    DatePicker("Select Date", selection: $selectedDate, displayedComponents: .date)
+                        .datePickerStyle(GraphicalDatePickerStyle()) // Use Graphical style or another preferred one
+                        .labelsHidden() // Hides the "Select Date" label to make it cleaner
+                        .padding()
+                    
+                    Spacer() // Adds space to make the layout look more balanced
+                }
             }
+
             
           
            
@@ -201,8 +211,8 @@ struct registerPage: View {
                 
                 PreviousNextButton(previousAction: {}, nextAction: {}, geoW: screenWidth, geoH: screenHeight, isNextNavigating: true, isPreviosNavigating: true, destination: AnyView(ContentView1()), destinationBack: AnyView(LoginPageWelcom()) , color: Color.white, imageName: "Group 9")
              
-                    .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.4)
-                
+                    .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.6 : screenHeight * 0.4)
+                                    
             }
         
         
