@@ -104,7 +104,11 @@ struct LoginPage1: View {
                                 .multilineTextAlignment(.trailing)
                                 .focused($isTextFieldFocused2)
                         }
+                            
 
+                        
+                    }
+                    .overlay{
                         // Eye Button
                         Button(action: {
                             isPasswordVisible.toggle()
@@ -112,7 +116,7 @@ struct LoginPage1: View {
                             Image(systemName: isPasswordVisible ? "eye.slash.fill" : "eye.fill")
                                 .foregroundColor(.gray)
                         }
-                        .padding(.trailing, 10) // Adjust padding for left alignment
+                        .padding(.trailing, screenWidth * 0.6) // Adjust padding for left alignment
                     }
                     .frame(height: screenHeight * 0.05)
                     .padding(.horizontal)
