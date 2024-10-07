@@ -38,6 +38,8 @@ struct nafidhalbasayraApp: App {
                        
                             LoginPage1()
                         
+                     
+                        
                        
                     }
                 }
