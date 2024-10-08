@@ -70,7 +70,15 @@ struct registerPage1: View {
     // Dropdown List
                       if showDropdown {
                           List(itemsProvince, id: \.self) { item in
-                              Text(item)
+                              //Text(item)
+                              
+                              
+                      HStack {
+                                Spacer()
+                                Text(item)
+                                    .multilineTextAlignment(.trailing)
+                                    .padding(6)
+                            }
                                
                                   .padding(6) // Add padding for better touch area
                                   .onTapGesture {
@@ -132,7 +140,14 @@ struct registerPage1: View {
 
                         if showDropdownLectured {
                             List(itemsLectured, id: \.self) { item in
-                                Text(item)
+//                                Text(item)
+                                
+                            HStack {
+                                      Spacer()
+                                      Text(item)
+                                          .multilineTextAlignment(.trailing)
+                                          .padding(6)
+                                  }
                                     .padding(6)
                                     .onTapGesture {
                                         isLectured = item
@@ -142,7 +157,7 @@ struct registerPage1: View {
                             .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6, alignment: .center)
                             .frame(height: 200)
                             .listStyle(PlainListStyle())
-                            //.offset(x: screenWidth * -0.025)
+                           // .offset(x: screenWidth * -0.025)
                         }
                     }
 
