@@ -14,6 +14,10 @@ struct registerPage1: View {
     @State var province : String = "اختر"
     @State var mosque : String = ""
     @State var isLectured : String = "اختر"
+    @State private var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]
+    @State private var selectedItem: String = ""
+    @State private var showDropdown = false
+
 
 
     
@@ -54,8 +58,12 @@ struct registerPage1: View {
                         .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.035 : screenWidth * 0.02))
                         .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
                     
-                    TextField("", text: $province)
-                  
+                    TextField(province, text: $province)
+                        .onTapGesture {
+                        // إظهار أو إخفاء القائمة المنسدلة عند النقر على TextField
+                            showDropdown.toggle()}
+                        //.textFieldStyle(RoundedBorderTextFieldStyle())
+       
                         .frame(maxWidth: screenHeight * 0.4)
                         .frame(height: screenHeight * 0.05)
                         .multilineTextAlignment(.trailing)
@@ -133,9 +141,24 @@ struct registerPage1: View {
                                     
             }
         
+        if showDropdown {
+                   List(itemsProvince, id: \.self) { item in
+                       Text(item)
+                           .onTapGesture {
+                               // عند اختيار عنصر من القائمة المنسدلة
+                               province = item // تخزين العنصر المختار في المتغير province
+                               showDropdown = false // إخفاء القائمة بعد الاختيار
+                           }
+                   }
+            .frame(height: 400) // تعيين ارتفاع للقائمة المنسدلة
+        }
         
     }
+    
+    
 }
+
+
 
 #Preview {
     registerPage1( isLectured: "")
