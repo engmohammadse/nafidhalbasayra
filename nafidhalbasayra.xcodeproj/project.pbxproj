@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4107BE5D2CB43C260073EC4B /* testFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107BE5C2CB43C260073EC4B /* testFile.swift */; };
+		4110976A2CB5427C0004C9E4 /* registerPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411097692CB5427C0004C9E4 /* registerPage1.swift */; };
 		41325AA72CA9B83D00664847 /* LoginPageWelcom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41325AA62CA9B83D00664847 /* LoginPageWelcom.swift */; };
 		413E4B8F2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */; };
 		413E4B912CA1C78200B1EEC5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4B902CA1C78200B1EEC5 /* ContentView.swift */; };
@@ -27,7 +28,7 @@
 		41BD62DD2CA3092800529765 /* Amiri-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62D92CA3092800529765 /* Amiri-Bold.ttf */; };
 		41BD62DE2CA3092800529765 /* Amiri-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62DA2CA3092800529765 /* Amiri-Italic.ttf */; };
 		41BD62DF2CA3092800529765 /* Amiri-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62DB2CA3092800529765 /* Amiri-BoldItalic.ttf */; };
-		41DC01D42CAEBBC500C77696 /* GeometryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41DC01D32CAEBBC500C77696 /* GeometryReader.swift */; };
+		41DC01D42CAEBBC500C77696 /* SizesUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41DC01D32CAEBBC500C77696 /* SizesUI.swift */; };
 		41E19E792CAD714100CA2256 /* PreviousNextBotton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E19E782CAD714100CA2256 /* PreviousNextBotton.swift */; };
 		41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0B52CAAE4C500BD7853 /* registerPage.swift */; };
 		41F9D0B92CAB03BB00BD7853 /* LogoIUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0B82CAB03BB00BD7853 /* LogoIUserInfo.swift */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		4107BE5C2CB43C260073EC4B /* testFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testFile.swift; sourceTree = "<group>"; };
+		411097692CB5427C0004C9E4 /* registerPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage1.swift; sourceTree = "<group>"; };
 		41325AA62CA9B83D00664847 /* LoginPageWelcom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageWelcom.swift; sourceTree = "<group>"; };
 		413E4B8B2CA1C78200B1EEC5 /* nafidhalbasayra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nafidhalbasayra.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nafidhalbasayraApp.swift; sourceTree = "<group>"; };
@@ -58,7 +60,7 @@
 		41BD62D92CA3092800529765 /* Amiri-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amiri-Bold.ttf"; sourceTree = "<group>"; };
 		41BD62DA2CA3092800529765 /* Amiri-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amiri-Italic.ttf"; sourceTree = "<group>"; };
 		41BD62DB2CA3092800529765 /* Amiri-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amiri-BoldItalic.ttf"; sourceTree = "<group>"; };
-		41DC01D32CAEBBC500C77696 /* GeometryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryReader.swift; sourceTree = "<group>"; };
+		41DC01D32CAEBBC500C77696 /* SizesUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizesUI.swift; sourceTree = "<group>"; };
 		41E19E782CAD714100CA2256 /* PreviousNextBotton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviousNextBotton.swift; sourceTree = "<group>"; };
 		41F9D0B52CAAE4C500BD7853 /* registerPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage.swift; sourceTree = "<group>"; };
 		41F9D0B82CAB03BB00BD7853 /* LogoIUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoIUserInfo.swift; sourceTree = "<group>"; };
@@ -106,7 +108,7 @@
 				413E4B992CA1C78400B1EEC5 /* nafidhalbasayra.xcdatamodeld */,
 				413E4B942CA1C78400B1EEC5 /* Preview Content */,
 				416D8BE82CA4482500E2E6D8 /* const.swift */,
-				41DC01D32CAEBBC500C77696 /* GeometryReader.swift */,
+				41DC01D32CAEBBC500C77696 /* SizesUI.swift */,
 				41414E2A2CB1B31A0070C380 /* testNavigationStackPop.swift */,
 				4107BE5C2CB43C260073EC4B /* testFile.swift */,
 			);
@@ -138,6 +140,7 @@
 				41BD62C72CA2E69400529765 /* LoginPage1.swift */,
 				41325AA62CA9B83D00664847 /* LoginPageWelcom.swift */,
 				41F9D0B52CAAE4C500BD7853 /* registerPage.swift */,
+				411097692CB5427C0004C9E4 /* registerPage1.swift */,
 			);
 			path = LoginFolder;
 			sourceTree = "<group>";
@@ -246,7 +249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				41414E2B2CB1B31A0070C380 /* testNavigationStackPop.swift in Sources */,
-				41DC01D42CAEBBC500C77696 /* GeometryReader.swift in Sources */,
+				41DC01D42CAEBBC500C77696 /* SizesUI.swift in Sources */,
 				526790C22CA93EC8006A9A89 /* AdaptiveTextFieldView.swift in Sources */,
 				41BD62C82CA2E69400529765 /* LoginPage1.swift in Sources */,
 				41325AA72CA9B83D00664847 /* LoginPageWelcom.swift in Sources */,
@@ -255,6 +258,7 @@
 				41E19E792CAD714100CA2256 /* PreviousNextBotton.swift in Sources */,
 				41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */,
 				4107BE5D2CB43C260073EC4B /* testFile.swift in Sources */,
+				4110976A2CB5427C0004C9E4 /* registerPage1.swift in Sources */,
 				413E4B9B2CA1C78400B1EEC5 /* nafidhalbasayra.xcdatamodeld in Sources */,
 				416D8BE92CA4482500E2E6D8 /* const.swift in Sources */,
 				41F9D0B92CAB03BB00BD7853 /* LogoIUserInfo.swift in Sources */,
