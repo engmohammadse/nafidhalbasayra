@@ -77,9 +77,12 @@ struct registerPage: View {
                             isPickerVisible.toggle()
                         }) {
                             Image(systemName: "calendar")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(maxWidth: screenWidth * 0.04)
                                 .foregroundColor(.blue)
                                 .padding(.trailing, 10)
-                        }.offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.3 : screenWidth * -0.2)
+                        }.offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
                     }
                     
                     Spacer().frame(maxHeight: screenHeight * 0.01)
@@ -92,6 +95,15 @@ struct registerPage: View {
                         .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
                     
                     TextField("", text: $phoneNumber)
+                        .keyboardType(.numberPad)
+                        .onChange(of: phoneNumber) { newValue in
+                            let filtered = newValue.filter { $0.isNumber}
+                            if filtered.count > 2 {
+                                phoneNumber = String(filtered.prefix(11))
+                            } else {
+                                phoneNumber = filtered
+                            }
+                        }
                         .frame(maxWidth: screenHeight * 0.4)
                         .frame(height: screenHeight * 0.05)
                         .multilineTextAlignment(.trailing)
@@ -145,6 +157,15 @@ struct registerPage: View {
                         .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
                     
                     TextField("", text: $cityNumber)
+                        .keyboardType(.numberPad)
+                        .onChange(of: cityNumber) { newValue in
+                            let filtered = newValue.filter { $0.isNumber}
+                            if filtered.count > 2 {
+                                cityNumber = String(filtered.prefix(2))
+                            } else {
+                                cityNumber = filtered
+                            }
+                        }
                         .frame(maxWidth: screenHeight * 0.4)
                         .frame(height: screenHeight * 0.05)
                         .multilineTextAlignment(.trailing)
