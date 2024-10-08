@@ -14,8 +14,10 @@ struct registerPage1: View {
     @State var mosque: String = ""
     @State var isLectured: String = "اختر"
     @State private var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]
+    @State private var itemsLectured = ["لا","نعم"]
     @State private var selectedItem: String = ""
     @State private var showDropdown = false
+    @State private var showDropdownLectured = false
 
     var body: some View {
         VStack {
@@ -65,6 +67,21 @@ struct registerPage1: View {
                                 .frame(maxWidth: screenWidth * 0.03)
                                 .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
                         }
+    // Dropdown List
+                      if showDropdown {
+                          List(itemsProvince, id: \.self) { item in
+                              Text(item)
+                               
+                                  .padding(6) // Add padding for better touch area
+                                  .onTapGesture {
+                                      province = item
+                                      showDropdown = false
+                                  }
+                          }
+                          .frame(maxWidth: screenWidth * 0.8, alignment: .center) // Center alignment
+                          .frame(height: 200) // Set a height for the dropdown list
+                          .listStyle(PlainListStyle()) // Optional: Use plain list style for dropdown
+                      }
 
                     Spacer().frame(maxHeight: screenHeight * 0.01)
 
@@ -86,19 +103,57 @@ struct registerPage1: View {
                     Spacer().frame(maxHeight: screenHeight * 0.01)
 
                     // Field: Current Work
-                    Text("هل قمت بالتدريس سابقاً في الدورات القرآنية الصيفية")
-                        .alignmentGuide(.leading) { d in d[.trailing] }
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
-                        .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
-
-                    TextField("", text: $isLectured)
-                        .frame(maxWidth: screenHeight * 0.4)
-                        .frame(height: screenHeight * 0.05)
-                        .multilineTextAlignment(.trailing)
-                        .padding(.horizontal)
-                        .background(Color.white)
-                        .cornerRadius(5)
+                    
+                    LecturedFieldView(
+                                isLectured: $isLectured,
+                                showDropdownLectured: $showDropdownLectured,
+                                itemsLectured: itemsLectured
+                                        )
+                    
+                    
+//                    Text("هل قمت بالتدريس سابقاً في الدورات القرآنية الصيفية")
+//                        .alignmentGuide(.leading) { d in d[.trailing] }
+//                        .frame(maxWidth: .infinity, alignment: .trailing)
+//                        .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+//                        .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
+//
+//                    TextField("", text: $isLectured)
+//                        .frame(maxWidth: screenHeight * 0.4)
+//                        .frame(height: screenHeight * 0.05)
+//                        .multilineTextAlignment(.trailing)
+//                        .padding(.horizontal)
+//                        .background(Color.white)
+//                        .cornerRadius(5)
+//                        .onTapGesture {
+//                            showDropdownLectured.toggle()
+//                        }
+//                        .overlay {
+//                            Image(showDropdownLectured ? "Vector" : "Vector1")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(maxWidth: screenWidth * 0.03)
+//                                .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
+//                        }
+//                
+//                    
+//// Dropdown List
+//                  if showDropdownLectured {
+//                      List(itemsLectured, id: \.self) { item in
+//                          Text(item)
+//                           
+//                              .padding(6) // Add padding for better touch area
+//                              .onTapGesture {
+//                                  itemsLectured = item
+//                                  showDropdownLectured = false
+//                              }
+//                      }
+//                      .frame(maxWidth: screenWidth * 0.8, alignment: .center) // Center alignment
+//                      .frame(height: 200) // Set a height for the dropdown list
+//                      .listStyle(PlainListStyle()) // Optional: Use plain list style for dropdown
+//                  }
+                  
+                  
+                    
                 }
                 .padding(.horizontal, UIScreen.main.bounds.width < 500 ? 16 : 0)
             }
@@ -118,21 +173,59 @@ struct registerPage1: View {
                     .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.6 : screenHeight * 0.4)
             }
 
-            // Dropdown List
-            if showDropdown {
-                List(itemsProvince, id: \.self) { item in
+        }
+    }
+}
+
+
+struct LecturedFieldView: View {
+    @Binding var isLectured: String
+    @Binding var showDropdownLectured: Bool
+    let itemsLectured: [String]
+
+    var body: some View {
+        VStack(alignment: .trailing, spacing: 10) {
+            Text("هل قمت بالتدريس سابقاً في الدورات القرآنية الصيفية")
+                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
+
+            TextField("", text: $isLectured)
+                .frame(maxWidth: screenHeight * 0.4)
+                .frame(height: screenHeight * 0.05)
+                .multilineTextAlignment(.trailing)
+                .padding(.horizontal)
+                .background(Color.white)
+                .cornerRadius(5)
+                .onTapGesture {
+                    showDropdownLectured.toggle()
+                }
+                .overlay {
+                    Image(showDropdownLectured ? "Vector" : "Vector1")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: screenWidth * 0.03)
+                        .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
+                }
+
+            if showDropdownLectured {
+                List(itemsLectured, id: \.self) { item in
                     Text(item)
+                        .padding(6)
                         .onTapGesture {
-                            // Store the selected item in the province variable
-                            province = item
-                            showDropdown = false // Hide the dropdown after selection
+                            isLectured = item
+                            showDropdownLectured = false
                         }
                 }
-                .frame(height: 400) // Set a height for the dropdown list
+                .frame(maxWidth: screenWidth * 0.8, alignment: .center)
+                .frame(height: 200)
+                .listStyle(PlainListStyle())
+                .offset(x: screenWidth * -0.025)
             }
         }
     }
 }
+
 
 #Preview {
     registerPage1()
@@ -141,8 +234,8 @@ struct registerPage1: View {
 
 
 
-
-
-#Preview {
-    registerPage1( isLectured: "")
-}
+//
+//
+//#Preview {
+//    registerPage1( isLectured: "")
+//}
