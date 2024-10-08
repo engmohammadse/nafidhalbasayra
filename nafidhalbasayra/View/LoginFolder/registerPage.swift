@@ -230,7 +230,7 @@ struct registerPage: View {
             .overlay{
                 
                 
-                PreviousNextButton(previousAction: {}, nextAction: {}, geoW: screenWidth, geoH: screenHeight, isNextNavigating: true, isPreviosNavigating: true, destination: AnyView(ContentView1()), destinationBack: AnyView(LoginPageWelcom()) , color: Color.white, imageName: "Group 9")
+                PreviousNextButton(previousAction: {}, nextAction: {}, geoW: screenWidth, geoH: screenHeight, isNextNavigating: true, isPreviosNavigating: true, destination: AnyView(registerPage1()), destinationBack: AnyView(LoginPageWelcom()) , color: Color.white, imageName: "Group 9")
              
                     .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.6 : screenHeight * 0.4)
                                     
