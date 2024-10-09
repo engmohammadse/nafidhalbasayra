@@ -237,7 +237,7 @@ struct registerPage: View {
                 
                 PreviousNextButton(previousAction: {}, nextAction: {}, geoW: screenWidth, geoH: screenHeight, isNextNavigating: true, isPreviosNavigating: true, destination: AnyView(registerPage1()), destinationBack: AnyView(LoginPageWelcom()) , color: Color.white, imageName: "Group 9")
              
-                    .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.4)
+                    .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
                 
                 //y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.6
                                     

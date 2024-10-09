@@ -32,7 +32,7 @@ struct PreviousNextButton: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
               //  .renderingMode(.template)  // Forces the image to be drawn as a template (grayscale)
-                .frame(maxWidth: geoW * 0.05)
+                .frame(maxWidth: geoW * 0.04)
                 .padding(.vertical, geoH * 0.01)
                 .padding(.leading, UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.02 : geoW * 0.001)
             
@@ -50,11 +50,11 @@ struct PreviousNextButton: View {
                 
             }) {
                 Text("السابق")
-                    .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.04 : geoW * 0.03))
+                    .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.03 : geoW * 0.03))
                     .foregroundColor(color)
 //                    .foregroundStyle(Color(UIColor(red: 90 / 255, green: 97 / 255, blue: 103 / 255, alpha: 1.0)))
             }
-            .padding(.horizontal, geoW * 0.002)
+            .padding(.horizontal, geoW * 0.001)
             .foregroundColor(.white)
             .cornerRadius(10)
             .navigationDestination(isPresented: $isNavigatePrevious) {
@@ -65,7 +65,7 @@ struct PreviousNextButton: View {
             Image("Line 1")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: geoH * 0.01, height: geoH * 0.04)
+                .frame(width: geoH * 0.01, height: geoH * 0.03)
                 .padding(.vertical, geoH * 0.008)
             
             // Next button
@@ -76,9 +76,9 @@ struct PreviousNextButton: View {
                 }
             }) {
                 Text("التالي")
-                    .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.04 : geoW * 0.03))
+                    .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.03 : geoW * 0.03))
             }
-            .padding(.horizontal, geoW * 0.002)
+            .padding(.horizontal, geoW * 0.001)
             .foregroundColor(.white)
             .cornerRadius(10)
             .navigationDestination(isPresented: $isNavigateNext) {
@@ -89,7 +89,7 @@ struct PreviousNextButton: View {
             Image("Group 16")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: geoW * 0.05)
+                .frame(maxWidth: geoW * 0.04)
                 .padding(.vertical, geoH * 0.01)
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.02 : geoW * 0.001)
         }
