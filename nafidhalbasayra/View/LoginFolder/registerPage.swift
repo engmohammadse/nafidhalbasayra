@@ -34,7 +34,12 @@ struct registerPage: View {
             ScrollView {
                 VStack(spacing: 10) {
                     
-                    Spacer().frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.03 : screenHeight * 0.10)
+                    if UIScreen.main.bounds.width > 400 {
+                        
+                        Spacer().frame(height:  screenHeight * 0.025 )
+                    }
+                    
+                    Spacer().frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.025 : screenHeight * 0.10)
                     
                     // Field: Name
                     Text("الأسم الرباعي واللقب")
@@ -82,7 +87,7 @@ struct registerPage: View {
                                 .frame(maxWidth: screenWidth * 0.04)
                                 .foregroundColor(.blue)
                                 .padding(.trailing, 10)
-                        }.offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
+                        }.offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.31 : screenWidth * -0.25)
                     }
                     
                     Spacer().frame(maxHeight: screenHeight * 0.01)
@@ -232,7 +237,9 @@ struct registerPage: View {
                 
                 PreviousNextButton(previousAction: {}, nextAction: {}, geoW: screenWidth, geoH: screenHeight, isNextNavigating: true, isPreviosNavigating: true, destination: AnyView(registerPage1()), destinationBack: AnyView(LoginPageWelcom()) , color: Color.white, imageName: "Group 9")
              
-                    .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.6 : screenHeight * 0.4)
+                    .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.4)
+                
+                //y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.6
                                     
             }
         
