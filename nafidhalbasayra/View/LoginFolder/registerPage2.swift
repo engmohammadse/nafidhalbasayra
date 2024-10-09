@@ -21,7 +21,7 @@ struct registerPage2: View {
                 Image("Group 120")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: screenWidth * 0.7)
+                    .frame(width: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
                 
                 Button(action: {
 //                    isPressed.toggle()
@@ -35,7 +35,7 @@ struct registerPage2: View {
                         .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
                         .frame(height: screenHeight * 0.04)
                         .foregroundColor(.white)
-                        .frame(maxWidth: screenWidth * 0.7)
+                        .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
                 }
                 .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                 .cornerRadius(5)
@@ -48,7 +48,7 @@ struct registerPage2: View {
                 Image("Group 121")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: screenWidth * 0.7)
+                    .frame(width: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
                 
                 Button(action: {
 //                    isPressed.toggle()
@@ -62,7 +62,7 @@ struct registerPage2: View {
                         .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
                         .frame(height: screenHeight * 0.04)
                         .foregroundColor(.white)
-                        .frame(maxWidth: screenWidth * 0.7)
+                        .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
                 }
                 .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                 .cornerRadius(5)
@@ -76,7 +76,7 @@ struct registerPage2: View {
                 Image("Group 122")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: screenWidth * 0.7)
+                    .frame(width: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
                 
                 Button(action: {
 //                    isPressed.toggle()
@@ -90,7 +90,7 @@ struct registerPage2: View {
                         .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
                         .frame(height: screenHeight * 0.04)
                         .foregroundColor(.white)
-                        .frame(maxWidth: screenWidth * 0.7)
+                        .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
                 }
                 .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                 .cornerRadius(5)
@@ -114,7 +114,7 @@ struct registerPage2: View {
                     .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
                     .frame(height: screenHeight * 0.04)
                     .foregroundColor(.white)
-                    .frame(maxWidth: screenWidth * 0.7)
+                    .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
             }
             .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
             .cornerRadius(5)
