@@ -23,7 +23,7 @@ struct registerPage1: View {
         VStack {
             ScrollView {
                 VStack(spacing: 10) {
-                    Spacer().frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.03 : screenHeight * 0.10)
+                    Spacer().frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.07  : screenHeight * 0.10)
 
                     // Field: Name
                     Text("المحافظة")
@@ -61,7 +61,7 @@ struct registerPage1: View {
                         .background(Color.white)
                         .cornerRadius(5)
                         .overlay {
-                            Image(showDropdown ? "Vector" : "Vector1")
+                            Image(showDropdown ? "Vector1" : "Vector")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(maxWidth: screenWidth * 0.03)
@@ -131,7 +131,7 @@ struct registerPage1: View {
                                 showDropdownLectured.toggle()
                             }
                             .overlay {
-                                Image(showDropdownLectured ? "Vector" : "Vector1")
+                                Image(showDropdownLectured ? "Vector1" : "Vector")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(maxWidth: screenWidth * 0.03)
@@ -179,7 +179,7 @@ struct registerPage1: View {
 
             .navigationBarBackButtonHidden(true)
             .overlay {
-                PreviousNextButton(previousAction: {}, nextAction: {}, geoW: screenWidth, geoH: screenHeight, isNextNavigating: true, isPreviosNavigating: true, destination: AnyView(ContentView1()), destinationBack: AnyView(LoginPageWelcom()), color: Color.white, imageName: "Group 9")
+                PreviousNextButton(previousAction: {}, nextAction: {}, geoW: screenWidth, geoH: screenHeight, isNextNavigating: true, isPreviosNavigating: true, destination: AnyView(registerPage2()), destinationBack: AnyView(LoginPageWelcom()), color: Color.white, imageName: "Group 9")
                     .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.6 : screenHeight * 0.4)
             }
 
