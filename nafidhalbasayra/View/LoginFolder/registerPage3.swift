@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct registerPage3: View {
+    
+    @State private var isPressed: Bool = false
+    
     var body: some View {
         VStack {
             
@@ -26,11 +29,8 @@ struct registerPage3: View {
             .cornerRadius(5)
             
             
-            
-            
-            
-            
-            
+          
+             
         }
         .padding(UIScreen.main.bounds.width < 400 ? 16 : 0)
             .padding()
@@ -41,11 +41,7 @@ struct registerPage3: View {
                 .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)
         }
         .navigationBarBackButtonHidden(true)
-        .overlay {
-            PreviousNextButton(previousAction: {}, nextAction: {}, geoW: screenWidth, geoH: screenHeight, isNextNavigating: true, isPreviosNavigating: true, destination: AnyView(registerPage2()), destinationBack: AnyView(LoginPageWelcom()), color: Color.white, imageName: "Group 9")
-                .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
-
-        }
+       
     }
 }
 
