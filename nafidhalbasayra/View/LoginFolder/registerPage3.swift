@@ -24,6 +24,13 @@ struct registerPage3: View {
             .padding()
             .background(Color(red: 17/255, green: 75/255, blue: 63/255).opacity(0.15))
             .cornerRadius(5)
+            
+            
+            
+            
+            
+            
+            
         }
         .padding(UIScreen.main.bounds.width < 400 ? 16 : 0)
             .padding()
