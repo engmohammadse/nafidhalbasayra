@@ -1,5 +1,5 @@
 //
-//  registerPage4.swift
+//  registerPage5.swift
 //  nafidhalbasayra
 //
 //  Created by muhammad on 10/10/2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct registerPage4: View {
+struct registerPage5: View {
     
     @State private var isPressed: Bool = false
     
@@ -19,14 +19,15 @@ struct registerPage4: View {
                 .frame(height: screenHeight * 0.05)
             
             VStack{
-                Text("تمت قبول طلب التسجيل، يمكنك استخدام التطبيق")
+                Text("عذرا بيناتك غير دقيقة")
                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.035 : screenWidth * 0.02))
                     .multilineTextAlignment(.center)
+                    .foregroundStyle(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
                    
             }
             .padding()
             .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.8 : screenWidth * 0.02 )
-            .background(Color(red: 17/255, green: 75/255, blue: 63/255).opacity(0.15))
+            .background(Color(red: 234 / 255, green: 225 / 255, blue: 225 / 255))
             .cornerRadius(5)
             
             Spacer()
@@ -35,7 +36,7 @@ struct registerPage4: View {
             Button(action: {
                 
             }){
-                Text("بدء استخدام التطبيق")
+                Text("اعادة ادخال البيانات")
                     .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
                     .frame(height: screenHeight * 0.04)
                     .foregroundColor(.white)
@@ -59,6 +60,5 @@ struct registerPage4: View {
 }
 
 #Preview {
-    registerPage4()
+    registerPage5()
 }
-

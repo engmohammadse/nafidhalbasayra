@@ -170,7 +170,7 @@ struct registerPage1: View {
             .padding(UIScreen.main.bounds.width < 400 ? 16 : 0)
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(red: 236/255, green: 242/255, blue: 245/255))
+            .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
             .overlay {
                 LogoIUserInfo()
                     .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)

@@ -22,6 +22,7 @@ struct registerPage3: View {
                 Text("تجري مراجعة بياناتك، يرجى الانتظار قد يستغرق الامر بضع ساعات سيصلك اشعار بمجرد انتهاء مراجعة بياناتك")
                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                     .multilineTextAlignment(.center)
+                    
                    
             }
             .padding()
@@ -32,10 +33,11 @@ struct registerPage3: View {
           
              
         }
+        .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
         .padding(UIScreen.main.bounds.width < 400 ? 16 : 0)
             .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(red: 236/255, green: 242/255, blue: 245/255))
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color(red: 236/255, green: 242/255, blue: 245/255))
         .overlay {
             LogoIUserInfo()
                 .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)
