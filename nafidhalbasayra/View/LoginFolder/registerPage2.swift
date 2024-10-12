@@ -24,14 +24,15 @@ struct registerPage2: View {
                         Image("Group 123")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: uiDevicePhone ? screenWidth * 0.25 : screenWidth * 0.05)
+                            .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.2 : screenWidth * 0.14) : screenWidth * 0.2)
+
                         
                         Text("الصورة الشخصية")
-                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                            .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023 ))
                     }
                     
                     Spacer()
-                        .frame(width: screenWidth * 0.06)
+                        .frame(width: uiDevicePhone ? screenWidth * 0.06 : screenWidth * 0.04 )
                     
                     VStack {
                         HStack {
@@ -40,11 +41,11 @@ struct registerPage2: View {
                             Image("Group 124")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                            .frame(width: uiDevicePhone ? screenWidth * 0.065 : screenWidth * 0.05)
+                            .frame(width: uiDevicePhone ? screenWidth * 0.065 : screenWidth * 0.04)
                         }
                         
                         Text("يرجى رفع صورة سيلفي\n واضحة يظهر فيها الوجه\n كاملا")
-                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                            .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025 ))
                         .multilineTextAlignment(.trailing)
                     }
                 }
@@ -58,7 +59,7 @@ struct registerPage2: View {
 //                    isNavigate = true
                 }) {
                     Text("تحميل الصورة")
-                        .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                        .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.025 ))
                         .frame(height: screenHeight * 0.04)
                         .foregroundColor(.white)
                         .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
@@ -80,27 +81,29 @@ struct registerPage2: View {
                             Image("Group 125")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                            .frame(width: uiDevicePhone ? screenWidth * 0.065 : screenWidth * 0.05)
+                                .frame(width: uiDevicePhone ? screenWidth * 0.065 : screenWidth * 0.04)
+                                .offset(x: uiDevicePhone ? 0 : screenWidth * 0.04)
                             Spacer()
                                 .frame(width: screenWidth * 0.28)
                         }
                         
                         Text("يرجى تحميل صور الوجه \nالامامي للبطاقة الموحدة\n الخاصة بك")
-                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                            .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025 ))
                         .multilineTextAlignment(.trailing)
                     }
                     
                     Spacer()
-                        .frame(width: screenWidth * 0.06)
+                        .frame(width: uiDevicePhone ? screenWidth * 0.06 : screenWidth * 0.04 )
                 
                     VStack{
                         Image("Group 126")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: uiDevicePhone ? screenWidth * 0.25 : screenWidth * 0.05)
+                            .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.2 : screenWidth * 0.14) : screenWidth * 0.2)
                         
                         Text("الوجه الامامي للهوية")
-                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                            .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023 ))
+                            .offset(x: uiDevicePhone ? 0 : screenWidth * -0.02)
                     }
                     
                     
@@ -117,7 +120,7 @@ struct registerPage2: View {
 //                    isNavigate = true
                 }) {
                     Text("تحميل الصورة")
-                        .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                        .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.025 ))
                         .frame(height: screenHeight * 0.04)
                         .foregroundColor(.white)
                         .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
@@ -137,14 +140,14 @@ struct registerPage2: View {
                         Image("Group 128")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: uiDevicePhone ? screenWidth * 0.25 : screenWidth * 0.05)
+                            .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.2 : screenWidth * 0.14) : screenWidth * 0.2)
                         
                         Text("الوجه الخلفي للهوية")
-                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                            .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023 ))
                     }
                     
                     Spacer()
-                        .frame(width: screenWidth * 0.06)
+                        .frame(width: uiDevicePhone ? screenWidth * 0.06 : screenWidth * 0.04 )
                     
                     VStack {
                         HStack {
@@ -153,11 +156,11 @@ struct registerPage2: View {
                             Image("Group 127")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                            .frame(width: uiDevicePhone ? screenWidth * 0.065 : screenWidth * 0.05)
+                                .frame(width: uiDevicePhone ? screenWidth * 0.065 : screenWidth * 0.04)
                         }
                         
                         Text("يرجى رفع صورة سيلفي\n واضحة يظهر فيها الوجه\n كاملا")
-                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                            .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025 ))
                         .multilineTextAlignment(.trailing)
                     }
                 }
@@ -172,7 +175,7 @@ struct registerPage2: View {
 //                    isNavigate = true
                 }) {
                     Text("تحميل الصورة")
-                        .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                        .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.025 ))
                         .frame(height: screenHeight * 0.04)
                         .foregroundColor(.white)
                         .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
@@ -196,7 +199,7 @@ struct registerPage2: View {
 //                    isNavigate = true
             }) {
                 Text("اسال البيانات")
-                    .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.025 ))
                     .frame(height: screenHeight * 0.04)
                     .foregroundColor(.white)
                     .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
