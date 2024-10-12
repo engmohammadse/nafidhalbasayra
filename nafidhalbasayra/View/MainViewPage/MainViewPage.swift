@@ -16,7 +16,7 @@ struct MainViewPage: View {
                
                       VStack(spacing: screenHeight * 0.02) {
                           
-                          Spacer().frame(height: screenHeight * 0.45)
+                          Spacer().frame(height: uiDevicePhone ? screenHeight * 0.45 :  screenHeight * 0.3 )
                           
                           
                           HStack(spacing: screenWidth * 0.04) {
@@ -46,13 +46,13 @@ struct MainViewPage: View {
             
             
             VStack{
-                Spacer().frame(height: screenHeight * 0.075)
+                Spacer().frame(height: uiDevicePhone ? screenHeight * 0.075 : screenHeight * 0.1)
                 
                 HadeethSection()
                   
                     .overlay(
                         LogoIUserInfo()
-                            .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * -0.07 : screenHeight * 0.02)
+                            .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * -0.07 : screenHeight * -0.08)
                     )
             }
             
@@ -60,118 +60,7 @@ struct MainViewPage: View {
             
               }
    
-//            
-//        ZStack {
-//            VStack{
-//                    
-//                    Spacer()
-//                        .frame(height: screenHeight * 0.07)
-//                    HadeethSection()
-//                        .overlay {
-//                            LogoIUserInfo()
-//                                .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * -0.06 : screenHeight * 0.02)
-//                        }
-//                    
-//                   // (spacing: screenHeight * 0.02)
-//                    VStack{
-//                        
-//                        HStack{
-//                            
-//                            VStack{
-//                                
-//                                Image("Group 19")
-//                                    .padding(.top, screenHeight * 0.02)
-//                                    
-//                                Text("قناة التبليغات")
-//                                    .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-//                                    .frame(height: screenHeight * 0.04)
-//                                    .foregroundColor(.black)
-//                                    
-//                                    .padding(.horizontal, screenWidth * 0.04)
-//                                    .padding(.bottom, screenHeight * 0.02)
-//                                
-//                                 
-//                            }
-//                            .background(Color.white)
-//                            .cornerRadius(10)
-//                            
-//                            Spacer()
-//                                .frame(width: screenWidth * 0.04)
-//                            
-//                            VStack{
-//                                
-//                                Image("Group 19")
-//                                    .padding(.top, screenHeight * 0.02)
-//                                    
-//                                Text("قناة التبليغات")
-//                                    .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-//                                    .frame(height: screenHeight * 0.04)
-//                                    .foregroundColor(.black)
-//                                    .padding(.horizontal, screenWidth * 0.04)
-//                                    .padding(.bottom, screenHeight * 0.02)
-//                                 
-//                            }
-//                            .background(Color.white)
-//                                .cornerRadius(10)
-//                        }
-//                        //.background(Color(red: 236/255, green: 242/255, blue: 245/255))
-//                        
-//                        Spacer()
-//                            .frame(height: screenHeight * 0.02)
-//                        
-//                        HStack{
-//                            
-//                            VStack{
-//                                
-//                                Image("Group 19")
-//                                    .padding(.top, screenHeight * 0.02)
-//                                    
-//                                Text("قناة التبليغات")
-//                                    .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-//                                    .frame(height: screenHeight * 0.04)
-//                                    .foregroundColor(.black)
-//                                    
-//                                    .padding(.horizontal, screenWidth * 0.04)
-//                                    .padding(.bottom, screenHeight * 0.02)
-//                                
-//                                 
-//                            }
-//                            .background(Color.white)
-//                            .cornerRadius(10)
-//                            
-//                            Spacer()
-//                                .frame(width: screenWidth * 0.04)
-//                            
-//                            VStack{
-//                                
-//                                Image("Group 19")
-//                                    .padding(.top, screenHeight * 0.02)
-//                                    
-//                                Text("قناة التبليغات")
-//                                    .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-//                                    .frame(height: screenHeight * 0.04)
-//                                    .foregroundColor(.black)
-//                                    .padding(.horizontal, screenWidth * 0.04)
-//                                    .padding(.bottom, screenHeight * 0.02)
-//                                 
-//                            }
-//                            .background(Color.white)
-//                                .cornerRadius(10)
-//                        }
-//    //                    .background(Color(red: 236/255, green: 242/255, blue: 245/255))
-//                            
-//                        
-//                       
-//                    }
-//                    .background(Color(red: 236/255, green: 242/255, blue: 245/255))
-//                      
-//                }
-//                .frame(maxWidth: .infinity, maxHeight: .infinity)
-//            .background(Color(red: 236/255, green: 242/255, blue: 245/255))
-//        }
-//           
-            
-        
+
     
         
             
@@ -197,15 +86,34 @@ struct VStackSection: View {
     
     var body: some View {
         VStack {
-            Image(imageName)
-                .padding(.top, screenHeight * 0.02)
             
-            Text(text)
-                .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-                .frame(height: screenHeight * 0.04)
-                .foregroundColor(.black)
-                .padding(.horizontal, screenWidth * 0.04)
-                .padding(.bottom, screenHeight * 0.02)
+            
+            Button(action: {
+                
+                
+            }){
+                
+                VStack{
+                    
+                    Image(imageName)
+                        .padding(.top, screenHeight * 0.02)
+                    
+                    Text(text)
+                        .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.04 : screenWidth * 0.025))
+                       
+                        .foregroundColor(.black)
+                        .padding(.horizontal, screenWidth * 0.04)
+                        .padding(.bottom, screenHeight * 0.02)
+                        .frame(height: screenHeight * 0.04)
+                        .frame(width: uiDevicePhone ? screenWidth * 0.3 : screenWidth * 0.26)
+                    
+                }
+                
+            }
+            
+            
+            
+           
         }
         .background(Color.white)
         .cornerRadius(10)

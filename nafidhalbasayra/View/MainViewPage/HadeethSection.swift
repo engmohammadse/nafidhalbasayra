@@ -40,7 +40,7 @@ struct HadeethSection: View {
                        
                        Text("روي عن رسول الله (ص)")
                            .padding(.horizontal, 12)
-                           .font(.custom("BahijTheSansArabic-Plain", size: geometry.size.width * 0.032))
+                           .font(.custom("BahijTheSansArabic-Plain", size: geometry.size.width * 0.02))
                            .position(x: geometry.size.width * 0.25, y: geometry.size.height * -0.04) // Adjust the y value as needed
                        
                    }
