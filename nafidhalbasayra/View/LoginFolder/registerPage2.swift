@@ -18,10 +18,36 @@ struct registerPage2: View {
         VStack (spacing: 0) {
             
             VStack  {
-                Image("Group 120")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
+                HStack {
+                
+                    VStack{
+                        Image("Group 123")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: uiDevicePhone ? screenWidth * 0.25 : screenWidth * 0.05)
+                        
+                        Text("الصورة الشخصية")
+                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                    }
+                    
+                    Spacer()
+                        .frame(width: screenWidth * 0.06)
+                    
+                    VStack {
+                        HStack {
+                            Spacer()
+                                .frame(width: screenWidth * 0.2)
+                            Image("Group 124")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                            .frame(width: uiDevicePhone ? screenWidth * 0.065 : screenWidth * 0.05)
+                        }
+                        
+                        Text("يرجى رفع صورة سيلفي\n واضحة يظهر فيها الوجه\n كاملا")
+                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                        .multilineTextAlignment(.trailing)
+                    }
+                }
                 
                 Button(action: {
 //                    isPressed.toggle()
@@ -45,10 +71,42 @@ struct registerPage2: View {
                 .frame(height: screenHeight * 0.035)
             
             VStack{
-                Image("Group 121")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
+                HStack {
+                    
+                    
+                    VStack {
+                        HStack {
+                           
+                            Image("Group 125")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                            .frame(width: uiDevicePhone ? screenWidth * 0.065 : screenWidth * 0.05)
+                            Spacer()
+                                .frame(width: screenWidth * 0.28)
+                        }
+                        
+                        Text("يرجى تحميل صور الوجه \nالامامي للبطاقة الموحدة\n الخاصة بك")
+                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                        .multilineTextAlignment(.trailing)
+                    }
+                    
+                    Spacer()
+                        .frame(width: screenWidth * 0.06)
+                
+                    VStack{
+                        Image("Group 126")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: uiDevicePhone ? screenWidth * 0.25 : screenWidth * 0.05)
+                        
+                        Text("الوجه الامامي للهوية")
+                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                    }
+                    
+                    
+                    
+                   
+                }
                 
                 Button(action: {
 //                    isPressed.toggle()
@@ -73,10 +131,37 @@ struct registerPage2: View {
                 .frame(height: screenHeight * 0.035)
             
             VStack{
-                Image("Group 122")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
+                HStack {
+                
+                    VStack{
+                        Image("Group 128")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: uiDevicePhone ? screenWidth * 0.25 : screenWidth * 0.05)
+                        
+                        Text("الوجه الخلفي للهوية")
+                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                    }
+                    
+                    Spacer()
+                        .frame(width: screenWidth * 0.06)
+                    
+                    VStack {
+                        HStack {
+                            Spacer()
+                                .frame(width: screenWidth * 0.2)
+                            Image("Group 127")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                            .frame(width: uiDevicePhone ? screenWidth * 0.065 : screenWidth * 0.05)
+                        }
+                        
+                        Text("يرجى رفع صورة سيلفي\n واضحة يظهر فيها الوجه\n كاملا")
+                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                        .multilineTextAlignment(.trailing)
+                    }
+                }
+
                 
                 Button(action: {
 //                    isPressed.toggle()
