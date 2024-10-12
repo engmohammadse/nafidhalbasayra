@@ -47,10 +47,10 @@ struct HadeethSection: View {
                     
         
                }
-               .padding(.all, 20)
+               
                
 //               .frame(maxWidth: .infinity, maxHeight: .infinity)
-               .background(Color(red: 236/255, green: 242/255, blue: 245/255))
+              // .background(Color(red: 236/255, green: 242/255, blue: 245/255))
                 
                
                    }
