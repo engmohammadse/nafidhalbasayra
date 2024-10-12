@@ -17,7 +17,7 @@ struct HadeethSection: View {
                        .padding(.horizontal, geometry.size.width * 0.025)
                        .padding(.bottom, geometry.size.height * 0.05)
                        .padding(.top, geometry.size.height * 0.03)
-                       .frame(width: screenWidth * 0.85)
+                       .frame(width: uiDevicePhone ?  screenWidth * 0.85 : screenWidth * 0.8)
                       // .frame(maxHeight: screenHeight * 0.2)
                        .font(.custom("BahijTheSansArabic-Plain", size: UIDevice.current.userInterfaceIdiom == .phone ? geometry.size.width * 0.035 : geometry.size.width * 0.02))
                        .multilineTextAlignment(.trailing)
@@ -27,7 +27,7 @@ struct HadeethSection: View {
                            // Overlay for the second text
                            Text("روي عن رسول الله (ص)")
                                .padding(.horizontal, 12)
-                               .font(.custom("BahijTheSansArabic-Bold", size: geometry.size.width * 0.032))
+                               .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  geometry.size.width * 0.032 : geometry.size.width * 0.02))
                                .foregroundColor(Color.white)
                                .background(Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255, opacity: 1.0))
                                .cornerRadius(5)
@@ -38,10 +38,10 @@ struct HadeethSection: View {
                    ZStack{
                       
                        
-                       Text("روي عن رسول الله (ص)")
+                       Text("المصدر: الإرشاد، الشيخ المفيد، ج ١ _ ص ٢٥٣")
                            .padding(.horizontal, 12)
                            .font(.custom("BahijTheSansArabic-Plain", size: geometry.size.width * 0.02))
-                           .position(x: geometry.size.width * 0.25, y: geometry.size.height * -0.04) // Adjust the y value as needed
+                           .position(x: geometry.size.width * 0.3, y: geometry.size.height * -0.04) // Adjust the y value as needed
                        
                    }
                     
