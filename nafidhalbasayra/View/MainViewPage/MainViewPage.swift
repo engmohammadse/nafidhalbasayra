@@ -61,7 +61,7 @@ struct MainViewPage: View {
                             
                         }
                     }
-                    .offset(y: screenHeight > 700 ?  screenHeight * 0.37 : screenHeight * 0.39)
+                    .offset(y: screenHeight > 700 ?  screenHeight * 0.36 : screenHeight * 0.39)
             
             //HadeethSection
             
@@ -146,7 +146,7 @@ struct ButtonSetting: View {
             Button(action: {}){
                 
                 Text("الإعدادات")
-                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.04  : screenWidth * 0.025))
+                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.033  : screenWidth * 0.025))
                     .foregroundStyle(Color.black)
                 
                 Image("VectorSetting")
