@@ -58,14 +58,14 @@ struct MainViewPage: View {
                         Spacer()
                             .frame(height: screenHeight * 0.02)
                         HStack{
-                            socialMediaButton(url: "https://www.alkafeelquran.com", image: "Group 36")
-                            socialMediaButton(url: "https://www.alkafeelquran.com", image: "Group 36")
-                            socialMediaButton(url: "https://www.alkafeelquran.com", image: "Group 36")
-                            socialMediaButton(url: "https://www.alkafeelquran.com", image: "Group 36")
+                            socialMediaButton(url: "https://www.alkafeelquran.com", image: "globe-solid")
+                            socialMediaButton(url: "https://t.me/AlKafeelQuraanNajaf", image: "Group 39")
+                            socialMediaButton(url: "https://www.facebook.com/AlKafeelQuraanNajaf/?locale=ar_AR", image: "Group 40")
+                            socialMediaButton(url: "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Falkafeelquraannajaf%2F%3Fhl%3Dar&is_from_rle", image: "Group 36")
                             
                         }
                     }
-                    .offset(y: screenHeight > 700 ?  screenHeight * 0.37 : screenHeight * 0.36)
+                    .offset(y: screenHeight > 700 ?  screenHeight * 0.37 : screenHeight * 0.39)
             
             //HadeethSection
             
@@ -175,51 +175,3 @@ struct ButtonSetting: View {
 
 
 
-
-//"https://www.alkafeelquran.com"
-
-import SwiftUI
-import SafariServices
-
-struct socialMediaButton: View {
-    @State private var showingSafari = false
-    @State  var url: String
-    @State  var image: String
-    
-    var body: some View {
-       // HStack {
-            Button(action: {
-                showingSafari = true // Show the Safari view when the button is tapped
-            }) {
-                Image(image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                
-                    .frame(width: screenWidth * 0.12, height: screenHeight * 0.05)
-            }
-        //}
-        .padding(.all, screenWidth * 0.01)
-        //.frame(width: screenWidth * 0.12, height: screenHeight * 0.05)
-        .background(Color.white)
-        .cornerRadius(5)
-        .fullScreenCover(isPresented: $showingSafari) {
-            SafariView(url: URL(string: url)!)
-                .edgesIgnoringSafeArea(.all) // Make the Safari view take up the full screen
-        }
-    }
-}
-
-
-
-struct SafariView: UIViewControllerRepresentable {
-    let url: URL
-
-    func makeUIViewController(context: UIViewControllerRepresentableContext<SafariView>) -> SFSafariViewController {
-        let safariVC = SFSafariViewController(url: url)
-        return safariVC
-    }
-
-    func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SafariView>) {
-        // No updates needed here
-    }
-}

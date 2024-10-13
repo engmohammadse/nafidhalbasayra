@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4107BE5D2CB43C260073EC4B /* testFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107BE5C2CB43C260073EC4B /* testFile.swift */; };
 		4110976A2CB5427C0004C9E4 /* registerPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411097692CB5427C0004C9E4 /* registerPage1.swift */; };
+		411CA47E2CBBF33A0094A94B /* socialMediaSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */; };
 		41325AA72CA9B83D00664847 /* LoginPageWelcom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41325AA62CA9B83D00664847 /* LoginPageWelcom.swift */; };
 		413E4B8F2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */; };
 		413E4B912CA1C78200B1EEC5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4B902CA1C78200B1EEC5 /* ContentView.swift */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		4107BE5C2CB43C260073EC4B /* testFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testFile.swift; sourceTree = "<group>"; };
 		411097692CB5427C0004C9E4 /* registerPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage1.swift; sourceTree = "<group>"; };
+		411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = socialMediaSection.swift; sourceTree = "<group>"; };
 		41325AA62CA9B83D00664847 /* LoginPageWelcom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageWelcom.swift; sourceTree = "<group>"; };
 		413E4B8B2CA1C78200B1EEC5 /* nafidhalbasayra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nafidhalbasayra.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nafidhalbasayraApp.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 			children = (
 				418E94BD2CB82D3100ACFEEA /* MainViewPage.swift */,
 				418E94BF2CB8445700ACFEEA /* HadeethSection.swift */,
+				411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */,
 			);
 			path = MainViewPage;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				418E94BB2CB80C5800ACFEEA /* registerPage5.swift in Sources */,
 				418E94BE2CB82D3100ACFEEA /* MainViewPage.swift in Sources */,
 				413E4B982CA1C78400B1EEC5 /* Persistence.swift in Sources */,
+				411CA47E2CBBF33A0094A94B /* socialMediaSection.swift in Sources */,
 				413E4B912CA1C78200B1EEC5 /* ContentView.swift in Sources */,
 				41E19E792CAD714100CA2256 /* PreviousNextBotton.swift in Sources */,
 				41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */,
