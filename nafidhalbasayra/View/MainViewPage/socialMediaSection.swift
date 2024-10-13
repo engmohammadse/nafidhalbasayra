@@ -26,6 +26,10 @@ struct socialMediaButton: View {
                     .aspectRatio(contentMode: .fit)
                 
                     .frame(height: screenWidth * 0.065)
+                
+                
+               
+               
             }
         //}
         .padding(.all, screenWidth * 0.015)
@@ -37,6 +41,10 @@ struct socialMediaButton: View {
             SafariView(url: URL(string: url)!)
                 .edgesIgnoringSafeArea(.all) // Make the Safari view take up the full screen
         }
+        
+        
+        
+       
     }
 }
 
