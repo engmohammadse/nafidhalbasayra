@@ -160,13 +160,16 @@ struct ButtonSetting: View {
             Button(action: {}){
                 
                 Text("الإعدادات")
-                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03  : screenWidth * 0.025))
+                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.04  : screenWidth * 0.025))
                     .foregroundStyle(Color.black)
                 
                 Image("VectorSetting")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: uiDevicePhone ?  screenWidth * 0.05 : screenWidth * 0.04)
             }
         }
-        .frame(width: screenWidth * 0.63, height: screenHeight * 0.05)
+        .frame(width: uiDevicePhone ?  screenWidth * 0.63 : screenWidth * 0.56, height: screenHeight * 0.05)
         .background(Color.white)
         .cornerRadius(5)
         

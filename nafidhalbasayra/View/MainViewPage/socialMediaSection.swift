@@ -25,11 +25,11 @@ struct socialMediaButton: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                 
-                    .frame(width: screenWidth * 0.07, height: screenHeight * 0.05)
+                    .frame(width: screenWidth * 0.073, height: screenHeight * 0.05)
             }
         //}
         .padding(.all, screenWidth * 0.015)
-        .padding(.horizontal, screenWidth * 0.01)
+        .padding(.horizontal,screenWidth < 400 ? screenWidth * 0.01 : screenWidth * 0.015)
         //.frame(width: screenWidth * 0.12, height: screenHeight * 0.05)
         .background(Color.white)
         .cornerRadius(5)
