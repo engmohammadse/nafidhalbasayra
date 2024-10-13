@@ -122,7 +122,7 @@ struct VStackSection: View {
                     Image(imageName)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: uiDevicePhone ? screenWidth * 0.1 : screenWidth * 0.08)
+                        .frame(height: uiDevicePhone ? screenWidth * 0.1 : screenWidth * 0.07)
                         .padding(.top, uiDevicePhone ? screenHeight * 0.03 : screenHeight * 0.02)
                     Spacer()
                         .frame(height: screenHeight * 0.02)
