@@ -37,11 +37,7 @@ struct MainViewPage: View {
                               VStackSection(imageName: "Group 29", text: "دليل الاستخدام")
                               VStackSection(imageName: "folder-minus-solid 1", text: "الخطة الدراسية")
                           }
-                          
-                       
-                          
-                          
-                              
+        
                       }
                      // .background(Color(red: 236/255, green: 242/255, blue: 245/255))
                       .offset(y: screenHeight * -0.17)
@@ -79,14 +75,8 @@ struct MainViewPage: View {
                             .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * -0.07 : screenHeight * -0.08)
                     )
             }
-            
-            
-            
-              }
-   
-
-    
-        
+      
+       }
             
     }
 }
@@ -139,10 +129,7 @@ struct VStackSection: View {
                 }
                 
             }
-            
-            
-            
-           
+          
         }
         .background(Color.white)
         .cornerRadius(10)
@@ -153,8 +140,7 @@ struct VStackSection: View {
 struct ButtonSetting: View {
     
     var body: some View {
-        
-        
+ 
         HStack{
             
             Button(action: {}){
