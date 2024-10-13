@@ -16,7 +16,7 @@ struct MainViewPage: View {
                
                       VStack(spacing: screenHeight * 0.02) {
                           
-                          Spacer().frame(height: uiDevicePhone ? screenHeight * 0.45 :  screenHeight * 0.4 )
+                          Spacer().frame(height: uiDevicePhone ? screenHeight * 0.42 :  screenHeight * 0.4 )
                           
                           
                           HStack(spacing: screenWidth * 0.04) {
@@ -54,9 +54,20 @@ struct MainViewPage: View {
                     VStack {
                         
                         ButtonSetting()
+                        
+                        Spacer()
+                            .frame(height: screenHeight * 0.02)
+                        HStack{
+                            socialMediaButton(url: "https://www.alkafeelquran.com", image: "Group 36")
+                            socialMediaButton(url: "https://www.alkafeelquran.com", image: "Group 36")
+                            socialMediaButton(url: "https://www.alkafeelquran.com", image: "Group 36")
+                            socialMediaButton(url: "https://www.alkafeelquran.com", image: "Group 36")
+                            
+                        }
                     }
-                    .offset(y: screenHeight > 700 ?  screenHeight * 0.33 : screenHeight * 0.36)
+                    .offset(y: screenHeight > 700 ?  screenHeight * 0.37 : screenHeight * 0.36)
             
+            //HadeethSection
             
             VStack{
                 Spacer().frame(height: uiDevicePhone ? screenHeight * 0.075 : screenHeight * 0.1)
@@ -152,12 +163,63 @@ struct ButtonSetting: View {
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03  : screenWidth * 0.025))
                     .foregroundStyle(Color.black)
                 
-                Image("Vector 1")
+                Image("VectorSetting")
             }
         }
-        .frame(width: screenWidth * 0.65, height: screenHeight * 0.05)
+        .frame(width: screenWidth * 0.63, height: screenHeight * 0.05)
         .background(Color.white)
-        .cornerRadius(10)
+        .cornerRadius(5)
         
+    }
+}
+
+
+
+
+//"https://www.alkafeelquran.com"
+
+import SwiftUI
+import SafariServices
+
+struct socialMediaButton: View {
+    @State private var showingSafari = false
+    @State  var url: String
+    @State  var image: String
+    
+    var body: some View {
+       // HStack {
+            Button(action: {
+                showingSafari = true // Show the Safari view when the button is tapped
+            }) {
+                Image(image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                
+                    .frame(width: screenWidth * 0.12, height: screenHeight * 0.05)
+            }
+        //}
+        .padding(.all, screenWidth * 0.01)
+        //.frame(width: screenWidth * 0.12, height: screenHeight * 0.05)
+        .background(Color.white)
+        .cornerRadius(5)
+        .fullScreenCover(isPresented: $showingSafari) {
+            SafariView(url: URL(string: url)!)
+                .edgesIgnoringSafeArea(.all) // Make the Safari view take up the full screen
+        }
+    }
+}
+
+
+
+struct SafariView: UIViewControllerRepresentable {
+    let url: URL
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<SafariView>) -> SFSafariViewController {
+        let safariVC = SFSafariViewController(url: url)
+        return safariVC
+    }
+
+    func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SafariView>) {
+        // No updates needed here
     }
 }
