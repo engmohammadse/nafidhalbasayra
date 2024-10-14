@@ -38,7 +38,8 @@ struct nafidhalbasayraApp: App {
                        
                           //  LoginPage1()
                         
-                        MainViewPage()
+                       // MainViewPage()
+                        sendAttendaceSection()
                         
                        
                     }
