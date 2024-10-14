@@ -264,7 +264,9 @@ struct sendAttendaceSection: View {
             ZStack{
                 Button(action: {}) {
                     Image("Group 56")
-                        
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: screenWidth * 0.08)
                 }
                 .offset(x: screenWidth * 0.46, y: screenHeight * -0.15)
             }
