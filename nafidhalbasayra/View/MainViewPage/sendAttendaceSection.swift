@@ -219,7 +219,7 @@ struct sendAttendaceSection: View {
                                            }
                            .toolbar {
                                        ToolbarItem(placement: .keyboard) {
-                                           Button("تم") {
+                                           Button("تم، اخفاء الكيبورد") {
                                                hideKeyboard() // Hide the keyboard when 'Done' is pressed
                                            }
                                        }
@@ -259,6 +259,16 @@ struct sendAttendaceSection: View {
             LogoIUserInfo()
                 .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.0 : screenHeight * -0.08)
     )
+        
+        .overlay{
+            ZStack{
+                Button(action: {}) {
+                    Image("Group 56")
+                        
+                }
+                .offset(x: screenWidth * 0.46, y: screenHeight * -0.15)
+            }
+        }
         
         
     }
