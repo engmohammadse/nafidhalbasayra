@@ -257,7 +257,7 @@ struct sendAttendaceSection: View {
               
         }  .overlay(
             LogoIUserInfo()
-                .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.0 : screenHeight * -0.08)
+                .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.0 : screenHeight * 0)
     )
         
         .overlay{
@@ -266,7 +266,7 @@ struct sendAttendaceSection: View {
                     Image("Group 56")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: screenWidth * 0.08)
+                        .frame(width: uiDevicePhone ? screenWidth * 0.08 : screenWidth * 0.064)
                 }
                 .offset(x: screenWidth * 0.46, y: screenHeight * -0.15)
             }
@@ -288,3 +288,6 @@ extension View {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
+
+
+
