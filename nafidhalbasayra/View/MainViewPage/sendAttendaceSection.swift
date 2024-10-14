@@ -214,6 +214,18 @@ struct sendAttendaceSection: View {
                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                            )
                            .multilineTextAlignment(.trailing) // Ensures text is aligned to the right (Arabic)
+                           .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
+                                               // This is called when the keyboard is dismissed
+                                           }
+                           .toolbar {
+                                       ToolbarItem(placement: .keyboard) {
+                                           Button("تم") {
+                                               hideKeyboard() // Hide the keyboard when 'Done' is pressed
+                                           }
+                                       }
+                                   }
+
+                
                 Spacer()
                     .frame(height: screenHeight * 0.035)
                 
@@ -254,4 +266,13 @@ struct sendAttendaceSection: View {
 
 #Preview {
     sendAttendaceSection()
+}
+
+
+
+// Helper function to hide the keyboard
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }
