@@ -69,6 +69,8 @@ struct LoginPage1: View {
                     .foregroundColor(.green)
                     .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
                     .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
+                    .transition(.opacity) // Transition for fade effect
+                    .animation(.easeIn(duration: 0.5), value: viewModel.isLoggedIn) // Updated animation
             } else if let loginError = viewModel.loginError {
                 Text(loginError)  // Display the login error message directly
                     .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
@@ -82,7 +84,10 @@ struct LoginPage1: View {
                         Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1)
                             .cornerRadius(5)
                     )
+                    .transition(.opacity) // Transition for fade effect
+                    .animation(.easeIn(duration: 0.5), value: viewModel.loginError) // Updated animation
             }
+
 
             
             
