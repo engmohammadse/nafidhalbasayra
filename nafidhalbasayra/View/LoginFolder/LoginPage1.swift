@@ -33,7 +33,7 @@ struct LoginPage1: View {
             Image("Group 3")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: screenWidth * 0.3, height: screenHeight * 0.15)
+                .frame(width: screenWidth * 0.2, height: screenHeight * 0.15)
 
             Spacer()
                 .frame(height: screenHeight * 0.02)
@@ -41,9 +41,11 @@ struct LoginPage1: View {
             Text("تسجيل الدخول")
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
-                .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.08))
+                .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.07))
                 .foregroundColor(Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                 .bold()
+              
+            
             
             
             
@@ -61,7 +63,7 @@ struct LoginPage1: View {
 //                                .bold()
 //                                .background(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1))
 //                                .cornerRadius(5)
-//                        }
+//                         }
             
             
             if viewModel.isLoggedIn {
@@ -110,7 +112,7 @@ struct LoginPage1: View {
                 .frame(height: screenHeight * 0.04)
 
             // Username Field
-            VStack(spacing: 2) {
+            VStack(spacing: 6) {
                 Text("اسم المستخدم")
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
@@ -132,9 +134,9 @@ struct LoginPage1: View {
 
             Spacer()
                 .frame(height: screenHeight * 0.02)
-
             // Password Field with Eye Icon
-            VStack(spacing: 2) {
+            
+            VStack(spacing: 6) {
                 Text("كلمة المرور")
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
