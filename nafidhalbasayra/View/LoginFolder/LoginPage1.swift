@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct LoginPage1: View {
+    
+    @StateObject private var viewModel = LoginViewModel()
 
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @State var showError: Bool = true
@@ -42,9 +44,33 @@ struct LoginPage1: View {
                 .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.08))
                 .foregroundColor(Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                 .bold()
-
-            if showError {
-                Text("هنالك مشكلة في تسجيل الدخول")
+            
+            
+            
+//            if viewModel.isLoggedIn {
+//                            Text("Logged in successfully!")
+//                                .foregroundColor(.green)
+//                        } else  if let loginError = viewModel.loginError {
+//                            Text("هنالك مشكلة في تسجيل الدخول")
+//                                .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
+//                                .padding(.horizontal)
+//                                .lineLimit(1)
+//                                .minimumScaleFactor(0.5)
+//                                .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
+//                                .foregroundColor(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
+//                                .bold()
+//                                .background(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1))
+//                                .cornerRadius(5)
+//                        }
+            
+            
+            if viewModel.isLoggedIn {
+                Text(viewModel.responseMessage.isEmpty ? "Logged in successfully!" : viewModel.responseMessage)
+                    .foregroundColor(.green)
+                    .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
+                    .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
+            } else if let loginError = viewModel.loginError {
+                Text(loginError)  // Display the login error message directly
                     .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
                     .padding(.horizontal)
                     .lineLimit(1)
@@ -52,9 +78,28 @@ struct LoginPage1: View {
                     .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
                     .foregroundColor(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
                     .bold()
-                    .background(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1))
-                    .cornerRadius(5)
+                    .background(
+                        Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1)
+                            .cornerRadius(5)
+                    )
             }
+
+            
+            
+           
+
+//            if showError {
+//                Text("هنالك مشكلة في تسجيل الدخول")
+//                    .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
+//                    .padding(.horizontal)
+//                    .lineLimit(1)
+//                    .minimumScaleFactor(0.5)
+//                    .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
+//                    .foregroundColor(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
+//                    .bold()
+//                    .background(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1))
+//                    .cornerRadius(5)
+//            }
 
             Spacer()
                 .frame(height: screenHeight * 0.04)
@@ -66,7 +111,7 @@ struct LoginPage1: View {
                     .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
                     .padding(.trailing, screenWidth * 0.05)
 
-                TextField("user1", text: $textFieldText1)
+                TextField("user1", text: $viewModel.username)
                     .frame(height: screenHeight * 0.05)
                     .multilineTextAlignment(.trailing)
                     .padding(.horizontal)
@@ -94,12 +139,12 @@ struct LoginPage1: View {
                     HStack {
                         // Password Field
                         if isPasswordVisible {
-                            TextField("1234", text: $textFieldText2)
+                            TextField("1234", text: $viewModel.password)
                                 .keyboardType(.numberPad)
                                 .multilineTextAlignment(.trailing)
                                 .focused($isTextFieldFocused2)
                         } else {
-                            SecureField("1234", text: $textFieldText2)
+                            SecureField("1234", text: $viewModel.password)
                                 .keyboardType(.numberPad)
                                 .multilineTextAlignment(.trailing)
                                 .focused($isTextFieldFocused2)
@@ -139,8 +184,11 @@ struct LoginPage1: View {
                 withAnimation(.easeInOut(duration: 0.5)) {
                     showError.toggle()
                 }
+                
+                viewModel.login()
+                
                 // Navigate to the next screen upon successful login
-                isNavigate = true
+                //isNavigate = true
             }) {
                 Text("تسجيل الدخول")
                     .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
@@ -156,6 +204,11 @@ struct LoginPage1: View {
 
             Spacer()
                 .frame(maxHeight: screenHeight * 0.3)
+            
+            
+           
+            
+            
         }
         .padding(.horizontal, 40)
         .frame(maxWidth: .infinity, maxHeight: .infinity)

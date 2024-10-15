@@ -36,10 +36,10 @@ struct nafidhalbasayraApp: App {
                     NavigationStack{
                         
                        
-                          //  LoginPage1()
+                            LoginPage1()
                         
                        // MainViewPage()
-                        sendAttendaceSection()
+                       // sendAttendaceSection()
                         
                        
                     }

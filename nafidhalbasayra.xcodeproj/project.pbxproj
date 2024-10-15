@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41074C852CBE8EFB00FA28AC /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41074C842CBE8EFB00FA28AC /* LoginRequest.swift */; };
+		41074C882CBE8F8400FA28AC /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41074C872CBE8F8400FA28AC /* LoginViewModel.swift */; };
 		4107BE5D2CB43C260073EC4B /* testFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107BE5C2CB43C260073EC4B /* testFile.swift */; };
 		4110976A2CB5427C0004C9E4 /* registerPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411097692CB5427C0004C9E4 /* registerPage1.swift */; };
 		411CA47E2CBBF33A0094A94B /* socialMediaSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */; };
@@ -45,6 +47,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		41074C842CBE8EFB00FA28AC /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
+		41074C872CBE8F8400FA28AC /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		4107BE5C2CB43C260073EC4B /* testFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testFile.swift; sourceTree = "<group>"; };
 		411097692CB5427C0004C9E4 /* registerPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage1.swift; sourceTree = "<group>"; };
 		411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = socialMediaSection.swift; sourceTree = "<group>"; };
@@ -95,6 +99,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		41074C832CBE8ED700FA28AC /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				41074C842CBE8EFB00FA28AC /* LoginRequest.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		41074C862CBE8F6A00FA28AC /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				41074C872CBE8F8400FA28AC /* LoginViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		413E4B822CA1C78200B1EEC5 = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +134,8 @@
 		413E4B8D2CA1C78200B1EEC5 /* nafidhalbasayra */ = {
 			isa = PBXGroup;
 			children = (
+				41074C862CBE8F6A00FA28AC /* ViewModels */,
+				41074C832CBE8ED700FA28AC /* Models */,
 				41BD62CF2CA3005000529765 /* Info.plist */,
 				41BD62CB2CA2FF2D00529765 /* Fonts */,
 				413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */,
@@ -281,12 +303,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				41D1DC522CB6EDF7004EB23D /* registerPage3.swift in Sources */,
+				41074C852CBE8EFB00FA28AC /* LoginRequest.swift in Sources */,
 				41414E2B2CB1B31A0070C380 /* testNavigationStackPop.swift in Sources */,
 				41DC01D42CAEBBC500C77696 /* SizesUI.swift in Sources */,
 				526790C22CA93EC8006A9A89 /* AdaptiveTextFieldView.swift in Sources */,
 				41BD62C82CA2E69400529765 /* LoginPage1.swift in Sources */,
 				418E94C02CB8445700ACFEEA /* HadeethSection.swift in Sources */,
 				41D1DC502CB6A010004EB23D /* registerPage2.swift in Sources */,
+				41074C882CBE8F8400FA28AC /* LoginViewModel.swift in Sources */,
 				41325AA72CA9B83D00664847 /* LoginPageWelcom.swift in Sources */,
 				418E94BB2CB80C5800ACFEEA /* registerPage5.swift in Sources */,
 				418E94BE2CB82D3100ACFEEA /* MainViewPage.swift in Sources */,
