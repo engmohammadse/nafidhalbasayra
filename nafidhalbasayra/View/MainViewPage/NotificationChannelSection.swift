@@ -81,7 +81,7 @@ struct message: View {
                 .frame(height: screenHeight * 0.03)
         
            Text(bodyMessage)
-                .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023 ))
+                .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023 ))
           
         
             Spacer()
@@ -90,7 +90,7 @@ struct message: View {
             HStack {
                 Spacer()
                 Text(MessageSender)
-                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023 ))
+                    .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.031 : screenWidth * 0.023 ))
                
             }
         
@@ -98,7 +98,7 @@ struct message: View {
             HStack {
         
                 Text(dateMessage)
-                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023 ))
+                    .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023 ))
                
                 Spacer()
             }

@@ -13,6 +13,7 @@
 		4107BE5D2CB43C260073EC4B /* testFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107BE5C2CB43C260073EC4B /* testFile.swift */; };
 		4110976A2CB5427C0004C9E4 /* registerPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411097692CB5427C0004C9E4 /* registerPage1.swift */; };
 		411CA47E2CBBF33A0094A94B /* socialMediaSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */; };
+		412A81962CBFF50200188321 /* AttendanceHistorySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412A81952CBFF50200188321 /* AttendanceHistorySection.swift */; };
 		41325AA72CA9B83D00664847 /* LoginPageWelcom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41325AA62CA9B83D00664847 /* LoginPageWelcom.swift */; };
 		413E4B8F2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */; };
 		413E4B912CA1C78200B1EEC5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4B902CA1C78200B1EEC5 /* ContentView.swift */; };
@@ -54,6 +55,7 @@
 		4107BE5C2CB43C260073EC4B /* testFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testFile.swift; sourceTree = "<group>"; };
 		411097692CB5427C0004C9E4 /* registerPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage1.swift; sourceTree = "<group>"; };
 		411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = socialMediaSection.swift; sourceTree = "<group>"; };
+		412A81952CBFF50200188321 /* AttendanceHistorySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceHistorySection.swift; sourceTree = "<group>"; };
 		41325AA62CA9B83D00664847 /* LoginPageWelcom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageWelcom.swift; sourceTree = "<group>"; };
 		413E4B8B2CA1C78200B1EEC5 /* nafidhalbasayra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nafidhalbasayra.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nafidhalbasayraApp.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 				411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */,
 				418865702CBD296400E9097C /* sendAttendaceSection.swift */,
 				41074C892CBED50F00FA28AC /* NotificationChannelSection.swift */,
+				412A81952CBFF50200188321 /* AttendanceHistorySection.swift */,
 			);
 			path = MainViewPage;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				413E4B9B2CA1C78400B1EEC5 /* nafidhalbasayra.xcdatamodeld in Sources */,
 				416D8BE92CA4482500E2E6D8 /* const.swift in Sources */,
 				41F9D0B92CAB03BB00BD7853 /* LogoIUserInfo.swift in Sources */,
+				412A81962CBFF50200188321 /* AttendanceHistorySection.swift in Sources */,
 				413E4BA32CA1C83100B1EEC5 /* LoginPage0.swift in Sources */,
 				41F9D0BB2CAB0A5800BD7853 /* CustemTextWithField.swift in Sources */,
 				413E4B8F2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift in Sources */,
