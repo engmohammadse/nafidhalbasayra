@@ -45,9 +45,9 @@ struct NotificationChannelSection: View {
                     Image("Group 56")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: uiDevicePhone ? screenWidth * 0.08 : screenWidth * 0.064)
+                        .frame(width: uiDevicePhone ? screenWidth * 0.1 : screenWidth * 0.064)
                 }
-                .offset(x: screenWidth * 0.46, y: screenHeight * -0.15)
+                .offset(x: screenWidth * 0.46, y: screenHeight * 0)
             }
         }
         

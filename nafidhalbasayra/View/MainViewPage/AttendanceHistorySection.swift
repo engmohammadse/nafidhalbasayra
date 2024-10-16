@@ -14,15 +14,25 @@ struct AttendanceHistorySection: View {
             
             ScrollView{
                 
-              Spacer()
+                Spacer()
                     .frame(height: screenHeight * 0.05)
-            
-                studentInfo()
-                studentInfo()
-                studentInfo()
-               
-                 
                 
+                studentInfo()
+                studentInfo()
+                studentInfo()
+                
+                
+                
+            }
+            
+            Button(action: {}){
+                Text("تسجيل بيانات طالب جديد")
+                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+                    .foregroundStyle(.white)
+                    .frame(width: screenWidth * 0.91)
+                    .frame(height: screenHeight * 0.05)
+                    .background(Color(red: 27/255, green: 62/255, blue: 94/255))
+                    .cornerRadius(5)
             }
             
         }.padding()
@@ -36,9 +46,9 @@ struct AttendanceHistorySection: View {
                     Image("Group 56")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: uiDevicePhone ? screenWidth * 0.08 : screenWidth * 0.064)
+                        .frame(width: uiDevicePhone ? screenWidth * 0.1 : screenWidth * 0.064)
                 }
-                .offset(x: screenWidth * 0.46, y: screenHeight * -0.15)
+                .offset(x: screenWidth * 0.46, y: screenHeight * -0.03)
             }
         }
             
