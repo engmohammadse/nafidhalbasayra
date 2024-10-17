@@ -14,6 +14,7 @@ struct AttendanceHistorySection: View {
             HStack{
                 
                 Text("عدد طلاب الدورة: 25")
+                    .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                     .padding(.all, screenWidth * 0.025)
             }
             .background(.white)
@@ -27,6 +28,7 @@ struct AttendanceHistorySection: View {
                 studentInfo()
                 studentInfo()
                 studentInfo()
+                
                 
                 
                 
@@ -45,7 +47,8 @@ struct AttendanceHistorySection: View {
             
             
             
-        }.padding()
+        }
+        .padding()
         .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
         .overlay{
             LogoIUserInfo()
