@@ -11,12 +11,19 @@ struct AttendanceHistorySection: View {
     var body: some View {
        
         VStack{
+            HStack{
+                
+                Text("عدد طلاب الدورة: 25")
+                    .padding(.all, screenWidth * 0.025)
+            }
+            .background(.white)
+            .cornerRadius(5)
+            .offset(x: screenWidth * 0.25 ,y: screenHeight * 0.05)
             
+            Spacer()
+                .frame(height: screenHeight * 0.07)
             ScrollView{
-                
-                Spacer()
-                    .frame(height: screenHeight * 0.05)
-                
+        
                 studentInfo()
                 studentInfo()
                 studentInfo()
@@ -24,6 +31,7 @@ struct AttendanceHistorySection: View {
                 
                 
             }
+            
             
             Button(action: {}){
                 Text("تسجيل بيانات طالب جديد")
@@ -35,11 +43,19 @@ struct AttendanceHistorySection: View {
                     .cornerRadius(5)
             }
             
+            
+            
         }.padding()
         .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
-        .overlay(
-           LogoIUserInfo()
-               .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.0 : screenHeight * 0))
+        .overlay{
+            LogoIUserInfo()
+                .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.0 : screenHeight * 0)
+             
+        }
+    
+        
+        
+        
         .overlay{
             ZStack{
                 Button(action: {}) {
@@ -51,6 +67,7 @@ struct AttendanceHistorySection: View {
                 .offset(x: screenWidth * 0.46, y: screenHeight * -0.03)
             }
         }
+        
             
         
     }
