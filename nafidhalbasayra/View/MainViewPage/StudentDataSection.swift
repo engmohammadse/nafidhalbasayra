@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AttendanceHistorySection: View {
+struct StudentDataSection: View {
     var body: some View {
        
         VStack{
@@ -23,16 +23,15 @@ struct AttendanceHistorySection: View {
             
             Spacer()
                 .frame(height: screenHeight * 0.07)
-            ScrollView{
+            ScrollView {
         
                 studentInfo()
                 studentInfo()
                 studentInfo()
                 
                 
-                
-                
             }
+            .frame(width: screenWidth * 0.87)
             
             
             Button(action: {}){
@@ -77,7 +76,7 @@ struct AttendanceHistorySection: View {
 }
 
 #Preview {
-    AttendanceHistorySection()
+    StudentDataSection()
 }
 
 

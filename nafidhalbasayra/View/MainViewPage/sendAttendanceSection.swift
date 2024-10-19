@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct sendAttendaceSection: View {
+struct sendAttendanceSection: View {
     @State private var isPressed :Bool = false
     @State private var name: String = ""
 
@@ -277,7 +277,7 @@ struct sendAttendaceSection: View {
 }
 
 #Preview {
-    sendAttendaceSection()
+    sendAttendanceSection()
 }
 
 
