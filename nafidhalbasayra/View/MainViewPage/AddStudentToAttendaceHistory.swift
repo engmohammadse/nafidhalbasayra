@@ -4,6 +4,8 @@
 //
 //  Created by muhammad on 17/10/2024.
 //
+
+
 import SwiftUI
 
 struct AddStudentToAttendaceHistory: View {
@@ -25,7 +27,7 @@ struct AddStudentToAttendaceHistory: View {
                 
                 Text("اضافة طالب جديد")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.045 : screenWidth * 0.023 ))
-                    .foregroundStyle(Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
+                    .foregroundStyle(primaryColor)
                    
           
          
@@ -72,7 +74,7 @@ struct AddStudentToAttendaceHistory: View {
             
         }
         .padding(.bottom)
-        .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
+         .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
         //.background(Color.clear)
         .navigationBarBackButtonHidden(true)
         .overlay {

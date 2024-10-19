@@ -18,11 +18,13 @@ struct FormField: View {
         VStack(alignment: .trailing, spacing: 5) {
             Text(label)
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+                .foregroundStyle(primaryColor)
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
 
             TextField("", text: $text)
                 .keyboardType(isPhoneNumber ? .phonePad : .default)
+                .foregroundStyle(primaryColor)
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
                 .multilineTextAlignment(.trailing)
@@ -46,6 +48,7 @@ struct DropdownField: View {
         VStack(alignment: .trailing, spacing: 5) {
             Text(label)
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+                .foregroundStyle(primaryColor)
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
 
@@ -53,6 +56,7 @@ struct DropdownField: View {
                 .onTapGesture {
                     showDropdown.toggle()
                 }
+                .foregroundStyle(primaryColor)
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
                 .multilineTextAlignment(.trailing)

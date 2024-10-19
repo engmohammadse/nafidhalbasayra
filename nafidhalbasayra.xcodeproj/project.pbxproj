@@ -44,6 +44,8 @@
 		41D1DC522CB6EDF7004EB23D /* registerPage3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D1DC512CB6EDF7004EB23D /* registerPage3.swift */; };
 		41DC01D42CAEBBC500C77696 /* SizesUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41DC01D32CAEBBC500C77696 /* SizesUI.swift */; };
 		41E19E792CAD714100CA2256 /* PreviousNextBotton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E19E782CAD714100CA2256 /* PreviousNextBotton.swift */; };
+		41E9C6D22CC3C85000FE122F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D12CC3C85000FE122F /* Colors.swift */; };
+		41E9C6D42CC3CC0600FE122F /* UserManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D32CC3CC0600FE122F /* UserManual.swift */; };
 		41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0B52CAAE4C500BD7853 /* registerPage.swift */; };
 		41F9D0B92CAB03BB00BD7853 /* LogoIUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0B82CAB03BB00BD7853 /* LogoIUserInfo.swift */; };
 		41F9D0BB2CAB0A5800BD7853 /* CustemTextWithField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0BA2CAB0A5800BD7853 /* CustemTextWithField.swift */; };
@@ -90,6 +92,8 @@
 		41D1DC512CB6EDF7004EB23D /* registerPage3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage3.swift; sourceTree = "<group>"; };
 		41DC01D32CAEBBC500C77696 /* SizesUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizesUI.swift; sourceTree = "<group>"; };
 		41E19E782CAD714100CA2256 /* PreviousNextBotton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviousNextBotton.swift; sourceTree = "<group>"; };
+		41E9C6D12CC3C85000FE122F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		41E9C6D32CC3CC0600FE122F /* UserManual.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManual.swift; sourceTree = "<group>"; };
 		41F9D0B52CAAE4C500BD7853 /* registerPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage.swift; sourceTree = "<group>"; };
 		41F9D0B82CAB03BB00BD7853 /* LogoIUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoIUserInfo.swift; sourceTree = "<group>"; };
 		41F9D0BA2CAB0A5800BD7853 /* CustemTextWithField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustemTextWithField.swift; sourceTree = "<group>"; };
@@ -142,6 +146,7 @@
 		413E4B8D2CA1C78200B1EEC5 /* nafidhalbasayra */ = {
 			isa = PBXGroup;
 			children = (
+				41E9C6D02CC3C82E00FE122F /* ThemsAndColors */,
 				41074C862CBE8F6A00FA28AC /* ViewModels */,
 				41074C832CBE8ED700FA28AC /* Models */,
 				41BD62CF2CA3005000529765 /* Info.plist */,
@@ -191,6 +196,7 @@
 				41074C892CBED50F00FA28AC /* NotificationChannelSection.swift */,
 				412A81952CBFF50200188321 /* AttendanceHistorySection.swift */,
 				414AFBDD2CC16D3A00D89B70 /* SubComponent.swift */,
+				41E9C6D32CC3CC0600FE122F /* UserManual.swift */,
 			);
 			path = MainViewPage;
 			sourceTree = "<group>";
@@ -224,6 +230,14 @@
 				41BD62CC2CA2FF4100529765 /* BahijTheSansArabic-Plain.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		41E9C6D02CC3C82E00FE122F /* ThemsAndColors */ = {
+			isa = PBXGroup;
+			children = (
+				41E9C6D12CC3C85000FE122F /* Colors.swift */,
+			);
+			path = ThemsAndColors;
 			sourceTree = "<group>";
 		};
 		41F9D0B72CAB035A00BD7853 /* SubViewComponent */ = {
@@ -338,7 +352,9 @@
 				414AFBDE2CC16D3A00D89B70 /* SubComponent.swift in Sources */,
 				4110976A2CB5427C0004C9E4 /* registerPage1.swift in Sources */,
 				413E4B9B2CA1C78400B1EEC5 /* nafidhalbasayra.xcdatamodeld in Sources */,
+				41E9C6D42CC3CC0600FE122F /* UserManual.swift in Sources */,
 				416D8BE92CA4482500E2E6D8 /* const.swift in Sources */,
+				41E9C6D22CC3C85000FE122F /* Colors.swift in Sources */,
 				41F9D0B92CAB03BB00BD7853 /* LogoIUserInfo.swift in Sources */,
 				412A81962CBFF50200188321 /* AttendanceHistorySection.swift in Sources */,
 				413E4BA32CA1C83100B1EEC5 /* LoginPage0.swift in Sources */,
