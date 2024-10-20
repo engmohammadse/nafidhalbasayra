@@ -12,25 +12,51 @@ struct StudyPlanSection: View {
   
     
     var body: some View {
-        ScrollView {
-            
-            Spacer()
-                .frame(height: screenHeight * 0.1)
-            
-            
-            VStack(spacing: 0) {
+        VStack {
+            ScrollView {
                 
-              Weeks()
-              Weeks()
-              Weeks()
-                // Overlay for Week 1
+                Spacer()
+                    .frame(height: screenHeight * 0.1)
+                
+                
+                VStack(spacing: 0) {
+                    
+                  Weeks()
+                  Weeks()
+                  Weeks()
+                    // Overlay for Week 1
+                 
+                    
+                    // Week 2
+                    // Add similar structure for Week 2 and Week 3
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(backgroundColorPage)
+            
+            
+        }
+        
+        .overlay{
+            LogoIUserInfo()
+                .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.0 : screenHeight * 0)
              
-                
-                // Week 2
-                // Add similar structure for Week 2 and Week 3
+        }
+    
+        
+        
+        
+        .overlay{
+            ZStack{
+                Button(action: {}) {
+                    Image("Group 56")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: uiDevicePhone ? screenWidth * 0.09 : screenWidth * 0.064)
+                }
+                .offset(x: screenWidth * 0.46, y: screenHeight * -0.03)
             }
         }
-        .background(backgroundColorPage)
     }
 }
 
@@ -123,9 +149,10 @@ struct Weeks: View {
                 .padding()
             }
             .background(.white)
-            .cornerRadius(10)
+            .cornerRadius(5)
             .padding(.horizontal)
             .accentColor(.clear) // Hide the default disclosure arrow
+            .frame(width: screenWidth * 0.95)
             
             
             
@@ -135,6 +162,6 @@ struct Weeks: View {
                 .overlay(Text("1").foregroundColor(.white))
                 .position(x: screenWidth * 0.5, y: screenHeight * -0.0) // Fixed position
         }
-        .padding(.bottom, 50) // Add padding to the bottom for the circle
+        .padding(.bottom, screenHeight * 0.03) // Add padding to the bottom for the circle
     }
 }
