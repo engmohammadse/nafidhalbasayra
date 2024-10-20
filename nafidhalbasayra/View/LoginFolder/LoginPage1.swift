@@ -10,6 +10,8 @@ import SwiftUI
 struct LoginPage1: View {
     
     @StateObject private var viewModel = LoginViewModel()
+    
+    @State private var isButtonDisabled = true
 
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @State var showError: Bool = true
@@ -48,32 +50,20 @@ struct LoginPage1: View {
             
             
             
-            
-//            if viewModel.isLoggedIn {
-//                            Text("Logged in successfully!")
-//                                .foregroundColor(.green)
-//                        } else  if let loginError = viewModel.loginError {
-//                            Text("هنالك مشكلة في تسجيل الدخول")
-//                                .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
-//                                .padding(.horizontal)
-//                                .lineLimit(1)
-//                                .minimumScaleFactor(0.5)
-//                                .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-//                                .foregroundColor(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
-//                                .bold()
-//                                .background(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1))
-//                                .cornerRadius(5)
-//                         }
-            
+
             
             if viewModel.isLoggedIn {
-                Text(viewModel.responseMessage.isEmpty ? "Logged in successfully!" : viewModel.responseMessage)
+                
+                Text(viewModel.responseMessage.isEmpty ? "Logged in successfully!" : "تم بنجاح تسجيل الدخول")
                     .foregroundColor(.green)
                     .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
                     .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
                     .transition(.opacity) // Transition for fade effect
                     .animation(.easeIn(duration: 0.5), value: viewModel.isLoggedIn) // Updated animation
+                
+                
             } else if let loginError = viewModel.loginError {
+                
                 Text(loginError)  // Display the login error message directly
                     .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
                     .padding(.horizontal)
@@ -93,20 +83,7 @@ struct LoginPage1: View {
 
             
             
-           
 
-//            if showError {
-//                Text("هنالك مشكلة في تسجيل الدخول")
-//                    .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
-//                    .padding(.horizontal)
-//                    .lineLimit(1)
-//                    .minimumScaleFactor(0.5)
-//                    .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-//                    .foregroundColor(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
-//                    .bold()
-//                    .background(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1))
-//                    .cornerRadius(5)
-//            }
 
             Spacer()
                 .frame(height: screenHeight * 0.04)
@@ -125,6 +102,18 @@ struct LoginPage1: View {
                     .background(Color.white)
                     .cornerRadius(5)
                     .focused($isTextFieldFocused1)
+                    .onChange(of: viewModel.username) { newValue in
+                        
+                        
+                        // إزالة جميع الفراغات
+                               let trimmedValue = newValue.replacingOccurrences(of: " ", with: "")
+                               
+                               // تحويل الأحرف إلى صغيرة
+                               viewModel.username = trimmedValue.lowercased()
+                               
+                               // تحقق من طول اسم المستخدم وكلمة المرور
+                               isButtonDisabled = viewModel.username.count < 5 || viewModel.password.count < 6
+                                       }
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(isTextFieldFocused1 ? Color(red: 113 / 255, green: 138 / 255, blue: 161 / 255) : .clear, lineWidth: screenWidth * 0.004)
@@ -179,13 +168,19 @@ struct LoginPage1: View {
                             .stroke(isTextFieldFocused2 ? Color(red: 113 / 255, green: 138 / 255, blue: 161 / 255) : .clear, lineWidth: screenWidth * 0.004)
                     )
                     .frame(maxWidth: screenWidth * 0.8)
+                    .onChange(of: viewModel.password) { newValue in
+                                            // تحقق من طول كلمة المرور
+                                            isButtonDisabled = viewModel.username.count < 5 || newValue.count < 6
+                                        }
                 }
             }
 
             Spacer()
                 .frame(height: screenHeight * 0.015)
 
-            // Login Button
+            // Login Button //
+            
+            
             Button(action: {
                 isPressed.toggle()
                 withAnimation(.easeInOut(duration: 0.5)) {
@@ -205,6 +200,9 @@ struct LoginPage1: View {
             }
             .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
             .cornerRadius(5)
+            .disabled( isButtonDisabled )
+            .opacity(isButtonDisabled ? 0.5 : 1.0)
+            
             .navigationDestination(isPresented: $isNavigate) {
                 LoginPageWelcom() // Assuming this is your destination view
             }
