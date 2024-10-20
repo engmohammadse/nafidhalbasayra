@@ -16,10 +16,12 @@ struct StudyPlanSection: View {
             ScrollView {
                 
                 Spacer()
-                    .frame(height: screenHeight * 0.1)
+                    .frame(height: screenHeight * 0.13)
                 
                 
                 VStack(spacing: 0) {
+                    
+                    
                     
                   Weeks()
                   Weeks()
