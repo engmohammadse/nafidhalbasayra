@@ -31,6 +31,7 @@
 		418E94BB2CB80C5800ACFEEA /* registerPage5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E94BA2CB80C5800ACFEEA /* registerPage5.swift */; };
 		418E94BE2CB82D3100ACFEEA /* MainViewPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E94BD2CB82D3100ACFEEA /* MainViewPage.swift */; };
 		418E94C02CB8445700ACFEEA /* HadeethSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E94BF2CB8445700ACFEEA /* HadeethSection.swift */; };
+		41A552592CC5310A008D913D /* StudyPlanSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A552582CC5310A008D913D /* StudyPlanSection.swift */; };
 		41BD62C82CA2E69400529765 /* LoginPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BD62C72CA2E69400529765 /* LoginPage1.swift */; };
 		41BD62D22CA3018800529765 /* BahijTheSansArabic-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62CE2CA2FF4100529765 /* BahijTheSansArabic-Bold.ttf */; };
 		41BD62D32CA3018A00529765 /* BahijTheSansArabic-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62CD2CA2FF4100529765 /* BahijTheSansArabic-ExtraBold.ttf */; };
@@ -79,6 +80,7 @@
 		418E94BA2CB80C5800ACFEEA /* registerPage5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage5.swift; sourceTree = "<group>"; };
 		418E94BD2CB82D3100ACFEEA /* MainViewPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewPage.swift; sourceTree = "<group>"; };
 		418E94BF2CB8445700ACFEEA /* HadeethSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HadeethSection.swift; sourceTree = "<group>"; };
+		41A552582CC5310A008D913D /* StudyPlanSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSection.swift; sourceTree = "<group>"; };
 		41BD62C72CA2E69400529765 /* LoginPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPage1.swift; sourceTree = "<group>"; };
 		41BD62CC2CA2FF4100529765 /* BahijTheSansArabic-Plain.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BahijTheSansArabic-Plain.ttf"; sourceTree = "<group>"; };
 		41BD62CD2CA2FF4100529765 /* BahijTheSansArabic-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BahijTheSansArabic-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 				41074C892CBED50F00FA28AC /* NotificationChannelSection.swift */,
 				412A81952CBFF50200188321 /* StudentDataSection.swift */,
 				41E9C6D52CC41A0100FE122F /* AttendanceEnrollmentSection.swift */,
+				41A552582CC5310A008D913D /* StudyPlanSection.swift */,
 				414AFBDD2CC16D3A00D89B70 /* SubComponent.swift */,
 				41E9C6D32CC3CC0600FE122F /* UserManual.swift */,
 			);
@@ -350,6 +353,7 @@
 				41E19E792CAD714100CA2256 /* PreviousNextBotton.swift in Sources */,
 				41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */,
 				4107BE5D2CB43C260073EC4B /* testFile.swift in Sources */,
+				41A552592CC5310A008D913D /* StudyPlanSection.swift in Sources */,
 				418865712CBD296400E9097C /* sendAttendanceSection.swift in Sources */,
 				418E94B92CB7FDD000ACFEEA /* registerPage4.swift in Sources */,
 				41074C8A2CBED50F00FA28AC /* NotificationChannelSection.swift in Sources */,
