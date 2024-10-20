@@ -42,7 +42,7 @@ struct AttendanceEnrollmentSection: View {
              
              
          }
-         .padding()
+         .padding(.all, screenWidth * 0.02)
          .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
          .overlay{
              LogoIUserInfo()
@@ -81,6 +81,7 @@ struct AttendanceEnrollmentSection: View {
 
  struct studentEnrollment :View {
      @State private var repeatSend : Bool = false
+     @State private var repeatSendState : Bool = false
      
      
      
@@ -102,8 +103,16 @@ struct AttendanceEnrollmentSection: View {
                                Spacer()
                                    
                                    .frame(height: screenHeight * 0.02)
-                               Text("مرسل")
-                                   .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+                              
+                                  
+                               if repeatSendState == false {
+                                   Text("مرسل")
+                                       .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+                               } else {
+                                   Text("غير مرسل")
+                                       .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+                                       .foregroundStyle(redColorFalse)
+                               }
                                
                                
                            }
@@ -121,7 +130,7 @@ struct AttendanceEnrollmentSection: View {
                            
                            
                            Spacer()
-                               .frame(width: screenWidth * 0.1)
+                               .frame(width: screenWidth * 0.05)
                            
                            VStack{
                                Text("التاريخ")
@@ -140,19 +149,20 @@ struct AttendanceEnrollmentSection: View {
                                   
                                   // Second half with blue background
                                   ZStack {
-                                      Color(red: 223/255, green: 239/255, blue: 242/255)
+                                   
                                       
                                       Button(action: {}){
                                           Text("اعادة ارسال")
-                                              .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023 ))
-                                              .foregroundColor(Color(red: 24/255, green: 82/255, blue: 100/255))
+                                              .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+                                              .foregroundColor(.white)
                                               .padding(.all, screenWidth * 0.02)
                                       }
                                       
                                   }
                                 
                                   .frame(maxWidth: .infinity) // Takes up half of the HStack width
-                              }
+                       }
+                       .background(primaryButtonColor)
                    }
                    
                   
@@ -163,7 +173,7 @@ struct AttendanceEnrollmentSection: View {
                }
                .frame(maxWidth: screenWidth * 0.85)
                .padding(.top, screenHeight * 0.025)
-               .padding(.bottom, repeatSend == false ? screenHeight * 0.02 : 0 )
+               .padding(.bottom, repeatSend == false ? screenHeight * 0.015 : 0 )
                    
                    
                       
@@ -185,7 +195,7 @@ struct AttendanceEnrollmentSection: View {
                    .frame(width: screenWidth * 0.06)
                
                //screenHeight * -0.075
-                   .offset(y: repeatSend == false ? screenHeight * -0.055 : screenHeight * -0.075 )
+                   .offset(y: repeatSend == false ? screenHeight * -0.052 : screenHeight * -0.075 )
               
            }
          
