@@ -50,21 +50,10 @@ struct LoginPage1: View {
             
             
             
-
+              // logic section and check
             
-            if viewModel.isLoggedIn {
-                
-                Text(viewModel.responseMessage.isEmpty ? "Logged in successfully!" : "تم بنجاح تسجيل الدخول")
-                    .foregroundColor(.green)
-                    .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-                    .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
-                    .transition(.opacity) // Transition for fade effect
-                    .animation(.easeIn(duration: 0.5), value: viewModel.isLoggedIn) // Updated animation
-                
-                
-            } else if let loginError = viewModel.loginError {
-                
-                Text(loginError)  // Display the login error message directly
+            if !viewModel.isConnectedToInternet {
+                Text("الجهاز غير مرتبط بالإنترنت. يرجى التحقق من الاتصال.")
                     .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
                     .padding(.horizontal)
                     .lineLimit(1)
@@ -76,9 +65,36 @@ struct LoginPage1: View {
                         Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1)
                             .cornerRadius(5)
                     )
-                    .transition(.opacity) // Transition for fade effect
-                    .animation(.easeIn(duration: 0.5), value: viewModel.loginError) // Updated animation
+                    .transition(.opacity)
+                    .animation(.easeIn(duration: 0.5), value: viewModel.isConnectedToInternet)
+
+            } else if viewModel.isLoggedIn {
+                Text(viewModel.responseMessage.isEmpty ? "Logged in successfully!" : "تم بنجاح تسجيل الدخول")
+                    .foregroundColor(.green)
+                    .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
+                    .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
+                    .transition(.opacity)
+                    .animation(.easeIn(duration: 0.5), value: viewModel.isLoggedIn)
+
+            } else if let loginError = viewModel.loginError {
+                Text(loginError)
+                    .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
+                    .padding(.horizontal)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                    .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
+                    .foregroundColor(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
+                    .bold()
+                    .background(
+                        Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1)
+                            .cornerRadius(5)
+                    )
+                    .transition(.opacity)
+                    .animation(.easeIn(duration: 0.5), value: viewModel.loginError)
             }
+
+
+
 
 
             
