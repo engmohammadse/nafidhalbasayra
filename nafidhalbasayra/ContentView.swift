@@ -8,79 +8,112 @@
 import SwiftUI
 import CoreData
 
-struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
 
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
 
-    var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
-                    }
-                }
-                .onDelete(perform: deleteItems)
+
+class CoreDataViewModel: ObservableObject {
+    
+    let container: NSPersistentContainer
+    @Published var savedEntities: [TeacherInfo] = []
+    
+    init() {
+        container = NSPersistentContainer(name: "TeacherInfo")
+        container.loadPersistentStores { (description, error) in
+            
+            if let error = error {
+                print("ERROR LOADING CORE DATA. \(error)")
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-            Text("Select an item")
+            
+        }
+        fetchTeacherInfo()
+    }
+    
+    //
+    func fetchTeacherInfo() {
+        let request = NSFetchRequest<TeacherInfo>(entityName: "TeacherInfo")
+        
+        do {
+            savedEntities = try container.viewContext.fetch(request)
+        }
+        catch let error {
+            print("Error Fetching. \(error)")
+        }
+        
+    }
+    
+    //
+    func addTeacherInfo(text: String) {
+        let newTeacherInfo = TeacherInfo(context: container.viewContext)
+        newTeacherInfo.name = text
+        saveData()
+    }
+    
+    //
+    func saveData() {
+        do {
+             try  container.viewContext.save()
+             fetchTeacherInfo()
+            
+        } catch let error {
+            print("Error saving. \(error)")
         }
     }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
+    
+    
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
+
+
+
+struct ContentView: View {
+    //@Environment(\.managedObjectContext) private var viewContext
+    @StateObject var vm  = CoreDataViewModel()
+    @State var textFieldText: String = ""
+
+ 
+    var body: some View {
+        NavigationView {
+            
+            VStack{
+                TextField("Add name of teacher", text: $textFieldText)
+                    .font(.headline)
+                    .frame(height: 55)
+                    .background(.gray)
+                    .cornerRadius(5)
+                    .padding()
+                
+                
+                Button(action: {
+                    
+                    
+                    guard !textFieldText.isEmpty else {return}
+                    vm.addTeacherInfo(text: textFieldText)
+                    textFieldText = ""
+                    
+                }, label: {
+                    Text("Button")
+                })
+                
+                
+                List {
+                    ForEach(vm.savedEntities) { entity in
+                        
+                        Text(entity.name ?? "no name ")
+                    }
+                }
+                
+            }
+            .navigationTitle("teacher")
+           
+        }
+        
+    }
+
+
+}
+
 
 #Preview {
-    ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    ContentView()
+   
 }

@@ -9,44 +9,48 @@ import SwiftUI
 
 @main
 struct nafidhalbasayraApp: App {
-    let persistenceController = PersistenceController.shared
+  //  let persistenceController = PersistenceController.shared
+    
+    
     @State private var showSplash = true
 
     var body: some Scene {
         WindowGroup {
             
-            NavigationStack{
+            ContentView()
+            
+//            NavigationStack{
+//                
+//                if showSplash {
+//                    
+//                    LoginPage0()
+//                        .onAppear {
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//                                showSplash = false // Hide splash screen after 3 seconds
+//                                
+//                                
+//                                
+//                            }
+//                            
+//                        }
+//                    
+//                    
+//                } else{
+//                    
+//                    NavigationStack{
+//                        
+//                       
+//                            LoginPage1()
+//                        
+//                       // MainViewPage()
+//                       // sendAttendaceSection()
+//                        
+//                       
+//                    }
+//                }
                 
-                if showSplash {
-                    
-                    LoginPage0()
-                        .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                                showSplash = false // Hide splash screen after 3 seconds
-                                
-                                
-                                
-                            }
-                            
-                        }
-                    
-                    
-                } else{
-                    
-                    NavigationStack{
-                        
-                       
-                            LoginPage1()
-                        
-                       // MainViewPage()
-                       // sendAttendaceSection()
-                        
-                       
-                    }
-                }
                 
-                
-            }
+            //}
             
 //            ContentView()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)

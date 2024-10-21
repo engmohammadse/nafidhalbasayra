@@ -19,7 +19,6 @@
 		413E4B912CA1C78200B1EEC5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4B902CA1C78200B1EEC5 /* ContentView.swift */; };
 		413E4B932CA1C78400B1EEC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 413E4B922CA1C78400B1EEC5 /* Assets.xcassets */; };
 		413E4B962CA1C78400B1EEC5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 413E4B952CA1C78400B1EEC5 /* Preview Assets.xcassets */; };
-		413E4B982CA1C78400B1EEC5 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4B972CA1C78400B1EEC5 /* Persistence.swift */; };
 		413E4B9B2CA1C78400B1EEC5 /* nafidhalbasayra.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 413E4B992CA1C78400B1EEC5 /* nafidhalbasayra.xcdatamodeld */; };
 		413E4BA32CA1C83100B1EEC5 /* LoginPage0.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4BA22CA1C83100B1EEC5 /* LoginPage0.swift */; };
 		41414E2B2CB1B31A0070C380 /* testNavigationStackPop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41414E2A2CB1B31A0070C380 /* testNavigationStackPop.swift */; };
@@ -32,6 +31,7 @@
 		418E94BE2CB82D3100ACFEEA /* MainViewPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E94BD2CB82D3100ACFEEA /* MainViewPage.swift */; };
 		418E94C02CB8445700ACFEEA /* HadeethSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E94BF2CB8445700ACFEEA /* HadeethSection.swift */; };
 		41A552592CC5310A008D913D /* StudyPlanSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A552582CC5310A008D913D /* StudyPlanSection.swift */; };
+		41B8A8262CC67CB1002F614C /* TeacherInfo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 41B8A8242CC67CB1002F614C /* TeacherInfo.xcdatamodeld */; };
 		41BD62C82CA2E69400529765 /* LoginPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BD62C72CA2E69400529765 /* LoginPage1.swift */; };
 		41BD62D22CA3018800529765 /* BahijTheSansArabic-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62CE2CA2FF4100529765 /* BahijTheSansArabic-Bold.ttf */; };
 		41BD62D32CA3018A00529765 /* BahijTheSansArabic-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62CD2CA2FF4100529765 /* BahijTheSansArabic-ExtraBold.ttf */; };
@@ -68,7 +68,6 @@
 		413E4B902CA1C78200B1EEC5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		413E4B922CA1C78400B1EEC5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		413E4B952CA1C78400B1EEC5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		413E4B972CA1C78400B1EEC5 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		413E4B9A2CA1C78400B1EEC5 /* nafidhalbasayra.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = nafidhalbasayra.xcdatamodel; sourceTree = "<group>"; };
 		413E4BA22CA1C83100B1EEC5 /* LoginPage0.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPage0.swift; sourceTree = "<group>"; };
 		41414E2A2CB1B31A0070C380 /* testNavigationStackPop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testNavigationStackPop.swift; sourceTree = "<group>"; };
@@ -81,6 +80,7 @@
 		418E94BD2CB82D3100ACFEEA /* MainViewPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewPage.swift; sourceTree = "<group>"; };
 		418E94BF2CB8445700ACFEEA /* HadeethSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HadeethSection.swift; sourceTree = "<group>"; };
 		41A552582CC5310A008D913D /* StudyPlanSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSection.swift; sourceTree = "<group>"; };
+		41B8A8252CC67CB1002F614C /* TeacherInfo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TeacherInfo.xcdatamodel; sourceTree = "<group>"; };
 		41BD62C72CA2E69400529765 /* LoginPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPage1.swift; sourceTree = "<group>"; };
 		41BD62CC2CA2FF4100529765 /* BahijTheSansArabic-Plain.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BahijTheSansArabic-Plain.ttf"; sourceTree = "<group>"; };
 		41BD62CD2CA2FF4100529765 /* BahijTheSansArabic-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BahijTheSansArabic-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -150,6 +150,7 @@
 		413E4B8D2CA1C78200B1EEC5 /* nafidhalbasayra */ = {
 			isa = PBXGroup;
 			children = (
+				41B8A8232CC67B9C002F614C /* CoreData */,
 				41E9C6D02CC3C82E00FE122F /* ThemsAndColors */,
 				41074C862CBE8F6A00FA28AC /* ViewModels */,
 				41074C832CBE8ED700FA28AC /* Models */,
@@ -159,7 +160,6 @@
 				413E4BA12CA1C81300B1EEC5 /* View */,
 				413E4B902CA1C78200B1EEC5 /* ContentView.swift */,
 				413E4B922CA1C78400B1EEC5 /* Assets.xcassets */,
-				413E4B972CA1C78400B1EEC5 /* Persistence.swift */,
 				413E4B992CA1C78400B1EEC5 /* nafidhalbasayra.xcdatamodeld */,
 				413E4B942CA1C78400B1EEC5 /* Preview Content */,
 				416D8BE82CA4482500E2E6D8 /* const.swift */,
@@ -205,6 +205,14 @@
 				41E9C6D32CC3CC0600FE122F /* UserManual.swift */,
 			);
 			path = MainViewPage;
+			sourceTree = "<group>";
+		};
+		41B8A8232CC67B9C002F614C /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				41B8A8242CC67CB1002F614C /* TeacherInfo.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		41BD62C62CA2E4AF00529765 /* LoginFolder */ = {
@@ -346,7 +354,6 @@
 				41325AA72CA9B83D00664847 /* LoginPageWelcom.swift in Sources */,
 				418E94BB2CB80C5800ACFEEA /* registerPage5.swift in Sources */,
 				418E94BE2CB82D3100ACFEEA /* MainViewPage.swift in Sources */,
-				413E4B982CA1C78400B1EEC5 /* Persistence.swift in Sources */,
 				411CA47E2CBBF33A0094A94B /* socialMediaSection.swift in Sources */,
 				41E9C6D62CC41A0100FE122F /* AttendanceEnrollmentSection.swift in Sources */,
 				413E4B912CA1C78200B1EEC5 /* ContentView.swift in Sources */,
@@ -362,6 +369,7 @@
 				413E4B9B2CA1C78400B1EEC5 /* nafidhalbasayra.xcdatamodeld in Sources */,
 				41E9C6D42CC3CC0600FE122F /* UserManual.swift in Sources */,
 				416D8BE92CA4482500E2E6D8 /* const.swift in Sources */,
+				41B8A8262CC67CB1002F614C /* TeacherInfo.xcdatamodeld in Sources */,
 				41E9C6D22CC3C85000FE122F /* Colors.swift in Sources */,
 				41F9D0B92CAB03BB00BD7853 /* LogoIUserInfo.swift in Sources */,
 				412A81962CBFF50200188321 /* StudentDataSection.swift in Sources */,
@@ -585,6 +593,17 @@
 			);
 			currentVersion = 413E4B9A2CA1C78400B1EEC5 /* nafidhalbasayra.xcdatamodel */;
 			path = nafidhalbasayra.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		41B8A8242CC67CB1002F614C /* TeacherInfo.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				41B8A8252CC67CB1002F614C /* TeacherInfo.xcdatamodel */,
+			);
+			currentVersion = 41B8A8252CC67CB1002F614C /* TeacherInfo.xcdatamodel */;
+			name = TeacherInfo.xcdatamodeld;
+			path = /Users/ali/Documents/nafidhalbasayra/nafidhalbasayra/CoreData/TeacherInfo.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
