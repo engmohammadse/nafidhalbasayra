@@ -30,6 +30,7 @@
 		418E94BB2CB80C5800ACFEEA /* registerPage5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E94BA2CB80C5800ACFEEA /* registerPage5.swift */; };
 		418E94BE2CB82D3100ACFEEA /* MainViewPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E94BD2CB82D3100ACFEEA /* MainViewPage.swift */; };
 		418E94C02CB8445700ACFEEA /* HadeethSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E94BF2CB8445700ACFEEA /* HadeethSection.swift */; };
+		419ACE5B2CC816C4000D4433 /* TeacherDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419ACE5A2CC816C4000D4433 /* TeacherDataViewModel.swift */; };
 		41A552592CC5310A008D913D /* StudyPlanSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A552582CC5310A008D913D /* StudyPlanSection.swift */; };
 		41B8A8262CC67CB1002F614C /* TeacherInfo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 41B8A8242CC67CB1002F614C /* TeacherInfo.xcdatamodeld */; };
 		41BD62C82CA2E69400529765 /* LoginPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BD62C72CA2E69400529765 /* LoginPage1.swift */; };
@@ -79,6 +80,7 @@
 		418E94BA2CB80C5800ACFEEA /* registerPage5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage5.swift; sourceTree = "<group>"; };
 		418E94BD2CB82D3100ACFEEA /* MainViewPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewPage.swift; sourceTree = "<group>"; };
 		418E94BF2CB8445700ACFEEA /* HadeethSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HadeethSection.swift; sourceTree = "<group>"; };
+		419ACE5A2CC816C4000D4433 /* TeacherDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherDataViewModel.swift; sourceTree = "<group>"; };
 		41A552582CC5310A008D913D /* StudyPlanSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSection.swift; sourceTree = "<group>"; };
 		41B8A8252CC67CB1002F614C /* TeacherInfo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TeacherInfo.xcdatamodel; sourceTree = "<group>"; };
 		41BD62C72CA2E69400529765 /* LoginPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPage1.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				41074C872CBE8F8400FA28AC /* LoginViewModel.swift */,
+				419ACE5A2CC816C4000D4433 /* TeacherDataViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				41074C882CBE8F8400FA28AC /* LoginViewModel.swift in Sources */,
 				41325AA72CA9B83D00664847 /* LoginPageWelcom.swift in Sources */,
 				418E94BB2CB80C5800ACFEEA /* registerPage5.swift in Sources */,
+				419ACE5B2CC816C4000D4433 /* TeacherDataViewModel.swift in Sources */,
 				418E94BE2CB82D3100ACFEEA /* MainViewPage.swift in Sources */,
 				411CA47E2CBBF33A0094A94B /* socialMediaSection.swift in Sources */,
 				41E9C6D62CC41A0100FE122F /* AttendanceEnrollmentSection.swift in Sources */,

@@ -14,10 +14,11 @@ class LoginViewModel: ObservableObject {
     @Published var loginError: String?
     @Published var isLoggedIn = false
     @Published var responseMessage = ""
-    @Published var isConnectedToInternet = true // حالة الاتصال بالإنترنت
+    @Published var isConnectedToInternet = true
+    @Published var navigateToNextPage = false
 
     private var apiService = ApiService()
-    private var monitor: NWPathMonitor? // لمراقبة الاتصال بالإنترنت
+    private var monitor: NWPathMonitor?
 
     init() {
         startMonitoringInternetConnection()
@@ -27,7 +28,6 @@ class LoginViewModel: ObservableObject {
         monitor = NWPathMonitor()
         monitor?.pathUpdateHandler = { [weak self] path in
             DispatchQueue.main.async {
-                // تحديث حالة الاتصال بالإنترنت
                 self?.isConnectedToInternet = (path.status == .satisfied)
             }
         }
@@ -35,13 +35,12 @@ class LoginViewModel: ObservableObject {
         let queue = DispatchQueue(label: "InternetConnectionMonitor")
         monitor?.start(queue: queue)
     }
-    
+
     deinit {
-        monitor?.cancel() // إيقاف المراقبة عند تدمير الكائن
+        monitor?.cancel()
     }
 
     func login() {
-        // تحقق من الاتصال بالإنترنت قبل محاولة تسجيل الدخول
         guard isConnectedToInternet else {
             loginError = "الجهاز غير مرتبط بالإنترنت. يرجى التحقق من الاتصال."
             return
@@ -51,17 +50,20 @@ class LoginViewModel: ObservableObject {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
-                    // تحقق من نجاح تسجيل الدخول
                     if response.state == 0 {
                         self?.isLoggedIn = true
                         self?.responseMessage = "تم بنجاح تسجيل الدخول، ID: \(response.id)"
-                        self?.loginError = nil  // مسح أي أخطاء سابقة
+                        self?.loginError = nil
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                                             self?.navigateToNextPage = true // Delay navigation
+                                  }
+                        
                     } else {
                         self?.loginError = response.message
-                        self?.responseMessage = ""  // مسح رسالة الاستجابة عند الفشل
+                        self?.responseMessage = ""
                     }
                 case .failure(let error):
-                    // معالجة الأخطاء
                     self?.loginError = error.localizedDescription
                     self?.responseMessage = ""
                 }

@@ -11,6 +11,8 @@ struct LoginPage1: View {
     
     @StateObject private var viewModel = LoginViewModel()
     
+    //@State private var isGo: Bool = false
+    
     @State private var isButtonDisabled = true
 
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
@@ -21,7 +23,7 @@ struct LoginPage1: View {
     @FocusState private var isTextFieldFocused1: Bool
     @FocusState private var isTextFieldFocused2: Bool
     @State private var isPasswordVisible: Bool = false
-    @State private var isNavigate: Bool = false
+
 
     // Define screen dimensions
     let screenHeight = UIScreen.main.bounds.height
@@ -52,45 +54,47 @@ struct LoginPage1: View {
             
               // logic section and check
             
-            if !viewModel.isConnectedToInternet {
-                Text("الجهاز غير مرتبط بالإنترنت. يرجى التحقق من الاتصال.")
-                    .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
-                    .padding(.horizontal)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
-                    .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-                    .foregroundColor(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
-                    .bold()
-                    .background(
-                        Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1)
-                            .cornerRadius(5)
-                    )
-                    .transition(.opacity)
-                    .animation(.easeIn(duration: 0.5), value: viewModel.isConnectedToInternet)
+            VStack {
+                if !viewModel.isConnectedToInternet {
+                    Text("الجهاز غير مرتبط بالإنترنت. يرجى التحقق من الاتصال.")
+                        .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
+                        .padding(.horizontal)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
+                        .foregroundColor(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
+                        .bold()
+                        .background(
+                            Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1)
+                                .cornerRadius(5)
+                        )
+                        .transition(.opacity) // Ensure this is used
+                        .animation(.easeIn(duration: 0.5), value: viewModel.isConnectedToInternet)
 
-            } else if viewModel.isLoggedIn {
-                Text(viewModel.responseMessage.isEmpty ? "Logged in successfully!" : "تم بنجاح تسجيل الدخول")
-                    .foregroundColor(.green)
-                    .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-                    .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
-                    .transition(.opacity)
-                    .animation(.easeIn(duration: 0.5), value: viewModel.isLoggedIn)
+                } else if viewModel.isLoggedIn {
+                    Text(viewModel.responseMessage.isEmpty ? "Logged in successfully!" : "تم بنجاح تسجيل الدخول")
+                        .foregroundColor(.green)
+                        .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
+                        .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
+                        .transition(.opacity)
+                        .animation(.easeIn(duration: 0.5), value: viewModel.isLoggedIn)
 
-            } else if let loginError = viewModel.loginError {
-                Text(loginError)
-                    .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
-                    .padding(.horizontal)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
-                    .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-                    .foregroundColor(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
-                    .bold()
-                    .background(
-                        Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1)
-                            .cornerRadius(5)
-                    )
-                    .transition(.opacity)
-                    .animation(.easeIn(duration: 0.5), value: viewModel.loginError)
+                } else if let loginError = viewModel.loginError {
+                    Text(loginError)
+                        .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
+                        .padding(.horizontal)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
+                        .foregroundColor(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
+                        .bold()
+                        .background(
+                            Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1)
+                                .cornerRadius(5)
+                        )
+                        .transition(.opacity.combined(with: .scale))
+                        .animation(.easeIn(duration: 0.5), value: viewModel.loginError)
+                }
             }
 
 
@@ -198,15 +202,17 @@ struct LoginPage1: View {
             
             
             Button(action: {
-                isPressed.toggle()
-                withAnimation(.easeInOut(duration: 0.5)) {
-                    showError.toggle()
-                }
+//                isPressed.toggle()
+//                withAnimation(.easeInOut(duration: 0.5)) {
+//                    showError.toggle()
+//                }
                 
                 viewModel.login()
                 
-                // Navigate to the next screen upon successful login
-                //isNavigate = true
+                // تحقق من تسجيل الدخول بعد محاولة تسجيل الدخول
+//                   if viewModel.isLoggedIn {
+//                       isGo = true
+//                   }
             }) {
                 Text("تسجيل الدخول")
                     .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
@@ -219,7 +225,7 @@ struct LoginPage1: View {
             .disabled( isButtonDisabled )
             .opacity(isButtonDisabled ? 0.5 : 1.0)
             
-            .navigationDestination(isPresented: $isNavigate) {
+            .navigationDestination(isPresented: $viewModel.navigateToNextPage) {
                 LoginPageWelcom() // Assuming this is your destination view
             }
 
@@ -235,6 +241,7 @@ struct LoginPage1: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
         .ignoresSafeArea(.keyboard, edges: .bottom)
+        .navigationBarBackButtonHidden(true)
     }
 }
 
