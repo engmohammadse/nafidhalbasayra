@@ -55,7 +55,7 @@ class LoginViewModel: ObservableObject {
                         self?.responseMessage = "تم بنجاح تسجيل الدخول، ID: \(response.id)"
                         self?.loginError = nil
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                              self?.navigateToNextPage = true // Delay navigation
                                   }
                         

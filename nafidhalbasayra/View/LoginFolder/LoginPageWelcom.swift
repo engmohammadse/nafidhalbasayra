@@ -79,7 +79,7 @@ struct LoginPageWelcom: View {
                            
                             
                             Spacer()
-                        .frame(height: geoW * 0.05)
+                        .frame(height: geoH * 0.1)
                             
                             // Navigation buttons
                    
@@ -111,6 +111,7 @@ struct LoginPageWelcom: View {
                     }
                    
         }.navigationBarBackButtonHidden(true)
+            .ignoresSafeArea(edges: .bottom)
     }
 }
 

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 class TeacherDataViewModel: ObservableObject {
     
@@ -17,13 +18,29 @@ class TeacherDataViewModel: ObservableObject {
     // معلومات الموقع
     @Published var province: String = ""
     @Published var city: String = ""
-    @Published var citynumber: Int = 0
+    @Published var citynumber: String = ""
     
     // معلومات التعليم
     @Published var didyoutaught: Bool = false
     @Published var mosquname: String = ""
     @Published var academiclevel: String = ""
     @Published var currentWork: String = ""
+    
+    
+    
+    // دالة لطباعة البيانات
+        func printData() {
+            print("Name: \(name)")
+            print("Birth Date: \(birthDay)")
+            print("Phone Number: \(phonenumber)")
+            print("Province: \(province)")
+            print("City: \(city)")
+            print("City Number: \(citynumber)")
+            print("Did you taught: \(didyoutaught)")
+            print("Mosque Name: \(mosquname)")
+            print("Academic Level: \(academiclevel)")
+            print("Current Work: \(currentWork)")
+        }
 }
 
 

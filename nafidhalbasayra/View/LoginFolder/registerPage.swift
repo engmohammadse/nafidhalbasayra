@@ -13,16 +13,16 @@ struct registerPage: View {
     @StateObject var teacherData = TeacherDataViewModel()
     @Environment(\.dismiss) var dismiss
     
-    @State private var name: String = ""
-    @State private var phoneNumber: String = ""
+   // @State private var name: String = ""
+   // @State private var phoneNumber: String = ""
     @State private var isNavigate: Bool = false
-    @State private var birthDay: Date = Date()
+    //@State private var birthDay: Date = Date()
     @State private var isPickerVisible: Bool = false
     @State private var keyboardHeight: CGFloat = 0
     @FocusState private var activeField: Field?
-    @State private var academicLevel: String = ""
-    @State private var currentWork: String = ""
-    @State private var cityNumber: String = ""
+    //@State private var academicLevel: String = ""
+    //@State private var currentWork: String = ""
+   // @State private var cityNumber: Int = 0
 
     enum Field {
         case academicLevel, currentWork, cityNumber
@@ -34,7 +34,7 @@ struct registerPage: View {
             
             
             ScrollView {
-                registerPageTextField()
+                registerPageTextField(teacherData: teacherData) // Pass the view model here
             }
             
             
@@ -48,39 +48,22 @@ struct registerPage: View {
             }
             .ignoresSafeArea(edges: .bottom)
             
+           
             
             
             
-            
-            .sheet(isPresented: $isPickerVisible) {
-                VStack {
-                    HStack {
-                        Spacer()
-                        Button("Done") {
-                            isPickerVisible = false
-                        }
-                        .padding(.trailing)
-                    }
-                    .padding(.top)
-                    
-                    DatePicker("Select Date", selection: $birthDay, displayedComponents: .date)
-                        .datePickerStyle(GraphicalDatePickerStyle()) // Use Graphical style or another preferred one
-                        .labelsHidden() // Hides the "Select Date" label to make it cleaner
-                        .padding()
-                    
-                    Spacer() // Adds space to make the layout look more balanced
-                }
-            }
-
-            
+       
           
            
             
         }.navigationBarBackButtonHidden(true)
+            .onTapGesture {
+                self.hideKeyboard()
+            }
             .overlay{
                 
                 
-                PreviousNextButton( geoW: screenWidth, geoH: screenHeight, destination: registerPage1(), color: Color.white, imageName: "Group 9")
+                PreviousNextButton( geoW: screenWidth, geoH: screenHeight, destination: registerPage1(teacherData: teacherData), color: Color.white, imageName: "Group 9")
              
                     .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
                 
@@ -139,20 +122,20 @@ struct registerPage: View {
 struct registerPageTextField: View {
     
     
-    @StateObject var teacherData = TeacherDataViewModel()
+    @ObservedObject var teacherData: TeacherDataViewModel // Use ObservedObject here
 
     
-    @State private var name: String = ""
- 
-    @State private var phoneNumber: String = ""
-    @State private var isNavigate: Bool = false
-    @State private var birthDay: Date = Date()
+//    @State private var name: String = ""
+// 
+//    @State private var phoneNumber: String = ""
+//    @State private var isNavigate: Bool = false
+//    @State private var birthDay: Date = Date()
     @State private var isPickerVisible: Bool = false
     @State private var keyboardHeight: CGFloat = 0
     @FocusState private var activeField: Field?
-    @State private var academicLevel: String = ""
-    @State private var currentWork: String = ""
-    @State private var cityNumber: String = ""
+//    @State private var academicLevel: String = ""
+//    @State private var currentWork: String = ""
+//    @State private var cityNumber: String = ""
 
     enum Field {
         case academicLevel, currentWork, cityNumber
@@ -170,6 +153,10 @@ struct registerPageTextField: View {
             
             Spacer().frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.025 : screenHeight * 0.10)
             
+            Button("Print Data") {
+              teacherData.printData() // استدعاء دالة الطباعة
+                }
+            
             // Field: Name
             Text("الأسم الرباعي واللقب")
                 .alignmentGuide(.leading) { d in d[.trailing] }
@@ -177,15 +164,16 @@ struct registerPageTextField: View {
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.035 : screenWidth * 0.02))
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
             
-            TextField("", text: $name)
+            TextField("", text: $teacherData.name)
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
                 .multilineTextAlignment(.trailing)
                 .padding(.horizontal)
                 .background(Color.white)
                 .cornerRadius(5)
-                .onChange(of: name) { newValue in
+                .onChange(of: teacherData.name) { newValue in
                     teacherData.name = newValue //update name temp save
+                    print("Updated name: \(newValue)")
                 }
             
             Spacer().frame(maxHeight: screenHeight * 0.01)
@@ -198,7 +186,7 @@ struct registerPageTextField: View {
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
             
             TextField("Select your birthday", text: Binding(
-                get: { formattedDate(birthDay) },
+                get: { formattedDate(teacherData.birthDay) },
                 set: { _ in }
             ))
            
@@ -212,8 +200,10 @@ struct registerPageTextField: View {
             .onTapGesture(perform: {isPickerVisible.toggle()})
             .onChange(of: teacherData.birthDay) { newValue in
                             // This will update the birthDay property in TeacherDataViewModel
-                            print("New birth date is: \(newValue)")
+                        teacherData.birthDay = newValue
+                            //print("New birth date is: \(newValue)")
                         }
+           
 
             .overlay{
                 Button(action: {
@@ -237,15 +227,17 @@ struct registerPageTextField: View {
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.035 : screenWidth * 0.02))
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
             
-            TextField("", text: $phoneNumber)
+            TextField("", text: $teacherData.phonenumber)
                 .keyboardType(.numberPad)
-                .onChange(of: phoneNumber) { newValue in
+                .onChange(of: teacherData.phonenumber) { newValue in
                     let filtered = newValue.filter { $0.isNumber}
-                    if filtered.count > 2 {
-                        phoneNumber = String(filtered.prefix(11))
+                    if filtered.count > 10 {
+                        teacherData.phonenumber = String(filtered.prefix(11))
                     } else {
-                        phoneNumber = filtered
+                        teacherData.phonenumber = filtered
+                       
                     }
+                    teacherData.phonenumber = filtered
                 }
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
@@ -263,7 +255,7 @@ struct registerPageTextField: View {
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
             
-            TextField("", text: $academicLevel)
+            TextField("", text: $teacherData.academiclevel)
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
                 .multilineTextAlignment(.trailing)
@@ -271,6 +263,9 @@ struct registerPageTextField: View {
                 .background(Color.white)
                 .cornerRadius(5)
                 .focused($activeField, equals: .academicLevel)
+                .onChange(of: teacherData.academiclevel) { newValue in
+                    teacherData.academiclevel = newValue
+                }
             
             Spacer().frame(maxHeight: screenHeight * 0.01)
             
@@ -281,7 +276,7 @@ struct registerPageTextField: View {
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
             
-            TextField("", text: $currentWork)
+            TextField("", text: $teacherData.currentWork)
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
                 .multilineTextAlignment(.trailing)
@@ -289,6 +284,9 @@ struct registerPageTextField: View {
                 .background(Color.white)
                 .cornerRadius(5)
                 .focused($activeField, equals: .currentWork)
+                .onChange(of: teacherData.currentWork) { newValue in
+                    teacherData.currentWork = newValue
+                }
             
             Spacer().frame(maxHeight: screenHeight * 0.01)
             
@@ -299,15 +297,17 @@ struct registerPageTextField: View {
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
             
-            TextField("", text: $cityNumber)
+            TextField("", text: $teacherData.citynumber)
                 .keyboardType(.numberPad)
-                .onChange(of: cityNumber) { newValue in
+                .onChange(of: teacherData.citynumber) { newValue in
                     let filtered = newValue.filter { $0.isNumber}
                     if filtered.count > 2 {
-                        cityNumber = String(filtered.prefix(2))
+                        teacherData.citynumber = String(filtered.prefix(2))
                     } else {
-                        cityNumber = filtered
+                        teacherData.citynumber = filtered
                     }
+                    
+                    teacherData.citynumber = filtered
                 }
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
@@ -327,6 +327,27 @@ struct registerPageTextField: View {
         .onDisappear {
             self.removeKeyboardObservers()
         }
+        
+        .sheet(isPresented: $isPickerVisible) {
+            VStack {
+                HStack {
+                    Spacer()
+                    Button("Done") {
+                        isPickerVisible = false
+                    }
+                    .padding(.trailing)
+                }
+                .padding(.top)
+                
+                DatePicker("Select Date", selection: $teacherData.birthDay, displayedComponents: .date)
+                    .datePickerStyle(GraphicalDatePickerStyle()) // Use Graphical style or another preferred one
+                    .labelsHidden() // Hides the "Select Date" label to make it cleaner
+                    .padding()
+                
+                Spacer() // Adds space to make the layout look more balanced
+            }
+        }
+
     }
     
     

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct registerPage1: View {
-    @StateObject var teacherData = TeacherDataViewModel()
+    @ObservedObject var teacherData: TeacherDataViewModel // استخدم @ObservedObject لمراقبة البيانات
     @Environment(\.dismiss) var dismiss
     
     @State var city: String = "النجف الأشرف"
@@ -25,6 +25,15 @@ struct registerPage1: View {
         VStack {
             ScrollView {
                 detailsRegisterPage1(city: $city, province: $province, mosque: $mosque, isLectured: $isLectured)
+                
+              
+                
+                Button("Print Data") {
+                  teacherData.printData() // استدعاء دالة الطباعة
+                    }
+
+                     
+                   
             }
             .padding(UIScreen.main.bounds.width < 400 ? 16 : 0)
             .padding()
@@ -38,20 +47,22 @@ struct registerPage1: View {
 
             .navigationBarBackButtonHidden(true)
            
-
+         
         }
+        
         .overlay {
             PreviousNextButton(geoW: screenWidth, geoH: screenHeight,  destination: registerPage2(),  color: Color.white, imageName: "Group 9")
-                .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.4)
+                .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
 
         }
     }
 }
 
 
-#Preview {
-    registerPage1()
-}
+//#Preview {
+//    registerPage1(teacherData: teacherData)
+//
+//}
 
 
 
