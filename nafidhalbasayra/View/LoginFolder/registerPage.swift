@@ -230,14 +230,12 @@ struct registerPageTextField: View {
             TextField("", text: $teacherData.phonenumber)
                 .keyboardType(.numberPad)
                 .onChange(of: teacherData.phonenumber) { newValue in
-                    let filtered = newValue.filter { $0.isNumber}
-                    if filtered.count > 10 {
+                    let filtered = newValue.filter { $0.isNumber }
+                    if filtered.count > 11 {
                         teacherData.phonenumber = String(filtered.prefix(11))
                     } else {
                         teacherData.phonenumber = filtered
-                       
                     }
-                    teacherData.phonenumber = filtered
                 }
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
@@ -300,15 +298,15 @@ struct registerPageTextField: View {
             TextField("", text: $teacherData.citynumber)
                 .keyboardType(.numberPad)
                 .onChange(of: teacherData.citynumber) { newValue in
-                    let filtered = newValue.filter { $0.isNumber}
-                    if filtered.count > 2 {
-                        teacherData.citynumber = String(filtered.prefix(2))
-                    } else {
-                        teacherData.citynumber = filtered
-                    }
-                    
-                    teacherData.citynumber = filtered
-                }
+                      // تصفية المدخلات للسماح فقط بالأرقام
+                      let filtered = newValue.filter { $0.isNumber }
+                      // تقيد العدد إلى 2 رقم
+                      if filtered.count > 2 {
+                          teacherData.citynumber = String(filtered.prefix(2))
+                      } else {
+                          teacherData.citynumber = filtered
+                      }
+                  }
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
                 .multilineTextAlignment(.trailing)
