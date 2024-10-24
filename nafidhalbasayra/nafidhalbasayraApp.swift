@@ -36,17 +36,9 @@ struct nafidhalbasayraApp: App {
                     
                     
                 } else{
-                    
-                    NavigationStack{
-                        
-                       
+               
                             LoginPage1()
-                        
-                       // MainViewPage()
-                       // sendAttendaceSection()
-                        
-                       
-                    }
+                  
                 }
                 
                 

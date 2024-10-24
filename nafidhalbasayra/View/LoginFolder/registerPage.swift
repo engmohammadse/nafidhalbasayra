@@ -11,10 +11,9 @@ import SwiftUI
 struct registerPage: View {
     
     @StateObject var teacherData = TeacherDataViewModel()
-
+    @Environment(\.dismiss) var dismiss
     
     @State private var name: String = ""
- 
     @State private var phoneNumber: String = ""
     @State private var isNavigate: Bool = false
     @State private var birthDay: Date = Date()
@@ -35,10 +34,9 @@ struct registerPage: View {
             
             
             ScrollView {
-               
                 registerPageTextField()
-                
             }
+            
             
             .padding(UIScreen.main.bounds.width < 400 ? 16 : 0)
             .padding()
@@ -82,7 +80,7 @@ struct registerPage: View {
             .overlay{
                 
                 
-                PreviousNextButton(previousAction: {}, nextAction: {}, geoW: screenWidth, geoH: screenHeight, isNextNavigating: true, isPreviosNavigating: true, destination: AnyView(registerPage1()), destinationBack: AnyView(LoginPageWelcom()) , color: Color.white, imageName: "Group 9")
+                PreviousNextButton( geoW: screenWidth, geoH: screenHeight, destination: registerPage1(), color: Color.white, imageName: "Group 9")
              
                     .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
                 

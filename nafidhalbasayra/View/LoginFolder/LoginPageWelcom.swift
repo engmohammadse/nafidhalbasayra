@@ -14,6 +14,8 @@ import SwiftUI
 struct LoginPageWelcom: View {
     
     @State  private var isNavigate: Bool = false
+    @StateObject var teacherData = TeacherDataViewModel()
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         
@@ -93,7 +95,7 @@ struct LoginPageWelcom: View {
                 
                 
                 
-                PreviousNextButton(previousAction: {}, nextAction: {}, geoW: geoW, geoH: geoH, isNextNavigating: true, isPreviosNavigating: true, destination: AnyView(registerPage()), destinationBack: AnyView(LoginPage1()), color: Color(UIColor(red: 90 / 255, green: 97 / 255, blue: 103 / 255, alpha: 1.0)), imageName: "Group 9_5")
+                PreviousNextButton( geoW: geoW, geoH: geoH, destination: registerPage(),  color: Color(UIColor(red: 90 / 255, green: 97 / 255, blue: 103 / 255, alpha: 1.0)), imageName: "Group 9_5")
                 
                     .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.4)
 

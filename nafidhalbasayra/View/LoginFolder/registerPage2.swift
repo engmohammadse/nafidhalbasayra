@@ -9,8 +9,8 @@ import SwiftUI
 
 struct registerPage2: View {
     @State private var isPressed = false
-    
-    
+    @Environment(\.dismiss) var dismiss
+    @StateObject var teacherData = TeacherDataViewModel()
     
     var body: some View {
         
@@ -223,7 +223,7 @@ struct registerPage2: View {
         }
         .navigationBarBackButtonHidden(true)
         .overlay {
-            PreviousNextButton(previousAction: {}, nextAction: {}, geoW: screenWidth, geoH: screenHeight, isNextNavigating: true, isPreviosNavigating: true, destination: AnyView(registerPage2()), destinationBack: AnyView(LoginPageWelcom()), color: Color.white, imageName: "Group 9")
+            PreviousNextButton( geoW: screenWidth, geoH: screenHeight,  destination: registerPage3(), color: Color.white, imageName: "Group 9")
                 .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
 
         }

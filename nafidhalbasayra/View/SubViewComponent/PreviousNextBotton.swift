@@ -9,15 +9,18 @@
 
 import SwiftUI
 
-struct PreviousNextButton: View {
-    var previousAction: () -> Void
-    var nextAction: () -> Void
+struct PreviousNextButton<Destination: View>: View {
+    
+    @Environment(\.dismiss) var dismiss
+    
+//    var previousAction: () -> Void
+//    var nextAction: () -> Void
     var geoW: CGFloat
     var geoH: CGFloat
-    var isNextNavigating: Bool
-    var isPreviosNavigating: Bool
-    var destination: AnyView
-    var destinationBack: AnyView
+//    var isNextNavigating: Bool
+//    var isPreviosNavigating: Bool
+    var destination: Destination
+//    var destinationBack: AnyView?
     var color : Color
     var imageName: String
     
@@ -42,11 +45,14 @@ struct PreviousNextButton: View {
             // Previous button
             
             //
+            
+            
+            // back
+    
+            
             Button(action: {
-                previousAction()
-                if isPreviosNavigating {
-                    isNavigatePrevious = true
-                }
+                dismiss()
+              
                 
             }) {
                 Text("السابق")
@@ -57,9 +63,9 @@ struct PreviousNextButton: View {
             .padding(.horizontal, geoW * 0.001)
             .foregroundColor(.white)
             .cornerRadius(10)
-            .navigationDestination(isPresented: $isNavigatePrevious) {
-                destinationBack
-            }
+//            .navigationDestination(isPresented: $isNavigatePrevious) {
+//                destinationBack
+//            }
             
             // Divider line
             Image("Line 1")
@@ -69,21 +75,34 @@ struct PreviousNextButton: View {
                 .padding(.vertical, geoH * 0.008)
             
             // Next button
-            Button(action: {
-                nextAction()
-                if isNextNavigating {
-                    isNavigateNext = true
-                }
-            }) {
+            
+            
+            NavigationLink(destination: destination ) {
                 Text("التالي")
                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.03 : geoW * 0.03))
             }
             .padding(.horizontal, geoW * 0.001)
-            .foregroundColor(.white)
-            .cornerRadius(10)
-            .navigationDestination(isPresented: $isNavigateNext) {
-                destination
-            }
+                .foregroundColor(.white)
+                .cornerRadius(10)
+            
+            
+            
+            
+//            Button(action: {
+//                nextAction()
+//                if isNextNavigating {
+//                    isNavigateNext = true
+//                }
+//            }) {
+//                Text("التالي")
+//                    .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.03 : geoW * 0.03))
+//            }
+//            .padding(.horizontal, geoW * 0.001)
+//            .foregroundColor(.white)
+//            .cornerRadius(10)
+//            .navigationDestination(isPresented: $isNavigateNext) {
+//                destination
+//            }
             
             // Next button icon
             Image("Group 16")
@@ -102,17 +121,12 @@ struct PreviousNextButton: View {
 
 #Preview {
     PreviousNextButton(
-        previousAction: {
-            print("Previous tapped")
-        },
-        nextAction: {
-            print("Next tapped")
-        },
+   
         geoW: 300, // Example width
         geoH: 600, // Example height
-        isNextNavigating: true,
-        isPreviosNavigating: true,
-        destination: AnyView(Text("Next Page")), destinationBack: AnyView(Text("Previous Page")),
+//        isNextNavigating: true,
+//        isPreviosNavigating: true,
+        destination: registerPage(),
         color: Color.gray,
         imageName: "Group 9_5"
     )
