@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct registerPage1: View {
-    @ObservedObject var teacherData: TeacherDataViewModel // استخدم @ObservedObject لمراقبة البيانات
+    @ObservedObject var teacherData: TeacherDataViewModel
+    
     @Environment(\.dismiss) var dismiss
     
     @State var city: String = "النجف الأشرف"
@@ -24,7 +25,7 @@ struct registerPage1: View {
     var body: some View {
         VStack {
             ScrollView {
-                detailsRegisterPage1(city: $city, province: $province, mosque: $mosque, isLectured: $isLectured)
+                detailsRegisterPage1(teacherData: teacherData)
                 
               
                 
@@ -39,6 +40,9 @@ struct registerPage1: View {
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
+            .onDisappear {
+                self.removeKeyboardObservers()
+            }
             .overlay {
                 LogoIUserInfo()
                     .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)
@@ -50,19 +54,25 @@ struct registerPage1: View {
          
         }
         
+        
         .overlay {
             PreviousNextButton(geoW: screenWidth, geoH: screenHeight,  destination: registerPage2(),  color: Color.white, imageName: "Group 9")
                 .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
 
         }
     }
+    // Remove keyboard observers
+    private func removeKeyboardObservers() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
 }
 
 
-//#Preview {
-//    registerPage1(teacherData: teacherData)
-//
-//}
+#Preview {
+    registerPage1(teacherData: TeacherDataViewModel())
+
+}
 
 
 
@@ -79,17 +89,17 @@ struct registerPage1: View {
 
 
 struct detailsRegisterPage1: View {
-    
+    @ObservedObject var teacherData: TeacherDataViewModel
   
     @Environment(\.dismiss) var dismiss
     
-    @Binding var city: String  // استخدام @Binding لتمرير القيم
-      @Binding var province: String
-      @Binding var mosque: String
-      @Binding var isLectured: String
+//    @Binding var city: String  // استخدام @Binding لتمرير القيم
+//      @Binding var province: String
+//      @Binding var mosque: String
+//      @Binding var isLectured: String
     
-    @State private var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]
-    @State private var itemsLectured = ["لا","نعم"]
+//    @State private var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]
+//    @State private var itemsLectured = ["لا","نعم"]
     @State private var selectedItem: String = ""
     @State private var showDropdown = false
     @State private var showDropdownLectured = false
@@ -105,13 +115,17 @@ struct detailsRegisterPage1: View {
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.035 : screenWidth * 0.02))
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
 
-            TextField("", text: $city)
+            TextField("", text: $teacherData.city)
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
                 .multilineTextAlignment(.trailing)
                 .padding(.horizontal)
                 .background(Color.white)
                 .cornerRadius(5)
+                .onChange(of: teacherData.city) { newValue in
+                    teacherData.citynumber = newValue
+                }
+              
 
             Spacer().frame(maxHeight: screenHeight * 0.01)
 
@@ -122,7 +136,7 @@ struct detailsRegisterPage1: View {
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.035 : screenWidth * 0.02))
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
 
-            TextField(province, text: $province)
+            TextField("اختر", text: $teacherData.province)
                 .onTapGesture {
                     // Toggle dropdown when tapping on the TextField
                     showDropdown.toggle()
@@ -142,7 +156,8 @@ struct detailsRegisterPage1: View {
                 }
 // Dropdown List
               if showDropdown {
-                  List(itemsProvince, id: \.self) { item in
+                  //itemsProvince
+                  List(teacherData.itemsProvince, id: \.self) { item in
                       //Text(item)
                       
                       
@@ -155,7 +170,7 @@ struct detailsRegisterPage1: View {
                        
                           .padding(6) // Add padding for better touch area
                           .onTapGesture {
-                              province = item
+                              teacherData.province = item
                               showDropdown = false
                           }
                   }
@@ -173,7 +188,7 @@ struct detailsRegisterPage1: View {
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
 
-            TextField("", text: $mosque)
+            TextField("", text: $teacherData.mosquname)
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
                 .multilineTextAlignment(.trailing)
@@ -193,13 +208,14 @@ struct detailsRegisterPage1: View {
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
 
-                TextField("", text: $isLectured)
+                TextField("اختر", text: $teacherData.selectedLecturedOption)
                     .frame(maxWidth: screenHeight * 0.4)
                     .frame(height: screenHeight * 0.05)
                     .multilineTextAlignment(.trailing)
                     .padding(.horizontal)
                     .background(Color.white)
                     .cornerRadius(5)
+                    .disabled(true) // Disables keyboard input
                     .onTapGesture {
                         showDropdownLectured.toggle()
                     }
@@ -212,7 +228,7 @@ struct detailsRegisterPage1: View {
                     }
 
                 if showDropdownLectured {
-                    List(itemsLectured, id: \.self) { item in
+                    List(teacherData.itemsLectured, id: \.self) { item in
 //                                Text(item)
                         
                     HStack {
@@ -223,7 +239,7 @@ struct detailsRegisterPage1: View {
                           }
                             .padding(6)
                             .onTapGesture {
-                                isLectured = item
+                                teacherData.selectedLecturedOption = item
                                 showDropdownLectured = false
                             }
                     }
@@ -239,5 +255,9 @@ struct detailsRegisterPage1: View {
             
         }
         .padding(.horizontal, UIScreen.main.bounds.width < 500 ? 16 : 0)
+        
+        
     }
+    
+ 
 }
