@@ -38,3 +38,14 @@ func dynamicFontSize2() -> CGFloat {
     }
 
 
+
+import SwiftUI
+
+// Extension to create a custom modifier for hiding the keyboard
+extension View {
+    func hideKeyboard() -> some View {
+        self.onTapGesture {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
+    }
+}

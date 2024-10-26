@@ -48,18 +48,9 @@ struct registerPage: View {
             }
             .ignoresSafeArea(edges: .bottom)
             
-           
-            
-            
-            
-       
-          
-           
-            
-        }.navigationBarBackButtonHidden(true)
-            .onTapGesture {
-                self.hideKeyboard()
-            }
+        }
+        .navigationBarBackButtonHidden(true)
+            .hideKeyboard()
             .overlay{
                 
                 
@@ -105,11 +96,7 @@ struct registerPage: View {
         }
     }
     
-    // Remove keyboard observers
-    private func removeKeyboardObservers() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
+
 }
 
 #Preview {

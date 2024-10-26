@@ -40,9 +40,8 @@ struct registerPage1: View {
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
-            .onDisappear {
-                self.removeKeyboardObservers()
-            }
+          
+            
             .overlay {
                 LogoIUserInfo()
                     .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)
@@ -52,8 +51,8 @@ struct registerPage1: View {
             .navigationBarBackButtonHidden(true)
            
          
-        }
-        
+        } .hideKeyboard()
+       
         
         .overlay {
             PreviousNextButton(geoW: screenWidth, geoH: screenHeight,  destination: registerPage2(),  color: Color.white, imageName: "Group 9")
@@ -63,9 +62,9 @@ struct registerPage1: View {
     }
     // Remove keyboard observers
     private func removeKeyboardObservers() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
+         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+     }
 }
 
 
@@ -125,6 +124,7 @@ struct detailsRegisterPage1: View {
                 .onChange(of: teacherData.city) { newValue in
                     teacherData.citynumber = newValue
                 }
+                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
               
 
             Spacer().frame(maxHeight: screenHeight * 0.01)
@@ -137,16 +137,19 @@ struct detailsRegisterPage1: View {
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
 
             TextField("اختر", text: $teacherData.province)
-                .onTapGesture {
-                    // Toggle dropdown when tapping on the TextField
-                    showDropdown.toggle()
-                }
+               
+                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
                 .multilineTextAlignment(.trailing)
                 .padding(.horizontal)
                 .background(Color.white)
                 .cornerRadius(5)
+                .disabled(true) // Disables keyboard input
+                .onTapGesture {
+                    // Toggle dropdown when tapping on the TextField
+                    showDropdown.toggle()
+                }
                 .overlay {
                     Image(showDropdown ? "Vector1" : "Vector")
                         .resizable()
@@ -156,27 +159,38 @@ struct detailsRegisterPage1: View {
                 }
 // Dropdown List
               if showDropdown {
-                  //itemsProvince
-                  List(teacherData.itemsProvince, id: \.self) { item in
-                      //Text(item)
-                      
-                      
-              HStack {
-                        Spacer()
-                        Text(item)
-                            .multilineTextAlignment(.trailing)
-                            .padding(6)
-                    }
-                       
-                          .padding(6) // Add padding for better touch area
-                          .onTapGesture {
-                              teacherData.province = item
-                              showDropdown = false
+            
+                  ScrollView {
+                      VStack(spacing: 8) { // Adjust spacing as needed
+                          ForEach(teacherData.itemsProvince, id: \.self) { item in
+                              HStack {
+                                  //Spacer() // Pushes the text to the trailing edge for RTL layout
+
+                                  Text(item)
+                                      .multilineTextAlignment(.trailing)
+                                      .padding(8) // Add padding around text
+                                   
+                                      .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023))
+                                      .frame(maxWidth: .infinity)
+                                  .foregroundColor(primaryColor) // Add a background color for each row
+                                  .background(buttonAccentColor)
+                                      .cornerRadius(5) // Optional: make rounded corners
+                                      .onTapGesture {
+                                          teacherData.province = item
+                                          showDropdown = false
+                                         
+                                      }
+                              }
+                              .padding(.horizontal) // Horizontal padding for each row
                           }
+                      }
+                      .padding(.vertical) // Vertical padding for the entire list
                   }
-                  .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6, alignment: .center) // Center alignment
-                  .frame(height: 200) // Set a height for the dropdown list
-                  .listStyle(PlainListStyle()) // Optional: Use plain list style for dropdown
+                  .frame(width: screenWidth * 0.84)
+                  .background(.white)
+                  .cornerRadius(5)
+                  
+                  
               }
 
             Spacer().frame(maxHeight: screenHeight * 0.01)
@@ -195,6 +209,7 @@ struct detailsRegisterPage1: View {
                 .padding(.horizontal)
                 .background(Color.white)
                 .cornerRadius(5)
+                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
 
             Spacer().frame(maxHeight: screenHeight * 0.01)
 
@@ -216,6 +231,7 @@ struct detailsRegisterPage1: View {
                     .background(Color.white)
                     .cornerRadius(5)
                     .disabled(true) // Disables keyboard input
+                    .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                     .onTapGesture {
                         showDropdownLectured.toggle()
                     }
@@ -228,25 +244,40 @@ struct detailsRegisterPage1: View {
                     }
 
                 if showDropdownLectured {
-                    List(teacherData.itemsLectured, id: \.self) { item in
-//                                Text(item)
-                        
-                    HStack {
-                              Spacer()
-                              Text(item)
-                                  .multilineTextAlignment(.trailing)
-                                  .padding(6)
-                          }
-                            .padding(6)
-                            .onTapGesture {
-                                teacherData.selectedLecturedOption = item
-                                showDropdownLectured = false
+                    ScrollView {
+                        VStack(spacing: 8) { // Adjust spacing as needed
+                            ForEach(teacherData.itemsLectured, id: \.self) { item in
+                                HStack {
+                                    //Spacer() // Pushes the text to the trailing edge for RTL layout
+
+                                    Text(item)
+                                        .multilineTextAlignment(.trailing)
+                                        .padding(8) // Add padding around text
+                                     
+                                        .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023))
+                                        .frame(maxWidth: .infinity)
+                                    .foregroundColor(primaryColor) // Add a background color for each row
+                                    .background(buttonAccentColor)
+                                        .cornerRadius(5) // Optional: make rounded corners
+                                        .onTapGesture {
+                                            teacherData.selectedLecturedOption = item
+                                            showDropdownLectured = false
+                                            if item == "لا" {
+                                                teacherData.didyoutaught = false
+                                            } else if item == "نعم" {
+                                                teacherData.didyoutaught = true
+                                            }
+                                        }
+                                }
+                                .padding(.horizontal) // Horizontal padding for each row
                             }
+                        }
+                        .padding(.vertical) // Vertical padding for the entire list
                     }
-                    .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6, alignment: .center)
-                    .frame(height: 200)
-                    .listStyle(PlainListStyle())
-                   // .offset(x: screenWidth * -0.025)
+                    .frame(width: screenWidth * 0.84)
+                    .background(.white)
+                    .cornerRadius(5)
+
                 }
             }
 
@@ -261,3 +292,6 @@ struct detailsRegisterPage1: View {
     
  
 }
+
+
+
