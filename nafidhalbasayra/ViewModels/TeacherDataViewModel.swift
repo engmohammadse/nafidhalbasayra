@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import UIKit
 
 class TeacherDataViewModel: ObservableObject {
     
@@ -31,6 +32,11 @@ class TeacherDataViewModel: ObservableObject {
     @Published  var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]
     @Published  var itemsLectured = ["لا","نعم"]
     @Published var selectedLecturedOption:  String = ""
+    
+    
+    // تخزين الصورة الملتقطة
+    @Published var capturedImage: UIImage?
+    
     
     
     

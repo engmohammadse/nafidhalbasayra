@@ -10,7 +10,9 @@ import SwiftUI
 struct registerPage2: View {
     @State private var isPressed = false
     @Environment(\.dismiss) var dismiss
-    @StateObject var teacherData = TeacherDataViewModel()
+    @ObservedObject var teacherData: TeacherDataViewModel
+
+    @State private var showImagePicker = false
     
     var body: some View {
         
@@ -21,10 +23,22 @@ struct registerPage2: View {
                 HStack {
                 
                     VStack{
-                        Image("Group 123")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.2 : screenWidth * 0.14) : screenWidth * 0.2)
+                        
+                   // عرض الصورة إذا كانت موجودة
+                        if let image = teacherData.capturedImage {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 200, height: 200)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        }
+        
+                        else {
+                            Image("Group 123")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.2 : screenWidth * 0.14) : screenWidth * 0.2)
+                        }
 
                         
                         Text("الصورة الشخصية")
@@ -51,6 +65,7 @@ struct registerPage2: View {
                 }
                 
                 Button(action: {
+                    showImagePicker = true
 //                    isPressed.toggle()
 //                    withAnimation(.easeInOut(duration: 0.5)) {
 //                        showError.toggle()
@@ -66,6 +81,9 @@ struct registerPage2: View {
                 }
                 .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                 .cornerRadius(5)
+                .sheet(isPresented: $showImagePicker) {
+                           ImagePicker(selectedImage: $teacherData.capturedImage)
+                       }
             }
             
             Spacer()
@@ -235,5 +253,5 @@ struct registerPage2: View {
 }
 
 #Preview {
-    registerPage2()
+    registerPage2(teacherData: TeacherDataViewModel())
 }

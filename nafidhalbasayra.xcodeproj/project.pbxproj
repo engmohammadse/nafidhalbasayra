@@ -87,7 +87,6 @@
 		41BD62CC2CA2FF4100529765 /* BahijTheSansArabic-Plain.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BahijTheSansArabic-Plain.ttf"; sourceTree = "<group>"; };
 		41BD62CD2CA2FF4100529765 /* BahijTheSansArabic-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BahijTheSansArabic-ExtraBold.ttf"; sourceTree = "<group>"; };
 		41BD62CE2CA2FF4100529765 /* BahijTheSansArabic-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BahijTheSansArabic-Bold.ttf"; sourceTree = "<group>"; };
-		41BD62CF2CA3005000529765 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		41BD62D02CA3018000529765 /* Almarai-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Almarai-Bold.ttf"; sourceTree = "<group>"; };
 		41BD62D82CA3092800529765 /* Amiri-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amiri-Regular.ttf"; sourceTree = "<group>"; };
 		41BD62D92CA3092800529765 /* Amiri-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amiri-Bold.ttf"; sourceTree = "<group>"; };
@@ -157,7 +156,6 @@
 				41E9C6D02CC3C82E00FE122F /* ThemsAndColors */,
 				41074C862CBE8F6A00FA28AC /* ViewModels */,
 				41074C832CBE8ED700FA28AC /* Models */,
-				41BD62CF2CA3005000529765 /* Info.plist */,
 				41BD62CB2CA2FF2D00529765 /* Fonts */,
 				413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */,
 				413E4BA12CA1C81300B1EEC5 /* View */,
@@ -518,6 +516,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = nafidhalbasayra/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"التطبيق يحتاج إذن الكاميرا للتصوير\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -548,6 +547,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = nafidhalbasayra/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"التطبيق يحتاج إذن الكاميرا للتصوير\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

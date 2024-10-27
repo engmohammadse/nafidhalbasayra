@@ -38,6 +38,7 @@ struct nafidhalbasayraApp: App {
                 } else{
                
                             LoginPage1()
+                        .preferredColorScheme(.light)
                   
                 }
                 
