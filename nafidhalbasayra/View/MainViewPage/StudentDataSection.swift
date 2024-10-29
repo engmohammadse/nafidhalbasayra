@@ -31,14 +31,14 @@ struct StudentDataSection: View {
                 
                 
             }
-            .frame(width: screenWidth * 0.87)
+            .frame(maxWidth: .infinity)
             
             
             Button(action: {}){
                 Text("تسجيل بيانات طالب جديد")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                     .foregroundStyle(.white)
-                    .frame(width: screenWidth * 0.91)
+                    .frame(width: screenWidth * 0.85)
                     .frame(height: screenHeight * 0.05)
                     .background(Color(red: 27/255, green: 62/255, blue: 94/255))
                     .cornerRadius(5)
@@ -64,7 +64,7 @@ struct StudentDataSection: View {
                     Image("Group 56")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: uiDevicePhone ? screenWidth * 0.1 : screenWidth * 0.064)
+                        .frame(width: uiDevicePhone ? screenWidth * 0.09 : screenWidth * 0.064)
                 }
                 .offset(x: screenWidth * 0.46, y: screenHeight * -0.03)
             }
@@ -114,7 +114,7 @@ struct studentInfo :View {
                                   
                                   .frame(height: screenHeight * 0.02)
                               Text("الاولى")
-                                  .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+                                  .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023 ))
                               
                               
                           }
@@ -127,20 +127,20 @@ struct studentInfo :View {
                               Spacer()
                                   .frame(height: screenHeight * 0.02)
                               Text("١٢ سنة")
-                                  .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+                                  .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023 ))
                           }
                           
                           
                           Spacer()
-                              .frame(width: screenWidth * 0.2)
+                              .frame(width: screenWidth * 0.1)
                           
                           VStack{
                               Text("اسم الطالب")
                                   .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                               Spacer()
                                   .frame(height: screenHeight * 0.02)
-                              Text("احمد")
-                                  .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+                              Text("احمد احمد احمد")
+                                  .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023 ))
                           }
    
                       }
@@ -185,6 +185,7 @@ struct studentInfo :View {
               }.padding(.top, screenHeight * 0.025)
                   
                   
+                  
                      
                      
                       
@@ -197,7 +198,12 @@ struct studentInfo :View {
               
                  
 
-          } .overlay{
+          } 
+          .frame(width: screenWidth * 0.85)
+          .padding(.bottom, screenHeight * 0.01)
+          
+          
+          .overlay{
               Image("Group 124")
                   .resizable()
                   .aspectRatio(contentMode: .fit)
