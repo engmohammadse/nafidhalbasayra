@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct StudentDataSection: View {
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
        
         VStack{
@@ -60,7 +62,9 @@ struct StudentDataSection: View {
         
         .overlay{
             ZStack{
-                Button(action: {}) {
+                Button(action: {
+                    dismiss()
+                }) {
                     Image("Group 56")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -69,6 +73,8 @@ struct StudentDataSection: View {
                 .offset(x: screenWidth * 0.46, y: screenHeight * -0.03)
             }
         }
+        
+        .navigationBarBackButtonHidden(true)
         
             
         
@@ -184,20 +190,10 @@ struct studentInfo :View {
                       
               }.padding(.top, screenHeight * 0.025)
                   
-                  
-                  
-                     
-                     
-                      
-                      
               
                   .background(Color.white)
               .cornerRadius(5)
-              
-              
-              
-                 
-
+            
           } 
           .frame(width: screenWidth * 0.85)
           .padding(.bottom, screenHeight * 0.01)

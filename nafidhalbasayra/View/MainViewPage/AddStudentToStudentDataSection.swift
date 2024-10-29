@@ -9,6 +9,9 @@
 import SwiftUI
 
 struct AddStudentToAttendaceHistory: View {
+    
+    @Environment(\.dismiss) var dismiss
+    
     @State var phoneNumber: String = ""
     @State var province: String = "اختر"
     @State var name: String = ""

@@ -10,6 +10,7 @@ import SwiftUI
 struct sendAttendanceSection: View {
     @State private var isPressed :Bool = false
     @State private var name: String = ""
+    @Environment(\.dismiss) var dismiss
 
     
     var body: some View {
@@ -262,7 +263,9 @@ struct sendAttendanceSection: View {
         
         .overlay{
             ZStack{
-                Button(action: {}) {
+                Button(action: {
+                    dismiss()
+                }) {
                     Image("Group 56")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -271,6 +274,8 @@ struct sendAttendanceSection: View {
                 .offset(x: screenWidth * 0.46, y: screenHeight * -0.15)
             }
         }
+        
+        .navigationBarBackButtonHidden(true)
         
         
     }

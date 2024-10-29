@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct UserManual: View {
+    
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         
         
@@ -31,7 +34,9 @@ struct UserManual: View {
         
         .overlay{
             ZStack{
-                Button(action: {}) {
+                Button(action: {
+                    dismiss()
+                }) {
                     Image("Group 56")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -45,6 +50,8 @@ struct UserManual: View {
             LogoIUserInfo()
                 .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)
         }
+        
+        .navigationBarBackButtonHidden(true)
         
         
         

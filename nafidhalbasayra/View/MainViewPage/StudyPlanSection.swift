@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StudyPlanSection: View {
-    
+    @Environment(\.dismiss) var dismiss
   
     
     var body: some View {
@@ -50,7 +50,9 @@ struct StudyPlanSection: View {
         
         .overlay{
             ZStack{
-                Button(action: {}) {
+                Button(action: {
+                    dismiss()
+                }) {
                     Image("Group 56")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -59,6 +61,7 @@ struct StudyPlanSection: View {
                 .offset(x: screenWidth * 0.46, y: screenHeight * -0.03)
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

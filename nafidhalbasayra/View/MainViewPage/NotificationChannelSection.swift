@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct NotificationChannelSection: View {
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         
         VStack{
@@ -41,7 +43,9 @@ struct NotificationChannelSection: View {
                .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.0 : screenHeight * 0))
         .overlay{
             ZStack{
-                Button(action: {}) {
+                Button(action: {
+                    dismiss()
+                }) {
                     Image("Group 56")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -110,6 +114,8 @@ struct message: View {
             .multilineTextAlignment(.trailing)
             .background(Color.white)
             .cornerRadius(5)
+        
+            .navigationBarBackButtonHidden(true)
         
     }
 }

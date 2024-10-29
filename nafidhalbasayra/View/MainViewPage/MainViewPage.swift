@@ -20,22 +20,22 @@ struct MainViewPage: View {
                           
                           
                           HStack(spacing: screenWidth * 0.04) {
-                              VStackSection(imageName: "Group 20", text: "إرسال الحضور")
-                              VStackSection(imageName: "Group 19", text: "قناة التبليغات")
+                              VStackSection(imageName: "Group 20", text: "إرسال الحضور", destination: sendAttendanceSection())
+                              VStackSection(imageName: "Group 19", text: "قناة التبليغات", destination: NotificationChannelSection())
                           }
                           
                         //  Spacer().frame(height: screenHeight * 0.0)
                           
                           HStack(spacing: screenWidth * 0.04) {
-                              VStackSection(imageName: "Group 24", text: "سجل الحضور")
-                              VStackSection(imageName: "Group 23", text: "بيانات الطلبة")
+                              VStackSection(imageName: "Group 24", text: "سجل الحضور", destination: AttendanceEnrollmentSection())
+                              VStackSection(imageName: "Group 23", text: "بيانات الطلبة", destination: StudentDataSection())
                           }
                           
                          // Spacer().frame(height: screenHeight * 0.02)
                           
                           HStack(spacing: screenWidth * 0.04) {
-                              VStackSection(imageName: "Group 29", text: "دليل الاستخدام")
-                              VStackSection(imageName: "folder-minus-solid 1", text: "الخطة الدراسية")
+                              VStackSection(imageName: "Group 29", text: "دليل الاستخدام", destination: UserManual())
+                              VStackSection(imageName: "folder-minus-solid 1", text: "الخطة الدراسية", destination: StudyPlanSection())
                           }
         
                       }
@@ -94,9 +94,10 @@ struct MainViewPage: View {
 
 
 
-struct VStackSection: View {
+struct VStackSection<Destination: View>: View {
     let imageName: String
     let text: String
+    @State var destination : Destination
     
     var body: some View {
         VStack {
@@ -107,25 +108,30 @@ struct VStackSection: View {
                 
             }){
                 
-                VStack{
-                    
-                    Image(imageName)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: uiDevicePhone ? screenWidth * 0.1 : screenWidth * 0.07)
-                        .padding(.top, uiDevicePhone ? screenHeight * 0.03 : screenHeight * 0.02)
-                    Spacer()
-                        .frame(height: screenHeight * 0.02)
-                    
-                    Text(text)
-                        .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03  : screenWidth * 0.025))
+               
+                NavigationLink(destination: destination) {
+                    VStack{
+                        
+                        Image(imageName)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: uiDevicePhone ? screenWidth * 0.1 : screenWidth * 0.07)
+                            .padding(.top, uiDevicePhone ? screenHeight * 0.03 : screenHeight * 0.02)
+                        Spacer()
+                            .frame(height: screenHeight * 0.02)
+                        
+                        Text(text)
+                            .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03  : screenWidth * 0.025))
+                           
+                            .foregroundColor(.black)
+                            .padding(.horizontal, screenWidth * 0.04)
+                            .padding(.bottom, screenHeight * 0.02)
+                            .frame(height:  uiDevicePhone ? screenHeight * 0.04 : screenHeight * 0.05)
+                            .frame(width: uiDevicePhone ? screenWidth * 0.3 : screenWidth * 0.26)
+                        
                        
-                        .foregroundColor(.black)
-                        .padding(.horizontal, screenWidth * 0.04)
-                        .padding(.bottom, screenHeight * 0.02)
-                        .frame(height:  uiDevicePhone ? screenHeight * 0.04 : screenHeight * 0.05)
-                        .frame(width: uiDevicePhone ? screenWidth * 0.3 : screenWidth * 0.26)
-                    
+                        
+                    }
                 }
                 
             }
