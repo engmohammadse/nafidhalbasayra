@@ -20,6 +20,8 @@ struct UserManual: View {
                 
                 Spacer()
                     .frame(height: screenHeight * 0.1)
+                
+                
                 guidInfo()
                 guidInfo()
                 guidInfo()

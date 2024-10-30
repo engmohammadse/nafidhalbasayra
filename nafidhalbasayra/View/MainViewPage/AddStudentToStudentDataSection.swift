@@ -8,17 +8,17 @@
 
 import SwiftUI
 
-struct AddStudentToAttendaceHistory: View {
+struct AddStudentToStudentDataSection: View {
     
     @Environment(\.dismiss) var dismiss
     
     @State var phoneNumber: String = ""
-    @State var province: String = "اختر"
+    @State var city: String = "اختر"
     @State var name: String = ""
     @State var age: String = ""
-    @State var level: String = ""
-    @State var size: String = ""
-    @State var isLectured: String = "اختر"
+    @State var level: String = "اختر"
+    @State var size: String = "اختر"
+
     
     @State private var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]
     @State private var itemsLectured = ["لا","نعم"]
@@ -48,10 +48,10 @@ struct AddStudentToAttendaceHistory: View {
                     FormField(label: "رقم الهاتف", text: $phoneNumber, isPhoneNumber: true)
                     FormField(label: "العمر", text: $age)
                     
-                    DropdownField(label: "المحافظة", selectedOption: $province, options: itemsProvince)
-                    DropdownField(label: "المحاضرة", selectedOption: $isLectured, options: itemsLectured)
+                    DropdownField(label: "المحافظة", selectedOption: $city, options: itemsProvince)
+                    DropdownField(label: "المرحلة", selectedOption: $level, options: itemsLectured)
                    
-                    DropdownField(label: "القياس", selectedOption: $isLectured, options: itemsLectured)
+                    DropdownField(label: "القياس", selectedOption: $size, options: itemsLectured)
                 }
                 .padding(.horizontal, screenWidth * 0.09)
             }
@@ -88,7 +88,10 @@ struct AddStudentToAttendaceHistory: View {
         
         .overlay{
             ZStack{
-                Button(action: {}) {
+                Button(action: {
+                    
+                    dismiss()
+                }) {
                     Image("Group 56")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -105,5 +108,5 @@ struct AddStudentToAttendaceHistory: View {
 
 
 #Preview {
-    AddStudentToAttendaceHistory()
+    AddStudentToStudentDataSection()
 }

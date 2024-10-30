@@ -62,8 +62,8 @@ class CoreDataViewModel: ObservableObject {
     }
 }
 
-struct ContentView: View {
-    @StateObject var vm = CoreDataViewModel()
+struct TeacherViewModel: View {
+    @StateObject var vmTeacher = CoreDataViewModel()
     @State var textFieldText: String = ""
     @State var selectedTeacher: TeacherInfo?
     @State var updatedName: String = ""
@@ -82,7 +82,7 @@ struct ContentView: View {
                     
                     
                     guard !textFieldText.isEmpty else { return }
-                    vm.addTeacherInfo(text: textFieldText)
+                    vmTeacher.addTeacherInfo(text: textFieldText)
                     textFieldText = ""
                     
                     
@@ -91,11 +91,11 @@ struct ContentView: View {
                 })
 
                 List {
-                    ForEach(vm.savedEntities) { entity in
+                    ForEach(vmTeacher.savedEntities) { entity in
                         HStack {
                             if selectedTeacher == entity {
                                 TextField("Update name", text: $updatedName, onCommit: {
-                                    vm.updateTeacherInfo(entity: entity, with: updatedName)
+                                    vmTeacher.updateTeacherInfo(entity: entity, with: updatedName)
                                     selectedTeacher = nil
                                 })
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -110,7 +110,7 @@ struct ContentView: View {
                             }
                         }
                     }
-                    .onDelete(perform: vm.deleteTeacherInfo)
+                    .onDelete(perform: vmTeacher.deleteTeacherInfo)
                 }
             }
             .navigationTitle("Teachers")
@@ -119,7 +119,7 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    TeacherViewModel()
 }
 
 

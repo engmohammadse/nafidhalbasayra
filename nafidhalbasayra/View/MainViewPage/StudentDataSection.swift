@@ -37,14 +37,18 @@ struct StudentDataSection: View {
             
             
             Button(action: {}){
-                Text("تسجيل بيانات طالب جديد")
-                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
-                    .foregroundStyle(.white)
-                    .frame(width: screenWidth * 0.85)
-                    .frame(height: screenHeight * 0.05)
-                    .background(Color(red: 27/255, green: 62/255, blue: 94/255))
-                    .cornerRadius(5)
+                NavigationLink(destination: AddStudentToStudentDataSection()){
+                    Text("تسجيل بيانات طالب جديد")
+                        .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+                        .foregroundStyle(.white)
+                        .frame(width: screenWidth * 0.85)
+                        .frame(height: screenHeight * 0.05)
+                        .background(Color(red: 27/255, green: 62/255, blue: 94/255))
+                        .cornerRadius(5)
+                    
+                }
             }
+           
             
             
             

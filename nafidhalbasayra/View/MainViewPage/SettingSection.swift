@@ -13,6 +13,9 @@ struct SettingSection: View {
 
     @State private var selectedLanguage = "اختر لغة التطبيق" // النص الافتراضي
 
+   
+    
+    
     var body: some View {
         VStack {
             ScrollView {
