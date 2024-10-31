@@ -10,6 +10,10 @@ import SwiftUI
 
 struct AddStudentToStudentDataSection: View {
     
+    @EnvironmentObject var vmStudent: StudentViewModel
+    @State var selectedStudent: StudentInfo?
+    @State var updatedName: String = ""
+
     @Environment(\.dismiss) var dismiss
     
     @State var phoneNumber: String = ""
@@ -65,7 +69,13 @@ struct AddStudentToStudentDataSection: View {
             
             
             // button
-            Button(action: {}){
+            Button(action: {
+                
+                guard !name.isEmpty else { return }
+                vmStudent.addStudentInfo(text: name)
+                name = ""
+                
+            }){
                 Text("حفظ بيانات الطالب")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                     .foregroundStyle(.white)
@@ -74,6 +84,17 @@ struct AddStudentToStudentDataSection: View {
                     .background(Color(red: 27/255, green: 62/255, blue: 94/255))
                     .cornerRadius(5)
             }
+            
+            
+            
+            
+    
+            
+          
+            
+            
+            
+            
             
         }
         .padding(.bottom)

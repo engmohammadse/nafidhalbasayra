@@ -22,6 +22,10 @@ class StudentViewModel: ObservableObject {
         }
         fetchStudentInfo()
     }
+    
+    
+    
+    
 
     func fetchStudentInfo() {
         let request = NSFetchRequest<StudentInfo>(entityName: "StudentInfo")
@@ -31,24 +35,56 @@ class StudentViewModel: ObservableObject {
             print("Error Fetching. \(error)")
         }
     }
+    
+    
+    
 
     func addStudentInfo(text: String) {
         let newStudentInfo = StudentInfo(context: container.viewContext)
         newStudentInfo.name = text
         saveStudentData()
+        fetchStudentInfo() // استدعاء fetch بعد الحفظ للتأكد من تحديث البيانات
+
     }
+    
+    
+    
 
     func updateStudentInfo(entity: StudentInfo, with newName: String) {
         entity.name = newName
         saveStudentData()
     }
+    
+    
+    
 
+    
     func deleteStudentInfo(indexSet: IndexSet) {
         guard let index = indexSet.first else { return }
         let entity = savedEntities[index]
         container.viewContext.delete(entity)
-        saveStudentData()
+        
+        do {
+            try container.viewContext.save() // حفظ التغييرات
+            fetchStudentInfo() // تحديث البيانات بعد الحذف
+            print("حذف البيانات لطالب: \(entity.name ?? "لا يوجد اسم")")
+        } catch {
+            print("خطأ أثناء الحذف: \(error)")
+        }
     }
+
+
+    
+    
+//    func deleteStudentInfo(indexSet: IndexSet) {
+//        guard let index = indexSet.first else { return }
+//        let entity = savedEntities[index]
+//        container.viewContext.delete(entity)
+//        saveStudentData() // حفظ التغييرات بعد الحذف
+//    }
+//    
+    
+    
 
     func saveStudentData() {
         do {
@@ -58,6 +94,8 @@ class StudentViewModel: ObservableObject {
             print("Error saving. \(error)")
         }
     }
+    
+    
 }
 
 struct StudentView: View {

@@ -38,12 +38,12 @@ struct nafidhalbasayraApp: App {
                 } else{
                     
                     
-                    TeacherViewModel()
+//                    AddStudentToStudentDataSection()
                        
                
                             //LoginPage1()
-//                    MainViewPage()
-//                        .preferredColorScheme(.light)
+                    MainViewPage()
+                        .preferredColorScheme(.light)
                   
                 }
                 

@@ -10,12 +10,14 @@ import SwiftUI
 struct StudentDataSection: View {
     @Environment(\.dismiss) var dismiss
     
+    @StateObject var vmStudent = StudentViewModel()
+    
     var body: some View {
        
         VStack{
             HStack{
                 
-                Text("عدد طلاب الدورة: 25")
+                Text("عدد طلاب الدورة: \(vmStudent.savedEntities.count)")
                     .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                     .padding(.all, screenWidth * 0.025)
             }
@@ -25,11 +27,13 @@ struct StudentDataSection: View {
             
             Spacer()
                 .frame(height: screenHeight * 0.07)
+            
             ScrollView {
+                ForEach(Array(vmStudent.savedEntities.enumerated()), id: \.element) { index, entity in
+                    studentInfo(vmStudent: vmStudent, name: entity.name ?? "لا يوجد اسم", student: entity, orderNumber: index + 1) // إضافة الرقم هنا
+                }
+            
         
-                studentInfo()
-                studentInfo()
-                studentInfo()
                 
                 
             }
@@ -37,7 +41,7 @@ struct StudentDataSection: View {
             
             
             Button(action: {}){
-                NavigationLink(destination: AddStudentToStudentDataSection()){
+                NavigationLink(destination: AddStudentToStudentDataSection().environmentObject(vmStudent)){
                     Text("تسجيل بيانات طالب جديد")
                         .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                         .foregroundStyle(.white)
@@ -100,11 +104,16 @@ struct StudentDataSection: View {
 
 
 
-
-
-
-
 struct studentInfo :View {
+    
+    @ObservedObject var vmStudent = StudentViewModel()
+    @State var selectedStudent: StudentInfo?
+    @State var updatedName: String = ""
+    
+    var name: String
+    var student: StudentInfo // إضافة هذا المتغير للإشارة إلى الكائن الحالي
+    var orderNumber: Int
+    
     var body: some View {
         
         
@@ -149,8 +158,21 @@ struct studentInfo :View {
                                   .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                               Spacer()
                                   .frame(height: screenHeight * 0.02)
-                              Text("احمد احمد احمد")
-                                  .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023 ))
+                              
+                     
+                           
+                              
+                              
+                              Text(name)
+                                  .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023))
+
+//                              if let firstEntity = vmStudent.savedEntities.first {
+//                                  
+//                                      Text(firstEntity.name ?? "لا يوجد اسم")
+//                                          .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023))
+//                             
+//                              }
+                              
                           }
    
                       }
@@ -161,12 +183,18 @@ struct studentInfo :View {
                                      Color(red: 228/255, green: 194/255, blue: 194/255)
                                      
                                      
-                                     Button(action: {}){
+                                     Button(action: {
+                                         if let index = vmStudent.savedEntities.firstIndex(of: student) {
+                                             vmStudent.deleteStudentInfo(indexSet: IndexSet(integer: index))
+                                         }
+                                     }) {
                                          Text("حذف بيانات الطالب")
-                                             .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023 ))
+                                             .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023))
                                              .foregroundColor(Color(red: 123/255, green: 42/255, blue: 42/255))
                                              .padding(.all, screenWidth * 0.02)
                                      }
+
+
                                      
                                  }
                                  
@@ -182,6 +210,9 @@ struct studentInfo :View {
                                              .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023 ))
                                              .foregroundColor(Color(red: 24/255, green: 82/255, blue: 100/255))
                                              .padding(.all, screenWidth * 0.02)
+                                         
+                                        
+                                         
                                      }
                                      
                                  }
@@ -204,9 +235,10 @@ struct studentInfo :View {
           
           
           .overlay{
-              Image("Group 124")
-                  .resizable()
-                  .aspectRatio(contentMode: .fit)
+            //  Image("Group 124")
+              Text("\(orderNumber)")
+                //  .resizable()
+                 // .aspectRatio(contentMode: .fit)
                   .frame(width: screenWidth * 0.06)
                   .offset(y: screenHeight * -0.075)
              
