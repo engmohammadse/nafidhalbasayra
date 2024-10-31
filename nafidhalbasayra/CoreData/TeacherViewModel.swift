@@ -16,7 +16,7 @@ class CoreDataViewModel: ObservableObject {
     @Published var savedEntities: [TeacherInfo] = []
 
     init() {
-        container = NSPersistentContainer(name: "TeacherInfo")
+        container = NSPersistentContainer(name: "CoreData")
         container.loadPersistentStores { _, error in
             if let error = error {
                 print("ERROR LOADING CORE DATA. \(error)")

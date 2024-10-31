@@ -11,6 +11,7 @@
 		41074C882CBE8F8400FA28AC /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41074C872CBE8F8400FA28AC /* LoginViewModel.swift */; };
 		41074C8A2CBED50F00FA28AC /* NotificationChannelSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41074C892CBED50F00FA28AC /* NotificationChannelSection.swift */; };
 		4107BE5D2CB43C260073EC4B /* testFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107BE5C2CB43C260073EC4B /* testFile.swift */; };
+		410A52252CD3A66C00DE375B /* StudentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410A52242CD3A66C00DE375B /* StudentViewModel.swift */; };
 		4110976A2CB5427C0004C9E4 /* registerPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411097692CB5427C0004C9E4 /* registerPage1.swift */; };
 		411CA47E2CBBF33A0094A94B /* socialMediaSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */; };
 		412A81962CBFF50200188321 /* StudentDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412A81952CBFF50200188321 /* StudentDataSection.swift */; };
@@ -32,7 +33,7 @@
 		418E94C02CB8445700ACFEEA /* HadeethSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E94BF2CB8445700ACFEEA /* HadeethSection.swift */; };
 		419ACE5B2CC816C4000D4433 /* TeacherDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419ACE5A2CC816C4000D4433 /* TeacherDataViewModel.swift */; };
 		41A552592CC5310A008D913D /* StudyPlanSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A552582CC5310A008D913D /* StudyPlanSection.swift */; };
-		41B8A8262CC67CB1002F614C /* TeacherInfo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 41B8A8242CC67CB1002F614C /* TeacherInfo.xcdatamodeld */; };
+		41B8A8262CC67CB1002F614C /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 41B8A8242CC67CB1002F614C /* CoreData.xcdatamodeld */; };
 		41BD62C82CA2E69400529765 /* LoginPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BD62C72CA2E69400529765 /* LoginPage1.swift */; };
 		41BD62D22CA3018800529765 /* BahijTheSansArabic-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62CE2CA2FF4100529765 /* BahijTheSansArabic-Bold.ttf */; };
 		41BD62D32CA3018A00529765 /* BahijTheSansArabic-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62CD2CA2FF4100529765 /* BahijTheSansArabic-ExtraBold.ttf */; };
@@ -60,6 +61,7 @@
 		41074C872CBE8F8400FA28AC /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		41074C892CBED50F00FA28AC /* NotificationChannelSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationChannelSection.swift; sourceTree = "<group>"; };
 		4107BE5C2CB43C260073EC4B /* testFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testFile.swift; sourceTree = "<group>"; };
+		410A52242CD3A66C00DE375B /* StudentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentViewModel.swift; sourceTree = "<group>"; };
 		411097692CB5427C0004C9E4 /* registerPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage1.swift; sourceTree = "<group>"; };
 		411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = socialMediaSection.swift; sourceTree = "<group>"; };
 		412A81952CBFF50200188321 /* StudentDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentDataSection.swift; sourceTree = "<group>"; };
@@ -211,7 +213,8 @@
 			isa = PBXGroup;
 			children = (
 				413E4B902CA1C78200B1EEC5 /* TeacherViewModel.swift */,
-				41B8A8242CC67CB1002F614C /* TeacherInfo.xcdatamodeld */,
+				410A52242CD3A66C00DE375B /* StudentViewModel.swift */,
+				41B8A8242CC67CB1002F614C /* CoreData.xcdatamodeld */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -371,7 +374,8 @@
 				4110976A2CB5427C0004C9E4 /* registerPage1.swift in Sources */,
 				41E9C6D42CC3CC0600FE122F /* UserManual.swift in Sources */,
 				416D8BE92CA4482500E2E6D8 /* const.swift in Sources */,
-				41B8A8262CC67CB1002F614C /* TeacherInfo.xcdatamodeld in Sources */,
+				41B8A8262CC67CB1002F614C /* CoreData.xcdatamodeld in Sources */,
+				410A52252CD3A66C00DE375B /* StudentViewModel.swift in Sources */,
 				41E9C6D22CC3C85000FE122F /* Colors.swift in Sources */,
 				41F9D0B92CAB03BB00BD7853 /* LogoIUserInfo.swift in Sources */,
 				412A81962CBFF50200188321 /* StudentDataSection.swift in Sources */,
@@ -590,14 +594,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		41B8A8242CC67CB1002F614C /* TeacherInfo.xcdatamodeld */ = {
+		41B8A8242CC67CB1002F614C /* CoreData.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				41B8A8252CC67CB1002F614C /* TeacherInfo.xcdatamodel */,
 			);
 			currentVersion = 41B8A8252CC67CB1002F614C /* TeacherInfo.xcdatamodel */;
-			name = TeacherInfo.xcdatamodeld;
-			path = /Users/ali/Documents/nafidhalbasayra/nafidhalbasayra/CoreData/TeacherInfo.xcdatamodeld;
+			path = CoreData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
