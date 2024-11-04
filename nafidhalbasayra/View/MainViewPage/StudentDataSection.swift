@@ -30,10 +30,9 @@ struct StudentDataSection: View {
             
             ScrollView {
                 ForEach(Array(vmStudent.savedEntities.enumerated()), id: \.element) { index, entity in
-                    studentInfo(vmStudent: vmStudent, name: entity.name ?? "لا يوجد اسم", student: entity, orderNumber: index + 1) // إضافة الرقم هنا
+                    studentInfo(vmStudent: vmStudent, name: entity.name ?? "لا يوجد اسم", age: entity.age ?? "no", phoneNumber: entity.phoneNumber ?? "no number", student: entity, orderNumber: index + 1)
                 }
-            
-        
+                
                 
                 
             }
@@ -107,10 +106,12 @@ struct StudentDataSection: View {
 struct studentInfo :View {
     
     @ObservedObject var vmStudent = StudentViewModel()
-    @State var selectedStudent: StudentInfo?
+  //  @State var selectedStudent: StudentInfo?
     @State var updatedName: String = ""
     
     var name: String
+    var age: String
+    var phoneNumber: String
     var student: StudentInfo // إضافة هذا المتغير للإشارة إلى الكائن الحالي
     var orderNumber: Int
     
@@ -166,13 +167,8 @@ struct studentInfo :View {
                               Text(name)
                                   .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023))
 
-//                              if let firstEntity = vmStudent.savedEntities.first {
-//                                  
-//                                      Text(firstEntity.name ?? "لا يوجد اسم")
-//                                          .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023))
-//                             
-//                              }
-                              
+                              Text(phoneNumber)
+                              Text(age)
                           }
    
                       }

@@ -72,8 +72,15 @@ struct AddStudentToStudentDataSection: View {
             Button(action: {
                 
                 guard !name.isEmpty else { return }
-                vmStudent.addStudentInfo(text: name)
+                vmStudent.addStudentInfo(name: name, phoneNumber: phoneNumber, age: age, city: city, level: level, size: size)
+                
                 name = ""
+                phoneNumber = ""
+                age = ""
+                city = ""
+                level = ""
+                size = ""
+                
                 
             }){
                 Text("حفظ بيانات الطالب")
