@@ -123,6 +123,14 @@ class StudentViewModel: ObservableObject {
     
 }
 
+
+
+
+
+
+
+// view ui
+//
 //struct StudentView: View {
 //    @StateObject var vmStudent = StudentViewModel()
 //    @State var textFieldText: String = ""

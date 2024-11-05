@@ -28,14 +28,36 @@ struct StudentDataSection: View {
             Spacer()
                 .frame(height: screenHeight * 0.07)
             
+            
+            
+            
             ScrollView {
-                ForEach(Array(vmStudent.savedEntities.enumerated()), id: \.element) { index, entity in
-                    studentInfo(vmStudent: vmStudent, name: entity.name ?? "لا يوجد اسم", age: entity.age ?? "no", phoneNumber: entity.phoneNumber ?? "no number", student: entity, orderNumber: index + 1)
+                ForEach(Array(vmStudent.savedEntities.enumerated()), id: \.element.studentID) { index, entity in
+                    studentInfo(
+                        vmStudent: vmStudent,
+                        name: entity.name ?? "لا يوجد اسم",
+                        age: entity.age ?? "no",
+                        phoneNumber: entity.phoneNumber ?? "no number",
+                        city: entity.city ?? "no city",
+                        level: entity.level ?? "no level",
+                        size: entity.size ?? "no size",
+                        student: entity,
+                        orderNumber: index + 1
+                    )
                 }
-                
-                
-                
             }
+
+            
+//            ScrollView {
+//                ForEach(Array(vmStudent.savedEntities.enumerated()), id: \.element) { index, entity in
+//                    studentInfo(vmStudent: vmStudent, name: entity.name ?? "لا يوجد اسم", age: entity.age ?? "no", phoneNumber: entity.phoneNumber ?? "no number",city: entity.city ?? " no c", level: entity.level ?? " no level",size: entity.size ?? " no size", student: entity, orderNumber: index + 1)
+//                    
+////                    studentInfo(vmStudent: vmStudent, name: entity.name ?? "لا يوجد اسم", age: entity.age ?? "no", phoneNumber: entity.phoneNumber ?? "no number", student: entity, orderNumber: index + 1)
+//                }
+//                
+//                
+//                
+//            }
             .frame(maxWidth: .infinity)
             
             
@@ -112,6 +134,9 @@ struct studentInfo :View {
     var name: String
     var age: String
     var phoneNumber: String
+    var city: String
+    var level: String
+    var size: String
     var student: StudentInfo // إضافة هذا المتغير للإشارة إلى الكائن الحالي
     var orderNumber: Int
     
@@ -169,6 +194,9 @@ struct studentInfo :View {
 
                               Text(phoneNumber)
                               Text(age)
+                              Text(city)
+                              Text(level)
+                              Text(size)
                           }
    
                       }
