@@ -12,6 +12,7 @@
 		41074C8A2CBED50F00FA28AC /* NotificationChannelSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41074C892CBED50F00FA28AC /* NotificationChannelSection.swift */; };
 		4107BE5D2CB43C260073EC4B /* testFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107BE5C2CB43C260073EC4B /* testFile.swift */; };
 		410A52252CD3A66C00DE375B /* StudentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410A52242CD3A66C00DE375B /* StudentViewModel.swift */; };
+		410AFBEF2CDBF11900501834 /* EditStudentAtStudentDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410AFBEE2CDBF11900501834 /* EditStudentAtStudentDataSection.swift */; };
 		4110976A2CB5427C0004C9E4 /* registerPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411097692CB5427C0004C9E4 /* registerPage1.swift */; };
 		411CA47E2CBBF33A0094A94B /* socialMediaSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */; };
 		412A81962CBFF50200188321 /* StudentDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412A81952CBFF50200188321 /* StudentDataSection.swift */; };
@@ -62,6 +63,7 @@
 		41074C892CBED50F00FA28AC /* NotificationChannelSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationChannelSection.swift; sourceTree = "<group>"; };
 		4107BE5C2CB43C260073EC4B /* testFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testFile.swift; sourceTree = "<group>"; };
 		410A52242CD3A66C00DE375B /* StudentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentViewModel.swift; sourceTree = "<group>"; };
+		410AFBEE2CDBF11900501834 /* EditStudentAtStudentDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStudentAtStudentDataSection.swift; sourceTree = "<group>"; };
 		411097692CB5427C0004C9E4 /* registerPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage1.swift; sourceTree = "<group>"; };
 		411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = socialMediaSection.swift; sourceTree = "<group>"; };
 		412A81952CBFF50200188321 /* StudentDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentDataSection.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 			children = (
 				418E94BD2CB82D3100ACFEEA /* MainViewPage.swift */,
 				414AFBDB2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift */,
+				410AFBEE2CDBF11900501834 /* EditStudentAtStudentDataSection.swift */,
 				418E94BF2CB8445700ACFEEA /* HadeethSection.swift */,
 				411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */,
 				418865702CBD296400E9097C /* sendAttendanceSection.swift */,
@@ -350,6 +353,7 @@
 				41074C852CBE8EFB00FA28AC /* LoginRequest.swift in Sources */,
 				41414E2B2CB1B31A0070C380 /* testNavigationStackPop.swift in Sources */,
 				41DC01D42CAEBBC500C77696 /* SizesUI.swift in Sources */,
+				410AFBEF2CDBF11900501834 /* EditStudentAtStudentDataSection.swift in Sources */,
 				526790C22CA93EC8006A9A89 /* AdaptiveTextFieldView.swift in Sources */,
 				41BD62C82CA2E69400529765 /* LoginPage1.swift in Sources */,
 				418E94C02CB8445700ACFEEA /* HadeethSection.swift in Sources */,

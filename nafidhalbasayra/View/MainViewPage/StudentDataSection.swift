@@ -11,6 +11,7 @@ struct StudentDataSection: View {
     @Environment(\.dismiss) var dismiss
     
     @StateObject var vmStudent = StudentViewModel()
+    @State private var selectedStudent: StudentInfo? = nil
     
     var body: some View {
        
@@ -42,10 +43,15 @@ struct StudentDataSection: View {
                         level: entity.level ?? "no level",
                         size: entity.size ?? "no size",
                         student: entity,
-                        orderNumber: index + 1
+                        orderNumber: index + 1,
+                        onEdit: { selectedStudent = entity } // تعيين الطالب المحدد
                     )
+                    
                 }
+                
             }
+            
+           
 
             
 //            ScrollView {
@@ -139,6 +145,8 @@ struct studentInfo :View {
     var size: String
     var student: StudentInfo // إضافة هذا المتغير للإشارة إلى الكائن الحالي
     var orderNumber: Int
+    var onEdit: () -> Void
+   
     
     var body: some View {
         
@@ -229,13 +237,22 @@ struct studentInfo :View {
                                  ZStack {
                                      Color(red: 223/255, green: 239/255, blue: 242/255)
                                      
-                                     Button(action: {}){
-                                         Text("تعديل البيانات")
-                                             .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023 ))
-                                             .foregroundColor(Color(red: 24/255, green: 82/255, blue: 100/255))
-                                             .padding(.all, screenWidth * 0.02)
+                                     Button(action: {
                                          
-                                        
+                                         
+                                         
+                                     }){
+//                                         Text("تعديل البيانات")
+//                                             .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023 ))
+//                                             .foregroundColor(Color(red: 24/255, green: 82/255, blue: 100/255))
+//                                             .padding(.all, screenWidth * 0.02)
+                                         
+                                         NavigationLink(destination: EditStudentAtStudentDataSection(student: student).environmentObject(vmStudent)) { Text("تعديل البيانات") .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023)) .foregroundColor(Color(red: 24/255, green: 82/255, blue: 100/255)) .padding(.all, screenWidth * 0.02) }
+                                         
+                                         
+                                         
+                                         
+                                         
                                          
                                      }
                                      
