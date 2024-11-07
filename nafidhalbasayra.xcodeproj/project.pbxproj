@@ -15,6 +15,8 @@
 		410AFBEF2CDBF11900501834 /* EditStudentAtStudentDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410AFBEE2CDBF11900501834 /* EditStudentAtStudentDataSection.swift */; };
 		4110976A2CB5427C0004C9E4 /* registerPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411097692CB5427C0004C9E4 /* registerPage1.swift */; };
 		411CA47E2CBBF33A0094A94B /* socialMediaSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */; };
+		4124DC612CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4124DC602CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift */; };
+		4124DC632CDD61B70083E5F9 /* DisplayAttendanceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4124DC622CDD61B70083E5F9 /* DisplayAttendanceData.swift */; };
 		412A81962CBFF50200188321 /* StudentDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412A81952CBFF50200188321 /* StudentDataSection.swift */; };
 		41325AA72CA9B83D00664847 /* LoginPageWelcom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41325AA62CA9B83D00664847 /* LoginPageWelcom.swift */; };
 		413E4B8F2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */; };
@@ -66,6 +68,8 @@
 		410AFBEE2CDBF11900501834 /* EditStudentAtStudentDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStudentAtStudentDataSection.swift; sourceTree = "<group>"; };
 		411097692CB5427C0004C9E4 /* registerPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage1.swift; sourceTree = "<group>"; };
 		411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = socialMediaSection.swift; sourceTree = "<group>"; };
+		4124DC602CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendaceStatusViewModel.swift; sourceTree = "<group>"; };
+		4124DC622CDD61B70083E5F9 /* DisplayAttendanceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayAttendanceData.swift; sourceTree = "<group>"; };
 		412A81952CBFF50200188321 /* StudentDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentDataSection.swift; sourceTree = "<group>"; };
 		41325AA62CA9B83D00664847 /* LoginPageWelcom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageWelcom.swift; sourceTree = "<group>"; };
 		413E4B8B2CA1C78200B1EEC5 /* nafidhalbasayra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nafidhalbasayra.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -208,6 +212,7 @@
 				414AFBDD2CC16D3A00D89B70 /* SubComponent.swift */,
 				41E9C6D32CC3CC0600FE122F /* UserManual.swift */,
 				4188DE282CD1425100B65478 /* SettingSection.swift */,
+				4124DC622CDD61B70083E5F9 /* DisplayAttendanceData.swift */,
 			);
 			path = MainViewPage;
 			sourceTree = "<group>";
@@ -217,6 +222,7 @@
 			children = (
 				413E4B902CA1C78200B1EEC5 /* TeacherViewModel.swift */,
 				410A52242CD3A66C00DE375B /* StudentViewModel.swift */,
+				4124DC602CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift */,
 				41B8A8242CC67CB1002F614C /* CoreData.xcdatamodeld */,
 			);
 			path = CoreData;
@@ -376,6 +382,7 @@
 				41074C8A2CBED50F00FA28AC /* NotificationChannelSection.swift in Sources */,
 				414AFBDE2CC16D3A00D89B70 /* SubComponent.swift in Sources */,
 				4110976A2CB5427C0004C9E4 /* registerPage1.swift in Sources */,
+				4124DC612CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift in Sources */,
 				41E9C6D42CC3CC0600FE122F /* UserManual.swift in Sources */,
 				416D8BE92CA4482500E2E6D8 /* const.swift in Sources */,
 				41B8A8262CC67CB1002F614C /* CoreData.xcdatamodeld in Sources */,
@@ -385,6 +392,7 @@
 				412A81962CBFF50200188321 /* StudentDataSection.swift in Sources */,
 				413E4BA32CA1C83100B1EEC5 /* LoginPage0.swift in Sources */,
 				41F9D0BB2CAB0A5800BD7853 /* CustemTextWithField.swift in Sources */,
+				4124DC632CDD61B70083E5F9 /* DisplayAttendanceData.swift in Sources */,
 				413E4B8F2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift in Sources */,
 				414AFBDC2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift in Sources */,
 			);
@@ -525,6 +533,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = nafidhalbasayra/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "\"التطبيق يحتاج إذن الكاميرا للتصوير\"";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"<string>نحتاج إلى الوصول إلى موقعك لتحسين تجربة استخدام التطبيق وتوفير ميزات قائمة على الموقع.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -556,6 +565,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = nafidhalbasayra/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "\"التطبيق يحتاج إذن الكاميرا للتصوير\"";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"<string>نحتاج إلى الوصول إلى موقعك لتحسين تجربة استخدام التطبيق وتوفير ميزات قائمة على الموقع.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

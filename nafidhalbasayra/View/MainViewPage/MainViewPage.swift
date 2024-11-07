@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainViewPage: View {
+    //@EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
     var body: some View {
         
         
@@ -82,7 +83,7 @@ struct MainViewPage: View {
 }
 
 #Preview {
-    MainViewPage()
+    MainViewPage().environmentObject(AttendaceStatusViewModel())
 }
 
 //
@@ -95,6 +96,8 @@ struct MainViewPage: View {
 
 
 struct VStackSection<Destination: View>: View {
+    @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
+
     let imageName: String
     let text: String
     @State var destination : Destination
@@ -109,7 +112,11 @@ struct VStackSection<Destination: View>: View {
             }){
                 
                
-                NavigationLink(destination: destination) {
+           
+                
+                
+                
+                NavigationLink(destination: destination.environmentObject(vmAttendaceStatus)) {
                     VStack{
                         
                         Image(imageName)
