@@ -22,6 +22,8 @@ struct AddStudentToStudentDataSection: View {
     @State var age: String = ""
     @State var level: String = "اختر"
     @State var size: String = "اختر"
+    
+    @State var showAlert = false
 
     
     @State private var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]
@@ -81,6 +83,8 @@ struct AddStudentToStudentDataSection: View {
                 level = ""
                 size = ""
                 
+                showAlert = true
+                
                 
             }){
                 Text("حفظ بيانات الطالب")
@@ -91,7 +95,12 @@ struct AddStudentToStudentDataSection: View {
                     .background(Color(red: 27/255, green: 62/255, blue: 94/255))
                     .cornerRadius(5)
             }
-            
+            .alert(isPresented: $showAlert) {
+                Alert( title: Text("تم الحفظ"),
+                       message: Text("تم حفظ بيانات الطالب بنجاح!"),
+                       dismissButton: .default(Text("موافق")) {
+                    //dismiss() // Dismiss the view after saving
+                } ) }
             
             
             

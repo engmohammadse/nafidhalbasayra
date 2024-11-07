@@ -19,6 +19,8 @@ struct EditStudentAtStudentDataSection: View {
     @State private var city: String
     @State private var level: String
     @State private var size: String
+    
+    @State var  showAlert = false
 
     @State private var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]
     @State private var itemsLectured = ["لا", "نعم"]
@@ -65,7 +67,10 @@ struct EditStudentAtStudentDataSection: View {
                 // تحديث بيانات الطالب المحدد
                 vmStudent.updateStudentInfo(entity: student, with: name, with: phoneNumber, with: age, with: city, with: level, with: size)
 
-                dismiss() // اغلاق شاشة التعديل
+                //dismiss() // اغلاق شاشة التعديل
+                
+                showAlert = true
+                
             }) {
                 Text("حفظ بيانات الطالب")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
@@ -75,6 +80,18 @@ struct EditStudentAtStudentDataSection: View {
                     .background(Color(red: 27/255, green: 62/255, blue: 94/255))
                     .cornerRadius(5)
             }
+            .alert(isPresented: $showAlert) {
+                Alert( title: Text("تم التعديل"),
+                       message: Text("تم تعديب بيانات الطالب بنجاح!"),
+                       dismissButton: .default(Text("موافق")) {
+                    dismiss() // Dismiss the view after saving
+                } ) }
+            
+            
+            
+            
+            
+            
         }
         .padding(.bottom)
         .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
