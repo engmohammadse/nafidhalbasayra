@@ -277,9 +277,13 @@ struct studentInfo :View {
           
           .overlay{
             //  Image("Group 124")
-              Text("\(orderNumber)")
-                //  .resizable()
-                 // .aspectRatio(contentMode: .fit)
+              //Text("\(orderNumber)")
+              Circle()
+                  .fill(primaryColor)
+                  .frame(width: screenWidth * 0.065)
+                  .overlay( Text("\(orderNumber)")
+                    .foregroundColor(.white))
+                
                   .frame(width: screenWidth * 0.06)
                   .offset(y: screenHeight * -0.075)
              
