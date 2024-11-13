@@ -153,7 +153,7 @@ struct HistoryAttendance: View {
                                       
                                       Button(action: {}){
                                           Text("اعادة ارسال")
-                                              .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+                                              .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.036 : screenWidth * 0.023 ))
                                               .foregroundColor(.white)
                                               .padding(.all, screenWidth * 0.02)
                                       }
