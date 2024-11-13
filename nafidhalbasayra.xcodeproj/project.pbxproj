@@ -14,6 +14,7 @@
 		410A52252CD3A66C00DE375B /* StudentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410A52242CD3A66C00DE375B /* StudentViewModel.swift */; };
 		410AFBEF2CDBF11900501834 /* EditStudentAtStudentDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410AFBEE2CDBF11900501834 /* EditStudentAtStudentDataSection.swift */; };
 		4110976A2CB5427C0004C9E4 /* registerPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411097692CB5427C0004C9E4 /* registerPage1.swift */; };
+		4114B10C2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4114B10B2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift */; };
 		411CA47E2CBBF33A0094A94B /* socialMediaSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */; };
 		4124DC612CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4124DC602CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift */; };
 		4124DC632CDD61B70083E5F9 /* DisplayAttendanceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4124DC622CDD61B70083E5F9 /* DisplayAttendanceData.swift */; };
@@ -52,7 +53,7 @@
 		41E19E792CAD714100CA2256 /* PreviousNextBotton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E19E782CAD714100CA2256 /* PreviousNextBotton.swift */; };
 		41E9C6D22CC3C85000FE122F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D12CC3C85000FE122F /* Colors.swift */; };
 		41E9C6D42CC3CC0600FE122F /* UserManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D32CC3CC0600FE122F /* UserManual.swift */; };
-		41E9C6D62CC41A0100FE122F /* AttendanceEnrollmentSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D52CC41A0100FE122F /* AttendanceEnrollmentSection.swift */; };
+		41E9C6D62CC41A0100FE122F /* HistoryAttendanceSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D52CC41A0100FE122F /* HistoryAttendanceSection.swift */; };
 		41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0B52CAAE4C500BD7853 /* registerPage.swift */; };
 		41F9D0B92CAB03BB00BD7853 /* LogoIUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0B82CAB03BB00BD7853 /* LogoIUserInfo.swift */; };
 		41F9D0BB2CAB0A5800BD7853 /* CustemTextWithField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0BA2CAB0A5800BD7853 /* CustemTextWithField.swift */; };
@@ -67,6 +68,7 @@
 		410A52242CD3A66C00DE375B /* StudentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentViewModel.swift; sourceTree = "<group>"; };
 		410AFBEE2CDBF11900501834 /* EditStudentAtStudentDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStudentAtStudentDataSection.swift; sourceTree = "<group>"; };
 		411097692CB5427C0004C9E4 /* registerPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage1.swift; sourceTree = "<group>"; };
+		4114B10B2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogicHistoryAttendanceUpdateState.swift; sourceTree = "<group>"; };
 		411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = socialMediaSection.swift; sourceTree = "<group>"; };
 		4124DC602CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendaceStatusViewModel.swift; sourceTree = "<group>"; };
 		4124DC622CDD61B70083E5F9 /* DisplayAttendanceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayAttendanceData.swift; sourceTree = "<group>"; };
@@ -106,7 +108,7 @@
 		41E19E782CAD714100CA2256 /* PreviousNextBotton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviousNextBotton.swift; sourceTree = "<group>"; };
 		41E9C6D12CC3C85000FE122F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		41E9C6D32CC3CC0600FE122F /* UserManual.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManual.swift; sourceTree = "<group>"; };
-		41E9C6D52CC41A0100FE122F /* AttendanceEnrollmentSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceEnrollmentSection.swift; sourceTree = "<group>"; };
+		41E9C6D52CC41A0100FE122F /* HistoryAttendanceSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryAttendanceSection.swift; sourceTree = "<group>"; };
 		41F9D0B52CAAE4C500BD7853 /* registerPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage.swift; sourceTree = "<group>"; };
 		41F9D0B82CAB03BB00BD7853 /* LogoIUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoIUserInfo.swift; sourceTree = "<group>"; };
 		41F9D0BA2CAB0A5800BD7853 /* CustemTextWithField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustemTextWithField.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				41074C842CBE8EFB00FA28AC /* LoginRequest.swift */,
+				4114B10B2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -135,6 +138,9 @@
 		41074C862CBE8F6A00FA28AC /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				4124DC602CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift */,
+				413E4B902CA1C78200B1EEC5 /* TeacherViewModel.swift */,
+				410A52242CD3A66C00DE375B /* StudentViewModel.swift */,
 				41074C872CBE8F8400FA28AC /* LoginViewModel.swift */,
 				419ACE5A2CC816C4000D4433 /* TeacherDataViewModel.swift */,
 			);
@@ -207,7 +213,7 @@
 				418865702CBD296400E9097C /* sendAttendanceSection.swift */,
 				41074C892CBED50F00FA28AC /* NotificationChannelSection.swift */,
 				412A81952CBFF50200188321 /* StudentDataSection.swift */,
-				41E9C6D52CC41A0100FE122F /* AttendanceEnrollmentSection.swift */,
+				41E9C6D52CC41A0100FE122F /* HistoryAttendanceSection.swift */,
 				41A552582CC5310A008D913D /* StudyPlanSection.swift */,
 				414AFBDD2CC16D3A00D89B70 /* SubComponent.swift */,
 				41E9C6D32CC3CC0600FE122F /* UserManual.swift */,
@@ -220,9 +226,6 @@
 		41B8A8232CC67B9C002F614C /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				413E4B902CA1C78200B1EEC5 /* TeacherViewModel.swift */,
-				410A52242CD3A66C00DE375B /* StudentViewModel.swift */,
-				4124DC602CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift */,
 				41B8A8242CC67CB1002F614C /* CoreData.xcdatamodeld */,
 			);
 			path = CoreData;
@@ -370,8 +373,9 @@
 				419ACE5B2CC816C4000D4433 /* TeacherDataViewModel.swift in Sources */,
 				418E94BE2CB82D3100ACFEEA /* MainViewPage.swift in Sources */,
 				411CA47E2CBBF33A0094A94B /* socialMediaSection.swift in Sources */,
-				41E9C6D62CC41A0100FE122F /* AttendanceEnrollmentSection.swift in Sources */,
+				41E9C6D62CC41A0100FE122F /* HistoryAttendanceSection.swift in Sources */,
 				4188DE292CD1425100B65478 /* SettingSection.swift in Sources */,
+				4114B10C2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift in Sources */,
 				413E4B912CA1C78200B1EEC5 /* TeacherViewModel.swift in Sources */,
 				41E19E792CAD714100CA2256 /* PreviousNextBotton.swift in Sources */,
 				41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */,

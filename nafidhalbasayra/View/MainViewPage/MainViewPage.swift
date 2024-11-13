@@ -28,7 +28,7 @@ struct MainViewPage: View {
                         //  Spacer().frame(height: screenHeight * 0.0)
                           
                           HStack(spacing: screenWidth * 0.04) {
-                              VStackSection(imageName: "Group 24", text: "سجل الحضور", destination: AttendanceEnrollmentSection())
+                              VStackSection(imageName: "Group 24", text: "سجل الحضور", destination: HistoryAttendance())
                               VStackSection(imageName: "Group 23", text: "بيانات الطلبة", destination: StudentDataSection())
                           }
                           

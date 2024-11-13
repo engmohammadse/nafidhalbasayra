@@ -17,7 +17,7 @@ class AttendaceStatusViewModel: ObservableObject {
         container = NSPersistentContainer(name: "CoreData")
         container.loadPersistentStores { _, error in
             if let error = error {
-                print("ERROR LOADING CORE DATA. \(error)")
+                print("ERROR LOADING CORE DATالA. \(error)")
             }
         }
         fetchAttendaceStatus()

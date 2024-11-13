@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct AttendanceEnrollmentSection: View {
-    
+struct HistoryAttendance: View {
+    @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -16,8 +16,7 @@ struct AttendanceEnrollmentSection: View {
          VStack{
              HStack{
                  
-                 Text("عدد مرات تسجيل الحضور: 25")
-                     .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+                 Text("عدد مرات تسجيل الحضور: \(vmAttendaceStatus.savedEntities.count)")                     .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.037 : screenWidth * 0.023 ))
                      .padding(.all, screenWidth * 0.025)
              }
              .background(.white)
@@ -26,14 +25,11 @@ struct AttendanceEnrollmentSection: View {
              
              Spacer()
                  .frame(height: screenHeight * 0.07)
-             ScrollView {
-         
-                 studentEnrollment()
-                 studentEnrollment()
-                 studentEnrollment()
-                 
-                 
+
+             ScrollView { ForEach(Array(vmAttendaceStatus.savedEntities.enumerated()),id: \.element) { index, entity in
+                 studentHistory(entity: entity, orderNumber: index + 1) }
              }
+             
              .frame(maxWidth: .infinity)
              
              
@@ -82,11 +78,13 @@ struct AttendanceEnrollmentSection: View {
 
 
 
- struct studentEnrollment :View {
+ struct studentHistory :View {
      @State private var repeatSend : Bool = false
      @State private var repeatSendState : Bool = false
-     
-     
+
+     //@ObservedObject var vmStudent = StudentViewModel()
+     var entity: AttendaceStatus
+     var orderNumber: Int
      
      var body: some View {
          
@@ -127,7 +125,7 @@ struct AttendanceEnrollmentSection: View {
                                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                                Spacer()
                                    .frame(height: screenHeight * 0.02)
-                               Text("24")
+                               Text(entity.numberOfStudents ?? "no")
                                    .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                            }
                            
@@ -140,8 +138,7 @@ struct AttendanceEnrollmentSection: View {
                                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                                Spacer()
                                    .frame(height: screenHeight * 0.02)
-                               Text("2024/10/3")
-                                   .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+                               Text("\(entity.date ?? Date(), formatter: studentHistory.dateFormatter)") .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                            }
     
                        }
@@ -191,21 +188,47 @@ struct AttendanceEnrollmentSection: View {
                
                   
 
-           } .overlay{
-               Image("Group 124")
-                   .resizable()
-                   .aspectRatio(contentMode: .fit)
-                   .frame(width: screenWidth * 0.06)
-               
-               //screenHeight * -0.075
-                   .offset(y: repeatSend == false ? screenHeight * -0.052 : screenHeight * -0.075 )
-              
-           }
+           }.overlay{
+               //  Image("Group 124")
+                 //Text("\(orderNumber)")
+                 Circle()
+                     .fill(primaryColor)
+                     .frame(width: screenWidth * 0.06)
+                     .overlay( Text("\(orderNumber)")
+                        .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023 ))
+                       .foregroundColor(.white))
+                   
+                     .frame(width: screenWidth * 0.06)
+                     .offset(y: repeatSend == false ? screenHeight * -0.052 : screenHeight * -0.075 )
+                
+             }
+           
+           
+           
+           
+//           .overlay{
+//               Image("Group 124")
+//                   .resizable()
+//                   .aspectRatio(contentMode: .fit)
+//                   .frame(width: screenWidth * 0.06)
+//               
+//               //screenHeight * -0.075
+//                   .offset(y: repeatSend == false ? screenHeight * -0.052 : screenHeight * -0.075 )
+//              
+//           }
          
          
      }
+     
+      //Formatter to display the date
+     static var dateFormatter: DateFormatter {
+         let formatter = DateFormatter()
+         formatter.dateStyle = .short
+         return formatter
+     }
+     
  }
 
 #Preview {
-    AttendanceEnrollmentSection()
+    HistoryAttendance().environmentObject(AttendaceStatusViewModel())
 }

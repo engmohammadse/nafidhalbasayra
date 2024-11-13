@@ -11,6 +11,8 @@ import SwiftUI
 import CoreLocation
 
 struct sendAttendanceSection: View {
+    
+    
     @StateObject private var locationManager = LocationManager()
     @State private var numberOfStudents: String = ""
     @State private var imageData: Data? = nil
@@ -19,8 +21,10 @@ struct sendAttendanceSection: View {
     @State private var showImagePicker = false
     @State private var isPressed: Bool = false
     
+    
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
+    
     
     var body: some View {
         VStack {
