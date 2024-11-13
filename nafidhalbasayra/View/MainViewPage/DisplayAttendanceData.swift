@@ -40,6 +40,10 @@ struct DisplayAttendanceData: View {
                     if let notes = entity.notes {
                         Text("الملاحظات: \(notes)")
                     }
+                    
+                    if let date = entity.date {
+                        Text("الملاحظات: \(date)")
+                    }
                 }
                 .padding()
             }

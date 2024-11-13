@@ -71,7 +71,8 @@ struct sendAttendanceSection: View {
                     
                 }
                 
-                Spacer().frame(height: screenHeight * 0.035)
+                Spacer()
+                    .frame(height: screenHeight * 0.035)
                 
                 VStack {
                     HStack {
@@ -196,7 +197,9 @@ struct sendAttendanceSection: View {
                         guard let numberOfStudentsInt = Int(numberOfStudents), let location = locationManager.location else { return }
                         
                         // Save attendance status
-                        vmAttendaceStatus.addAttendaceStatus(numberOfStudents: numberOfStudentsInt, imageData: imageData, notes: notes, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+                        vmAttendaceStatus.addAttendaceStatus(
+                            numberOfStudents: numberOfStudentsInt, imageData: imageData, notes: notes, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, date: Date())
+                        
                         
                         showAlert = true
                     }) {

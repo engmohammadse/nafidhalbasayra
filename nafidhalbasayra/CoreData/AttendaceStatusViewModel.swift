@@ -32,7 +32,7 @@ class AttendaceStatusViewModel: ObservableObject {
         }
     }
 
-    func addAttendaceStatus(numberOfStudents: Int, imageData: Data?, notes: String, latitude: Double, longitude: Double) {
+    func addAttendaceStatus(numberOfStudents: Int, imageData: Data?, notes: String, latitude: Double, longitude: Double, date: Date) {
         let newAttendaceStatus = AttendaceStatus(context: container.viewContext)
         newAttendaceStatus.id = UUID().uuidString // تأكد من إضافة خاصية id في النموذج إذا لم تكن موجودة
         newAttendaceStatus.numberOfStudents = String(numberOfStudents)
@@ -40,6 +40,7 @@ class AttendaceStatusViewModel: ObservableObject {
         newAttendaceStatus.notes = notes
         newAttendaceStatus.latitude = latitude
         newAttendaceStatus.longitude = longitude
+        newAttendaceStatus.date = date
         saveData()
         fetchAttendaceStatus()
         print("Successfully saved attendance status for \(numberOfStudents) students.")
