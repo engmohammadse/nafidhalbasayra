@@ -43,7 +43,7 @@ class AttendaceStatusViewModel: ObservableObject {
         newAttendaceStatus.date = date
         saveData()
         fetchAttendaceStatus()
-        print("Successfully saved attendance status for \(numberOfStudents) students.")
+        print("Successfully saved attendance status.")
     }
 
     func saveData() {

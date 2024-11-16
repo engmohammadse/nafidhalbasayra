@@ -52,6 +52,9 @@ extension View {
 
 
 
+
+
+
 import SwiftUI
 import UIKit
 
@@ -97,32 +100,94 @@ struct ImagePicker: UIViewControllerRepresentable {
 
 
 
+// new LocationManager
 import Foundation
 import CoreLocation
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private var locationManager = CLLocationManager()
     @Published var location: CLLocation?
+    @Published var locationError: String? // متغير لتخزين رسالة الخطأ
 
     override init() {
         super.init()
+        configureLocationManager()
+    }
+
+    private func configureLocationManager() {
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization() // طلب إذن الوصول إلى الموقع
     }
 
     func requestLocation() {
-        self.locationManager.requestLocation()
+        self.locationError = nil // إعادة تعيين رسالة الخطأ
+        if CLLocationManager.locationServicesEnabled() {
+            self.locationManager.requestLocation()
+        } else {
+            self.locationError = "خدمة الموقع غير مفعلة. يرجى تفعيلها من إعدادات الجهاز."
+            print("Location services are disabled.")
+        }
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        self.location = locations.first
+        guard let firstLocation = locations.first else {
+            self.locationError = "لم يتم تحديث الموقع"
+            print("No locations found.")
+            return
+        }
+        self.location = firstLocation
+        print("Location updated: \(firstLocation.coordinate.latitude), \(firstLocation.coordinate.longitude)")
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        if let clError = error as? CLError {
+            switch clError.code {
+            case .denied:
+                self.locationError = "تم رفض إذن الموقع. يرجى السماح للتطبيق بالوصول إلى الموقع من الإعدادات."
+            case .locationUnknown:
+                self.locationError = "موقع غير معروف. يرجى المحاولة مرة أخرى."
+            default:
+                self.locationError = "فشل في الحصول على الموقع: \(error.localizedDescription)"
+            }
+        } else {
+            self.locationError = "فشل في الحصول على الموقع: \(error.localizedDescription)"
+        }
         print("Failed to get location: \(error.localizedDescription)")
     }
 }
+
+
+
+
+
+//old
+//import Foundation
+//import CoreLocation
+//
+//class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+//    private var locationManager = CLLocationManager()
+//    @Published var location: CLLocation?
+//
+//    override init() {
+//        super.init()
+//        self.locationManager.delegate = self
+//        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//        self.locationManager.requestWhenInUseAuthorization() // طلب إذن الوصول إلى الموقع
+//    }
+//
+//    func requestLocation() {
+//        self.locationManager.requestLocation()
+//    }
+//
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        self.location = locations.first
+//    }
+//
+//    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+//        print("Failed to get location: \(error.localizedDescription)")
+//    }
+//}
 
 
 
