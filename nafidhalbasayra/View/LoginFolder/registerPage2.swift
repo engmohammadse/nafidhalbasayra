@@ -11,7 +11,7 @@ struct registerPage2: View {
     @State private var isPressed = false
     @Environment(\.dismiss) var dismiss
     @ObservedObject var teacherData: TeacherDataViewModel
-
+    @StateObject private var viewModel = CoreDataViewModel()
     @State private var showImagePicker = false
     
     var body: some View {
@@ -209,6 +209,69 @@ struct registerPage2: View {
             
             
             Button(action: {
+                
+                
+                // Ensure capturedImage is not nil before proceeding
+//                guard let image = teacherData.capturedImage,
+//                      let imageData = image.jpegData(compressionQuality: 0.8) else {
+//                    print("يرجى إضافة صورة قبل الإرسال.")
+//                    return
+//                }
+                
+                // Initialize Core Data ViewModel
+                let coreDataViewModel = CoreDataViewModel()
+                
+                // Create a new entity in Core Data
+                let newTeacherInfo = TeacherInfo(context: coreDataViewModel.container.viewContext)
+                
+                // Map values from TeacherDataViewModel to TeacherInfo entity
+                newTeacherInfo.name = teacherData.name
+                newTeacherInfo.birthDay = teacherData.birthDay
+//                newTeacherInfo.phonenumber = Int16(teacherData.phonenumber) ?? 0
+                newTeacherInfo.province = teacherData.province
+                newTeacherInfo.city = teacherData.city
+//                newTeacherInfo.citynumber = Int16(teacherData.citynumber) ?? 00
+                newTeacherInfo.didyoutaught = teacherData.didyoutaught
+                newTeacherInfo.mosquname = teacherData.mosquname
+                newTeacherInfo.academiclevel = teacherData.academiclevel
+                newTeacherInfo.currentWork = teacherData.currentWork
+               // newTeacherInfo.capturedImage = imageData // Store image data
+                
+                // Safely convert phonenumber to Int16
+                if let phoneNumber = Int16(teacherData.phonenumber) {
+                    newTeacherInfo.phonenumber = phoneNumber
+                } else {
+                    newTeacherInfo.phonenumber = 0 // Default value if conversion fails
+                }
+
+                // Safely convert citynumber to Int16
+                if let cityNumber = Int16(teacherData.citynumber) {
+                    newTeacherInfo.citynumber = cityNumber
+                } else {
+                    newTeacherInfo.citynumber = 0 // Default value if conversion fails
+                }
+                
+                
+                // Save the data in Core Data
+                coreDataViewModel.saveTeacherData()
+                
+                // Print success message and clear temporary data
+                print("تم حفظ البيانات بنجاح في قاعدة البيانات!")
+                
+                // Clear TeacherDataViewModel fields
+                teacherData.name = ""
+                teacherData.birthDay = Date()
+                teacherData.phonenumber = ""
+                teacherData.province = ""
+                teacherData.city = "النجف"
+                teacherData.citynumber = ""
+                teacherData.didyoutaught = false
+                teacherData.mosquname = ""
+                teacherData.academiclevel = ""
+                teacherData.currentWork = ""
+              //  teacherData.capturedImage = nil
+                
+                
 //                    isPressed.toggle()
 //                    withAnimation(.easeInOut(duration: 0.5)) {
 //                        showError.toggle()
@@ -216,7 +279,7 @@ struct registerPage2: View {
 //                    // Navigate to the next screen upon successful login
 //                    isNavigate = true
             }) {
-                Text("اسال البيانات")
+                Text("إرسال البيانات")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.025 ))
                     .frame(height: screenHeight * 0.04)
                     .foregroundColor(.white)
@@ -224,6 +287,39 @@ struct registerPage2: View {
             }
             .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
             .cornerRadius(5)
+            
+            
+            // طباعة
+            Button(action: {
+                let coreDataViewModel = CoreDataViewModel()
+                coreDataViewModel.printStoredData()
+            }) {
+                Text("طباعة البيانات المخزنة")
+                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025))
+                    .frame(height: screenHeight * 0.04)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
+            }
+            .background(Color.blue)
+            .cornerRadius(5)
+            
+//
+            
+            
+            // طباعة
+            Button(action: {
+                viewModel.deleteAllTeacherInfo()
+            }) {
+                Text("طباعة البيانات المخزنة")
+                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025))
+                    .frame(height: screenHeight * 0.04)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
+            }
+            .background(Color.blue)
+            .cornerRadius(5)
+            
+            
             
             
             

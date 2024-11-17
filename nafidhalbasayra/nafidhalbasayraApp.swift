@@ -29,7 +29,8 @@ struct nafidhalbasayraApp: App {
                             }
                         }
                 } else {
-                    MainViewPage()
+                    //MainViewPage()
+                    LoginPageWelcom()
                         .preferredColorScheme(.light)
                         .environmentObject(vmAttendaceStatus)
                 }

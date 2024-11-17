@@ -51,6 +51,25 @@ class CoreDataViewModel: ObservableObject {
         container.viewContext.delete(entity)
         saveTeacherData()
     }
+    
+    
+    
+    func deleteAllTeacherInfo() {
+           let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TeacherInfo")
+           let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+           
+           do {
+               try container.viewContext.execute(batchDeleteRequest)
+               try container.viewContext.save()
+               fetchTeacherInfo()
+               print("All records in TeacherInfo have been deleted.")
+           } catch let error {
+               print("Error deleting all records in TeacherInfo: \(error)")
+           }
+       }
+    
+    
+    
 
     func saveTeacherData() {
         do {
@@ -60,6 +79,34 @@ class CoreDataViewModel: ObservableObject {
             print("Error saving. \(error)")
         }
     }
+    
+    
+    
+    
+    
+    // دالة لطباعة البيانات المخزنة
+    func printStoredData() {
+        fetchTeacherInfo() // جلب البيانات
+        for entity in savedEntities {
+            
+     
+
+            
+            
+            print("اسم المعلم: \(entity.name ?? "غير معروف")")
+            print("تاريخ الميلاد: \(entity.birthDay ?? Date())")
+            print("رقم الهاتف: \(entity.phonenumber)")
+            print("المحافظة: \(entity.province ?? "غير مدخلة")")
+            print("المدينة: \(entity.city ?? "غير مدخلة")")
+            print("رقم المدينة: \(entity.citynumber )")
+            print("هل قام بالتدريس: \(entity.didyoutaught ? "نعم" : "لا")")
+            print("اسم المسجد: \(entity.mosquname ?? "غير مدخل")")
+            print("المستوى الأكاديمي: \(entity.academiclevel ?? "غير مدخل")")
+            print("الوظيفة الحالية: \(entity.currentWork ?? "غير مدخلة")")
+            print("------------------------------------")
+        }
+    }
+    
 }
 
 struct TeacherViewModel: View {
