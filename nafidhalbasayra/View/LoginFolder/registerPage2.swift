@@ -223,6 +223,10 @@ struct registerPage2: View {
 
                 // Example usage with teacherData and optional imageData
                 coreDataViewModel.addTeacherInfoToCoreData(from: teacherData, with: nil)
+                
+                //في حال وجود صورة
+                //coreDataViewModel.addTeacherInfo(from: teacherData, with: imageData)
+
 
                 
                 // Print success message and clear temporary data
