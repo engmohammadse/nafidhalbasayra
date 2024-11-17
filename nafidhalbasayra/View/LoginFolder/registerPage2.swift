@@ -218,58 +218,17 @@ struct registerPage2: View {
 //                    return
 //                }
                 
-                // Initialize Core Data ViewModel
+              //
                 let coreDataViewModel = CoreDataViewModel()
-                
-                // Create a new entity in Core Data
-                let newTeacherInfo = TeacherInfo(context: coreDataViewModel.container.viewContext)
-                
-                // Map values from TeacherDataViewModel to TeacherInfo entity
-                newTeacherInfo.name = teacherData.name
-                newTeacherInfo.birthDay = teacherData.birthDay
-//                newTeacherInfo.phonenumber = Int16(teacherData.phonenumber) ?? 0
-                newTeacherInfo.province = teacherData.province
-                newTeacherInfo.city = teacherData.city
-//                newTeacherInfo.citynumber = Int16(teacherData.citynumber) ?? 00
-                newTeacherInfo.didyoutaught = teacherData.didyoutaught
-                newTeacherInfo.mosquname = teacherData.mosquname
-                newTeacherInfo.academiclevel = teacherData.academiclevel
-                newTeacherInfo.currentWork = teacherData.currentWork
-               // newTeacherInfo.capturedImage = imageData // Store image data
-                
-                // Safely convert phonenumber to Int16
-                if let phoneNumber = Int16(teacherData.phonenumber) {
-                    newTeacherInfo.phonenumber = phoneNumber
-                } else {
-                    newTeacherInfo.phonenumber = 0 // Default value if conversion fails
-                }
 
-                // Safely convert citynumber to Int16
-                if let cityNumber = Int16(teacherData.citynumber) {
-                    newTeacherInfo.citynumber = cityNumber
-                } else {
-                    newTeacherInfo.citynumber = 0 // Default value if conversion fails
-                }
-                
-                
-                // Save the data in Core Data
-                coreDataViewModel.saveTeacherData()
+                // Example usage with teacherData and optional imageData
+                coreDataViewModel.addTeacherInfoToCoreData(from: teacherData, with: nil)
+
                 
                 // Print success message and clear temporary data
                 print("تم حفظ البيانات بنجاح في قاعدة البيانات!")
                 
-                // Clear TeacherDataViewModel fields
-                teacherData.name = ""
-                teacherData.birthDay = Date()
-                teacherData.phonenumber = ""
-                teacherData.province = ""
-                teacherData.city = "النجف"
-                teacherData.citynumber = ""
-                teacherData.didyoutaught = false
-                teacherData.mosquname = ""
-                teacherData.academiclevel = ""
-                teacherData.currentWork = ""
-              //  teacherData.capturedImage = nil
+                resetField()
                 
                 
 //                    isPressed.toggle()
@@ -306,11 +265,11 @@ struct registerPage2: View {
 //
             
             
-            // طباعة
+            // delete
             Button(action: {
                 viewModel.deleteAllTeacherInfo()
             }) {
-                Text("طباعة البيانات المخزنة")
+                Text("delete all data ")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025))
                     .frame(height: screenHeight * 0.04)
                     .foregroundColor(.white)
@@ -344,6 +303,23 @@ struct registerPage2: View {
         
        
         
+        
+    }
+    
+    func resetField() {
+        
+        // Clear TeacherDataViewModel fields
+        teacherData.name = ""
+        teacherData.birthDay = Date()
+        teacherData.phonenumber = ""
+        teacherData.province = ""
+        teacherData.city = "النجف"
+        teacherData.citynumber = ""
+        teacherData.didyoutaught = false
+        teacherData.mosquname = ""
+        teacherData.academiclevel = ""
+        teacherData.currentWork = ""
+      //  teacherData.capturedImage = nil
         
     }
 }

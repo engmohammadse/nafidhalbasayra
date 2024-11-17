@@ -83,6 +83,56 @@ class CoreDataViewModel: ObservableObject {
     
     
     
+    func addTeacherInfoToCoreData(from teacherData: TeacherDataViewModel, with imageData: Data?) {
+        // Create a new entity in Core Data
+        let newTeacherInfo = TeacherInfo(context: container.viewContext)
+        
+        // Map values from TeacherDataViewModel to TeacherInfo entity
+        newTeacherInfo.name = teacherData.name
+        newTeacherInfo.birthDay = teacherData.birthDay
+        newTeacherInfo.province = teacherData.province
+        newTeacherInfo.city = teacherData.city
+        newTeacherInfo.didyoutaught = teacherData.didyoutaught
+        newTeacherInfo.mosquname = teacherData.mosquname
+        newTeacherInfo.academiclevel = teacherData.academiclevel
+        newTeacherInfo.currentWork = teacherData.currentWork
+        newTeacherInfo.teacherID = UUID().uuidString // Generate a unique ID for the teacher
+      //  newTeacherInfo.capturedImage = imageData // Store image data if provided
+        
+        
+        // Handle optional image data
+        // هنا نعوض مكان الصورة في حال لا توجد صورة بي nill
+        if let validImageData = imageData {
+            newTeacherInfo.capturedImage = validImageData
+        } else {
+            newTeacherInfo.capturedImage = nil // Set to nil if no image data is provided
+        }
+        
+
+        // Safely convert phonenumber to Int16
+        if let phoneNumber = Int16(teacherData.phonenumber) {
+            newTeacherInfo.phonenumber = phoneNumber
+        } else {
+            newTeacherInfo.phonenumber = 0 // Default value if conversion fails
+        }
+
+        // Safely convert citynumber to Int16
+        if let cityNumber = Int16(teacherData.citynumber) {
+            newTeacherInfo.citynumber = cityNumber
+        } else {
+            newTeacherInfo.citynumber = 0 // Default value if conversion fails
+        }
+
+        // Save the data in Core Data
+        saveTeacherData()
+    }
+    
+   
+
+    
+    
+    
+    
     
     // دالة لطباعة البيانات المخزنة
     func printStoredData() {
@@ -103,6 +153,7 @@ class CoreDataViewModel: ObservableObject {
             print("اسم المسجد: \(entity.mosquname ?? "غير مدخل")")
             print("المستوى الأكاديمي: \(entity.academiclevel ?? "غير مدخل")")
             print("الوظيفة الحالية: \(entity.currentWork ?? "غير مدخلة")")
+            print("id teacher: \(String(describing: entity.teacherID))")
             print("------------------------------------")
         }
     }
