@@ -29,8 +29,9 @@ struct registerPage2: View {
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 200, height: 200)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.2  : screenWidth * 0.2) : screenWidth * 0.2)
+                        
+                                .clipShape(Circle())
                         }
         
                         else {
