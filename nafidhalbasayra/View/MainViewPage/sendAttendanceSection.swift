@@ -33,6 +33,12 @@ struct sendAttendanceSection: View {
             
             VStack {
                 ScrollView {
+                    
+                    Color.clear
+                        .frame(height: 1)
+                        .frame(maxWidth: screenWidth * 2)
+                    
+                    
                     VStack {
                         Spacer().frame(height: screenHeight * 0.07)
                         HStack {
@@ -78,6 +84,7 @@ struct sendAttendanceSection: View {
                         
                         
                     }
+                    
                     
                     Spacer()
                         .frame(height: screenHeight * 0.035)
@@ -271,7 +278,7 @@ struct sendAttendanceSection: View {
                         Image("Group 56")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: uiDevicePhone ? screenWidth * 0.08 : screenWidth * 0.064)
+                            .frame(width: uiDevicePhone ? screenWidth * 0.09 : screenWidth * 0.064)
                     }
                     .offset(x: screenWidth * 0.46, y: screenHeight * -0.15)
                 }
