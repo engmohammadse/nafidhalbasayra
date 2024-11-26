@@ -213,20 +213,20 @@ struct registerPage2: View {
                 
                 
                 // Ensure capturedImage is not nil before proceeding
-//                guard let image = teacherData.capturedImage,
-//                      let imageData = image.jpegData(compressionQuality: 0.8) else {
-//                    print("يرجى إضافة صورة قبل الإرسال.")
-//                    return
-//                }
+                guard let image = teacherData.capturedImage,
+                      let imageData = image.jpegData(compressionQuality: 0.8) else {
+                    print("يرجى إضافة صورة قبل الإرسال.")
+                    return
+                }
                 
               //
                 let coreDataViewModel = CoreDataViewModel()
 
                 // Example usage with teacherData and optional imageData
-                coreDataViewModel.addTeacherInfoToCoreData(from: teacherData, with: nil)
+                //coreDataViewModel.addTeacherInfoToCoreData(from: teacherData, with: nil)
                 
                 //في حال وجود صورة
-                //coreDataViewModel.addTeacherInfo(from: teacherData, with: imageData)
+                coreDataViewModel.addTeacherInfoToCoreData(from: teacherData, with: imageData)
 
 
                 

@@ -97,7 +97,7 @@ class CoreDataViewModel: ObservableObject {
         newTeacherInfo.academiclevel = teacherData.academiclevel
         newTeacherInfo.currentWork = teacherData.currentWork
         newTeacherInfo.teacherID = UUID().uuidString // Generate a unique ID for the teacher
-      //  newTeacherInfo.capturedImage = imageData // Store image data if provided
+        newTeacherInfo.capturedImage = imageData // Store image data if provided
         
         
         // Handle optional image data
@@ -154,6 +154,12 @@ class CoreDataViewModel: ObservableObject {
             print("المستوى الأكاديمي: \(entity.academiclevel ?? "غير مدخل")")
             print("الوظيفة الحالية: \(entity.currentWork ?? "غير مدخلة")")
             print("id teacher: \(String(describing: entity.teacherID))")
+            if let imageData = entity.capturedImage, let image = UIImage(data: imageData) {
+                print("الوظيفة الحالية: صورة بحجم \(image.size.width)x\(image.size.height) بكسل")
+            } else {
+                print("الوظيفة الحالية: غير مدخلة")
+            }
+
             print("------------------------------------")
         }
     }
