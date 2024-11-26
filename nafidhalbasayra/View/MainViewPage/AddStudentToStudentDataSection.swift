@@ -12,6 +12,7 @@ struct AddStudentToStudentDataSection: View {
     
     @EnvironmentObject var vmStudent: StudentViewModel
     @State var selectedStudent: StudentInfo?
+    @ObservedObject var teacherData: TeacherDataViewModel
     @State var updatedName: String = ""
 
     @Environment(\.dismiss) var dismiss
@@ -145,5 +146,5 @@ struct AddStudentToStudentDataSection: View {
 
 
 #Preview {
-    AddStudentToStudentDataSection()
+    AddStudentToStudentDataSection( teacherData: TeacherDataViewModel())
 }

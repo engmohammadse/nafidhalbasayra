@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainViewPage: View {
     //@EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
+    @StateObject var teacherData = TeacherDataViewModel()
     var body: some View {
         
         
@@ -78,12 +79,14 @@ struct MainViewPage: View {
             }
       
        }
-            
+        .environmentObject(teacherData) // إضافة الكائن إلى البيئة
+
     }
 }
 
 #Preview {
-    MainViewPage().environmentObject(AttendaceStatusViewModel())
+    MainViewPage()
+        .environmentObject(AttendaceStatusViewModel())
 }
 
 //

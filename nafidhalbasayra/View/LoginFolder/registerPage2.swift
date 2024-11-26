@@ -29,7 +29,7 @@ struct registerPage2: View {
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.2  : screenWidth * 0.2) : screenWidth * 0.2)
+                                .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.15  : screenWidth * 0.2) : screenWidth * 0.2)
                         
                                 .clipShape(Circle())
                         }
@@ -301,7 +301,7 @@ struct registerPage2: View {
         }
         .navigationBarBackButtonHidden(true)
         .overlay {
-            PreviousNextButton( geoW: screenWidth, geoH: screenHeight,  destination: registerPage3(), color: Color.white, imageName: "Group 9")
+            PreviousNextButton( geoW: screenWidth, geoH: screenHeight,  destination: registerPage3().environmentObject(teacherData), color: Color.white, imageName: "Group 9")
                 .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
 
         }

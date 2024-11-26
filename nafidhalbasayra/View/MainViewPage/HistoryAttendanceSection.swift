@@ -41,6 +41,7 @@ struct HistoryAttendance: View {
          .padding(.all, screenWidth * 0.02)
          .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
          .overlay{
+
              LogoIUserInfo()
                  .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.0 : screenHeight * 0)
               
@@ -230,5 +231,6 @@ struct HistoryAttendance: View {
  }
 
 #Preview {
-    HistoryAttendance().environmentObject(AttendaceStatusViewModel())
+    HistoryAttendance()
+        .environmentObject(AttendaceStatusViewModel())
 }

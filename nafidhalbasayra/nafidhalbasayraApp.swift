@@ -6,16 +6,14 @@
 //
 
 
-
-
-
 import SwiftUI
+
+
 
 @main
 struct nafidhalbasayraApp: App {
-    @StateObject var teacherData = TeacherDataViewModel()
+    @StateObject private var teacherData = TeacherDataViewModel()
     @StateObject private var vmAttendaceStatus = AttendaceStatusViewModel()
-    
     @State private var showSplash = true
 
     var body: some Scene {
@@ -29,15 +27,59 @@ struct nafidhalbasayraApp: App {
                             }
                         }
                 } else {
-                       //MainViewPage()
-                        LoginPageWelcom()
+                    // MainViewPage()
+                    LoginPageWelcom()
                         .preferredColorScheme(.light)
                         .environmentObject(vmAttendaceStatus)
+                        .environmentObject(teacherData)  // تأكد من تمرير البيانات هنا
                 }
             }
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+//import SwiftUI
+//
+//@main
+//struct nafidhalbasayraApp: App {
+//    @StateObject private var teacherData = TeacherDataViewModel()
+//
+//    @StateObject private var vmAttendaceStatus = AttendaceStatusViewModel()
+//    
+//    @State private var showSplash = true
+//
+//    var body: some Scene {
+//        WindowGroup {
+//            NavigationStack {
+//                if showSplash {
+//                    LoginPage0()
+//                        .onAppear {
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//                                showSplash = false
+//                            }
+//                        }
+//                } else {
+//                       //MainViewPage()
+//                        LoginPageWelcom()
+//                        .preferredColorScheme(.light)
+//                        .environmentObject(vmAttendaceStatus)
+//                        .environmentObject(teacherData)
+//                }
+//            }
+//        }
+//    }
+//}
 
 
 

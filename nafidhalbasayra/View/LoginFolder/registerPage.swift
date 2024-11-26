@@ -54,7 +54,7 @@ struct registerPage: View {
             .overlay{
                 
                 
-                PreviousNextButton( geoW: screenWidth, geoH: screenHeight, destination: registerPage1(teacherData: teacherData), color: Color.white, imageName: "Group 9")
+                PreviousNextButton( geoW: screenWidth, geoH: screenHeight, destination: registerPage1(teacherData: teacherData).environmentObject(teacherData), color: Color.white, imageName: "Group 9")
              
                     .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
                 

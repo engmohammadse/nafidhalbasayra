@@ -68,7 +68,7 @@ struct StudentDataSection: View {
             
             
             Button(action: {}){
-                NavigationLink(destination: AddStudentToStudentDataSection().environmentObject(vmStudent)){
+                NavigationLink(destination: AddStudentToStudentDataSection( teacherData: TeacherDataViewModel() ).environmentObject(vmStudent)){
                     Text("تسجيل بيانات طالب جديد")
                         .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                         .foregroundStyle(.white)
@@ -247,7 +247,8 @@ struct studentInfo :View {
 //                                             .foregroundColor(Color(red: 24/255, green: 82/255, blue: 100/255))
 //                                             .padding(.all, screenWidth * 0.02)
                                          
-                                         NavigationLink(destination: EditStudentAtStudentDataSection(student: student).environmentObject(vmStudent)) { Text("تعديل البيانات") .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023)) .foregroundColor(Color(red: 24/255, green: 82/255, blue: 100/255)) .padding(.all, screenWidth * 0.02) }
+                                         NavigationLink(destination: EditStudentAtStudentDataSection(student: student, teacherData: TeacherDataViewModel() )
+                                            .environmentObject(vmStudent)) { Text("تعديل البيانات") .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023)) .foregroundColor(Color(red: 24/255, green: 82/255, blue: 100/255)) .padding(.all, screenWidth * 0.02) }
                                          
                                          
                                          
