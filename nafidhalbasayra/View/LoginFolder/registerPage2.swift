@@ -10,7 +10,7 @@ import SwiftUI
 struct registerPage2: View {
     @State private var isPressed = false
     @Environment(\.dismiss) var dismiss
-    @ObservedObject var teacherData: TeacherDataViewModel
+    @EnvironmentObject var teacherData: TeacherDataViewModel
     @StateObject private var viewModel = CoreDataViewModel()
     @State private var showImagePicker = false
     
@@ -330,5 +330,5 @@ struct registerPage2: View {
 }
 
 #Preview {
-    registerPage2(teacherData: TeacherDataViewModel())
+    registerPage2()
 }

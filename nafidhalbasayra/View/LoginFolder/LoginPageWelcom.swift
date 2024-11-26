@@ -101,7 +101,7 @@ struct LoginPageWelcom: View {
                 
                     .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.4)
 
-                
+                    
                 
             }
             

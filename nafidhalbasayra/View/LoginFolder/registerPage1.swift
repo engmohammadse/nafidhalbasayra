@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct registerPage1: View {
-    @ObservedObject var teacherData: TeacherDataViewModel
-    
+    @EnvironmentObject var teacherData: TeacherDataViewModel
+
     @Environment(\.dismiss) var dismiss
     
     @State var city: String = "النجف الأشرف"
@@ -55,7 +55,7 @@ struct registerPage1: View {
        
         
         .overlay {
-            PreviousNextButton(geoW: screenWidth, geoH: screenHeight,  destination: registerPage2( teacherData: teacherData).environmentObject(teacherData),  color: Color.white, imageName: "Group 9")
+            PreviousNextButton(geoW: screenWidth, geoH: screenHeight,  destination: registerPage2().environmentObject(teacherData),  color: Color.white, imageName: "Group 9")
                 .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
 
         }
@@ -69,7 +69,7 @@ struct registerPage1: View {
 
 
 #Preview {
-    registerPage1(teacherData: TeacherDataViewModel())
+    registerPage1()
 
 }
 

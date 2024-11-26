@@ -10,6 +10,8 @@ import SwiftUI
 struct LoginPage1: View {
     
     @StateObject private var viewModel = LoginViewModel()
+    @EnvironmentObject var teacherData: TeacherDataViewModel
+
     
     //@State private var isGo: Bool = false
     
@@ -226,7 +228,7 @@ struct LoginPage1: View {
             .opacity(isButtonDisabled ? 0.5 : 1.0)
             
             .navigationDestination(isPresented: $viewModel.navigateToNextPage) {
-                LoginPageWelcom() // Assuming this is your destination view
+                LoginPageWelcom().environmentObject(teacherData) // Assuming this is your destination view
             }
 
             Spacer()

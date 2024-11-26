@@ -28,7 +28,8 @@ struct nafidhalbasayraApp: App {
                         }
                 } else {
                     // MainViewPage()
-                    LoginPageWelcom()
+                   // LoginPageWelcom()
+                    LoginPage1()
                         .preferredColorScheme(.light)
                         .environmentObject(vmAttendaceStatus)
                         .environmentObject(teacherData)  // تأكد من تمرير البيانات هنا
