@@ -35,7 +35,9 @@ class TeacherDataViewModel: ObservableObject {
     
     
     // تخزين الصورة الملتقطة
-    @Published var capturedImage: UIImage?
+    @Published var profileimage: UIImage?
+    @Published var frontfaceidentity: UIImage?
+    @Published var backfaceidentity: UIImage?
     
     
     

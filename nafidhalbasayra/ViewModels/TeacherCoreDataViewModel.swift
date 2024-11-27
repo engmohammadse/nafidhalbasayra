@@ -24,6 +24,9 @@ class CoreDataViewModel: ObservableObject {
         }
         fetchTeacherInfo()
     }
+    
+    
+    
 
     func fetchTeacherInfo() {
         let request = NSFetchRequest<TeacherInfo>(entityName: "TeacherInfo")
@@ -33,6 +36,14 @@ class CoreDataViewModel: ObservableObject {
             print("Error Fetching. \(error)")
         }
     }
+    
+    
+    
+    
+    
+    
+    
+    
 
     func addTeacherInfo(text: String) {
         let newTeacherInfo = TeacherInfo(context: container.viewContext)
@@ -83,7 +94,7 @@ class CoreDataViewModel: ObservableObject {
     
     
     
-    func addTeacherInfoToCoreData(from teacherData: TeacherDataViewModel, with imageData: Data?) {
+    func addTeacherInfoToCoreData(from teacherData: TeacherDataViewModel, with faceImage: Data?, with frontId: Data?, with backId: Data?) {
         // Create a new entity in Core Data
         let newTeacherInfo = TeacherInfo(context: container.viewContext)
         
@@ -97,15 +108,33 @@ class CoreDataViewModel: ObservableObject {
         newTeacherInfo.academiclevel = teacherData.academiclevel
         newTeacherInfo.currentWork = teacherData.currentWork
         newTeacherInfo.teacherID = UUID().uuidString // Generate a unique ID for the teacher
-        newTeacherInfo.capturedImage = imageData // Store image data if provided
+        newTeacherInfo.profileimage = faceImage // Store image data if provided
+        newTeacherInfo.frontfaceidentity = frontId
+        newTeacherInfo.backfaceidentity = backId
+        
+//        @Published var frontfaceidentity: UIImage?
+//        @Published var backfaceidentity: UIImage?
         
         
         // Handle optional image data
         // هنا نعوض مكان الصورة في حال لا توجد صورة بي nill
-        if let validImageData = imageData {
-            newTeacherInfo.capturedImage = validImageData
+        if let validImageData = faceImage {
+            newTeacherInfo.profileimage = validImageData
         } else {
-            newTeacherInfo.capturedImage = nil // Set to nil if no image data is provided
+            newTeacherInfo.profileimage = nil // Set to nil if no image data is provided
+        }
+        
+        
+        if let validImageDataFront = frontId {
+            newTeacherInfo.frontfaceidentity = validImageDataFront
+        } else {
+            newTeacherInfo.frontfaceidentity = nil // Set to nil if no image data is provided
+        }
+        
+        if let validImageDataBack = backId {
+            newTeacherInfo.backfaceidentity = validImageDataBack
+        } else {
+            newTeacherInfo.backfaceidentity = nil // Set to nil if no image data is provided
         }
         
 
@@ -154,13 +183,30 @@ class CoreDataViewModel: ObservableObject {
             print("المستوى الأكاديمي: \(entity.academiclevel ?? "غير مدخل")")
             print("الوظيفة الحالية: \(entity.currentWork ?? "غير مدخلة")")
             print("id teacher: \(String(describing: entity.teacherID))")
-            if let imageData = entity.capturedImage, let image = UIImage(data: imageData) {
+            if let imageData = entity.profileimage,
+               let image = UIImage(data: imageData) {
                 print("الوظيفة الحالية: صورة بحجم \(image.size.width)x\(image.size.height) بكسل")
             } else {
                 print("الوظيفة الحالية: غير مدخلة")
             }
-
+ 
             print("------------------------------------")
+            
+            if let imageDataf = entity.frontfaceidentity,
+               let imagef = UIImage(data: imageDataf) {
+                print("front id image : \(imagef.size.width)x\(imagef.size.height) ")
+            } else {
+                print("الوظيفة الحالية: غير مدخلة")
+            }
+            
+            print("------------------------------------")
+            
+            if let imageDatab = entity.frontfaceidentity,
+               let imageb = UIImage(data: imageDatab) {
+                print("Back id image : \(imageb.size.width)x\(imageb.size.height) ")
+            } else {
+                print("الوظيفة الحالية: غير مدخلة")
+            }
         }
     }
     

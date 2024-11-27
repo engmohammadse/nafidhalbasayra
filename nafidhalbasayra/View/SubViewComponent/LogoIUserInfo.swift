@@ -20,7 +20,7 @@ struct LogoIUserInfo: View {
                 HStack{
   
                     // عرض الصورة إذا كانت موجودة
-                         if let image = teacherData.capturedImage {
+                         if let image = teacherData.profileimage {
                              Image(uiImage: image)
                                  .resizable()
                                  .scaledToFit()

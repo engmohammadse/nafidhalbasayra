@@ -12,8 +12,13 @@ struct registerPage2: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var teacherData: TeacherDataViewModel
     @StateObject private var viewModel = CoreDataViewModel()
+    @StateObject var coreDataViewModel = CoreDataViewModel() // temp
+
     @State private var showImagePicker = false
-    
+    @State private var showImagePickerFront = false
+    @State private var showImagePickerBack = false
+
+
     var body: some View {
         
         
@@ -25,7 +30,7 @@ struct registerPage2: View {
                     VStack{
                         
                    // عرض الصورة إذا كانت موجودة
-                        if let image = teacherData.capturedImage {
+                        if let image = teacherData.profileimage {
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFit()
@@ -83,7 +88,7 @@ struct registerPage2: View {
                 .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                 .cornerRadius(5)
                 .sheet(isPresented: $showImagePicker) {
-                           ImagePicker(selectedImage: $teacherData.capturedImage)
+                           ImagePicker(selectedImage: $teacherData.profileimage, sourceType: .camera)
                        }
             }
             
@@ -95,6 +100,11 @@ struct registerPage2: View {
                     
                     
                     VStack {
+                        
+                        
+                        
+                    
+                        
                         HStack {
                            
                             Image("Group 125")
@@ -106,6 +116,12 @@ struct registerPage2: View {
                                 .frame(width: screenWidth * 0.28)
                         }
                         
+                        
+                        
+                        
+                        
+                        
+                        
                         Text("يرجى تحميل صور الوجه \nالامامي للبطاقة الموحدة\n الخاصة بك")
                             .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025 ))
                         .multilineTextAlignment(.trailing)
@@ -115,10 +131,32 @@ struct registerPage2: View {
                         .frame(width: uiDevicePhone ? screenWidth * 0.06 : screenWidth * 0.04 )
                 
                     VStack{
-                        Image("Group 126")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.2 : screenWidth * 0.14) : screenWidth * 0.2)
+                        
+                        
+//                        Image("Group 126")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.2 : screenWidth * 0.14) : screenWidth * 0.2)
+                        
+                        //
+                        //
+                        // عرض الصورة إذا كانت موجودة
+                             if let imageF = teacherData.frontfaceidentity {
+                                 Image(uiImage: imageF)
+                                     .resizable()
+                                     .scaledToFit()
+                                     .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.15  : screenWidth * 0.2) : screenWidth * 0.2)
+                             
+                                     .clipShape(Circle())
+                             }
+             
+                             else {
+                                 Image("Group 126")
+                                     .resizable()
+                                     .aspectRatio(contentMode: .fit)
+                                     .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.2 : screenWidth * 0.14) : screenWidth * 0.2)
+                             }
+                        //
                         
                         Text("الوجه الامامي للهوية")
                             .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023 ))
@@ -131,6 +169,8 @@ struct registerPage2: View {
                 }
                 
                 Button(action: {
+                    
+                    showImagePickerFront = true
 //                    isPressed.toggle()
 //                    withAnimation(.easeInOut(duration: 0.5)) {
 //                        showError.toggle()
@@ -146,6 +186,9 @@ struct registerPage2: View {
                 }
                 .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                 .cornerRadius(5)
+                .sheet(isPresented: $showImagePickerFront) {
+                           ImagePicker(selectedImage: $teacherData.frontfaceidentity, sourceType: .camera)
+                       }
             }
             
             
@@ -156,10 +199,31 @@ struct registerPage2: View {
                 HStack {
                 
                     VStack{
-                        Image("Group 128")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.2 : screenWidth * 0.14) : screenWidth * 0.2)
+                        
+                        
+                        // عرض الصورة إذا كانت موجودة
+                             if let imageB = teacherData.backfaceidentity {
+                                 Image(uiImage: imageB)
+                                     .resizable()
+                                     .scaledToFit()
+                                     .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.15  : screenWidth * 0.2) : screenWidth * 0.2)
+                             
+                                     .clipShape(Circle())
+                             }
+             
+                             else {
+                                 Image("Group 128")
+                                     .resizable()
+                                     .aspectRatio(contentMode: .fit)
+                                     .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.2 : screenWidth * 0.14) : screenWidth * 0.2)
+                             }
+                        
+                        
+                        
+//                        Image("Group 128")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.2 : screenWidth * 0.14) : screenWidth * 0.2)
                         
                         Text("الوجه الخلفي للهوية")
                             .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023 ))
@@ -176,6 +240,10 @@ struct registerPage2: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: uiDevicePhone ? screenWidth * 0.065 : screenWidth * 0.04)
+                            
+                         
+                            
+                            
                         }
                         
                         Text("يرجى رفع صورة سيلفي\n واضحة يظهر فيها الوجه\n كاملا")
@@ -186,6 +254,7 @@ struct registerPage2: View {
 
                 
                 Button(action: {
+                showImagePickerBack = true
 //                    isPressed.toggle()
 //                    withAnimation(.easeInOut(duration: 0.5)) {
 //                        showError.toggle()
@@ -201,6 +270,10 @@ struct registerPage2: View {
                 }
                 .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                 .cornerRadius(5)
+                .sheet(isPresented: $showImagePickerBack) {
+                           ImagePicker(selectedImage: $teacherData.backfaceidentity, sourceType: .camera)
+                       }
+
             }
             
             
@@ -213,8 +286,19 @@ struct registerPage2: View {
                 
                 
                 // Ensure capturedImage is not nil before proceeding
-                guard let image = teacherData.capturedImage,
+                guard let image = teacherData.profileimage,
                       let imageData = image.jpegData(compressionQuality: 0.8) else {
+                    print("يرجى إضافة صورة قبل الإرسال.")
+                    return
+                }
+                guard let frontImage = teacherData.frontfaceidentity,
+                      let frontId = frontImage.jpegData(compressionQuality: 0.8) else {
+                    print("يرجى إضافة صورة قبل الإرسال.")
+                    return
+                }
+                
+                guard let BackImage = teacherData.backfaceidentity,
+                      let BackId = BackImage.jpegData(compressionQuality: 0.8) else {
                     print("يرجى إضافة صورة قبل الإرسال.")
                     return
                 }
@@ -226,7 +310,7 @@ struct registerPage2: View {
                 //coreDataViewModel.addTeacherInfoToCoreData(from: teacherData, with: nil)
                 
                 //في حال وجود صورة
-                coreDataViewModel.addTeacherInfoToCoreData(from: teacherData, with: imageData)
+                coreDataViewModel.addTeacherInfoToCoreData(from: teacherData, with: imageData, with: frontId, with: BackId )
 
 
                 
@@ -258,14 +342,24 @@ struct registerPage2: View {
                 let coreDataViewModel = CoreDataViewModel()
                 coreDataViewModel.printStoredData()
             }) {
-                Text("طباعة البيانات المخزنة")
-                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025))
-                    .frame(height: screenHeight * 0.04)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
+                
+               
+                    
+                    VStack{
+                        Text("طباعة البيانات المخزنة")
+                            .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025))
+                            .frame(height: screenHeight * 0.04)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
+                    }
+                
+                
+                
+            
             }
             .background(Color.blue)
             .cornerRadius(5)
+            
             
 //
             

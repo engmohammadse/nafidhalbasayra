@@ -22,7 +22,6 @@
         <attribute name="academiclevel" optional="YES" attributeType="String"/>
         <attribute name="backfaceidentity" optional="YES" attributeType="Binary"/>
         <attribute name="birthDay" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="capturedImage" optional="YES" attributeType="Binary"/>
         <attribute name="city" optional="YES" attributeType="String"/>
         <attribute name="citynumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="currentWork" optional="YES" attributeType="String"/>
@@ -31,6 +30,7 @@
         <attribute name="mosquname" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="phonenumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="profileimage" optional="YES" attributeType="Binary"/>
         <attribute name="province" optional="YES" attributeType="String"/>
         <attribute name="teacherID" optional="YES" attributeType="String"/>
     </entity>
