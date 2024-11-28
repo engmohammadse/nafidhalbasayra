@@ -55,6 +55,7 @@
 		41E9C6D22CC3C85000FE122F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D12CC3C85000FE122F /* Colors.swift */; };
 		41E9C6D42CC3CC0600FE122F /* UserManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D32CC3CC0600FE122F /* UserManual.swift */; };
 		41E9C6D62CC41A0100FE122F /* HistoryAttendanceSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D52CC41A0100FE122F /* HistoryAttendanceSection.swift */; };
+		41F34EF82CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F34EF72CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift */; };
 		41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0B52CAAE4C500BD7853 /* registerPage.swift */; };
 		41F9D0B92CAB03BB00BD7853 /* LogoIUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0B82CAB03BB00BD7853 /* LogoIUserInfo.swift */; };
 		41F9D0BB2CAB0A5800BD7853 /* CustemTextWithField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0BA2CAB0A5800BD7853 /* CustemTextWithField.swift */; };
@@ -111,6 +112,7 @@
 		41E9C6D12CC3C85000FE122F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		41E9C6D32CC3CC0600FE122F /* UserManual.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManual.swift; sourceTree = "<group>"; };
 		41E9C6D52CC41A0100FE122F /* HistoryAttendanceSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryAttendanceSection.swift; sourceTree = "<group>"; };
+		41F34EF72CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncTeacherDataPostApi.swift; sourceTree = "<group>"; };
 		41F9D0B52CAAE4C500BD7853 /* registerPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage.swift; sourceTree = "<group>"; };
 		41F9D0B82CAB03BB00BD7853 /* LogoIUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoIUserInfo.swift; sourceTree = "<group>"; };
 		41F9D0BA2CAB0A5800BD7853 /* CustemTextWithField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustemTextWithField.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 			children = (
 				41074C842CBE8EFB00FA28AC /* LoginRequest.swift */,
 				4114B10B2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift */,
+				41F34EF72CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 				418E94C02CB8445700ACFEEA /* HadeethSection.swift in Sources */,
 				41D1DC502CB6A010004EB23D /* registerPage2.swift in Sources */,
 				41074C882CBE8F8400FA28AC /* LoginViewModel.swift in Sources */,
+				41F34EF82CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift in Sources */,
 				41325AA72CA9B83D00664847 /* LoginPageWelcom.swift in Sources */,
 				418E94BB2CB80C5800ACFEEA /* registerPage5.swift in Sources */,
 				419ACE5B2CC816C4000D4433 /* TeacherDataTempViewModel.swift in Sources */,

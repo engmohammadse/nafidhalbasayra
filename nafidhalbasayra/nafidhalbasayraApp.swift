@@ -41,7 +41,14 @@ struct nafidhalbasayraApp: App {
             }
         }
     }
+    init() {
+        // استدعاء NetworkManager لبدء مراقبة الاتصال ورفع البيانات
+        SyncTeacherDataPostApi.shared.startMonitoring(coreDataViewModel: coreDataViewModel)
+    }
+
 }
+
+
 
 
 
