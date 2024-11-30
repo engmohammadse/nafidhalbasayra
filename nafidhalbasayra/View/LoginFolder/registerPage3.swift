@@ -15,6 +15,9 @@ struct registerPage3: View {
         VStack {
             
             Image("Group 3")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: uiDevicePhone ? screenHeight * 0.085 : screenHeight * 0.085)
             Spacer()
                 .frame(height: screenHeight * 0.05)
             
@@ -49,4 +52,5 @@ struct registerPage3: View {
 
 #Preview {
     registerPage3()
+        .environmentObject(TeacherDataViewModel())
 }

@@ -67,6 +67,7 @@ struct StudyPlanSection: View {
 
 #Preview {
     StudyPlanSection()
+        .environmentObject(TeacherDataViewModel())
 }
 
 

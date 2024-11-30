@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct registerPage2: View {
+struct registerPage2: View {    
     @State private var isPressed = false
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var teacherData: TeacherDataViewModel
@@ -425,4 +425,5 @@ struct registerPage2: View {
 
 #Preview {
     registerPage2()
+        .environmentObject(TeacherDataViewModel())
 }

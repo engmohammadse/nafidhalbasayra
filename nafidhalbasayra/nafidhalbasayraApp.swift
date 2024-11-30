@@ -12,6 +12,7 @@ import SwiftUI
 
 @main
 struct nafidhalbasayraApp: App {
+    
     @StateObject private var teacherData = TeacherDataViewModel()
     @StateObject private var vmAttendaceStatus = AttendaceStatusViewModel()
     @StateObject private var coreDataViewModel = CoreDataViewModel()
@@ -30,9 +31,9 @@ struct nafidhalbasayraApp: App {
                         }
                 } else {
                     // MainViewPage()
-                   // LoginPageWelcom()
+                    LoginPage1()
                     //registerPage2()
-                    TeacherInfoView()
+                    //TeacherInfoView()
                         .preferredColorScheme(.light)
                         .environmentObject(vmAttendaceStatus)
                         .environmentObject(teacherData)  // تأكد من تمرير البيانات هنا

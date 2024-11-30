@@ -15,17 +15,20 @@ struct registerPage4: View {
         VStack {
             
             Image("Group 3")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: uiDevicePhone ? screenHeight * 0.085 : screenHeight * 0.085)
             Spacer()
-                .frame(height: screenHeight * 0.05)
+                .frame(height: uiDevicePhone ? screenHeight * 0.05 : screenHeight * 0.05)
             
             VStack{
                 Text("تمت قبول طلب التسجيل، يمكنك استخدام التطبيق")
-                    .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.035 : screenWidth * 0.02))
+                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.02))
                     .multilineTextAlignment(.center)
                    
             }
             .padding()
-            .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.8 : screenWidth * 0.02 )
+            .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.8 : screenWidth * 0.8 )
             .background(Color(red: 17/255, green: 75/255, blue: 63/255).opacity(0.15))
             .cornerRadius(5)
             
@@ -36,10 +39,10 @@ struct registerPage4: View {
                 
             }){
                 Text("بدء استخدام التطبيق")
-                    .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
+                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.02))
                     .frame(height: screenHeight * 0.04)
                     .foregroundColor(.white)
-                    .frame(maxWidth: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.8 : screenWidth * 0.02)
+                    .frame(maxWidth: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.8 : screenWidth * 0.8)
             }
             .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
             .cornerRadius(5)
@@ -60,5 +63,6 @@ struct registerPage4: View {
 
 #Preview {
     registerPage4()
+        .environmentObject(TeacherDataViewModel())
 }
 

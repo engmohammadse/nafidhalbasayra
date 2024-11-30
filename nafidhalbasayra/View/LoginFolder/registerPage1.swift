@@ -70,6 +70,7 @@ struct registerPage1: View {
 
 #Preview {
     registerPage1()
+        .environmentObject(TeacherDataViewModel())
 
 }
 
@@ -154,7 +155,7 @@ struct detailsRegisterPage1: View {
                     Image(showDropdown ? "Vector1" : "Vector")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: screenWidth * 0.03)
+                        .frame(width: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025)
                         .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
                 }
 // Dropdown List
@@ -186,7 +187,7 @@ struct detailsRegisterPage1: View {
                       }
                       .padding(.vertical) // Vertical padding for the entire list
                   }
-                  .frame(width: screenWidth * 0.84)
+                  .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6)
                   .background(.white)
                   .cornerRadius(5)
                   
@@ -239,7 +240,7 @@ struct detailsRegisterPage1: View {
                         Image(showDropdownLectured ? "Vector1" : "Vector")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(maxWidth: screenWidth * 0.03)
+                            .frame(width: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025)
                             .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
                     }
 
@@ -274,8 +275,7 @@ struct detailsRegisterPage1: View {
                         }
                         .padding(.vertical) // Vertical padding for the entire list
                     }
-                    .frame(width: screenWidth * 0.84)
-                    .background(.white)
+                    .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6)                    .background(.white)
                     .cornerRadius(5)
 
                 }
