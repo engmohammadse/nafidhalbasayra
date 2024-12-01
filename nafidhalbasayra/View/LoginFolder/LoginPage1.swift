@@ -56,50 +56,61 @@ struct LoginPage1: View {
             
               // logic section and check
             
-            VStack {
-                if !viewModel.isConnectedToInternet {
-                    Text("الجهاز غير مرتبط بالإنترنت. يرجى التحقق من الاتصال.")
-                        .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
-                        .padding(.horizontal)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.5)
-                        .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-                        .foregroundColor(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
-                        .bold()
-                        .background(
-                            Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1)
-                                .cornerRadius(5)
-                        )
-                        .transition(.opacity) // Ensure this is used
-                        .animation(.easeIn(duration: 0.5), value: viewModel.isConnectedToInternet)
+            
+            if viewModel.isLoading {
+                          ProgressView("جاري تسجيل الدخول...") // مؤشر التحميل
+                              .padding()
+            } else {
+                
+                VStack {
+                    if !viewModel.isConnectedToInternet {
+                        Text("الجهاز غير مرتبط بالإنترنت. يرجى التحقق من الاتصال.")
+                            .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
+                            .padding(.horizontal)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
+                            .foregroundColor(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
+                            .bold()
+                            .background(
+                                Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1)
+                                    .cornerRadius(5)
+                            )
+                            .transition(.opacity) // Ensure this is used
+                            .animation(.easeIn(duration: 0.5), value: viewModel.isConnectedToInternet)
 
-                } else if viewModel.isLoggedIn {
-                    Text(viewModel.responseMessage.isEmpty ? "Logged in successfully!" : "تم بنجاح تسجيل الدخول")
-                        .foregroundColor(.green)
-                        .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-                        .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
-                        .transition(.opacity)
-                        .animation(.easeIn(duration: 0.5), value: viewModel.isLoggedIn)
+                    } else if viewModel.isLoggedIn {
+                        Text(viewModel.responseMessage.isEmpty ? "Logged in successfully!" : "تم بنجاح تسجيل الدخول")
+                            .foregroundColor(.green)
+                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
+                            .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
+                            .transition(.opacity)
+                            .animation(.easeIn(duration: 0.5), value: viewModel.isLoggedIn)
 
-                } else if let loginError = viewModel.loginError {
-                    Text(loginError)
-                        .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
-                        .padding(.horizontal)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.5)
-                        .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-                        .foregroundColor(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
-                        .bold()
-                        .background(
-                            Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1)
-                                .cornerRadius(5)
-                        )
-                        .transition(.opacity.combined(with: .scale))
-                        .animation(.easeIn(duration: 0.5), value: viewModel.loginError)
+                    } else if let loginError = viewModel.loginError {
+                        Text(loginError)
+                            .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
+                            .padding(.horizontal)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
+                            .foregroundColor(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
+                            .bold()
+                            .background(
+                                Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1)
+                                    .cornerRadius(5)
+                            )
+                            .transition(.opacity.combined(with: .scale))
+                            .animation(.easeIn(duration: 0.5), value: viewModel.loginError)
+                    }
                 }
+
+
+                
+                
             }
-
-
+            
+            
 
 
 
@@ -210,6 +221,8 @@ struct LoginPage1: View {
 //                }
                 
                 viewModel.login()
+                viewModel.isLoading = true
+                hideKeyboard()
                 
                 // تحقق من تسجيل الدخول بعد محاولة تسجيل الدخول
 //                   if viewModel.isLoggedIn {
@@ -245,6 +258,12 @@ struct LoginPage1: View {
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .navigationBarBackButtonHidden(true)
     }
+    
+    
+    // دالة لإخفاء لوحة المفاتيح
+     private func hideKeyboard() {
+         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+     }
 }
 
 struct LoginPage1_Previews: PreviewProvider {

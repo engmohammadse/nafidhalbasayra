@@ -15,6 +15,8 @@ class LoginViewModel: ObservableObject {
     @Published var responseMessage = ""
     @Published var isConnectedToInternet = true
     @Published var navigateToNextPage = false
+    @Published var isLoading = false // حالة التحميل
+
 
     private var apiService = ApiService()
 
@@ -23,10 +25,14 @@ class LoginViewModel: ObservableObject {
         checkInternetConnection { [weak self] isConnected in
             guard let self = self else { return }
             DispatchQueue.main.async {
+                
+
                 self.isConnectedToInternet = isConnected
                 if isConnected {
                     self.performLoginAttempt()
                 } else {
+                    self.isLoading = false // إيقاف التحميل عند الخطأ
+
                     self.loginError = "الجهاز غير مرتبط بالإنترنت. يرجى التحقق من الاتصال."
                 }
             }
@@ -42,11 +48,12 @@ class LoginViewModel: ObservableObject {
 
         var request = URLRequest(url: url)
         request.httpMethod = "HEAD"
-        request.timeoutInterval = 5
+        request.timeoutInterval = 10
 
         URLSession.shared.dataTask(with: request) { _, response, error in
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
                 completion(true)
+                
             } else {
                 completion(false)
             }
@@ -58,14 +65,21 @@ class LoginViewModel: ObservableObject {
         apiService.login(username: username, password: password) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
+                self.isLoading = true
+                
                 switch result {
                 case .success(let response):
                     if response.state == 0 {
+                        self.isLoading = false
                         self.handleSuccessfulLogin(response)
+              
                     } else {
+                        self.isLoading = false
                         self.handleFailedLogin(message: response.message)
+                        
                     }
                 case .failure(let error):
+                    self.isLoading = false
                     self.handleLoginFailure(error: error)
                 }
             }
@@ -75,6 +89,7 @@ class LoginViewModel: ObservableObject {
     // التعامل مع تسجيل الدخول الناجح
     private func handleSuccessfulLogin(_ response: LoginResponse) {
         self.isLoggedIn = true
+        self.isLoading = false
         self.responseMessage = "تم بنجاح تسجيل الدخول، ID: \(response.id)"
         self.loginError = nil
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
