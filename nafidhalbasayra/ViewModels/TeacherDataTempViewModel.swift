@@ -18,7 +18,7 @@ class TeacherDataViewModel: ObservableObject {
     
     // معلومات الموقع
     @Published var province: String = ""
-    @Published var city: String = "النجف"
+    @Published var city: String = ""
     @Published var citynumber: String = ""
     
     // معلومات التعليم

@@ -59,6 +59,7 @@
 		41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0B52CAAE4C500BD7853 /* registerPage.swift */; };
 		41F9D0B92CAB03BB00BD7853 /* LogoIUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0B82CAB03BB00BD7853 /* LogoIUserInfo.swift */; };
 		41F9D0BB2CAB0A5800BD7853 /* CustemTextWithField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0BA2CAB0A5800BD7853 /* CustemTextWithField.swift */; };
+		41FC8A412CFDD681001C6E49 /* cityGet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FC8A402CFDD681001C6E49 /* cityGet.swift */; };
 		526790C22CA93EC8006A9A89 /* AdaptiveTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526790C12CA93EC8006A9A89 /* AdaptiveTextFieldView.swift */; };
 /* End PBXBuildFile section */
 
@@ -116,6 +117,7 @@
 		41F9D0B52CAAE4C500BD7853 /* registerPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage.swift; sourceTree = "<group>"; };
 		41F9D0B82CAB03BB00BD7853 /* LogoIUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoIUserInfo.swift; sourceTree = "<group>"; };
 		41F9D0BA2CAB0A5800BD7853 /* CustemTextWithField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustemTextWithField.swift; sourceTree = "<group>"; };
+		41FC8A402CFDD681001C6E49 /* cityGet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cityGet.swift; sourceTree = "<group>"; };
 		526790C12CA93EC8006A9A89 /* AdaptiveTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveTextFieldView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				41074C842CBE8EFB00FA28AC /* LoginRequest.swift */,
+				41FC8A402CFDD681001C6E49 /* cityGet.swift */,
 				4114B10B2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift */,
 				41F34EF72CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift */,
 			);
@@ -389,6 +392,7 @@
 				41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */,
 				4107BE5D2CB43C260073EC4B /* testFile.swift in Sources */,
 				41A552592CC5310A008D913D /* StudyPlanSection.swift in Sources */,
+				41FC8A412CFDD681001C6E49 /* cityGet.swift in Sources */,
 				418865712CBD296400E9097C /* sendAttendanceSection.swift in Sources */,
 				418E94B92CB7FDD000ACFEEA /* registerPage4.swift in Sources */,
 				41074C8A2CBED50F00FA28AC /* NotificationChannelSection.swift in Sources */,

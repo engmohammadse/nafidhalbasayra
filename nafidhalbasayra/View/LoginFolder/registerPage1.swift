@@ -7,8 +7,12 @@
 
 import SwiftUI
 
+
+
+
 struct registerPage1: View {
     @EnvironmentObject var teacherData: TeacherDataViewModel
+
 
     @Environment(\.dismiss) var dismiss
     
@@ -91,6 +95,11 @@ struct registerPage1: View {
 struct detailsRegisterPage1: View {
     @ObservedObject var teacherData: TeacherDataViewModel
   
+    @StateObject private var dataFetcher = DataFetcher()
+
+    
+    
+    
     @Environment(\.dismiss) var dismiss
     
 //    @Binding var city: String  // استخدام @Binding لتمرير القيم
@@ -103,6 +112,8 @@ struct detailsRegisterPage1: View {
     @State private var selectedItem: String = ""
     @State private var showDropdown = false
     @State private var showDropdownLectured = false
+    @State private var showDropdownCity = false
+    
     
     var body: some View {
         VStack(spacing: 10) {
@@ -114,19 +125,99 @@ struct detailsRegisterPage1: View {
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.035 : screenWidth * 0.02))
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
-
-            TextField("", text: $teacherData.city)
+            
+            
+            //
+            
+            TextField("اختر", text: $teacherData.city)
+               
+                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
                 .multilineTextAlignment(.trailing)
                 .padding(.horizontal)
                 .background(Color.white)
                 .cornerRadius(5)
-                .onChange(of: teacherData.city) { newValue in
-                    teacherData.citynumber = newValue
+                .disabled(true) // Disables keyboard input
+                .onTapGesture {
+                    // Toggle dropdown when tapping on the TextField
+                    showDropdownCity.toggle()
                 }
-                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
-              
+                .overlay {
+                    Image(showDropdownCity ? "Vector1" : "Vector")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025)
+                        .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
+                }
+// Dropdown List
+              if showDropdownCity {
+            
+                  ScrollView {
+                      VStack(spacing: 8) { // Adjust spacing as needed
+                          ForEach(dataFetcher.governorates, id: \.id) { governorate in
+                              HStack {
+                                  //Spacer() // Pushes the text to the trailing edge for RTL layout
+
+                                  Text(governorate.governorateName)
+                                      .multilineTextAlignment(.trailing)
+                                      .padding(8) // Add padding around text
+                                   
+                                      .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023))
+                                      .frame(maxWidth: .infinity)
+                                  .foregroundColor(primaryColor) // Add a background color for each row
+                                  .background(buttonAccentColor)
+                                      .cornerRadius(5) // Optional: make rounded corners
+                                      .onTapGesture {
+                                          teacherData.city = governorate.governorateName
+                                          showDropdownCity = false
+                                         
+                                      }
+                              }
+                              .padding(.horizontal) // Horizontal padding for each row
+                          }
+                      }
+                      .padding(.vertical) // Vertical padding for the entire list
+                  }
+                  .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6)
+                  .background(.white)
+                  .cornerRadius(5)
+                  
+                  
+              }
+            
+            //
+            
+
+//            Picker(selection: $teacherData.city, label: Text("")) {
+//                ForEach(dataFetcher.governorates, id: \.id) { governorate in
+//                    Text(governorate.governorateName)
+//                        .tag(governorate.governorateName)
+//                }
+//            }
+//            .frame(maxWidth: screenHeight * 0.4)
+//            .frame(height: screenHeight * 0.05)
+//            .multilineTextAlignment(.trailing)
+//            .padding(.horizontal)
+//            .background(Color.white)
+//            .cornerRadius(5)
+//            .onChange(of: teacherData.city) { newValue in
+//                teacherData.citynumber = newValue
+//            }
+//            .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+
+//            TextField("", text: $teacherData.city)
+//                .frame(maxWidth: screenHeight * 0.4)
+//                .frame(height: screenHeight * 0.05)
+//                .multilineTextAlignment(.trailing)
+//                .padding(.horizontal)
+//                .background(Color.white)
+//                .cornerRadius(5)
+//                .onChange(of: teacherData.city) { newValue in
+//                    teacherData.citynumber = newValue
+//                }
+//                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+//              
 
             Spacer().frame(maxHeight: screenHeight * 0.01)
 
@@ -285,6 +376,10 @@ struct detailsRegisterPage1: View {
           
             
         }
+        .onAppear {
+            dataFetcher.fetchData()
+        }
+
         .padding(.horizontal, UIScreen.main.bounds.width < 500 ? 16 : 0)
         
         
