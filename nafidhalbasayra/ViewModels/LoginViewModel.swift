@@ -16,6 +16,7 @@ class LoginViewModel: ObservableObject {
     @Published var isConnectedToInternet = true
     @Published var navigateToNextPage = false
     @Published var isLoading = false // حالة التحميل
+    
 
 
     private var apiService = ApiService()

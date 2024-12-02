@@ -114,6 +114,7 @@ struct detailsRegisterPage1: View {
     @State private var showDropdownLectured = false
     @State private var showDropdownCity = false
     
+    @State private var showAlertcityIdNotValid = false
     
     var body: some View {
         VStack(spacing: 10) {
@@ -142,6 +143,8 @@ struct detailsRegisterPage1: View {
                 .onTapGesture {
                     // Toggle dropdown when tapping on the TextField
                     showDropdownCity.toggle()
+                    dataFetcher.fetchData()
+                    
                 }
                 .overlay {
                     Image(showDropdownCity ? "Vector1" : "Vector")
@@ -170,7 +173,18 @@ struct detailsRegisterPage1: View {
                                       .cornerRadius(5) // Optional: make rounded corners
                                       .onTapGesture {
                                           teacherData.city = governorate.governorateName
+                                          teacherData.cityIdfromApi = governorate.regionID
                                           showDropdownCity = false
+                                          
+                                          
+                                          
+                                              
+                                          if String(teacherData.citynumber) != governorate.governorateCode {
+                                              showAlertcityIdNotValid = true
+                                              
+                                              }
+                                              
+                                        
                                          
                                       }
                               }
@@ -379,11 +393,17 @@ struct detailsRegisterPage1: View {
         .onAppear {
             dataFetcher.fetchData()
         }
+        .alert("idCity not equall city", isPresented: showAlertcityIdNotValid)
 
         .padding(.horizontal, UIScreen.main.bounds.width < 500 ? 16 : 0)
         
         
     }
+    
+    
+    
+    
+    
     
  
 }

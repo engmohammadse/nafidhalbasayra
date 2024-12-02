@@ -26,6 +26,7 @@ class TeacherDataViewModel: ObservableObject {
     @Published var mosquname: String = ""
     @Published var academiclevel: String = ""
     @Published var currentWork: String = ""
+    @Published var cityIdfromApi: String = ""
     
     
     //
@@ -54,6 +55,7 @@ class TeacherDataViewModel: ObservableObject {
             print("Mosque Name: \(mosquname)")
             print("Academic Level: \(academiclevel)")
             print("Current Work: \(currentWork)")
+            print("cityIdfromApi: \(cityIdfromApi)")
         }
 }
 
