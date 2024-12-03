@@ -12,7 +12,7 @@ import SwiftUI
 
 struct registerPage1: View {
     @EnvironmentObject var teacherData: TeacherDataViewModel
-
+    @StateObject private var dataFetcher = DataFetcher()
 
     @Environment(\.dismiss) var dismiss
     
@@ -31,7 +31,7 @@ struct registerPage1: View {
             ScrollView {
                 detailsRegisterPage1(teacherData: teacherData)
                 
-              
+               
                 
                 Button("Print Data") {
                   teacherData.printData() // استدعاء دالة الطباعة
@@ -55,7 +55,11 @@ struct registerPage1: View {
             .navigationBarBackButtonHidden(true)
            
          
-        } .hideKeyboard()
+        } 
+//        .onAppear {
+//            dataFetcher.fetchData()
+//        }
+        .hideKeyboard()
        
         
         .overlay {
@@ -85,36 +89,21 @@ struct registerPage1: View {
 
 
 
-
-
-
-
-
-
+import SwiftUI
 
 struct detailsRegisterPage1: View {
     @ObservedObject var teacherData: TeacherDataViewModel
   
     @StateObject private var dataFetcher = DataFetcher()
-
-    
-    
-    
     @Environment(\.dismiss) var dismiss
-    
-//    @Binding var city: String  // استخدام @Binding لتمرير القيم
-//      @Binding var province: String
-//      @Binding var mosque: String
-//      @Binding var isLectured: String
-    
-//    @State private var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]
-//    @State private var itemsLectured = ["لا","نعم"]
+
     @State private var selectedItem: String = ""
     @State private var showDropdown = false
     @State private var showDropdownLectured = false
     @State private var showDropdownCity = false
-    
     @State private var showAlertcityIdNotValid = false
+    @State private var showProgressLoding = false
+    
     
     var body: some View {
         VStack(spacing: 10) {
@@ -127,11 +116,7 @@ struct detailsRegisterPage1: View {
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.035 : screenWidth * 0.02))
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
             
-            
-            //
-            
             TextField("اختر", text: $teacherData.city)
-               
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
@@ -139,12 +124,12 @@ struct detailsRegisterPage1: View {
                 .padding(.horizontal)
                 .background(Color.white)
                 .cornerRadius(5)
-                .disabled(true) // Disables keyboard input
+                .disabled(true)
                 .onTapGesture {
-                    // Toggle dropdown when tapping on the TextField
                     showDropdownCity.toggle()
+                        showProgressLoding = true
+                   
                     dataFetcher.fetchData()
-                    
                 }
                 .overlay {
                     Image(showDropdownCity ? "Vector1" : "Vector")
@@ -153,85 +138,20 @@ struct detailsRegisterPage1: View {
                         .frame(width: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025)
                         .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
                 }
-// Dropdown List
-              if showDropdownCity {
-            
-                  ScrollView {
-                      VStack(spacing: 8) { // Adjust spacing as needed
-                          ForEach(dataFetcher.governorates, id: \.id) { governorate in
-                              HStack {
-                                  //Spacer() // Pushes the text to the trailing edge for RTL layout
 
-                                  Text(governorate.governorateName)
-                                      .multilineTextAlignment(.trailing)
-                                      .padding(8) // Add padding around text
-                                   
-                                      .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023))
-                                      .frame(maxWidth: .infinity)
-                                  .foregroundColor(primaryColor) // Add a background color for each row
-                                  .background(buttonAccentColor)
-                                      .cornerRadius(5) // Optional: make rounded corners
-                                      .onTapGesture {
-                                          teacherData.city = governorate.governorateName
-                                          teacherData.cityIdfromApi = governorate.regionID
-                                          showDropdownCity = false
-                                          
-                                          
-                                          
-                                              
-                                          if String(teacherData.citynumber) != governorate.governorateCode {
-                                              showAlertcityIdNotValid = true
-                                              
-                                              }
-                                              
-                                        
-                                         
-                                      }
-                              }
-                              .padding(.horizontal) // Horizontal padding for each row
-                          }
-                      }
-                      .padding(.vertical) // Vertical padding for the entire list
-                  }
-                  .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6)
-                  .background(.white)
-                  .cornerRadius(5)
-                  
-                  
-              }
             
-            //
-            
-
-//            Picker(selection: $teacherData.city, label: Text("")) {
-//                ForEach(dataFetcher.governorates, id: \.id) { governorate in
-//                    Text(governorate.governorateName)
-//                        .tag(governorate.governorateName)
-//                }
-//            }
-//            .frame(maxWidth: screenHeight * 0.4)
-//            .frame(height: screenHeight * 0.05)
-//            .multilineTextAlignment(.trailing)
-//            .padding(.horizontal)
-//            .background(Color.white)
-//            .cornerRadius(5)
-//            .onChange(of: teacherData.city) { newValue in
-//                teacherData.citynumber = newValue
-//            }
-//            .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
-
-//            TextField("", text: $teacherData.city)
-//                .frame(maxWidth: screenHeight * 0.4)
-//                .frame(height: screenHeight * 0.05)
-//                .multilineTextAlignment(.trailing)
-//                .padding(.horizontal)
-//                .background(Color.white)
-//                .cornerRadius(5)
-//                .onChange(of: teacherData.city) { newValue in
-//                    teacherData.citynumber = newValue
-//                }
-//                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
-//              
+            if showProgressLoding {
+                ProgressView("جاري تحميل البيانات...") .progressViewStyle(CircularProgressViewStyle())
+                    .padding()
+            } else {
+               
+               
+               if showDropdownCity {
+                   DropdownCityView(dataFetcher: dataFetcher, teacherData: teacherData, showDropdownCity: $showDropdownCity, showAlertcityIdNotValid: $showAlertcityIdNotValid)
+               }
+               
+               
+           }
 
             Spacer().frame(maxHeight: screenHeight * 0.01)
 
@@ -243,7 +163,6 @@ struct detailsRegisterPage1: View {
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
 
             TextField("اختر", text: $teacherData.province)
-               
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
@@ -251,9 +170,8 @@ struct detailsRegisterPage1: View {
                 .padding(.horizontal)
                 .background(Color.white)
                 .cornerRadius(5)
-                .disabled(true) // Disables keyboard input
+                .disabled(true)
                 .onTapGesture {
-                    // Toggle dropdown when tapping on the TextField
                     showDropdown.toggle()
                 }
                 .overlay {
@@ -263,41 +181,10 @@ struct detailsRegisterPage1: View {
                         .frame(width: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025)
                         .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
                 }
-// Dropdown List
-              if showDropdown {
-            
-                  ScrollView {
-                      VStack(spacing: 8) { // Adjust spacing as needed
-                          ForEach(teacherData.itemsProvince, id: \.self) { item in
-                              HStack {
-                                  //Spacer() // Pushes the text to the trailing edge for RTL layout
 
-                                  Text(item)
-                                      .multilineTextAlignment(.trailing)
-                                      .padding(8) // Add padding around text
-                                   
-                                      .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023))
-                                      .frame(maxWidth: .infinity)
-                                  .foregroundColor(primaryColor) // Add a background color for each row
-                                  .background(buttonAccentColor)
-                                      .cornerRadius(5) // Optional: make rounded corners
-                                      .onTapGesture {
-                                          teacherData.province = item
-                                          showDropdown = false
-                                         
-                                      }
-                              }
-                              .padding(.horizontal) // Horizontal padding for each row
-                          }
-                      }
-                      .padding(.vertical) // Vertical padding for the entire list
-                  }
-                  .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6)
-                  .background(.white)
-                  .cornerRadius(5)
-                  
-                  
-              }
+            if showDropdown {
+                DropdownProvinceView(teacherData: teacherData, showDropdown: $showDropdown)
+            }
 
             Spacer().frame(maxHeight: screenHeight * 0.01)
 
@@ -320,10 +207,7 @@ struct detailsRegisterPage1: View {
             Spacer().frame(maxHeight: screenHeight * 0.01)
 
             // Field: Current Work
-            
-            
-            
-            VStack( spacing: 10) {
+            VStack(spacing: 10) {
                 Text("هل قمت بالتدريس سابقاً في الدورات القرآنية الصيفية")
                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                     .frame(maxWidth: .infinity, alignment: .trailing)
@@ -336,7 +220,7 @@ struct detailsRegisterPage1: View {
                     .padding(.horizontal)
                     .background(Color.white)
                     .cornerRadius(5)
-                    .disabled(true) // Disables keyboard input
+                    .disabled(true)
                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                     .onTapGesture {
                         showDropdownLectured.toggle()
@@ -350,63 +234,499 @@ struct detailsRegisterPage1: View {
                     }
 
                 if showDropdownLectured {
-                    ScrollView {
-                        VStack(spacing: 8) { // Adjust spacing as needed
-                            ForEach(teacherData.itemsLectured, id: \.self) { item in
-                                HStack {
-                                    //Spacer() // Pushes the text to the trailing edge for RTL layout
-
-                                    Text(item)
-                                        .multilineTextAlignment(.trailing)
-                                        .padding(8) // Add padding around text
-                                     
-                                        .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023))
-                                        .frame(maxWidth: .infinity)
-                                    .foregroundColor(primaryColor) // Add a background color for each row
-                                    .background(buttonAccentColor)
-                                        .cornerRadius(5) // Optional: make rounded corners
-                                        .onTapGesture {
-                                            teacherData.selectedLecturedOption = item
-                                            showDropdownLectured = false
-                                            if item == "لا" {
-                                                teacherData.didyoutaught = false
-                                            } else if item == "نعم" {
-                                                teacherData.didyoutaught = true
-                                            }
-                                        }
-                                }
-                                .padding(.horizontal) // Horizontal padding for each row
-                            }
-                        }
-                        .padding(.vertical) // Vertical padding for the entire list
-                    }
-                    .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6)                    .background(.white)
-                    .cornerRadius(5)
-
+                    DropdownLecturedView(teacherData: teacherData, showDropdownLectured: $showDropdownLectured)
                 }
             }
 
-          
-          
+            Spacer()
+        }
+       
             
-        }
+        .alert("idCity not equal city", isPresented: $showAlertcityIdNotValid, actions: {
+            Button("OK", role: .cancel) { }
+        })
         .onAppear {
-            dataFetcher.fetchData()
+            if dataFetcher.governorates.isEmpty {
+                showProgressLoding = true
+                dataFetcher.fetchData()
+            }
         }
-        .alert("idCity not equall city", isPresented: showAlertcityIdNotValid)
-
         .padding(.horizontal, UIScreen.main.bounds.width < 500 ? 16 : 0)
-        
-        
     }
-    
-    
-    
-    
-    
-    
- 
 }
+
+import SwiftUI
+
+struct DropdownCityView: View {
+    @ObservedObject var dataFetcher: DataFetcher
+    @ObservedObject var teacherData: TeacherDataViewModel
+    @Binding var showDropdownCity: Bool
+    @Binding var showAlertcityIdNotValid: Bool
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 8) {
+                ForEach(dataFetcher.governorates, id: \.id) { governorate in
+                    CityRowView(governorate: governorate,
+                                teacherData: teacherData,
+                                showDropdownCity: $showDropdownCity,
+                                showAlertcityIdNotValid: $showAlertcityIdNotValid)
+                }
+            }
+            .padding(.vertical)
+        }
+        .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6)
+        .background(Color.white)
+        .cornerRadius(5)
+    }
+}
+
+struct CityRowView: View {
+    let governorate: Governorate
+    @ObservedObject var teacherData: TeacherDataViewModel
+    @Binding var showDropdownCity: Bool
+    @Binding var showAlertcityIdNotValid: Bool
+
+    var body: some View {
+        HStack {
+            Text(governorate.governorateName)
+                .multilineTextAlignment(.trailing)
+                .padding(8)
+                .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023))
+                .frame(maxWidth: .infinity)
+                .foregroundColor(primaryColor)
+                .background(buttonAccentColor)
+                .cornerRadius(5)
+                .onTapGesture {
+                    teacherData.city = governorate.governorateName
+                    teacherData.cityIdfromApi = governorate.regionID
+                    showDropdownCity = false
+                    if let citynumber = Int(teacherData.citynumber), citynumber != governorate.governorateCode {
+                        showAlertcityIdNotValid = true
+                    }
+                }
+        }
+        .padding(.horizontal)
+    }
+}
+
+
+
+
+
+
+import SwiftUI
+
+struct DropdownProvinceView: View {
+    @ObservedObject var teacherData: TeacherDataViewModel
+    @Binding var showDropdown: Bool
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 8) { // Adjust spacing as needed
+                ForEach(teacherData.itemsProvince, id: \.self) { item in
+                    HStack {
+                        Text(item)
+                            .multilineTextAlignment(.trailing)
+                            .padding(8) // Add padding around text
+                            .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023))
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(primaryColor) // Add a background color for each row
+                            .background(buttonAccentColor)
+                            .cornerRadius(5) // Optional: make rounded corners
+                            .onTapGesture {
+                                teacherData.province = item
+                                showDropdown = false
+                            }
+                    }
+                    .padding(.horizontal) // Horizontal padding for each row
+                }
+            }
+            .padding(.vertical) // Vertical padding for the entire list
+        }
+        .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6)
+        .background(Color.white)
+        .cornerRadius(5)
+    }
+}
+
+
+
+
+import SwiftUI
+
+struct DropdownLecturedView: View {
+    @ObservedObject var teacherData: TeacherDataViewModel
+    @Binding var showDropdownLectured: Bool
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 8) { // Adjust spacing as needed
+                ForEach(teacherData.itemsLectured, id: \.self) { item in
+                    HStack {
+                        Text(item)
+                            .multilineTextAlignment(.trailing)
+                            .padding(8) // Add padding around text
+                            .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023))
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(primaryColor) // Add a background color for each row
+                            .background(buttonAccentColor)
+                            .cornerRadius(5) // Optional: make rounded corners
+                            .onTapGesture {
+                                teacherData.selectedLecturedOption = item
+                                showDropdownLectured = false
+                                if item == "لا" {
+                                    teacherData.didyoutaught = false
+                                } else if item == "نعم" {
+                                    teacherData.didyoutaught = true
+                                }
+                            }
+                    }
+                    .padding(.horizontal) // Horizontal padding for each row
+                }
+            }
+            .padding(.vertical) // Vertical padding for the entire list
+        }
+        .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6)
+        .background(Color.white)
+        .cornerRadius(5)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//struct detailsRegisterPage1: View {
+//    @ObservedObject var teacherData: TeacherDataViewModel
+//  
+//    @StateObject private var dataFetcher = DataFetcher()
+//
+//    
+//    
+//    
+//    @Environment(\.dismiss) var dismiss
+//    
+////    @Binding var city: String  // استخدام @Binding لتمرير القيم
+////      @Binding var province: String
+////      @Binding var mosque: String
+////      @Binding var isLectured: String
+//    
+////    @State private var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]
+////    @State private var itemsLectured = ["لا","نعم"]
+//    @State private var selectedItem: String = ""
+//    @State private var showDropdown = false
+//    @State private var showDropdownLectured = false
+//    @State private var showDropdownCity = false
+//    
+//    @State private var showAlertcityIdNotValid = false
+//    
+//    var body: some View {
+//        VStack(spacing: 10) {
+//            Spacer().frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.07  : screenHeight * 0.10)
+//
+//            // Field: Name
+//            Text("المحافظة")
+//                .alignmentGuide(.leading) { d in d[.trailing] }
+//                .frame(maxWidth: .infinity, alignment: .trailing)
+//                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.035 : screenWidth * 0.02))
+//                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
+//            
+//            
+//            //
+//            
+//            TextField("اختر", text: $teacherData.city)
+//               
+//                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+//                .frame(maxWidth: screenHeight * 0.4)
+//                .frame(height: screenHeight * 0.05)
+//                .multilineTextAlignment(.trailing)
+//                .padding(.horizontal)
+//                .background(Color.white)
+//                .cornerRadius(5)
+//                .disabled(true) // Disables keyboard input
+//                .onTapGesture {
+//                    // Toggle dropdown when tapping on the TextField
+//                    showDropdownCity.toggle()
+//                    dataFetcher.fetchData()
+//                    
+//                }
+//                .overlay {
+//                    Image(showDropdownCity ? "Vector1" : "Vector")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025)
+//                        .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
+//                }
+//// Dropdown List
+//              if showDropdownCity {
+//            
+//                  ScrollView {
+//                      VStack(spacing: 8) { // Adjust spacing as needed
+//                          ForEach(dataFetcher.governorates, id: \.id) { governorate in
+//                              HStack {
+//                                  //Spacer() // Pushes the text to the trailing edge for RTL layout
+//
+//                                  Text(governorate.governorateName)
+//                                      .multilineTextAlignment(.trailing)
+//                                      .padding(8) // Add padding around text
+//                                   
+//                                      .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023))
+//                                      .frame(maxWidth: .infinity)
+//                                  .foregroundColor(primaryColor) // Add a background color for each row
+//                                  .background(buttonAccentColor)
+//                                      .cornerRadius(5) // Optional: make rounded corners
+//                                      .onTapGesture {
+//                                          teacherData.city = governorate.governorateName
+//                                          teacherData.cityIdfromApi = governorate.regionID
+//                                          showDropdownCity = false
+//                                          
+//                                          
+//                                          
+//                                              
+//                                          if String(teacherData.citynumber) != governorate.governorateCode {
+//                                              showAlertcityIdNotValid = true
+//                                              
+//                                              }
+//                                              
+//                                        
+//                                         
+//                                      }
+//                              }
+//                              .padding(.horizontal) // Horizontal padding for each row
+//                          }
+//                      }
+//                      .padding(.vertical) // Vertical padding for the entire list
+//                  }
+//                  .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6)
+//                  .background(.white)
+//                  .cornerRadius(5)
+//                  
+//                  
+//              }
+//            
+//            //
+//            
+//
+////            Picker(selection: $teacherData.city, label: Text("")) {
+////                ForEach(dataFetcher.governorates, id: \.id) { governorate in
+////                    Text(governorate.governorateName)
+////                        .tag(governorate.governorateName)
+////                }
+////            }
+////            .frame(maxWidth: screenHeight * 0.4)
+////            .frame(height: screenHeight * 0.05)
+////            .multilineTextAlignment(.trailing)
+////            .padding(.horizontal)
+////            .background(Color.white)
+////            .cornerRadius(5)
+////            .onChange(of: teacherData.city) { newValue in
+////                teacherData.citynumber = newValue
+////            }
+////            .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+//
+////            TextField("", text: $teacherData.city)
+////                .frame(maxWidth: screenHeight * 0.4)
+////                .frame(height: screenHeight * 0.05)
+////                .multilineTextAlignment(.trailing)
+////                .padding(.horizontal)
+////                .background(Color.white)
+////                .cornerRadius(5)
+////                .onChange(of: teacherData.city) { newValue in
+////                    teacherData.citynumber = newValue
+////                }
+////                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+////              
+//
+//            Spacer().frame(maxHeight: screenHeight * 0.01)
+//
+//            // Field: Phone Number
+//            Text("القضاء")
+//                .alignmentGuide(.leading) { d in d[.trailing] }
+//                .frame(maxWidth: .infinity, alignment: .trailing)
+//                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.035 : screenWidth * 0.02))
+//                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
+//
+//            TextField("اختر", text: $teacherData.province)
+//               
+//                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+//                .frame(maxWidth: screenHeight * 0.4)
+//                .frame(height: screenHeight * 0.05)
+//                .multilineTextAlignment(.trailing)
+//                .padding(.horizontal)
+//                .background(Color.white)
+//                .cornerRadius(5)
+//                .disabled(true) // Disables keyboard input
+//                .onTapGesture {
+//                    // Toggle dropdown when tapping on the TextField
+//                    showDropdown.toggle()
+//                }
+//                .overlay {
+//                    Image(showDropdown ? "Vector1" : "Vector")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025)
+//                        .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
+//                }
+//// Dropdown List
+//              if showDropdown {
+//            
+//                  ScrollView {
+//                      VStack(spacing: 8) { // Adjust spacing as needed
+//                          ForEach(teacherData.itemsProvince, id: \.self) { item in
+//                              HStack {
+//                                  //Spacer() // Pushes the text to the trailing edge for RTL layout
+//
+//                                  Text(item)
+//                                      .multilineTextAlignment(.trailing)
+//                                      .padding(8) // Add padding around text
+//                                   
+//                                      .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023))
+//                                      .frame(maxWidth: .infinity)
+//                                  .foregroundColor(primaryColor) // Add a background color for each row
+//                                  .background(buttonAccentColor)
+//                                      .cornerRadius(5) // Optional: make rounded corners
+//                                      .onTapGesture {
+//                                          teacherData.province = item
+//                                          showDropdown = false
+//                                         
+//                                      }
+//                              }
+//                              .padding(.horizontal) // Horizontal padding for each row
+//                          }
+//                      }
+//                      .padding(.vertical) // Vertical padding for the entire list
+//                  }
+//                  .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6)
+//                  .background(.white)
+//                  .cornerRadius(5)
+//                  
+//                  
+//              }
+//
+//            Spacer().frame(maxHeight: screenHeight * 0.01)
+//
+//            // Field: Academic Level
+//            Text("اسم الجامع او الحسينية")
+//                .alignmentGuide(.leading) { d in d[.trailing] }
+//                .frame(maxWidth: .infinity, alignment: .trailing)
+//                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+//                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
+//
+//            TextField("", text: $teacherData.mosquname)
+//                .frame(maxWidth: screenHeight * 0.4)
+//                .frame(height: screenHeight * 0.05)
+//                .multilineTextAlignment(.trailing)
+//                .padding(.horizontal)
+//                .background(Color.white)
+//                .cornerRadius(5)
+//                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+//
+//            Spacer().frame(maxHeight: screenHeight * 0.01)
+//
+//            // Field: Current Work
+//            
+//            
+//            
+//            VStack( spacing: 10) {
+//                Text("هل قمت بالتدريس سابقاً في الدورات القرآنية الصيفية")
+//                    .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+//                    .frame(maxWidth: .infinity, alignment: .trailing)
+//                    .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
+//
+//                TextField("اختر", text: $teacherData.selectedLecturedOption)
+//                    .frame(maxWidth: screenHeight * 0.4)
+//                    .frame(height: screenHeight * 0.05)
+//                    .multilineTextAlignment(.trailing)
+//                    .padding(.horizontal)
+//                    .background(Color.white)
+//                    .cornerRadius(5)
+//                    .disabled(true) // Disables keyboard input
+//                    .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+//                    .onTapGesture {
+//                        showDropdownLectured.toggle()
+//                    }
+//                    .overlay {
+//                        Image(showDropdownLectured ? "Vector1" : "Vector")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .frame(width: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025)
+//                            .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
+//                    }
+//
+//                if showDropdownLectured {
+//                    ScrollView {
+//                        VStack(spacing: 8) { // Adjust spacing as needed
+//                            ForEach(teacherData.itemsLectured, id: \.self) { item in
+//                                HStack {
+//                                    //Spacer() // Pushes the text to the trailing edge for RTL layout
+//
+//                                    Text(item)
+//                                        .multilineTextAlignment(.trailing)
+//                                        .padding(8) // Add padding around text
+//                                     
+//                                        .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023))
+//                                        .frame(maxWidth: .infinity)
+//                                    .foregroundColor(primaryColor) // Add a background color for each row
+//                                    .background(buttonAccentColor)
+//                                        .cornerRadius(5) // Optional: make rounded corners
+//                                        .onTapGesture {
+//                                            teacherData.selectedLecturedOption = item
+//                                            showDropdownLectured = false
+//                                            if item == "لا" {
+//                                                teacherData.didyoutaught = false
+//                                            } else if item == "نعم" {
+//                                                teacherData.didyoutaught = true
+//                                            }
+//                                        }
+//                                }
+//                                .padding(.horizontal) // Horizontal padding for each row
+//                            }
+//                        }
+//                        .padding(.vertical) // Vertical padding for the entire list
+//                    }
+//                    .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6)                    .background(.white)
+//                    .cornerRadius(5)
+//
+//                }
+//            }
+//
+//          
+//          
+//            
+//        }
+//        .onAppear {
+//            dataFetcher.fetchData()
+//        }
+//        .alert("idCity not equall city", isPresented: showAlertcityIdNotValid)
+//
+//        .padding(.horizontal, UIScreen.main.bounds.width < 500 ? 16 : 0)
+//        
+//        
+//    }
+//    
+//    
+//    
+//    
+//    
+//    
+// 
+//}
 
 
 
