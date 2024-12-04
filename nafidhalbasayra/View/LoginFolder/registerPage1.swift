@@ -25,11 +25,13 @@ struct registerPage1: View {
     @State private var selectedItem: String = ""
     @State private var showDropdown = false
     @State private var showDropdownLectured = false
+    @State  var showAlertcityIdNotValid = false
+
 
     var body: some View {
         VStack {
             ScrollView {
-                detailsRegisterPage1(teacherData: teacherData)
+                detailsRegisterPage1(teacherData: teacherData, showAlertcityIdNotValid: $showAlertcityIdNotValid)
                 
                
                 
@@ -63,10 +65,18 @@ struct registerPage1: View {
        
         
         .overlay {
-            PreviousNextButton(geoW: screenWidth, geoH: screenHeight,  destination: registerPage2().environmentObject(teacherData),  color: Color.white, imageName: "Group 9")
-                .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
+        PreviousNextButton(geoW: screenWidth, geoH: screenHeight, destination: registerPage2().environmentObject(teacherData),  color: Color.white, imageName: "Group 9")
 
+            .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
+                        
+                    
+          
         }
+                
+
+        .alert("رمز المحافظة المدخل بالصفحة السابقة لا يطابق المحافظة التي اخترتها، يجب ان يكونا متطابقان", isPresented: $showAlertcityIdNotValid, actions: {
+            Button("OK", role: .cancel) { }
+        })
     }
     // Remove keyboard observers
     private func removeKeyboardObservers() {
@@ -97,7 +107,8 @@ struct detailsRegisterPage1: View {
     @State private var showDropdown = false
     @State private var showDropdownLectured = false
     @State private var showDropdownCity = false
-    @State private var showAlertcityIdNotValid = false
+    //@State  var showAlertcityIdNotValid = false
+    @Binding var showAlertcityIdNotValid: Bool
     @State private var showProgressLoding = false
     
     var body: some View {
@@ -233,7 +244,7 @@ struct detailsRegisterPage1: View {
         .onChange(of: dataFetcher.governorates) { _ in
             showProgressLoding = false
         }
-        .alert("idCity not equal city", isPresented: $showAlertcityIdNotValid, actions: {
+        .alert("رمز المحافظة المدخل بالصفحة السابقة لا يطابق المحافظة التي اخترتها، يجب ان يكونا متطابقان", isPresented: $showAlertcityIdNotValid, actions: {
             Button("OK", role: .cancel) { }
         })
         .onAppear {

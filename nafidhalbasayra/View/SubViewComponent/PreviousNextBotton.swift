@@ -77,7 +77,7 @@ struct PreviousNextButton<Destination: View>: View {
             // Next button
             
             
-            NavigationLink(destination: destination ) {
+            NavigationLink(destination: destination  ) {
                 Text("التالي")
                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.03 : geoW * 0.03))
             }
@@ -87,12 +87,10 @@ struct PreviousNextButton<Destination: View>: View {
             
             
             
-            
+//            
 //            Button(action: {
-//                nextAction()
-//                if isNextNavigating {
-//                    isNavigateNext = true
-//                }
+//               
+//                
 //            }) {
 //                Text("التالي")
 //                    .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.03 : geoW * 0.03))
@@ -119,15 +117,16 @@ struct PreviousNextButton<Destination: View>: View {
     }
 }
 
-#Preview {
-    PreviousNextButton(
-   
-        geoW: 300, // Example width
-        geoH: 600, // Example height
-//        isNextNavigating: true,
-//        isPreviosNavigating: true,
-        destination: registerPage(),
-        color: Color.gray,
-        imageName: "Group 9_5"
-    )
-}
+//#Preview {
+//    PreviousNextButton(
+//   
+//        geoW: 300, // Example width
+//        geoH: 600, // Example height
+////        isNextNavigating: true,
+////        isPreviosNavigating: true,
+//        isNextNavigating: Bool,
+//        destination: registerPage()
+//        color: Color.gray,
+//        imageName: "Group 9_5"
+//    )
+//}
