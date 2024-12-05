@@ -10,7 +10,7 @@ import Combine
 import UIKit
 
 class TeacherDataViewModel: ObservableObject {
-    
+   
     // معلومات المعلم الأساسية
     @Published var name: String = ""
     @Published var birthDay: Date = Date() // استخدم Date بدلاً من Data للتمثيل الصحيح للتاريخ
@@ -18,7 +18,7 @@ class TeacherDataViewModel: ObservableObject {
     
     // معلومات الموقع
     @Published var province: String = ""
-    @Published var city: String = ""
+    @Published var city: String = "اختر"
     @Published var citynumber: String = ""
     
     // معلومات التعليم
@@ -27,6 +27,7 @@ class TeacherDataViewModel: ObservableObject {
     @Published var academiclevel: String = ""
     @Published var currentWork: String = ""
     @Published var cityIdfromApi: String = ""
+    @Published var cityCodefromApi: String = ""
     
     
     //
@@ -39,6 +40,22 @@ class TeacherDataViewModel: ObservableObject {
     @Published var profileimage: UIImage?
     @Published var frontfaceidentity: UIImage?
     @Published var backfaceidentity: UIImage?
+    
+    
+    //
+    @Published var isGoRP1: Bool = false
+    
+    
+    
+    // Method to check city numbers
+    func checkCityCode() -> Bool {
+        if citynumber == cityCodefromApi {
+            return true
+        } else {
+            return false
+        }
+    }
+
     
     
     

@@ -26,7 +26,7 @@ struct registerPage1: View {
     @State private var showDropdown = false
     @State private var showDropdownLectured = false
     @State  var showAlertcityIdNotValid = false
-
+//    @State private var isGo: Bool = teacherData.isGoRP1
 
     var body: some View {
         VStack {
@@ -65,7 +65,7 @@ struct registerPage1: View {
        
         
         .overlay {
-        PreviousNextButton(geoW: screenWidth, geoH: screenHeight, destination: registerPage2().environmentObject(teacherData),  color: Color.white, imageName: "Group 9")
+            PreviousNextButton(geoW: screenWidth, geoH: screenHeight, destination: registerPage2().environmentObject(teacherData),  color: Color.white, imageName: "Group 9", shouldNavigate: teacherData.checkCityCode())
 
             .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
                         
@@ -74,9 +74,9 @@ struct registerPage1: View {
         }
                 
 
-        .alert("رمز المحافظة المدخل بالصفحة السابقة لا يطابق المحافظة التي اخترتها، يجب ان يكونا متطابقان", isPresented: $showAlertcityIdNotValid, actions: {
-            Button("OK", role: .cancel) { }
-        })
+//        .alert("رمز المحافظة المدخل بالصفحة السابقة لا يطابق المحافظة التي اخترتها، يجب ان يكونا متطابقان", isPresented: $isGo, actions: {
+//            Button("OK", role: .cancel) { }
+//        })
     }
     // Remove keyboard observers
     private func removeKeyboardObservers() {
@@ -109,6 +109,7 @@ struct detailsRegisterPage1: View {
     @State private var showDropdownCity = false
     //@State  var showAlertcityIdNotValid = false
     @Binding var showAlertcityIdNotValid: Bool
+    //@Binding var isGo: Bool
     @State private var showProgressLoding = false
     
     var body: some View {
@@ -259,177 +260,14 @@ struct detailsRegisterPage1: View {
 
 
 
-//
-//import SwiftUI
-//
-//struct detailsRegisterPage1: View {
-//    @ObservedObject var teacherData: TeacherDataViewModel
-//    @StateObject private var dataFetcher = DataFetcher()
-//    @Environment(\.dismiss) var dismiss
-//
-//    @State private var selectedItem: String = ""
-//    @State private var showDropdown = false
-//    @State private var showDropdownLectured = false
-//    @State private var showDropdownCity = false
-//    @State private var showAlertcityIdNotValid = false
-//    @State private var showProgressLoding = false
-//    
-//    var body: some View {
-//        VStack(spacing: 10) {
-//            Spacer().frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.07  : screenHeight * 0.10)
-//            
-//            // Field: Name
-//            Text("المحافظة")
-//                .alignmentGuide(.leading) { d in d[.trailing] }
-//                .frame(maxWidth: .infinity, alignment: .trailing)
-//                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.035 : screenWidth * 0.02))
-//                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
-//            
-//            TextField("اختر", text: $teacherData.city)
-//                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
-//                .frame(maxWidth: screenHeight * 0.4)
-//                .frame(height: screenHeight * 0.05)
-//                .multilineTextAlignment(.trailing)
-//                .padding(.horizontal)
-//                .background(Color.white)
-//                .cornerRadius(5)
-//                .disabled(true)
-//                .onTapGesture {
-//                    showDropdownCity.toggle()
-//                    showProgressLoding = true
-//                    dataFetcher.fetchData()
-//                }
-//                .overlay {
-//                    Image(showDropdownCity ? "Vector1" : "Vector")
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fit)
-//                        .frame(width: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025)
-//                        .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
-//                }
-//            
-//            if showProgressLoding {
-//                ProgressView("جاري تحميل البيانات...")
-//                    .progressViewStyle(CircularProgressViewStyle())
-//                    .padding()
-//            } else {
-//                if showDropdownCity {
-//                    DropdownCityView(dataFetcher: dataFetcher, teacherData: teacherData, showDropdownCity: $showDropdownCity, showAlertcityIdNotValid: $showAlertcityIdNotValid)
-//                }
-//            }
-//            
-//            Spacer().frame(maxHeight: screenHeight * 0.01)
-//            
-//            // Field: Phone Number
-//            Text("القضاء")
-//                .alignmentGuide(.leading) { d in d[.trailing] }
-//                .frame(maxWidth: .infinity, alignment: .trailing)
-//                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.035 : screenWidth * 0.02))
-//                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
-//            
-//            TextField("اختر", text: $teacherData.province)
-//                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
-//                .frame(maxWidth: screenHeight * 0.4)
-//                .frame(height: screenHeight * 0.05)
-//                .multilineTextAlignment(.trailing)
-//                .padding(.horizontal)
-//                .background(Color.white)
-//                .cornerRadius(5)
-//                .disabled(true)
-//                .onTapGesture {
-//                    showDropdown.toggle()
-//                }
-//                .overlay {
-//                    Image(showDropdown ? "Vector1" : "Vector")
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fit)
-//                        .frame(width: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025)
-//                        .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
-//                }
-//            
-//            if showDropdown {
-//                DropdownProvinceView(teacherData: teacherData, showDropdown: $showDropdown)
-//            }
-//            
-//            Spacer().frame(maxHeight: screenHeight * 0.01)
-//            
-//            // Field: Academic Level
-//            Text("اسم الجامع او الحسينية")
-//                .alignmentGuide(.leading) { d in d[.trailing] }
-//                .frame(maxWidth: .infinity, alignment: .trailing)
-//                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
-//                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
-//            
-//            TextField("", text: $teacherData.mosquname)
-//                .frame(maxWidth: screenHeight * 0.4)
-//                .frame(height: screenHeight * 0.05)
-//                .multilineTextAlignment(.trailing)
-//                .padding(.horizontal)
-//                .background(Color.white)
-//                .cornerRadius(5)
-//                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
-//            
-//            Spacer().frame(maxHeight: screenHeight * 0.01)
-//            
-//            // Field: Current Work
-//            VStack(spacing: 10) {
-//                Text("هل قمت بالتدريس سابقاً في الدورات القرآنية الصيفية")
-//                    .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
-//                    .frame(maxWidth: .infinity, alignment: .trailing)
-//                    .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
-//                
-//                TextField("اختر", text: $teacherData.selectedLecturedOption)
-//                    .frame(maxWidth: screenHeight * 0.4)
-//                    .frame(height: screenHeight * 0.05)
-//                    .multilineTextAlignment(.trailing)
-//                    .padding(.horizontal)
-//                    .background(Color.white)
-//                    .cornerRadius(5)
-//                    .disabled(true)
-//                    .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
-//                    .onTapGesture {
-//                        showDropdownLectured.toggle()
-//                    }
-//                    .overlay {
-//                        Image(showDropdownLectured ? "Vector1" : "Vector")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025)
-//                            .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
-//                    }
-//                
-//                if showDropdownLectured {
-//                    DropdownLecturedView(teacherData: teacherData, showDropdownLectured: $showDropdownLectured)
-//                }
-//            }
-//            
-//            Spacer()
-//        }
-//        .onChange(of: dataFetcher.showProgress) { newValue in
-//            showProgressLoding = newValue
-//        }
-//        .onChange(of: dataFetcher.governorates) { _ in
-//            showProgressLoding = false
-//        }
-//        .alert("idCity not equal city", isPresented: $showAlertcityIdNotValid, actions: {
-//            Button("OK", role: .cancel) { }
-//        })
-//        .onAppear {
-//            if dataFetcher.governorates.isEmpty {
-//                showProgressLoding = true
-//                dataFetcher.fetchData()
-//            }
-//        }
-//        .padding(.horizontal, UIScreen.main.bounds.width < 500 ? 16 : 0)
-//    }
-//}
-
-
-
 struct DropdownCityView: View {
     @ObservedObject var dataFetcher: DataFetcher
     @ObservedObject var teacherData: TeacherDataViewModel
     @Binding var showDropdownCity: Bool
     @Binding var showAlertcityIdNotValid: Bool
+//    @Binding var isGo: Bool
+
+
 
     var body: some View {
         ScrollView {
@@ -454,6 +292,7 @@ struct CityRowView: View {
     @ObservedObject var teacherData: TeacherDataViewModel
     @Binding var showDropdownCity: Bool
     @Binding var showAlertcityIdNotValid: Bool
+    //@Binding var isGo: Bool
 
     var body: some View {
         HStack {
@@ -468,11 +307,31 @@ struct CityRowView: View {
                 .onTapGesture {
                     teacherData.city = governorate.governorateName
                     teacherData.cityIdfromApi = governorate.regionID
+                    teacherData.cityCodefromApi = String(governorate.governorateCode)
                     showDropdownCity = false
+                    // Check if city ID is valid
                     if let citynumber = Int(teacherData.citynumber), citynumber != governorate.governorateCode {
                         showAlertcityIdNotValid = true
+                        teacherData.isGoRP1 = false // Invalid city ID, so disable further action
+                    } else {
+                        teacherData.isGoRP1 = true // Valid city ID, allow further action
                     }
                 }
+
+            
+//                .onTapGesture {
+//                    teacherData.city = governorate.governorateName
+//                    teacherData.cityIdfromApi = governorate.regionID
+//                    showDropdownCity = false
+//                    if let citynumber = Int(teacherData.citynumber), citynumber != governorate.governorateCode {
+//                        showAlertcityIdNotValid = true
+//                        isGo = false
+//                    }
+//                }
+            
+            
+            
+            
         }
         .padding(.horizontal)
     }
