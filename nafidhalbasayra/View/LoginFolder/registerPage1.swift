@@ -65,16 +65,17 @@ struct registerPage1: View {
        
         
         .overlay {
-            PreviousNextButton(geoW: screenWidth, geoH: screenHeight, destination: registerPage2().environmentObject(teacherData),  color: Color.white, imageName: "Group 9", shouldNavigate: teacherData.checkCityCode())
+            PreviousNextButton(geoW: screenWidth, geoH: screenHeight, destination: registerPage2().environmentObject(teacherData),  color: Color.white, imageName: "Group 9", shouldNavigate: teacherData.checkCityCodeRP1(), notEmptyFields: true)
 
             .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
-                        
-                    
-          
+            
         }
                 
 
         .alert("رمز المحافظة المدخل بالصفحة السابقة لا يطابق المحافظة التي اخترتها، يجب ان يكونا متطابقان", isPresented: $teacherData.showAlertCityInRP1NOTEquall, actions: {
+            Button("OK", role: .cancel) { }
+        })
+        .alert("يجب ان لاتبقى الحقول فارغة", isPresented: $teacherData.showProvinceEmpty, actions: {
             Button("OK", role: .cancel) { }
         })
     }
@@ -311,6 +312,7 @@ struct CityRowView: View {
                     showDropdownCity = false
                     // Check if city ID is valid
                     if let citynumber = Int(teacherData.citynumber), citynumber != governorate.governorateCode {
+                        teacherData.city = "اختر"
                         showAlertcityIdNotValid = true
                         teacherData.isGoRP1 = false // Invalid city ID, so disable further action
                     } else {

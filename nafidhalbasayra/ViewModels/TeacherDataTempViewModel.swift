@@ -42,21 +42,60 @@ class TeacherDataViewModel: ObservableObject {
     @Published var backfaceidentity: UIImage?
     
     
+
+    
+    
+    
+    
+    // RP1
     //
     @Published var isGoRP1: Bool = false
-    
+    @Published var showProvinceEmpty: Bool = false
+    @Published var showMosqunameEmpty: Bool = false
+    @Published var showDidyoutaughtEmpty: Bool = false
     @Published var showAlertCityInRP1NOTEquall: Bool = false
     
     
-    
     // Method to check city numbers
-    func checkCityCode() -> Bool {
+    func checkCityCodeRP1() -> Bool {
         if citynumber == cityCodefromApi {
             return true
         } else {
             return false
         }
     }
+    
+    func notEmptyFieldsRP1() -> Bool {
+        if province.isEmpty {
+             showProvinceEmpty = true
+            return false
+        } else if mosquname.isEmpty {
+            showMosqunameEmpty = true
+            return false
+        } else if didyoutaught.description.isEmpty {
+            showDidyoutaughtEmpty =  true
+            return false
+        }
+        
+        
+        else {
+            return true
+        }
+        
+    }
+    
+    
+//    func checkRP1 () -> Bool {
+//        if notEmptyFieldsRP1() && checkCityCodeRP1() {
+//            return true
+//        } else {
+//           return false
+//        }
+//    }
+    
+    
+    
+ // end RP1
 
     
     

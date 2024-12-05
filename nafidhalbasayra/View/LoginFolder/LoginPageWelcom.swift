@@ -97,7 +97,7 @@ struct LoginPageWelcom: View {
                 
                 
                 
-                PreviousNextButton( geoW: geoW, geoH: geoH,  destination: registerPage().environmentObject(teacherData),  color: Color(UIColor(red: 90 / 255, green: 97 / 255, blue: 103 / 255, alpha: 1.0)), imageName: "Group 9_5", shouldNavigate: true)
+                PreviousNextButton( geoW: geoW, geoH: geoH,  destination: registerPage().environmentObject(teacherData),  color: Color(UIColor(red: 90 / 255, green: 97 / 255, blue: 103 / 255, alpha: 1.0)), imageName: "Group 9_5", shouldNavigate: true, notEmptyFields: true)
                 
                     .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.4)
 

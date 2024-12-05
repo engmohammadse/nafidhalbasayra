@@ -13,6 +13,7 @@ struct PreviousNextButton<Destination: View>: View {
     var color: Color
     var imageName: String
     var shouldNavigate: Bool // شرط الانتقال
+    var notEmptyFields: Bool
     @EnvironmentObject var teacherData: TeacherDataViewModel
     
     @Environment(\.dismiss) var dismiss // العودة للصفحة السابقة
@@ -55,7 +56,7 @@ struct PreviousNextButton<Destination: View>: View {
              
 
                 // Next button with conditional navigation
-                if shouldNavigate { // شرط الانتقال
+                if shouldNavigate && notEmptyFields { // شرط الانتقال
                     NavigationLink(destination: destination) {
                         Text("التالي")
                             .font(.custom("BahijTheSansArabic-Bold", size: geoW * 0.03))
@@ -80,9 +81,11 @@ struct PreviousNextButton<Destination: View>: View {
                     
                     Button(action: {
                         
-                        if teacherData.checkCityCode() == false {
+                        if teacherData.checkCityCodeRP1() == false {
                             teacherData.showAlertCityInRP1NOTEquall = true
                         }
+                        
+                     
                         
                         
                     }) {

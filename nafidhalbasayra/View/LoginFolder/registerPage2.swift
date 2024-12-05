@@ -395,7 +395,7 @@ struct registerPage2: View {
         }
         .navigationBarBackButtonHidden(true)
         .overlay {
-            PreviousNextButton( geoW: screenWidth, geoH: screenHeight, destination: registerPage3().environmentObject(teacherData), color: Color.white, imageName: "Group 9", shouldNavigate: true)
+            PreviousNextButton( geoW: screenWidth, geoH: screenHeight, destination: registerPage3().environmentObject(teacherData), color: Color.white, imageName: "Group 9", shouldNavigate: true, notEmptyFields: true)
                 .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
 
         }
