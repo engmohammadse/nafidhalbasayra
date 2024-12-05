@@ -45,6 +45,8 @@ class TeacherDataViewModel: ObservableObject {
     //
     @Published var isGoRP1: Bool = false
     
+    @Published var showAlertCityInRP1NOTEquall: Bool = false
+    
     
     
     // Method to check city numbers

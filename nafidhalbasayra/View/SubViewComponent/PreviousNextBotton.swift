@@ -13,6 +13,7 @@ struct PreviousNextButton<Destination: View>: View {
     var color: Color
     var imageName: String
     var shouldNavigate: Bool // شرط الانتقال
+    @EnvironmentObject var teacherData: TeacherDataViewModel
     
     @Environment(\.dismiss) var dismiss // العودة للصفحة السابقة
     
@@ -78,6 +79,11 @@ struct PreviousNextButton<Destination: View>: View {
                        
                     
                     Button(action: {
+                        
+                        if teacherData.checkCityCode() == false {
+                            teacherData.showAlertCityInRP1NOTEquall = true
+                        }
+                        
                         
                     }) {
                         Text("التالي")

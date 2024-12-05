@@ -74,9 +74,9 @@ struct registerPage1: View {
         }
                 
 
-//        .alert("رمز المحافظة المدخل بالصفحة السابقة لا يطابق المحافظة التي اخترتها، يجب ان يكونا متطابقان", isPresented: $isGo, actions: {
-//            Button("OK", role: .cancel) { }
-//        })
+        .alert("رمز المحافظة المدخل بالصفحة السابقة لا يطابق المحافظة التي اخترتها، يجب ان يكونا متطابقان", isPresented: $teacherData.showAlertCityInRP1NOTEquall, actions: {
+            Button("OK", role: .cancel) { }
+        })
     }
     // Remove keyboard observers
     private func removeKeyboardObservers() {
