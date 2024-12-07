@@ -54,7 +54,7 @@ struct registerPage: View {
             .overlay{
                 
                 
-                PreviousNextButton( geoW: screenWidth, geoH: screenHeight, destination: registerPage1().environmentObject(teacherData), color: Color.white, imageName: "Group 9", shouldNavigate: true, notEmptyFields: true)
+                PreviousNextButtonRegisterPage( geoW: screenWidth, geoH: screenHeight, destination: registerPage1().environmentObject(teacherData), color: Color.white, imageName: "Group 9", shouldNavigate: true, notEmptyFields: true)
              
                     .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
                 
@@ -172,8 +172,10 @@ struct registerPageTextField: View {
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.035 : screenWidth * 0.02))
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
             
-            TextField("Select your birthday", text: Binding(
-                get: { formattedDate(teacherData.birthDay) },
+            TextField("اختر تاريخ الميلاد", text: Binding(
+                get: { 
+                    
+                    teacherData.birthDay != nil ? formattedDate(teacherData.birthDay!) : "اختر تاريخ الميلاد" },
                 set: { _ in }
             ))
            
@@ -204,6 +206,7 @@ struct registerPageTextField: View {
                         .padding(.trailing, 10)
                 }.offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.31 : screenWidth * -0.25)
             }
+            
             
             Spacer().frame(maxHeight: screenHeight * 0.01)
             
@@ -324,28 +327,80 @@ struct registerPageTextField: View {
                 }
                 .padding(.top)
                 
-                DatePicker("Select Date", selection: $teacherData.birthDay, displayedComponents: .date)
-                    .datePickerStyle(GraphicalDatePickerStyle()) // Use Graphical style or another preferred one
-                    .labelsHidden() // Hides the "Select Date" label to make it cleaner
-                    .padding()
+                DatePicker(
+                    "اختر تاريخ الولادة",
+                    selection: Binding(
+                        get: { teacherData.birthDay ?? Date() },
+                        set: { teacherData.birthDay = $0 }
+                    ),
+                    displayedComponents: .date
+                )
+                .datePickerStyle(GraphicalDatePickerStyle()) // Use Graphical style or another preferred one
+                .labelsHidden() // Hides the "Select Date" label to make it cleaner
+                .padding()
                 
                 Spacer() // Adds space to make the layout look more balanced
             }
         }
+
+        
+//        .sheet(isPresented: $isPickerVisible) {
+//            VStack {
+//                HStack {
+//                    Spacer()
+//                    Button("Done") {
+//                        isPickerVisible = false
+//                    }
+//                    .padding(.trailing)
+//                }
+//                .padding(.top)
+//                
+//                DatePicker("اختر تاريخ الولادة", selection: $teacherData.birthDay, displayedComponents: .date)
+//                    .datePickerStyle(GraphicalDatePickerStyle()) // Use Graphical style or another preferred one
+//                    .labelsHidden() // Hides the "Select Date" label to make it cleaner
+//                    .padding()
+//                
+//                Spacer() // Adds space to make the layout look more balanced
+//            }
+//        }
 
     }
     
     
     
     
-    
-    
     // Function to format date to a readable string
-    private func formattedDate(_ date: Date) -> String {
+//    private func formattedDate(_ date: Date?) -> String {
+//        let formatter = DateFormatter()
+//        formatter.dateStyle = .medium
+//        formatter.locale = Locale(identifier: "ar") // استخدام اللغة العربية
+//        
+//        if let validDate = date {
+//            return formatter.string(from: validDate)
+//        } else {
+//            return "اختر تاريخ الميلاد" // النص الافتراضي
+//        }
+//    }
+
+    
+    
+    private func formattedDate(_ date: Date?) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
-        return formatter.string(from: date)
+        formatter.locale = Locale(identifier: "ar") // اللغة العربية
+        if let validDate = date {
+            return formatter.string(from: validDate)
+        } else {
+            return "اختر تاريخ الميلاد" // النص الافتراضي
+        }
     }
+
+    // Function to format date to a readable string
+//    private func formattedDate(_ date: Date) -> String {
+//        let formatter = DateFormatter()
+//        formatter.dateStyle = .medium
+//        return formatter.string(from: date)
+//    }
     
     // Calculate offset based on keyboard height
     private func calculateOffset() -> CGFloat {
@@ -376,7 +431,126 @@ struct registerPageTextField: View {
 
 
 
+//
+import SwiftUI
 
+struct PreviousNextButtonRegisterPage<Destination: View>: View {
+    var geoW: CGFloat
+    var geoH: CGFloat
+    var destination: Destination // الوجهة التي ننتقل إليها
+    var color: Color
+    var imageName: String
+    var shouldNavigate: Bool // شرط الانتقال
+    var notEmptyFields: Bool
+    @EnvironmentObject var teacherData: TeacherDataViewModel
+    
+    @Environment(\.dismiss) var dismiss // العودة للصفحة السابقة
+    
+    var body: some View {
+        NavigationStack {
+            HStack {
+                // Previous button icon
+            
+
+                // Previous button (Button to dismiss and go back)
+                Button(action: {
+                    dismiss() // العودة إلى الصفحة السابقة
+                }) {
+                    
+                    Image(imageName)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: geoW * 0.04)
+                        .padding(.vertical, geoH * 0.01)
+                        .padding(.leading, UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.02 : geoW * 0.001)
+                        .foregroundColor(color)
+                    
+                    Text("السابق")
+                        .font(.custom("BahijTheSansArabic-Bold", size: geoW * 0.03))
+                        .foregroundColor(color)
+                }
+                .padding(.horizontal, geoW * 0.001)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+
+                // Divider line
+                Image("Line 1")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: geoH * 0.01, height: geoH * 0.03)
+                    .padding(.vertical, geoH * 0.008)
+                
+                
+             
+
+                // Next button with conditional navigation
+                if shouldNavigate && notEmptyFields { // شرط الانتقال
+                    NavigationLink(destination: destination) {
+                        Text("التالي")
+                            .font(.custom("BahijTheSansArabic-Bold", size: geoW * 0.03))
+                            .padding(.horizontal, geoW * 0.001)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                        
+                        
+                        
+                        Image("Group 16")
+                                      .resizable()
+                                      .aspectRatio(contentMode: .fit)
+                                      .frame(maxWidth: geoW * 0.04)
+                                      .padding(.vertical, geoH * 0.01)
+                                      .padding(.trailing, UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.02 : geoW * 0.001)
+                        
+                    }
+                } else {
+                    // حالة غير مفعلّة عند عدم تحقق الشرط
+                    
+                       
+                    
+                    Button(action: {
+                        
+                     
+                        
+                     
+                        
+                        
+                    }) {
+                        Text("التالي")
+                            .font(.custom("BahijTheSansArabic-Bold", size: geoW * 0.03))
+                            .foregroundColor(color)
+                            .padding(.horizontal, geoW * 0.001)
+                            .foregroundColor(.gray)
+                            .cornerRadius(10)
+                            .padding(.vertical, geoH * 0.01)
+                    }
+                    .padding(.horizontal, geoW * 0.001)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    
+                    
+                    Image("Group 16")
+                                  .resizable()
+                                  .aspectRatio(contentMode: .fit)
+                                  .frame(maxWidth: geoW * 0.04)
+                                  .padding(.vertical, geoH * 0.01)
+                                  .padding(.trailing, UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.02 : geoW * 0.001)
+                    
+                    
+                    
+                }
+                
+                
+                
+                
+                
+            }
+         
+            .background(Color(UIColor(red: 20 / 255, green: 30 / 255, blue: 39 / 255, alpha: 1.0)))
+            .cornerRadius(5)
+            .padding()
+        }
+    }
+}
 
 
     

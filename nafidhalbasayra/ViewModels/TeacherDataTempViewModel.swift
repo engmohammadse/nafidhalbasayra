@@ -13,7 +13,10 @@ class TeacherDataViewModel: ObservableObject {
    
     // معلومات المعلم الأساسية
     @Published var name: String = ""
-    @Published var birthDay: Date = Date() // استخدم Date بدلاً من Data للتمثيل الصحيح للتاريخ
+   // @Published var birthDay: Date = Date() // استخدم Date بدلاً من Data للتمثيل الصحيح للتاريخ
+    @Published var birthDay: Date? = nil // يسمح بالقيمة nil
+
+    
     @Published var phonenumber: String = "" // يمكنك استخدام String لتجنب أي مشاكل مع الأرقام التي تبدأ بصفر
     
     // معلومات الموقع
