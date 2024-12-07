@@ -22,7 +22,9 @@ class TeacherDataViewModel: ObservableObject {
     @Published var citynumber: String = ""
     
     // معلومات التعليم
-    @Published var didyoutaught: Bool = false
+   // @Published var didyoutaught: Bool = false
+    @Published var didyoutaught: Bool? = nil
+
     @Published var mosquname: String = ""
     @Published var academiclevel: String = ""
     @Published var currentWork: String = ""
@@ -65,34 +67,62 @@ class TeacherDataViewModel: ObservableObject {
         }
     }
     
-    func notEmptyFieldsRP1() -> Bool {
+  
+    
+    //@Published var showEmptyAlertRP1: Bool = false
+    @Published var showEmptyAlertFieldRP1: Bool = false
+    
+    func checkFieldEmpty() -> Bool {
+        var isValid = true
+        
         if province.isEmpty {
-             showProvinceEmpty = true
-            return false
-        } else if mosquname.isEmpty {
-            showMosqunameEmpty = true
-            return false
-        } else if didyoutaught.description.isEmpty {
-            showDidyoutaughtEmpty =  true
-            return false
+            DispatchQueue.main.async {
+                self.showProvinceEmpty = true
+            }
+            isValid = false
+        } else {
+            DispatchQueue.main.async {
+                self.showProvinceEmpty = false
+                isValid = true
+            }
         }
         
-        
-        else {
-            return true
+        if mosquname.isEmpty {
+            DispatchQueue.main.async {
+                self.showMosqunameEmpty = true
+            }
+            isValid = false
+        } else {
+            DispatchQueue.main.async {
+                self.showMosqunameEmpty = false
+                isValid = true
+            }
         }
         
-    }
-    
-    
-//    func checkRP1 () -> Bool {
-//        if notEmptyFieldsRP1() && checkCityCodeRP1() {
-//            return true
-//        } else {
-//           return false
+        if didyoutaught == nil {
+            DispatchQueue.main.async {
+                self.showDidyoutaughtEmpty = true
+            }
+            isValid = false
+        } else {
+            DispatchQueue.main.async {
+                self.showDidyoutaughtEmpty = false
+                isValid = true
+            }
+        }
+        
+        // حدّث showEmptyFieldsAlert بناءً على النتيجة
+//        DispatchQueue.main.async {
+//            self.showEmptyAlertRP1 = !isValid
 //        }
-//    }
+        
+        return isValid
+    }
+
+
     
+    
+
     
     
  // end RP1
@@ -109,11 +139,12 @@ class TeacherDataViewModel: ObservableObject {
             print("Province: \(province)")
             print("City: \(city)")
             print("City Number: \(citynumber)")
-            print("Did you taught: \(didyoutaught)")
+            print("Did you taught: \(String(describing: didyoutaught))")
             print("Mosque Name: \(mosquname)")
             print("Academic Level: \(academiclevel)")
             print("Current Work: \(currentWork)")
             print("cityIdfromApi: \(cityIdfromApi)")
+            print("checkFieldEmpty: \(checkFieldEmpty())")
         }
 }
 

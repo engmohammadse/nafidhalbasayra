@@ -19,6 +19,7 @@
 		4124DC612CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4124DC602CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift */; };
 		4124DC632CDD61B70083E5F9 /* DisplayAttendanceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4124DC622CDD61B70083E5F9 /* DisplayAttendanceData.swift */; };
 		412A81962CBFF50200188321 /* StudentDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412A81952CBFF50200188321 /* StudentDataSection.swift */; };
+		412D80C32D04772800382D8A /* ModelRegisterPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412D80C22D04772800382D8A /* ModelRegisterPage1.swift */; };
 		41325AA72CA9B83D00664847 /* LoginPageWelcom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41325AA62CA9B83D00664847 /* LoginPageWelcom.swift */; };
 		413E4B8F2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */; };
 		413E4B912CA1C78200B1EEC5 /* TeacherCoreDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4B902CA1C78200B1EEC5 /* TeacherCoreDataViewModel.swift */; };
@@ -76,6 +77,7 @@
 		4124DC602CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendaceStatusViewModel.swift; sourceTree = "<group>"; };
 		4124DC622CDD61B70083E5F9 /* DisplayAttendanceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayAttendanceData.swift; sourceTree = "<group>"; };
 		412A81952CBFF50200188321 /* StudentDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentDataSection.swift; sourceTree = "<group>"; };
+		412D80C22D04772800382D8A /* ModelRegisterPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelRegisterPage1.swift; sourceTree = "<group>"; };
 		41325AA62CA9B83D00664847 /* LoginPageWelcom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageWelcom.swift; sourceTree = "<group>"; };
 		413E4B8B2CA1C78200B1EEC5 /* nafidhalbasayra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nafidhalbasayra.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nafidhalbasayraApp.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				41FC8A402CFDD681001C6E49 /* cityGet.swift */,
 				4114B10B2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift */,
 				41F34EF72CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift */,
+				412D80C22D04772800382D8A /* ModelRegisterPage1.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 				41F9D0BB2CAB0A5800BD7853 /* CustemTextWithField.swift in Sources */,
 				4124DC632CDD61B70083E5F9 /* DisplayAttendanceData.swift in Sources */,
 				413E4B8F2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift in Sources */,
+				412D80C32D04772800382D8A /* ModelRegisterPage1.swift in Sources */,
 				414AFBDC2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

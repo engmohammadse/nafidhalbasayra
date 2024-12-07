@@ -103,7 +103,7 @@ class CoreDataViewModel: ObservableObject {
         newTeacherInfo.birthDay = teacherData.birthDay
         newTeacherInfo.province = teacherData.province
         newTeacherInfo.city = teacherData.city
-        newTeacherInfo.didyoutaught = teacherData.didyoutaught
+        newTeacherInfo.didyoutaught = teacherData.didyoutaught ?? false
         newTeacherInfo.mosquname = teacherData.mosquname
         newTeacherInfo.academiclevel = teacherData.academiclevel
         newTeacherInfo.currentWork = teacherData.currentWork

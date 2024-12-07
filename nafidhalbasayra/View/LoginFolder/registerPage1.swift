@@ -26,6 +26,8 @@ struct registerPage1: View {
     @State private var showDropdown = false
     @State private var showDropdownLectured = false
     @State  var showAlertcityIdNotValid = false
+    
+    
 //    @State private var isGo: Bool = teacherData.isGoRP1
 
     var body: some View {
@@ -65,7 +67,7 @@ struct registerPage1: View {
        
         
         .overlay {
-            PreviousNextButton(geoW: screenWidth, geoH: screenHeight, destination: registerPage2().environmentObject(teacherData),  color: Color.white, imageName: "Group 9", shouldNavigate: teacherData.checkCityCodeRP1(), notEmptyFields: true)
+            PreviousNextButtonRegisterPage1(geoW: screenWidth, geoH: screenHeight, destination: registerPage2().environmentObject(teacherData),  color: Color.white, imageName: "Group 9", shouldNavigate: teacherData.checkCityCodeRP1(), notEmptyFields: teacherData.checkFieldEmpty())
 
             .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
             
@@ -73,10 +75,10 @@ struct registerPage1: View {
                 
 
         .alert("رمز المحافظة المدخل بالصفحة السابقة لا يطابق المحافظة التي اخترتها، يجب ان يكونا متطابقان", isPresented: $teacherData.showAlertCityInRP1NOTEquall, actions: {
-            Button("OK", role: .cancel) { }
+            Button("تم", role: .cancel) { }
         })
-        .alert("يجب ان لاتبقى الحقول فارغة", isPresented: $teacherData.showProvinceEmpty, actions: {
-            Button("OK", role: .cancel) { }
+        .alert("يجب ان لاتبقى الحقول فارغة", isPresented: $teacherData.showEmptyAlertFieldRP1, actions: {
+            Button("تم", role: .cancel) { }
         })
     }
     // Remove keyboard observers
