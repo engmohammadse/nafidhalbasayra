@@ -45,9 +45,110 @@ class TeacherDataViewModel: ObservableObject {
     @Published var profileimage: UIImage?
     @Published var frontfaceidentity: UIImage?
     @Published var backfaceidentity: UIImage?
+    //
+    
+    
+    
+    
+    // Model RegisterPage
     
     
 
+    
+    func checkFieldEmptyRP() -> Bool {
+        var isValid = true
+        
+        if name.isEmpty {
+            DispatchQueue.main.async {
+              //  self.showProvinceEmpty = true
+            }
+            isValid = false
+        } else {
+            DispatchQueue.main.async {
+               // self.showProvinceEmpty = false
+                isValid = true
+            }
+        }
+        
+        if academiclevel.isEmpty {
+            DispatchQueue.main.async {
+              //  self.showMosqunameEmpty = true
+            }
+            isValid = false
+        } else {
+            DispatchQueue.main.async {
+                //self.showMosqunameEmpty = false
+                isValid = true
+            }
+        }
+        
+        if currentWork.isEmpty {
+            DispatchQueue.main.async {
+               // self.showMosqunameEmpty = true
+            }
+            isValid = false
+        } else {
+            DispatchQueue.main.async {
+               // self.showMosqunameEmpty = false
+                isValid = true
+            }
+        }
+        
+        
+        if citynumber.isEmpty {
+            DispatchQueue.main.async {
+              //  self.showMosqunameEmpty = true
+            }
+            isValid = false
+        } else {
+            DispatchQueue.main.async {
+              //  self.showMosqunameEmpty = false
+                isValid = true
+            }
+        }
+        
+        if phonenumber.isEmpty {
+            DispatchQueue.main.async {
+               // self.showMosqunameEmpty = true
+            }
+            isValid = false
+        } else {
+            DispatchQueue.main.async {
+               // self.showMosqunameEmpty = false
+                isValid = true
+            }
+        }
+        
+        if birthDay == nil {
+            DispatchQueue.main.async {
+               // self.showDidyoutaughtEmpty = true
+            }
+            isValid = false
+        } else {
+            DispatchQueue.main.async {
+               // self.showDidyoutaughtEmpty = false
+                isValid = true
+            }
+        }
+        
+        
+        return isValid
+    }
+    
+    @Published var showRegisterPageFieldsEmpty: Bool = false
+    
+    
+    // end RP
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -114,22 +215,21 @@ class TeacherDataViewModel: ObservableObject {
             }
         }
         
-        // حدّث showEmptyFieldsAlert بناءً على النتيجة
-//        DispatchQueue.main.async {
-//            self.showEmptyAlertRP1 = !isValid
-//        }
         
         return isValid
     }
-
-
-    
-    
-
-    
-    
+  
  // end RP1
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -137,7 +237,7 @@ class TeacherDataViewModel: ObservableObject {
     // دالة لطباعة البيانات
         func printData() {
             print("Name: \(name)")
-            print("Birth Date: \(birthDay)")
+            print("Birth Date: \(String(describing: birthDay))")
             print("Phone Number: \(phonenumber)")
             print("Province: \(province)")
             print("City: \(city)")
@@ -147,6 +247,8 @@ class TeacherDataViewModel: ObservableObject {
             print("Academic Level: \(academiclevel)")
             print("Current Work: \(currentWork)")
             print("cityIdfromApi: \(cityIdfromApi)")
+            print("checkFieldEmptyRP: \(checkFieldEmptyRP())")
+            
             print("checkFieldEmpty: \(checkFieldEmpty())")
         }
 }

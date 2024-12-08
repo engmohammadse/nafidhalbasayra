@@ -54,13 +54,15 @@ struct registerPage: View {
             .overlay{
                 
                 
-                PreviousNextButtonRegisterPage( geoW: screenWidth, geoH: screenHeight, destination: registerPage1().environmentObject(teacherData), color: Color.white, imageName: "Group 9", shouldNavigate: true, notEmptyFields: true)
+                PreviousNextButtonRegisterPage( geoW: screenWidth, geoH: screenHeight, destination: registerPage1().environmentObject(teacherData), color: Color.white, imageName: "Group 9", shouldNavigate: teacherData.checkFieldEmptyRP(), notEmptyFields: true)
              
                     .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
                 
-                //y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.6
                                     
             }
+            .alert("يجب ان لاتبقى الحقول فارغة", isPresented: $teacherData.showRegisterPageFieldsEmpty, actions: {
+                Button("تم", role: .cancel) { }
+            })
         
         
         
@@ -100,7 +102,7 @@ struct registerPage: View {
 }
 
 #Preview {
-    registerPage()
+    registerPage().environmentObject(TeacherDataViewModel())
 }
     
 
@@ -320,7 +322,7 @@ struct registerPageTextField: View {
             VStack {
                 HStack {
                     Spacer()
-                    Button("Done") {
+                    Button("تم") {
                         isPickerVisible = false
                     }
                     .padding(.trailing)
@@ -510,8 +512,11 @@ struct PreviousNextButtonRegisterPage<Destination: View>: View {
                     Button(action: {
                         
                      
-                        
+                        if teacherData.checkFieldEmptyRP() == false {
+                            teacherData.showRegisterPageFieldsEmpty = true
+                        }
                      
+                            
                         
                         
                     }) {
