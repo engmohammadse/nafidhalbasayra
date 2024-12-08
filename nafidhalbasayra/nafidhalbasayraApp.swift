@@ -31,9 +31,10 @@ struct nafidhalbasayraApp: App {
                         }
                 } else {
                     // MainViewPage()
-                    LoginPage1()
+                    //LoginPage1()
                     //registerPage2()
                     //TeacherInfoView()
+                    registerPage()
                         .preferredColorScheme(.light)
                         .environmentObject(vmAttendaceStatus)
                         .environmentObject(teacherData)  // تأكد من تمرير البيانات هنا

@@ -32,7 +32,7 @@ class TeacherDataViewModel: ObservableObject {
     @Published var academiclevel: String = ""
     @Published var currentWork: String = ""
     @Published var cityIdfromApi: String = ""
-    @Published var cityCodefromApi: String = ""
+    @Published var cityCodefromApi: String?
     
     
     //
@@ -47,7 +47,8 @@ class TeacherDataViewModel: ObservableObject {
     @Published var backfaceidentity: UIImage?
     //
     
-    
+    @Published var isFetching = false
+
     
     
     // Model RegisterPage
@@ -141,7 +142,7 @@ class TeacherDataViewModel: ObservableObject {
     // end RP
     
     
-    
+    @Published var localIdCity: String = "672cc19964e07256213b02b2"
     
     
     
@@ -246,10 +247,23 @@ class TeacherDataViewModel: ObservableObject {
             print("Mosque Name: \(mosquname)")
             print("Academic Level: \(academiclevel)")
             print("Current Work: \(currentWork)")
+            
+            
             print("cityIdfromApi: \(cityIdfromApi)")
+            print("cityIdfromApi: \(cityIdfromApi)")
+
             print("checkFieldEmptyRP: \(checkFieldEmptyRP())")
             
             print("checkFieldEmpty: \(checkFieldEmpty())")
+            
+            
+            let provinceFetcher = ProvinceSpecificGet(teacherData: TeacherDataViewModel())
+
+            provinceFetcher.fetchData() // جلب البيانات
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) { // تأخير بسيط لضمان اكتمال جلب البيانات
+                provinceFetcher.printProvinces() // طباعة البيانات
+            }
+
         }
 }
 

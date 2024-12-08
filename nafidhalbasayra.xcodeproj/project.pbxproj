@@ -51,6 +51,7 @@
 		41CD8CE12CF75D360095A82D /* displayTeacherInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD8CE02CF75D360095A82D /* displayTeacherInfo.swift */; };
 		41D1DC502CB6A010004EB23D /* registerPage2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D1DC4F2CB6A00F004EB23D /* registerPage2.swift */; };
 		41D1DC522CB6EDF7004EB23D /* registerPage3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D1DC512CB6EDF7004EB23D /* registerPage3.swift */; };
+		41DA9E6B2D05DB9E0014F05E /* governorateSpecificGet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41DA9E6A2D05DB9E0014F05E /* governorateSpecificGet.swift */; };
 		41DC01D42CAEBBC500C77696 /* SizesUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41DC01D32CAEBBC500C77696 /* SizesUI.swift */; };
 		41E19E792CAD714100CA2256 /* PreviousNextBotton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E19E782CAD714100CA2256 /* PreviousNextBotton.swift */; };
 		41E9C6D22CC3C85000FE122F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D12CC3C85000FE122F /* Colors.swift */; };
@@ -110,6 +111,7 @@
 		41CD8CE02CF75D360095A82D /* displayTeacherInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = displayTeacherInfo.swift; sourceTree = "<group>"; };
 		41D1DC4F2CB6A00F004EB23D /* registerPage2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage2.swift; sourceTree = "<group>"; };
 		41D1DC512CB6EDF7004EB23D /* registerPage3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage3.swift; sourceTree = "<group>"; };
+		41DA9E6A2D05DB9E0014F05E /* governorateSpecificGet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = governorateSpecificGet.swift; sourceTree = "<group>"; };
 		41DC01D32CAEBBC500C77696 /* SizesUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizesUI.swift; sourceTree = "<group>"; };
 		41E19E782CAD714100CA2256 /* PreviousNextBotton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviousNextBotton.swift; sourceTree = "<group>"; };
 		41E9C6D12CC3C85000FE122F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				4114B10B2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift */,
 				41F34EF72CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift */,
 				412D80C22D04772800382D8A /* ModelRegisterPage1.swift */,
+				41DA9E6A2D05DB9E0014F05E /* governorateSpecificGet.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 				41B8A8262CC67CB1002F614C /* CoreData.xcdatamodeld in Sources */,
 				410A52252CD3A66C00DE375B /* StudentViewModel.swift in Sources */,
 				41E9C6D22CC3C85000FE122F /* Colors.swift in Sources */,
+				41DA9E6B2D05DB9E0014F05E /* governorateSpecificGet.swift in Sources */,
 				41F9D0B92CAB03BB00BD7853 /* LogoIUserInfo.swift in Sources */,
 				412A81962CBFF50200188321 /* StudentDataSection.swift in Sources */,
 				413E4BA32CA1C83100B1EEC5 /* LoginPage0.swift in Sources */,
