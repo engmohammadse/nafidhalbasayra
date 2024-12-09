@@ -32,6 +32,8 @@ class TeacherDataViewModel: ObservableObject {
     @Published var academiclevel: String = ""
     @Published var currentWork: String = ""
     @Published var cityIdfromApi: String = ""
+    @Published var localIdCity: String = "672cc19964e07256213b02b0"
+
     @Published var cityCodefromApi: String?
     
     
@@ -142,7 +144,6 @@ class TeacherDataViewModel: ObservableObject {
     // end RP
     
     
-    @Published var localIdCity: String = "672cc19964e07256213b02b2"
     
     
     
@@ -179,7 +180,7 @@ class TeacherDataViewModel: ObservableObject {
     
     func checkFieldEmpty() -> Bool {
         var isValid = true
-        
+
         if province.isEmpty {
             DispatchQueue.main.async {
                 self.showProvinceEmpty = true
@@ -188,10 +189,9 @@ class TeacherDataViewModel: ObservableObject {
         } else {
             DispatchQueue.main.async {
                 self.showProvinceEmpty = false
-                isValid = true
             }
         }
-        
+
         if mosquname.isEmpty {
             DispatchQueue.main.async {
                 self.showMosqunameEmpty = true
@@ -200,10 +200,9 @@ class TeacherDataViewModel: ObservableObject {
         } else {
             DispatchQueue.main.async {
                 self.showMosqunameEmpty = false
-                isValid = true
             }
         }
-        
+
         if didyoutaught == nil {
             DispatchQueue.main.async {
                 self.showDidyoutaughtEmpty = true
@@ -212,13 +211,12 @@ class TeacherDataViewModel: ObservableObject {
         } else {
             DispatchQueue.main.async {
                 self.showDidyoutaughtEmpty = false
-                isValid = true
             }
         }
-        
-        
+
         return isValid
     }
+
   
  // end RP1
 
@@ -250,11 +248,13 @@ class TeacherDataViewModel: ObservableObject {
             
             
             print("cityIdfromApi: \(cityIdfromApi)")
-            print("cityIdfromApi: \(cityIdfromApi)")
-
+            print("localIdCity: \(localIdCity)")
+            print("cityCodefromApi: \(String(describing: cityCodefromApi))")
+            print("checkFieldEmpty: \(checkFieldEmpty())")
             print("checkFieldEmptyRP: \(checkFieldEmptyRP())")
             
-            print("checkFieldEmpty: \(checkFieldEmpty())")
+            
+            
             
             
             let provinceFetcher = ProvinceSpecificGet(teacherData: TeacherDataViewModel())

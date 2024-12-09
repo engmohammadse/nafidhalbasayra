@@ -90,7 +90,7 @@ class ProvinceSpecificGet: ObservableObject {
     }
 
     private func performDataFetch() {
-        guard let url = URL(string: "http://198.244.227.48:8082/regions/get-for-governorate/\(teacherData.localIdCity)/") else {
+        guard let url = URL(string: "http://198.244.227.48:8082/regions/get-for-governorate/\(teacherData.cityIdfromApi)/") else {
             DispatchQueue.main.async {
                 self.errorMessage = "عنوان URL غير صالح"
                 self.showProgress = false

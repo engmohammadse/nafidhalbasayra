@@ -131,6 +131,10 @@ struct detailsRegisterPage1: View {
     
     var body: some View {
         VStack(spacing: 10) {
+            
+            Spacer()
+                .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.07  : screenHeight * 0.10)
+            
             DropdownField1(
                 label: "المحافظة",
                 text: $teacherData.city,
@@ -189,10 +193,50 @@ struct detailsRegisterPage1: View {
                 .padding(.horizontal)
                 .background(Color.white)
                 .cornerRadius(5)
-                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.03 : screenWidth * 0.02))
             
-            Spacer()
-        }
+            
+            
+                Spacer().frame(maxHeight: screenHeight * 0.01)
+
+            
+            
+            Text("هل قمت بالتدريس سابقاً في الدورات القرآنية الصيفية")
+                            .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
+            
+            
+            TextField("اختر", text: $teacherData.selectedLecturedOption)
+                                .frame(maxWidth: screenHeight * 0.4)
+                                .frame(height: screenHeight * 0.05)
+                                .multilineTextAlignment(.trailing)
+                                .padding(.horizontal)
+                                .background(Color.white)
+                                .cornerRadius(5)
+                                .disabled(true)
+                                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+                                .onTapGesture {
+                                    showDropdownLectured.toggle()
+                                }
+                                .overlay {
+                                    Image(showDropdownLectured ? "Vector1" : "Vector")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025)
+                                        .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
+                                }
+            
+                            if showDropdownLectured {
+                                DropdownLecturedView(teacherData: teacherData, showDropdownLectured: $showDropdownLectured)
+                            }
+                        }
+           
+                        
+            
+            
+            //Spacer()
+        
         .onChange(of: dataFetcher.showProgress) { newValue in
             showProgressLoding = newValue
         }
@@ -208,22 +252,25 @@ struct detailsRegisterPage1: View {
         .alert("رمز المحافظة المدخل بالصفحة السابقة لا يطابق المحافظة التي اخترتها، يجب ان يكونا متطابقان", isPresented: $showAlertcityIdNotValid, actions: {
             Button("OK", role: .cancel) { }
         })
+        .alert("\(String(describing: dataFetcherProvine.errorMessage))", isPresented: $dataFetcherProvine.showProgress, actions: {
+            Button("OK", role: .cancel) { }
+        })
         .onAppear {
-            if dataFetcher.governorates.isEmpty {
-                showProgressLoding = true
-                dataFetcher.fetchData()
-            }
+//            if dataFetcher.governorates.isEmpty {
+//                showProgressLoding = true
+//                dataFetcher.fetchData()
+//            }
              
-            if dataFetcherProvine.province.isEmpty {
-                if teacherData.cityIdfromApi.isEmpty { // تحقق من شرط معين
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) { // 0.5 ثانية تأخير
-                        dataFetcherProvine.fetchData()
-                        showProgressLodingProvince = true
-                    }
-                } else {
-                    dataFetcherProvine.fetchData()
-                }
-            }
+//            if dataFetcherProvine.province.isEmpty {
+//                if teacherData.cityIdfromApi.isEmpty { // تحقق من شرط معين
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) { // 0.5 ثانية تأخير
+//                        dataFetcherProvine.fetchData()
+//                        showProgressLodingProvince = true
+//                    }
+//                } else {
+//                    dataFetcherProvine.fetchData()
+//                }
+//            }
 
         }
         .padding(.horizontal, UIScreen.main.bounds.width < 500 ? 16 : 0)
@@ -450,6 +497,8 @@ struct DropdownCityView: View {
 struct CityRowView: View {
     let governorate: Governorate
     @ObservedObject var teacherData: TeacherDataViewModel
+    @StateObject private var dataFetcher = DataFetcher()
+
     @Binding var showDropdownCity: Bool
     @Binding var showAlertcityIdNotValid: Bool
     //@Binding var isGo: Bool
@@ -465,8 +514,10 @@ struct CityRowView: View {
                 .background(buttonAccentColor)
                 .cornerRadius(5)
                 .onTapGesture {
+                    dataFetcher.fetchData()
+                    
                     teacherData.city = governorate.governorateName
-                    teacherData.cityIdfromApi = governorate.regionID
+                    teacherData.cityIdfromApi = governorate.id
                     teacherData.cityCodefromApi = String(governorate.governorateCode)
                     showDropdownCity = false
                     // Check if city ID is valid
@@ -531,6 +582,7 @@ struct ProvinceRowView: View {
     let province: Province
     @ObservedObject var teacherData: TeacherDataViewModel
     @Binding var showDropdownProvince: Bool
+    @StateObject private var dataFetcherProvine = ProvinceSpecificGet(teacherData: TeacherDataViewModel())
 
     var body: some View {
         HStack {
@@ -543,9 +595,13 @@ struct ProvinceRowView: View {
                 .background(buttonAccentColor)
                 .cornerRadius(5)
                 .onTapGesture {
+                    dataFetcherProvine.fetchData()
+                    
                     teacherData.province = province.regionName
                   
                     showDropdownProvince = false
+                    
+                   
                 }
         }
         .padding(.horizontal)

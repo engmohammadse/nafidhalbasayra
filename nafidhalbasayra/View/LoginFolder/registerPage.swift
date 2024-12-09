@@ -41,12 +41,12 @@ struct registerPage: View {
             .padding(UIScreen.main.bounds.width < 400 ? 16 : 0)
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(red: 236/255, green: 242/255, blue: 245/255))
+            .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
             .overlay{
                 LogoIUserInfo()
                     .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)
             }
-            .ignoresSafeArea(edges: .bottom)
+          //  .ignoresSafeArea(edges: .bottom)
             
         }
         .navigationBarBackButtonHidden(true)
@@ -308,7 +308,7 @@ struct registerPageTextField: View {
                 .focused($activeField, equals: .cityNumber)
             
         }
-        
+        //Spacer()
         .padding(.horizontal, UIScreen.main.bounds.width < 500 ? 16 : 0)
         .offset(y: calculateOffset()) // Apply offset only for the bottom fields
         .onAppear {
