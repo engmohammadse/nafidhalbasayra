@@ -26,6 +26,7 @@ struct registerPage1: View {
     @State private var showDropdown = false
     @State private var showDropdownLectured = false
     @State  var showAlertcityIdNotValid = false
+
     
     
 //    @State private var isGo: Bool = teacherData.isGoRP1
@@ -106,6 +107,7 @@ struct detailsRegisterPage1: View {
     @StateObject private var dataFetcher = DataFetcher()
     @StateObject private var dataFetcherProvine = ProvinceSpecificGet()
 
+    //@State var mustChooseCityAlertRP1: Bool = false
 
 
    
@@ -117,7 +119,7 @@ struct detailsRegisterPage1: View {
     @State private var showDropdownLectured = false
     @State private var showDropdownCity = false
     @State private var showDropdownProvince = false
-    
+
     //@State  var showAlertcityIdNotValid = false
     @Binding var showAlertcityIdNotValid: Bool
     //@Binding var isGo: Bool
@@ -170,7 +172,7 @@ struct detailsRegisterPage1: View {
                     .progressViewStyle(CircularProgressViewStyle())
                     .padding()
                 
-            } else if showDropdownProvince {
+            } else if showDropdownProvince && !globalCityIdFromApi.isEmpty {
              
                 DropdownProvinceView(dataFetcherProvine: dataFetcherProvine,  teacherData: teacherData, showDropdownProvince: $showDropdownProvince)
             }
@@ -221,6 +223,8 @@ struct detailsRegisterPage1: View {
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025)
                                         .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
+                                    
+                                    
                                 }
             
                             if showDropdownLectured {
@@ -248,6 +252,10 @@ struct detailsRegisterPage1: View {
         .alert("رمز المحافظة المدخل بالصفحة السابقة لا يطابق المحافظة التي اخترتها، يجب ان يكونا متطابقان", isPresented: $showAlertcityIdNotValid, actions: {
             Button("OK", role: .cancel) { }
         })
+        .alert("must choose city ", isPresented: $teacherData.checkCityIdFromApi, actions: {
+            Button("OK", role: .cancel) { }
+        })
+       
 //        .alert("\(String(describing: dataFetcherProvine.errorMessage))", isPresented: $dataFetcherProvine.showProgress, actions: {
 //            Button("OK", role: .cancel) { }
 //        })
@@ -425,6 +433,7 @@ struct ProvinceRowView: View {
     @Binding var showDropdownProvince: Bool
     @StateObject private var dataFetcherProvine = ProvinceSpecificGet()
 
+
     var body: some View {
         HStack {
             Text(province.regionName)
@@ -436,15 +445,26 @@ struct ProvinceRowView: View {
                 .background(buttonAccentColor)
                 .cornerRadius(5)
                 .onTapGesture {
-                    dataFetcherProvine.fetchData()
-                    
-                    teacherData.province = province.regionName
                   
                     showDropdownProvince = false
+                    teacherData.mustChooseCityAlertRP1 = true
+                    
+                    if  teacherData.checkCityIdFromApi {
+                        dataFetcherProvine.fetchData()
+                        
+                        teacherData.province = province.regionName
+                      
+                        
+                    }
+                    
+                   
+                    
+                    
                     
                    
                 }
         }
+        
         .padding(.horizontal)
     }
 }

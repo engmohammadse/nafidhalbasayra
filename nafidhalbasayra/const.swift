@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 
-var globalCityIdFromApi: String = ""
 
 
 

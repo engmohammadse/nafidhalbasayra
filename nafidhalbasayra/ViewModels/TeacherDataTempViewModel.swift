@@ -157,11 +157,25 @@ class TeacherDataViewModel: ObservableObject {
     
     // RP1
     //
+    
+    @Published var checkCityIdFromApi: Bool = false {
+        didSet {
+           if cityIdfromApi.isEmpty || cityIdfromApi == nil {
+            checkCityIdFromApi = true
+        } else {
+            checkCityIdFromApi = false
+        }
+        }
+    }
+    
+    @Published var mustChooseCityAlertRP1: Bool = false
+
     @Published var isGoRP1: Bool = false
     @Published var showProvinceEmpty: Bool = false
     @Published var showMosqunameEmpty: Bool = false
     @Published var showDidyoutaughtEmpty: Bool = false
     @Published var showAlertCityInRP1NOTEquall: Bool = false
+
     
     
     // Method to check city numbers
@@ -253,7 +267,8 @@ class TeacherDataViewModel: ObservableObject {
             print("checkFieldEmpty: \(checkFieldEmpty())")
             print("checkFieldEmptyRP: \(checkFieldEmptyRP())")
             
-            
+            print("checkCityIdFromApi:\(checkCityIdFromApi)")
+
             
             
         
