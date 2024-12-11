@@ -256,13 +256,7 @@ class TeacherDataViewModel: ObservableObject {
             
             
             
-            
-            let provinceFetcher = ProvinceSpecificGet(teacherData: TeacherDataViewModel())
-
-            provinceFetcher.fetchData() // جلب البيانات
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) { // تأخير بسيط لضمان اكتمال جلب البيانات
-                provinceFetcher.printProvinces() // طباعة البيانات
-            }
+        
 
         }
 }

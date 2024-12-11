@@ -6,6 +6,14 @@
 //
 
 
+
+
+
+
+import SwiftUI
+import Combine
+import Network
+
 struct Province: Codable, Identifiable, Equatable {
     let id: String
     let governorateID: String
@@ -20,21 +28,8 @@ struct Province: Codable, Identifiable, Equatable {
     }
 }
 
-
-
-import SwiftUI
-import Combine
-import Network
-
-
 class ProvinceSpecificGet: ObservableObject {
-    @ObservedObject var teacherData: TeacherDataViewModel
-
-    init(teacherData: TeacherDataViewModel) {
-         self.teacherData = teacherData
-     }
-
-    @Published var province: [Province] = []
+    @Published var province: [Province] = [] // Renamed to `provinces`
     @Published var showProgress = false
     @Published var errorMessage: String?
     private var internetTimer: Timer?
@@ -44,11 +39,12 @@ class ProvinceSpecificGet: ObservableObject {
 
     func startMonitoring() {
         monitor = NWPathMonitor()
-        monitor?.pathUpdateHandler = { path in
+        monitor?.pathUpdateHandler = { [weak self] path in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 if path.status == .satisfied {
                     if self.fetchRequested {
-                        self.waitForLocalIdCityAndFetchData() // انتظر حتى يتم تعيين localIdCity
+                        self.performDataFetch()
                     }
                 } else {
                     self.errorMessage = "لا يوجد اتصال بالإنترنت"
@@ -75,22 +71,11 @@ class ProvinceSpecificGet: ObservableObject {
             startMonitoring()
         }
 
-        waitForLocalIdCityAndFetchData() // انتظر حتى يتم تعيين localIdCity
-    }
-
-    private func waitForLocalIdCityAndFetchData() {
-        guard !teacherData.localIdCity.isEmpty else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.waitForLocalIdCityAndFetchData()
-            }
-            return
-        }
-        
         performDataFetch()
     }
 
     private func performDataFetch() {
-        guard let url = URL(string: "http://198.244.227.48:8082/regions/get-for-governorate/\(teacherData.cityIdfromApi)/") else {
+        guard let url = URL(string: "http://198.244.227.48:8082/regions/get-for-governorate/\(globalCityIdFromApi)/") else {
             DispatchQueue.main.async {
                 self.errorMessage = "عنوان URL غير صالح"
                 self.showProgress = false
@@ -103,7 +88,9 @@ class ProvinceSpecificGet: ObservableObject {
         sessionConfig.timeoutIntervalForResource = 60
         let session = URLSession(configuration: sessionConfig)
 
-        session.dataTask(with: url) { data, response, error in
+        session.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self else { return }
+
             if let error = error {
                 DispatchQueue.main.async {
                     self.errorMessage = "خطأ: \(error.localizedDescription)"
@@ -131,7 +118,7 @@ class ProvinceSpecificGet: ObservableObject {
             do {
                 let decodedData = try JSONDecoder().decode([Province].self, from: data)
                 DispatchQueue.main.async {
-                    self.province = decodedData
+                    self.province = decodedData // Updated to `provinces`
                     self.showProgress = false
                     self.fetchRequested = false
                 }
@@ -141,14 +128,8 @@ class ProvinceSpecificGet: ObservableObject {
                     self.showProgress = false
                 }
             }
-        }.resume()
-    }
-
-    // دالة لطباعة المحتويات
-    func printProvinces() {
-        for province in province {
-            print("ID: \(province.id), Governorate ID: \(province.governorateID), Region Name: \(province.regionName), Governorate Code: \(province.governorateCode)")
         }
+        .resume()
     }
 }
 
@@ -162,32 +143,15 @@ class ProvinceSpecificGet: ObservableObject {
 
 
 
-//import SwiftUI
-//import Combine
-//
-//struct Province: Codable, Identifiable, Equatable {
-//    let id: String
-//    let governorateID: String
-//    let regionName: String
-//    let governorateCode: Int
-//
-//    enum CodingKeys: String, CodingKey {
-//        case id = "_id"
-//        case governorateID = "governorate_id"
-//        case regionName = "region_name"
-//        case governorateCode = "governorate_code"
-//    }
-//}
-//
+
+
+
+
+
 //import Network
 //
 //class ProvinceSpecificGet: ObservableObject {
-//    @ObservedObject var teacherData: TeacherDataViewModel
 //
-//    
-//    init(teacherData: TeacherDataViewModel) {
-//         self.teacherData = teacherData
-//     }
 //
 //    @Published var province: [Province] = []
 //    @Published var showProgress = false
@@ -198,10 +162,6 @@ class ProvinceSpecificGet: ObservableObject {
 //    private let queue = DispatchQueue.global(qos: .background)
 //    
 //    
-////    // Initializer
-////     init(teacherData: TeacherDataViewModel) {
-////         self.teacherData = teacherData
-////     }
 //
 //    func startMonitoring() {
 //        monitor = NWPathMonitor()
@@ -240,7 +200,7 @@ class ProvinceSpecificGet: ObservableObject {
 //    }
 //
 //    private func performDataFetch() {
-//        guard let url = URL(string: "http://198.244.227.48:8082/regions/get-for-governorate/\(teacherData.localIdCity)/") else {
+//        guard let url = URL(string: "http://198.244.227.48:8082/regions/get-for-governorate/\(globalCityIdFromApi)/") else {
 //            DispatchQueue.main.async {
 //                self.errorMessage = "عنوان URL غير صالح"
 //                self.showProgress = false
