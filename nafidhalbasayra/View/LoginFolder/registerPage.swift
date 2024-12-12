@@ -125,6 +125,9 @@ struct registerPageTextField: View {
 //    @State private var academicLevel: String = ""
 //    @State private var currentWork: String = ""
 //    @State private var cityNumber: String = ""
+    
+   
+    
 
     enum Field {
         case academicLevel, currentWork, cityNumber
@@ -175,12 +178,12 @@ struct registerPageTextField: View {
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
             
             TextField("اختر تاريخ الميلاد", text: Binding(
-                get: { 
+                get: {
                     
                     teacherData.birthDay != nil ? formattedDate(teacherData.birthDay!) : "اختر تاريخ الميلاد" },
                 set: { _ in }
             ))
-           
+            .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.03 : screenWidth * 0.015))
             .disabled(true)
             .frame(maxWidth: screenHeight * 0.4)
             .frame(height: screenHeight * 0.05)

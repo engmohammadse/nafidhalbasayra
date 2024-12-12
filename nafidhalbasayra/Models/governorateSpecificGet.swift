@@ -69,9 +69,7 @@ class ProvinceSpecificGet: ObservableObject {
     func fetchData() {
         
         
-        if globalCityIdFromApi == nil {
-            mustChooseCityAlertRP1 = true
-        }
+      
         
        
 

@@ -158,23 +158,35 @@ struct detailsRegisterPage1: View {
                 label: "القضاء",
                 text: $teacherData.province,
                 onTap: {
-                    showDropdownProvince.toggle()
-                    if dataFetcherProvine.province.isEmpty {
-                        showProgressLodingProvince = true
-                        dataFetcherProvine.fetchData()
+                    
+                    showProgressLodingProvince = true
+                    dataFetcherProvine.fetchData()
+                    
+                    if globalCityIdFromApi == nil {
+                        dataFetcherProvine.mustChooseCityAlertRP1 = true
                     }
+                    
+                    if  globalCityIdFromApi != nil {
+                        dataFetcherProvine.fetchData()
+                        showDropdownProvince.toggle()
+                        if dataFetcherProvine.province.isEmpty {
+                           
+                            dataFetcherProvine.fetchData()
+                        }
+                    }
+                   
                 },
                 imageName: showDropdownProvince ? "Vector1" : "Vector"
             )
             
-            if showProgressLodingProvince {
+            if showProgressLodingProvince  {
                 ProgressView("جاري تحميل البيانات...")
                     .progressViewStyle(CircularProgressViewStyle())
                     .padding()
                 
                 
                 //&& !globalCityIdFromApi.isEmpty
-            } else if showDropdownProvince  {
+            } else if showDropdownProvince && globalCityIdFromApi != nil {
              
                 DropdownProvinceView(dataFetcherProvine: dataFetcherProvine,  teacherData: teacherData, showDropdownProvince: $showDropdownProvince)
             }
@@ -252,10 +264,10 @@ struct detailsRegisterPage1: View {
             showProgressLodingProvince = false
         }
         .alert("رمز المحافظة المدخل بالصفحة السابقة لا يطابق المحافظة التي اخترتها، يجب ان يكونا متطابقان", isPresented: $showAlertcityIdNotValid, actions: {
-            Button("OK", role: .cancel) { }
+            Button("تم", role: .cancel) { }
         })
-        .alert("must choose city ", isPresented: $dataFetcherProvine.mustChooseCityAlertRP1, actions: {
-            Button("OK", role: .cancel) { }
+        .alert("يجب اختيار المحافظة اولاً", isPresented: $dataFetcherProvine.mustChooseCityAlertRP1, actions: {
+            Button("تم", role: .cancel) { }
         })
         
        
