@@ -158,17 +158,16 @@ class TeacherDataViewModel: ObservableObject {
     // RP1
     //
     
-    @Published var checkCityIdFromApi: Bool = false {
-        didSet {
-           if cityIdfromApi.isEmpty || cityIdfromApi == nil {
-            checkCityIdFromApi = true
-        } else {
-            checkCityIdFromApi = false
-        }
-        }
-    }
+//    func checkCityIdFromApi() -> Bool {
+//        if !globalCityIdFromApi.isEmpty {
+//            mustChooseCityAlertRP1 = false
+//            return false
+//        } else {
+//            mustChooseCityAlertRP1 = true
+//            return true
+//        }
+//    }
     
-    @Published var mustChooseCityAlertRP1: Bool = false
 
     @Published var isGoRP1: Bool = false
     @Published var showProvinceEmpty: Bool = false
@@ -267,8 +266,9 @@ class TeacherDataViewModel: ObservableObject {
             print("checkFieldEmpty: \(checkFieldEmpty())")
             print("checkFieldEmptyRP: \(checkFieldEmptyRP())")
             
-            print("checkCityIdFromApi:\(checkCityIdFromApi)")
-
+//            print("checkCityIdFromApi:\(String(describing: checkCityIdFromApi))")
+           // print("mustChooseCityAlertRP1:\(mustChooseCityAlertRP1)")
+            
             
             
         

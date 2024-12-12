@@ -172,7 +172,9 @@ struct detailsRegisterPage1: View {
                     .progressViewStyle(CircularProgressViewStyle())
                     .padding()
                 
-            } else if showDropdownProvince && !globalCityIdFromApi.isEmpty {
+                
+                //&& !globalCityIdFromApi.isEmpty
+            } else if showDropdownProvince  {
              
                 DropdownProvinceView(dataFetcherProvine: dataFetcherProvine,  teacherData: teacherData, showDropdownProvince: $showDropdownProvince)
             }
@@ -252,9 +254,10 @@ struct detailsRegisterPage1: View {
         .alert("رمز المحافظة المدخل بالصفحة السابقة لا يطابق المحافظة التي اخترتها، يجب ان يكونا متطابقان", isPresented: $showAlertcityIdNotValid, actions: {
             Button("OK", role: .cancel) { }
         })
-        .alert("must choose city ", isPresented: $teacherData.checkCityIdFromApi, actions: {
+        .alert("must choose city ", isPresented: $dataFetcherProvine.mustChooseCityAlertRP1, actions: {
             Button("OK", role: .cancel) { }
         })
+        
        
 //        .alert("\(String(describing: dataFetcherProvine.errorMessage))", isPresented: $dataFetcherProvine.showProgress, actions: {
 //            Button("OK", role: .cancel) { }
@@ -447,23 +450,18 @@ struct ProvinceRowView: View {
                 .onTapGesture {
                   
                     showDropdownProvince = false
-                    teacherData.mustChooseCityAlertRP1 = true
                     
-                    if  teacherData.checkCityIdFromApi {
-                        dataFetcherProvine.fetchData()
-                        
-                        teacherData.province = province.regionName
-                      
-                        
-                    }
+                    dataFetcherProvine.fetchData()
+                    
+                    teacherData.province = province.regionName
                     
                    
-                    
-                    
-                    
-                   
-                }
+                } 
+               
+            
+            
         }
+        
         
         .padding(.horizontal)
     }

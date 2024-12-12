@@ -6,7 +6,11 @@
 //
 
 
-var globalCityIdFromApi: String = ""
+var globalCityIdFromApi: String?
+
+
+
+
 
 
 
@@ -33,6 +37,7 @@ class ProvinceSpecificGet: ObservableObject {
     @Published var province: [Province] = [] // Renamed to `provinces`
     @Published var showProgress = false
     @Published var errorMessage: String?
+    @Published var mustChooseCityAlertRP1: Bool = false
     private var internetTimer: Timer?
     private var fetchRequested = false
     private var monitor: NWPathMonitor?
@@ -62,6 +67,26 @@ class ProvinceSpecificGet: ObservableObject {
     }
 
     func fetchData() {
+        
+        
+        if globalCityIdFromApi == nil {
+            mustChooseCityAlertRP1 = true
+        }
+        
+       
+
+        
+        
+       
+        print("mustChooseCityAlertRP1:\(mustChooseCityAlertRP1)")
+        print("globalCityIdFromApi:\(globalCityIdFromApi)")
+
+        
+
+
+            
+           
+        
         fetchRequested = true
         DispatchQueue.main.async {
             self.showProgress = true
@@ -76,13 +101,26 @@ class ProvinceSpecificGet: ObservableObject {
     }
 
     private func performDataFetch() {
-        guard let url = URL(string: "http://198.244.227.48:8082/regions/get-for-governorate/\(globalCityIdFromApi)/") else {
+        
+        
+        guard let cityId = globalCityIdFromApi,
+              let url = URL(string: "http://198.244.227.48:8082/regions/get-for-governorate/\(cityId)/") else {
+            
             DispatchQueue.main.async {
-                self.errorMessage = "عنوان URL غير صالح"
+                self.errorMessage = "عنوان URL غير صالح أو معرف المدينة مفقود"
                 self.showProgress = false
             }
             return
         }
+
+        
+//        guard let url = URL(string: "http://198.244.227.48:8082/regions/get-for-governorate/\(globalCityIdFromApi)/") else {
+//            DispatchQueue.main.async {
+//                self.errorMessage = "عنوان URL غير صالح"
+//                self.showProgress = false
+//            }
+//            return
+//        }
 
         let sessionConfig = URLSessionConfiguration.default
         sessionConfig.timeoutIntervalForRequest = 30
