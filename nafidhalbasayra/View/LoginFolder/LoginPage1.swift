@@ -32,17 +32,22 @@ struct LoginPage1: View {
     let screenWidth = UIScreen.main.bounds.width
 
     var body: some View {
-        VStack(spacing: 2) {
-            Spacer()
-                .frame(height: screenHeight * 0.02)
+        LazyVStack(spacing: 4) {
+//            Spacer()
+//                .frame(height: screenHeight * 0.02)
+            
+//            .padding(.vertical, screenHeight * 0.02)
+
 
             Image("Group 3")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: screenWidth * 0.2, height: screenHeight * 0.15)
 
-            Spacer()
-                .frame(height: screenHeight * 0.02)
+//            Spacer()
+//                .frame(height: screenHeight * 0.02)
+                .padding(.vertical, screenHeight * 0.015)
+
 
             Text("تسجيل الدخول")
                 .lineLimit(1)
@@ -62,7 +67,7 @@ struct LoginPage1: View {
                               .padding()
             } else {
                 
-                VStack {
+                LazyVStack {
                     if !viewModel.isConnectedToInternet {
                         Text("الجهاز غير مرتبط بالإنترنت. يرجى التحقق من الاتصال.")
                             .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
@@ -120,9 +125,11 @@ struct LoginPage1: View {
 
             Spacer()
                 .frame(height: screenHeight * 0.04)
+            
+            
 
             // Username Field
-            VStack(spacing: 6) {
+            LazyVStack(spacing: 6) {
                 Text("اسم المستخدم")
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
@@ -154,11 +161,13 @@ struct LoginPage1: View {
                     .frame(maxWidth: screenWidth * 0.8)
             }
 
-            Spacer()
-                .frame(height: screenHeight * 0.02) 
+//            Spacer()
+//                .frame(height: screenHeight * 0.02)
+            
+            .padding(.vertical, screenHeight * 0.02)
             // Password Field with Eye Icon
             
-            VStack(spacing: 6) {
+            LazyVStack(spacing: 6) {
                 Text("كلمة المرور")
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
@@ -245,13 +254,14 @@ struct LoginPage1: View {
             }
 
             Spacer()
-                .frame(maxHeight: screenHeight * 0.3)
+                .frame(height: screenHeight * 0.25)
             
             
            
             
             
         }
+        
         .padding(.horizontal, 40)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
@@ -269,5 +279,6 @@ struct LoginPage1: View {
 struct LoginPage1_Previews: PreviewProvider {
     static var previews: some View {
         LoginPage1()
+            .environmentObject(TeacherDataViewModel())
     }
 }

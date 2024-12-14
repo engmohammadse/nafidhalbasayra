@@ -75,12 +75,7 @@ struct registerPage1: View {
         }
                 
 
-        .alert("رمز المحافظة المدخل بالصفحة السابقة لا يطابق المحافظة التي اخترتها، يجب ان يكونا متطابقان", isPresented: $teacherData.showAlertCityInRP1NOTEquall, actions: {
-            Button("تم", role: .cancel) { }
-        })
-        .alert("يجب ان لاتبقى الحقول فارغة", isPresented: $teacherData.showEmptyAlertFieldRP1, actions: {
-            Button("تم", role: .cancel) { }
-        })
+       
     }
     // Remove keyboard observers
     private func removeKeyboardObservers() {
@@ -128,7 +123,7 @@ struct detailsRegisterPage1: View {
     
     
     var body: some View {
-        VStack(spacing: 10) {
+        LazyVStack(spacing: 10) {
             
             Spacer()
                 .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.07  : screenHeight * 0.10)
@@ -245,7 +240,13 @@ struct detailsRegisterPage1: View {
                                 DropdownLecturedView(teacherData: teacherData, showDropdownLectured: $showDropdownLectured)
                             }
                         }
-           
+        
+        .alert("رمز المحافظة المدخل بالصفحة السابقة لا يطابق المحافظة التي اخترتها، يجب ان يكونا متطابقان", isPresented: $teacherData.showAlertCityInRP1NOTEquall, actions: {
+            Button("تم", role: .cancel) { }
+        })
+        .alert("يجب ان لاتبقى الحقول فارغة", isPresented: $teacherData.showEmptyAlertFieldRP1, actions: {
+            Button("تم", role: .cancel) { }
+        })
                         
             
             
@@ -309,7 +310,7 @@ struct DropdownField1: View {
             Text(label)
                 .alignmentGuide(.leading) { d in d[.trailing] }
                 .frame(maxWidth: .infinity, alignment: .trailing)
-                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.035 : screenWidth * 0.02))
+                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.038 : screenWidth * 0.02))
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
             
             TextField("اختر", text: $text)

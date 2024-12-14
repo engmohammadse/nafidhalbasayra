@@ -22,45 +22,47 @@ struct LoginPageWelcom: View {
     var body: some View {
         
        
-        GeometryReader { geometry in
+       // GeometryReader { geometry in
             
-            let geoH = geometry.size.height
-            let geoW = geometry.size.width
+//            let geoH = geometry.size.height
+//            let geoW = geometry.size.width
             
             
-            ZStack{
+           // ZStack{
                 
-                VStack {
+                LazyVStack {
                    
                  
-                    Spacer().frame(maxHeight: geoH * 0.02)
-          
-                    VStack(alignment: .trailing, spacing: geoH * 0.1) {
+                    Spacer()
+                        .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.07  : screenHeight * 0.10)
+                    
+                    
+                    VStack(alignment: .trailing, spacing: screenHeight * 0.1) {
                   
                         Text("• اهلا وسهلا بكم في تطبيق نافذ البصيرة.")
-                            .frame(maxWidth: geoW * 0.7)  // Adjust width for wrapping
+                            .frame(maxWidth: screenWidth * 0.7)  // Adjust width for wrapping
                                  .lineLimit(nil)
                                  .multilineTextAlignment(.trailing)
                         
                         
                         Text("• أعد هذا التطبيق لإدارة مشروع الدورات الصيفية.")
-                            .frame(maxWidth: geoW * 0.7)  // Adjust width for wrapping
+                            .frame(maxWidth: screenWidth * 0.7)  // Adjust width for wrapping
                                  .lineLimit(nil)
                                  .multilineTextAlignment(.trailing)
                         
                         Text("• يرجى البدء بعملية تسجيل البيانات الشخصية لأستاذ الدورة.")
-                            .frame(maxWidth: geoW * 0.7)  // Adjust width for wrapping
+                            .frame(maxWidth: screenWidth * 0.7)  // Adjust width for wrapping
                                  .lineLimit(nil)
                                  .multilineTextAlignment(.trailing)
 
                         Text("• للمتابعة، يرجى الضغط على زر التالي.")
-                            .frame(maxWidth: geoW * 0.7)  // Adjust width for wrapping
+                            .frame(maxWidth: screenWidth * 0.7)  // Adjust width for wrapping
                                  .lineLimit(nil)
                                  .multilineTextAlignment(.trailing)
             
                     }
                     
-                    .font(.custom("BahijTheSansArabic-Plain", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.05 : geoW * 0.03))
+                    .font(.custom("BahijTheSansArabic-Plain", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.05 : screenWidth * 0.03))
              
                     .padding()  // Padding inside the VStack
                     
@@ -80,9 +82,9 @@ struct LoginPageWelcom: View {
 
                            
                             
-                            Spacer()
-                        .frame(height: geoH * 0.1)
-                            
+//                            Spacer()
+//                        .frame(height: screenHeight * 0.1)
+//                            
                             // Navigation buttons
                    
                     
@@ -95,28 +97,40 @@ struct LoginPageWelcom: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .background(Color(red: 236/255, green: 242/255, blue: 245/255))
                 
+        
+        
+        
+        
+                        .overlay {
+                            LogoIUserInfo()
+                                .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)
+                        }
                 
                 
-                PreviousNextButton( geoW: geoW, geoH: geoH,  destination: registerPage().environmentObject(teacherData),  color: Color(UIColor(red: 90 / 255, green: 97 / 255, blue: 103 / 255, alpha: 1.0)), imageName: "Group 9_5", shouldNavigate: true, notEmptyFields: true)
-                
-                    .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.4)
+                        .overlay {
+                            
+                            PreviousNextButton( geoW: screenWidth, geoH: screenHeight,  destination: registerPage().environmentObject(teacherData),  color: Color(UIColor(red: 90 / 255, green: 97 / 255, blue: 103 / 255, alpha: 1.0)), imageName: "Group 9_5", shouldNavigate: true, notEmptyFields: true)
+                            
+                                .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.4)
+                        }
 
                     
                 
-            }
+           // }
             
-                    ZStack {
-                        VStack {
-                            Spacer().frame(maxHeight: geoH * 0.015)
-                            LogoIUserInfo()
-                        }
-                    }
+//                    ZStack {
+//                        VStack {
+//                            Spacer().frame(maxHeight: screenHeight * 0.015)
+//                            LogoIUserInfo()
+//                        }
+//                    }
                    
-        }.navigationBarBackButtonHidden(true)
+       // }
+        .navigationBarBackButtonHidden(true)
             .ignoresSafeArea(edges: .bottom)
     }
 }
 
 #Preview {
-    LoginPageWelcom()
+    LoginPageWelcom().environmentObject(TeacherDataViewModel())
 }

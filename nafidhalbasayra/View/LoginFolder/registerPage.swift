@@ -136,7 +136,7 @@ struct registerPageTextField: View {
     
     
     var body: some View {
-        VStack(spacing: 10) {
+        LazyVStack(spacing: 10) {
             
             if UIScreen.main.bounds.width > 400 {
                 
