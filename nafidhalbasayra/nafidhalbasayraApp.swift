@@ -23,7 +23,7 @@ struct nafidhalbasayraApp: App {
         WindowGroup {
             NavigationStack {
                 if showSplash {
-                    LoginPage0()
+                    SplashScreenView()
                         .onAppear {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                 showSplash = false

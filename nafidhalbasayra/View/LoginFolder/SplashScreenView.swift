@@ -7,29 +7,29 @@
 
 import SwiftUI
 
-struct LoginPage0: View {
+struct SplashScreenView: View {
     var body: some View {
-        GeometryReader { geometry in
+        //GeometryReader { geometry in
             
-            let geoH = geometry.size.height
+            //let geoH = geometry.size.height
            // let geoW = geometry.size.width
             
             VStack {
                 Spacer()
-                    .frame(height: geoH * 0.08)
+                    .frame(height: screenHeight * 0.08)
                 Image("Group 2")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: geometry.size.width * 0.4, // Adjust size based on available width
-                       height: geometry.size.height * 0.4)
+                    .frame(width: screenWidth * 0.4, // Adjust size based on available width
+                       height: screenHeight * 0.4)
                 Spacer()
-                    .frame(height: geoH * 0.05)
+                    .frame(height: screenHeight * 0.05)
                 
                 Image("Group")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: geometry.size.width * 0.3, // Adjust size based on available width
-                       height: geometry.size.height * 0.3)
+                    .frame(width: screenWidth * 0.3, // Adjust size based on available width
+                       height: screenHeight * 0.3)
                 
                 Spacer()
                
@@ -37,11 +37,11 @@ struct LoginPage0: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(UIColor(red: 0x1B / 255.0, green: 0x3E / 255.0, blue: 0x5D / 255.0, alpha: 1.0)))
             
-        }
+        //}
        
     }
 }
 
 #Preview {
-    LoginPage0()
+    SplashScreenView()
 }

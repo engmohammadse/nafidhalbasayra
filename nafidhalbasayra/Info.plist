@@ -21,5 +21,10 @@
 		<string>Amiri-Bold.ttf</string>
 		<string>BahijTheSansArabic-Plain.ttf</string>
 	</array>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIImageName</key>
+		<string>login page-1</string>
+	</dict>
 </dict>
 </plist>

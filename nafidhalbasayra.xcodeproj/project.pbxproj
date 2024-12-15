@@ -25,7 +25,7 @@
 		413E4B912CA1C78200B1EEC5 /* TeacherCoreDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4B902CA1C78200B1EEC5 /* TeacherCoreDataViewModel.swift */; };
 		413E4B932CA1C78400B1EEC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 413E4B922CA1C78400B1EEC5 /* Assets.xcassets */; };
 		413E4B962CA1C78400B1EEC5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 413E4B952CA1C78400B1EEC5 /* Preview Assets.xcassets */; };
-		413E4BA32CA1C83100B1EEC5 /* LoginPage0.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4BA22CA1C83100B1EEC5 /* LoginPage0.swift */; };
+		413E4BA32CA1C83100B1EEC5 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4BA22CA1C83100B1EEC5 /* SplashScreenView.swift */; };
 		41414E2B2CB1B31A0070C380 /* testNavigationStackPop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41414E2A2CB1B31A0070C380 /* testNavigationStackPop.swift */; };
 		414AFBDC2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414AFBDB2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift */; };
 		414AFBDE2CC16D3A00D89B70 /* SubComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414AFBDD2CC16D3A00D89B70 /* SubComponent.swift */; };
@@ -85,7 +85,7 @@
 		413E4B902CA1C78200B1EEC5 /* TeacherCoreDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherCoreDataViewModel.swift; sourceTree = "<group>"; };
 		413E4B922CA1C78400B1EEC5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		413E4B952CA1C78400B1EEC5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		413E4BA22CA1C83100B1EEC5 /* LoginPage0.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPage0.swift; sourceTree = "<group>"; };
+		413E4BA22CA1C83100B1EEC5 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		41414E2A2CB1B31A0070C380 /* testNavigationStackPop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testNavigationStackPop.swift; sourceTree = "<group>"; };
 		414AFBDB2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStudentToStudentDataSection.swift; sourceTree = "<group>"; };
 		414AFBDD2CC16D3A00D89B70 /* SubComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubComponent.swift; sourceTree = "<group>"; };
@@ -249,7 +249,7 @@
 		41BD62C62CA2E4AF00529765 /* LoginFolder */ = {
 			isa = PBXGroup;
 			children = (
-				413E4BA22CA1C83100B1EEC5 /* LoginPage0.swift */,
+				413E4BA22CA1C83100B1EEC5 /* SplashScreenView.swift */,
 				41BD62C72CA2E69400529765 /* LoginPage1.swift */,
 				41325AA62CA9B83D00664847 /* LoginPageWelcom.swift */,
 				41F9D0B52CAAE4C500BD7853 /* registerPage.swift */,
@@ -413,7 +413,7 @@
 				41DA9E6B2D05DB9E0014F05E /* governorateSpecificGet.swift in Sources */,
 				41F9D0B92CAB03BB00BD7853 /* LogoIUserInfo.swift in Sources */,
 				412A81962CBFF50200188321 /* StudentDataSection.swift in Sources */,
-				413E4BA32CA1C83100B1EEC5 /* LoginPage0.swift in Sources */,
+				413E4BA32CA1C83100B1EEC5 /* SplashScreenView.swift in Sources */,
 				41F9D0BB2CAB0A5800BD7853 /* CustemTextWithField.swift in Sources */,
 				4124DC632CDD61B70083E5F9 /* DisplayAttendanceData.swift in Sources */,
 				413E4B8F2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift in Sources */,
@@ -560,7 +560,6 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"<string>نحتاج إلى الوصول إلى موقعك لتحسين تجربة استخدام التطبيق وتوفير ميزات قائمة على الموقع.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -592,7 +591,6 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"<string>نحتاج إلى الوصول إلى موقعك لتحسين تجربة استخدام التطبيق وتوفير ميزات قائمة على الموقع.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (

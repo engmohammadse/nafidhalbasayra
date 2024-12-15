@@ -22,7 +22,7 @@ struct PreviousNextButtonRegisterPage1<Destination: View>: View {
     @Environment(\.dismiss) var dismiss // العودة للصفحة السابقة
     
     var body: some View {
-        NavigationStack {
+        //NavigationStack {
             HStack {
                 // Previous button icon
             
@@ -134,6 +134,6 @@ struct PreviousNextButtonRegisterPage1<Destination: View>: View {
             .background(Color(UIColor(red: 20 / 255, green: 30 / 255, blue: 39 / 255, alpha: 1.0)))
             .cornerRadius(5)
             .padding()
-        }
+       // }
     }
 }

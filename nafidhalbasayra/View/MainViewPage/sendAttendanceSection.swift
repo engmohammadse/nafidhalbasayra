@@ -330,7 +330,7 @@ struct sendAttendanceSection: View {
 
 // Helper function to hide the keyboard
 extension View {
-func hideKeyboard() {
+private func hideKeyboard() {
     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 }
 }

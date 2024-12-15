@@ -27,14 +27,13 @@ struct LoginPage1: View {
     @State private var isPasswordVisible: Bool = false
 
 
-    // Define screen dimensions
-    let screenHeight = UIScreen.main.bounds.height
-    let screenWidth = UIScreen.main.bounds.width
+    
 
     var body: some View {
-        LazyVStack(spacing: 4) {
-//            Spacer()
-//                .frame(height: screenHeight * 0.02)
+        VStack(spacing: 4) {
+           Spacer()
+           // Color.clear
+                .frame(height: screenHeight * 0.08)
             
 //            .padding(.vertical, screenHeight * 0.02)
 
@@ -46,7 +45,7 @@ struct LoginPage1: View {
 
 //            Spacer()
 //                .frame(height: screenHeight * 0.02)
-                .padding(.vertical, screenHeight * 0.015)
+                //.padding(.vertical, screenHeight * 0.015)
 
 
             Text("تسجيل الدخول")
@@ -124,7 +123,7 @@ struct LoginPage1: View {
 
 
             Spacer()
-                .frame(height: screenHeight * 0.04)
+                .frame(height: screenHeight * 0.01)
             
             
 
@@ -231,7 +230,9 @@ struct LoginPage1: View {
                 
                 viewModel.login()
                 viewModel.isLoading = true
-                hideKeyboard()
+                DispatchQueue.main.async {
+                       hideKeyboard() // جعل الدالة تعمل بعد بعض الوقت
+                   }
                 
                 // تحقق من تسجيل الدخول بعد محاولة تسجيل الدخول
 //                   if viewModel.isLoggedIn {
@@ -244,36 +245,46 @@ struct LoginPage1: View {
                     .foregroundColor(.white)
                     .frame(maxWidth: screenWidth * 0.8)
             }
+            
+
             .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
+            
             .cornerRadius(5)
             .disabled( isButtonDisabled )
             .opacity(isButtonDisabled ? 0.5 : 1.0)
             
+
             .navigationDestination(isPresented: $viewModel.navigateToNextPage) {
                 LoginPageWelcom().environmentObject(teacherData) // Assuming this is your destination view
             }
 
             Spacer()
-                .frame(height: screenHeight * 0.25)
+                .frame(height: screenHeight * 0.2)
             
             
            
             
             
         }
+//        .onTapGesture {
+//                   hideKeyboard()
+//               }
         
+
         .padding(.horizontal, 40)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .navigationBarBackButtonHidden(true)
+        .background(
+                    Color.clear // Ensure it works on all devices
+                )
+                .hideKeyboard()
     }
     
     
-    // دالة لإخفاء لوحة المفاتيح
-     private func hideKeyboard() {
-         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-     }
+
+
 }
 
 struct LoginPage1_Previews: PreviewProvider {

@@ -30,11 +30,11 @@ struct LoginPageWelcom: View {
             
            // ZStack{
                 
-                LazyVStack {
+                VStack {
                    
                  
                     Spacer()
-                        .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.07  : screenHeight * 0.10)
+                        .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.08  : screenHeight * 0.10)
                     
                     
                     VStack(alignment: .trailing, spacing: screenHeight * 0.1) {
@@ -82,9 +82,9 @@ struct LoginPageWelcom: View {
 
                            
                             
-//                            Spacer()
-//                        .frame(height: screenHeight * 0.1)
-//                            
+                            Spacer()
+                        .frame(height: screenHeight * 0.15)
+//
                             // Navigation buttons
                    
                     

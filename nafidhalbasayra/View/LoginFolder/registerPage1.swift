@@ -77,11 +77,11 @@ struct registerPage1: View {
 
        
     }
-    // Remove keyboard observers
-    private func removeKeyboardObservers() {
-         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-     }
+//    // Remove keyboard observers
+//    private func removeKeyboardObservers() {
+//         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+//         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+//     }
 }
 
 
@@ -225,6 +225,8 @@ struct detailsRegisterPage1: View {
                                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                                 .onTapGesture {
                                     showDropdownLectured.toggle()
+                                        
+
                                 }
                                 .overlay {
                                     Image(showDropdownLectured ? "Vector1" : "Vector")
@@ -238,8 +240,11 @@ struct detailsRegisterPage1: View {
             
                             if showDropdownLectured {
                                 DropdownLecturedView(teacherData: teacherData, showDropdownLectured: $showDropdownLectured)
+                                    
+
                             }
                         }
+     
         
         .alert("رمز المحافظة المدخل بالصفحة السابقة لا يطابق المحافظة التي اخترتها، يجب ان يكونا متطابقان", isPresented: $teacherData.showAlertCityInRP1NOTEquall, actions: {
             Button("تم", role: .cancel) { }
@@ -272,31 +277,11 @@ struct detailsRegisterPage1: View {
         })
         
        
-//        .alert("\(String(describing: dataFetcherProvine.errorMessage))", isPresented: $dataFetcherProvine.showProgress, actions: {
-//            Button("OK", role: .cancel) { }
-//        })
-//        .onAppear {
-//            if dataFetcher.governorates.isEmpty {
-//                showProgressLoding = true
-//                dataFetcher.fetchData()
-//            }
-             
-//            if dataFetcherProvine.province.isEmpty {
-//                if teacherData.cityIdfromApi.isEmpty { // تحقق من شرط معين
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) { // 0.5 ثانية تأخير
-//                        dataFetcherProvine.fetchData()
-//                        showProgressLodingProvince = true
-//                    }
-//                } else {
-//                    dataFetcherProvine.fetchData()
-//                }
-//            }
 
-        //}
         .padding(.horizontal, UIScreen.main.bounds.width < 500 ? 16 : 0)
     }
 
-  
+   
 }
 
 

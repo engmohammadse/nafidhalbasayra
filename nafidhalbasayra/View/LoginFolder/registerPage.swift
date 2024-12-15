@@ -57,7 +57,6 @@ struct registerPage: View {
                 PreviousNextButtonRegisterPage( geoW: screenWidth, geoH: screenHeight, destination: registerPage1().environmentObject(teacherData), color: Color.white, imageName: "Group 9", shouldNavigate: teacherData.checkFieldEmptyRP(), notEmptyFields: true)
              
                     .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
-                
                                     
             }
             .alert("يجب ان لاتبقى الحقول فارغة", isPresented: $teacherData.showRegisterPageFieldsEmpty, actions: {
@@ -293,15 +292,25 @@ struct registerPageTextField: View {
             TextField("", text: $teacherData.citynumber)
                 .keyboardType(.numberPad)
                 .onChange(of: teacherData.citynumber) { newValue in
-                      // تصفية المدخلات للسماح فقط بالأرقام
-                      let filtered = newValue.filter { $0.isNumber }
-                      // تقيد العدد إلى 2 رقم
-                      if filtered.count > 2 {
-                          teacherData.citynumber = String(filtered.prefix(2))
-                      } else {
-                          teacherData.citynumber = filtered
-                      }
-                  }
+                        // السماح فقط بالأرقام الإنجليزية من 0 إلى 9
+                        let filtered = newValue.filter { $0.isASCII && $0 >= "0" && $0 <= "9" }
+                        // تقييد الإدخال إلى رقمين فقط
+                        if filtered.count > 2 {
+                            teacherData.citynumber = String(filtered.prefix(2))
+                        } else {
+                            teacherData.citynumber = filtered
+                        }
+                    }
+//                .onChange(of: teacherData.citynumber) { newValue in
+//                      // تصفية المدخلات للسماح فقط بالأرقام
+//                      let filtered = newValue.filter { $0.isNumber }
+//                      // تقيد العدد إلى 2 رقم
+//                      if filtered.count > 2 {
+//                          teacherData.citynumber = String(filtered.prefix(2))
+//                      } else {
+//                          teacherData.citynumber = filtered
+//                      }
+//                  }
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
                 .multilineTextAlignment(.trailing)
@@ -348,44 +357,11 @@ struct registerPageTextField: View {
             }
         }
 
-        
-//        .sheet(isPresented: $isPickerVisible) {
-//            VStack {
-//                HStack {
-//                    Spacer()
-//                    Button("Done") {
-//                        isPickerVisible = false
-//                    }
-//                    .padding(.trailing)
-//                }
-//                .padding(.top)
-//                
-//                DatePicker("اختر تاريخ الولادة", selection: $teacherData.birthDay, displayedComponents: .date)
-//                    .datePickerStyle(GraphicalDatePickerStyle()) // Use Graphical style or another preferred one
-//                    .labelsHidden() // Hides the "Select Date" label to make it cleaner
-//                    .padding()
-//                
-//                Spacer() // Adds space to make the layout look more balanced
-//            }
-//        }
+
 
     }
     
     
-    
-    
-    // Function to format date to a readable string
-//    private func formattedDate(_ date: Date?) -> String {
-//        let formatter = DateFormatter()
-//        formatter.dateStyle = .medium
-//        formatter.locale = Locale(identifier: "ar") // استخدام اللغة العربية
-//        
-//        if let validDate = date {
-//            return formatter.string(from: validDate)
-//        } else {
-//            return "اختر تاريخ الميلاد" // النص الافتراضي
-//        }
-//    }
 
     
     
@@ -400,12 +376,7 @@ struct registerPageTextField: View {
         }
     }
 
-    // Function to format date to a readable string
-//    private func formattedDate(_ date: Date) -> String {
-//        let formatter = DateFormatter()
-//        formatter.dateStyle = .medium
-//        return formatter.string(from: date)
-//    }
+
     
     // Calculate offset based on keyboard height
     private func calculateOffset() -> CGFloat {
@@ -452,7 +423,7 @@ struct PreviousNextButtonRegisterPage<Destination: View>: View {
     @Environment(\.dismiss) var dismiss // العودة للصفحة السابقة
     
     var body: some View {
-        NavigationStack {
+        //NavigationStack {
             HStack {
                 // Previous button icon
             
@@ -556,7 +527,7 @@ struct PreviousNextButtonRegisterPage<Destination: View>: View {
             .background(Color(UIColor(red: 20 / 255, green: 30 / 255, blue: 39 / 255, alpha: 1.0)))
             .cornerRadius(5)
             .padding()
-        }
+       // }
     }
 }
 
