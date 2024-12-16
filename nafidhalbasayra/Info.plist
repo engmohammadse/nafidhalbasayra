@@ -24,7 +24,7 @@
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIImageName</key>
-		<string>login page-1</string>
+		<string>//login page-1</string>
 	</dict>
 </dict>
 </plist>

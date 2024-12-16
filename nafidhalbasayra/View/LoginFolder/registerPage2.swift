@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct registerPage2: View {    
-    @State private var isPressed = false
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var teacherData: TeacherDataViewModel
     @StateObject private var viewModel = CoreDataViewModel()
@@ -17,6 +16,25 @@ struct registerPage2: View {
     @State private var showImagePicker = false
     @State private var showImagePickerFront = false
     @State private var showImagePickerBack = false
+    @State private var showAlertEmptyImages = false
+    
+    
+    @State private var image1 = false
+    @State private var image2 = false
+    @State private var image3 = false
+
+    var isValidImages: Bool {
+        guard let profileImageData = teacherData.profileimage?.jpegData(compressionQuality: 0.8), profileImageData.count > 0,
+              let frontImageData = teacherData.frontfaceidentity?.jpegData(compressionQuality: 0.8), frontImageData.count > 0,
+              let backImageData = teacherData.backfaceidentity?.jpegData(compressionQuality: 0.8), backImageData.count > 0 else {
+            return false
+        }
+//        image1 = (profileImageData.count > 0)
+//        image2 = (frontImageData.count > 0)
+//        image3 = (backImageData.count > 0)
+        return true
+    }
+    
 
 
     var body: some View {
@@ -72,20 +90,17 @@ struct registerPage2: View {
                 
                 Button(action: {
                     showImagePicker = true
-//                    isPressed.toggle()
-//                    withAnimation(.easeInOut(duration: 0.5)) {
-//                        showError.toggle()
-//                    }
-//                    // Navigate to the next screen upon successful login
-//                    isNavigate = true
+                
+//
                 }) {
-                    Text("تحميل الصورة")
+                    Text((teacherData.profileimage != nil) ?  "تم الرفع"
+                         : "تحميل الصورة" )
                         .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.025 ))
                         .frame(height: screenHeight * 0.04)
                         .foregroundColor(.white)
                         .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
                 }
-                .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
+                .background((teacherData.profileimage != nil) ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                 .cornerRadius(5)
                 .sheet(isPresented: $showImagePicker) {
                            ImagePicker(selectedImage: $teacherData.profileimage, sourceType: .camera)
@@ -171,20 +186,16 @@ struct registerPage2: View {
                 Button(action: {
                     
                     showImagePickerFront = true
-//                    isPressed.toggle()
-//                    withAnimation(.easeInOut(duration: 0.5)) {
-//                        showError.toggle()
-//                    }
-//                    // Navigate to the next screen upon successful login
-//                    isNavigate = true
+  
                 }) {
-                    Text("تحميل الصورة")
+                    Text((teacherData.frontfaceidentity != nil)  ?  "تم الرفع"
+                         : "تحميل الصورة" )
                         .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.025 ))
                         .frame(height: screenHeight * 0.04)
                         .foregroundColor(.white)
                         .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
                 }
-                .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
+                .background((teacherData.frontfaceidentity != nil) ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                 .cornerRadius(5)
                 .sheet(isPresented: $showImagePickerFront) {
                            ImagePicker(selectedImage: $teacherData.frontfaceidentity, sourceType: .camera)
@@ -255,20 +266,16 @@ struct registerPage2: View {
                 
                 Button(action: {
                 showImagePickerBack = true
-//                    isPressed.toggle()
-//                    withAnimation(.easeInOut(duration: 0.5)) {
-//                        showError.toggle()
-//                    }
-//                    // Navigate to the next screen upon successful login
-//                    isNavigate = true
+          
                 }) {
-                    Text("تحميل الصورة")
+                    Text((teacherData.backfaceidentity != nil)  ?   "تم الرفع"
+                         : "تحميل الصورة" )
                         .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.025 ))
                         .frame(height: screenHeight * 0.04)
                         .foregroundColor(.white)
                         .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
                 }
-                .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
+                .background((teacherData.backfaceidentity != nil) ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                 .cornerRadius(5)
                 .sheet(isPresented: $showImagePickerBack) {
                            ImagePicker(selectedImage: $teacherData.backfaceidentity, sourceType: .camera)
@@ -283,8 +290,11 @@ struct registerPage2: View {
             
             
             Button(action: {
-                
-                
+        
+                if isValidImages == false {
+                    showAlertEmptyImages = true
+
+                }
                 // Ensure capturedImage is not nil before proceeding
                 guard let image = teacherData.profileimage,
                       let imageData = image.jpegData(compressionQuality: 0.8) else {
@@ -327,14 +337,26 @@ struct registerPage2: View {
 //                    // Navigate to the next screen upon successful login
 //                    isNavigate = true
             }) {
-                Text("إرسال البيانات")
-                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.025 ))
-                    .frame(height: screenHeight * 0.04)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
+                
+                
+               
+                    NavigationLink(destination: registerPage3().environmentObject(teacherData)) {
+                        
+                        Text("إرسال البيانات")
+                            .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.025 ))
+                            .frame(height: screenHeight * 0.04)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
+                        
+                    
+                }
+                    .disabled(!isValidImages)
+                
             }
-            .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
+           
+            .background(isValidImages ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
             .cornerRadius(5)
+           
             
             
             // طباعة
@@ -387,6 +409,8 @@ struct registerPage2: View {
             
        
         }
+     
+
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(red: 236/255, green: 242/255, blue: 245/255))
         .overlay {
@@ -395,13 +419,14 @@ struct registerPage2: View {
         }
         .navigationBarBackButtonHidden(true)
         .overlay {
-            PreviousNextButton( geoW: screenWidth, geoH: screenHeight, destination: registerPage3().environmentObject(teacherData), color: Color.white, imageName: "Group 9", shouldNavigate: true, notEmptyFields: true)
+            PreviousNextButtonRP2( geoW: screenWidth, geoH: screenHeight, destination: registerPage3().environmentObject(teacherData), color: Color.white, imageName: "Group 9", shouldNavigate: true, notEmptyFields: true)
                 .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
 
         }
         
-       
-        
+        .alert("يجب تحميل صور ", isPresented: $showAlertEmptyImages, actions: {
+            Button("تم", role: .cancel) { }
+        })
         
     }
     
@@ -426,4 +451,96 @@ struct registerPage2: View {
 #Preview {
     registerPage2()
         .environmentObject(TeacherDataViewModel())
+}
+
+
+
+
+
+
+
+import SwiftUI
+
+struct PreviousNextButtonRP2<Destination: View>: View {
+    var geoW: CGFloat
+    var geoH: CGFloat
+    var destination: Destination // الوجهة التي ننتقل إليها
+    var color: Color
+    var imageName: String
+    var shouldNavigate: Bool // شرط الانتقال
+    var notEmptyFields: Bool
+    @EnvironmentObject var teacherData: TeacherDataViewModel
+    
+    @Environment(\.dismiss) var dismiss // العودة للصفحة السابقة
+    
+    var body: some View {
+      //  NavigationStack {
+            HStack {
+                // Previous button icon
+            
+
+                // Previous button (Button to dismiss and go back)
+                Button(action: {
+                    dismiss() // العودة إلى الصفحة السابقة
+                }) {
+                    
+                    Image(imageName)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: geoW * 0.04)
+                        .padding(.vertical, geoH * 0.01)
+                        .padding(.leading, UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.02 : geoW * 0.001)
+                        .foregroundColor(color)
+                    
+                    Text("السابق")
+                        .font(.custom("BahijTheSansArabic-Bold", size: geoW * 0.03))
+                        .foregroundColor(color)
+                }
+                .padding(.horizontal, geoW * 0.001)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+
+                // Divider line
+                Image("Line 1")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: geoH * 0.01, height: geoH * 0.03)
+                    .padding(.vertical, geoH * 0.008)
+                
+                
+             
+
+                // Next button with conditional navigation
+              //  if shouldNavigate && notEmptyFields { // شرط الانتقال
+                  //  NavigationLink(destination: destination) {
+                        Text("التالي")
+                            .opacity(0.3)
+                            .font(.custom("BahijTheSansArabic-Bold", size: geoW * 0.03))
+                            .padding(.horizontal, geoW * 0.001)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                        
+                        
+                        
+                        Image("Group 16")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .opacity(0.3)
+                            .frame(maxWidth: geoW * 0.04)
+                            .padding(.vertical, geoH * 0.01)
+                            .padding(.trailing, UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.02 : geoW * 0.001)
+                        
+                  //  }
+                    
+              //  }
+                
+                
+                
+            }
+         
+            .background(Color(UIColor(red: 20 / 255, green: 30 / 255, blue: 39 / 255, alpha: 1.0)))
+            .cornerRadius(5)
+            .padding()
+       // }
+    }
 }
