@@ -209,7 +209,10 @@ struct detailsRegisterPage1: View {
             
             
             Text("هل قمت بالتدريس سابقاً في الدورات القرآنية الصيفية")
+            
                             .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+                            
+
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
             

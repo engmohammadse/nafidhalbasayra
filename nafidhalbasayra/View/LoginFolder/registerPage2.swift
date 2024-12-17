@@ -340,7 +340,7 @@ struct registerPage2: View {
                 
                 
                
-                    NavigationLink(destination: registerPage3().environmentObject(teacherData)) {
+                   // NavigationLink(destination: registerPage3().environmentObject(teacherData)) {
                         
                         Text("إرسال البيانات")
                             .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.025 ))
@@ -349,12 +349,12 @@ struct registerPage2: View {
                             .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
                         
                     
-                }
-                    .disabled(!isValidImages)
+//                }
+//                    .disabled(!isValidImages)
                 
             }
            
-            .background(isValidImages ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
+            .background(Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
             .cornerRadius(5)
            
             

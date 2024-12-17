@@ -39,10 +39,22 @@ struct nafidhalbasayraApp: App {
                         .environmentObject(vmAttendaceStatus)
                         .environmentObject(teacherData)  // تأكد من تمرير البيانات هنا
                         .environmentObject(coreDataViewModel)
+                        .environmentObject(SyncTeacherDataPostApi.shared)
+
+//                        .onAppear {
+//                                                   // تأكد من استدعاء startMonitoring هنا بعد تحميل coreDataViewModel
+//                                                   SyncTeacherDataPostApi.shared.startMonitoring(coreDataViewModel: coreDataViewModel)
+//                                               }
                 }
             }
         }
     }
+    
+    init() {
+        print("Initializing nafidhalbasayraApp...")
+        SyncTeacherDataPostApi.shared.startMonitoring(coreDataViewModel: coreDataViewModel)
+    }
+
 //    init() {
 //        // استدعاء NetworkManager لبدء مراقبة الاتصال ورفع البيانات
 //        SyncTeacherDataPostApi.shared.startMonitoring(coreDataViewModel: coreDataViewModel)

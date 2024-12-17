@@ -35,7 +35,8 @@ struct LoginPageWelcom: View {
                  
                     Spacer()
                         .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.08  : screenHeight * 0.10)
-                    
+                    Text(SyncTeacherDataPostApi.shared.isConnected ? "متصل" : "غير متصل")
+
                     
                     VStack(alignment: .trailing, spacing: screenHeight * 0.1) {
                   
