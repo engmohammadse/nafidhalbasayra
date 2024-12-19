@@ -32,14 +32,14 @@
 		416D8BE92CA4482500E2E6D8 /* const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416D8BE82CA4482500E2E6D8 /* const.swift */; };
 		418865712CBD296400E9097C /* sendAttendanceSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418865702CBD296400E9097C /* sendAttendanceSection.swift */; };
 		4188DE292CD1425100B65478 /* SettingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4188DE282CD1425100B65478 /* SettingSection.swift */; };
-		418E94B92CB7FDD000ACFEEA /* registerPage4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E94B82CB7FDD000ACFEEA /* registerPage4.swift */; };
-		418E94BB2CB80C5800ACFEEA /* registerPage5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E94BA2CB80C5800ACFEEA /* registerPage5.swift */; };
+		418E94B92CB7FDD000ACFEEA /* registerPageAccept.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E94B82CB7FDD000ACFEEA /* registerPageAccept.swift */; };
+		418E94BB2CB80C5800ACFEEA /* registerPageDecline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E94BA2CB80C5800ACFEEA /* registerPageDecline.swift */; };
 		418E94BE2CB82D3100ACFEEA /* MainViewPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E94BD2CB82D3100ACFEEA /* MainViewPage.swift */; };
 		418E94C02CB8445700ACFEEA /* HadeethSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E94BF2CB8445700ACFEEA /* HadeethSection.swift */; };
 		419ACE5B2CC816C4000D4433 /* TeacherDataTempViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419ACE5A2CC816C4000D4433 /* TeacherDataTempViewModel.swift */; };
 		41A552592CC5310A008D913D /* StudyPlanSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A552582CC5310A008D913D /* StudyPlanSection.swift */; };
 		41B8A8262CC67CB1002F614C /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 41B8A8242CC67CB1002F614C /* CoreData.xcdatamodeld */; };
-		41BD62C82CA2E69400529765 /* LoginPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BD62C72CA2E69400529765 /* LoginPage1.swift */; };
+		41BD62C82CA2E69400529765 /* RegisterInfoPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BD62C72CA2E69400529765 /* RegisterInfoPage.swift */; };
 		41BD62D22CA3018800529765 /* BahijTheSansArabic-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62CE2CA2FF4100529765 /* BahijTheSansArabic-Bold.ttf */; };
 		41BD62D32CA3018A00529765 /* BahijTheSansArabic-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62CD2CA2FF4100529765 /* BahijTheSansArabic-ExtraBold.ttf */; };
 		41BD62D42CA3018E00529765 /* BahijTheSansArabic-Plain.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62CC2CA2FF4100529765 /* BahijTheSansArabic-Plain.ttf */; };
@@ -50,7 +50,8 @@
 		41BD62DF2CA3092800529765 /* Amiri-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41BD62DB2CA3092800529765 /* Amiri-BoldItalic.ttf */; };
 		41CD8CE12CF75D360095A82D /* displayTeacherInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD8CE02CF75D360095A82D /* displayTeacherInfo.swift */; };
 		41D1DC502CB6A010004EB23D /* registerPage2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D1DC4F2CB6A00F004EB23D /* registerPage2.swift */; };
-		41D1DC522CB6EDF7004EB23D /* registerPage3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D1DC512CB6EDF7004EB23D /* registerPage3.swift */; };
+		41D1DC522CB6EDF7004EB23D /* registerPageWaitProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D1DC512CB6EDF7004EB23D /* registerPageWaitProcess.swift */; };
+		41D818272D149153007B8581 /* LoginStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D818262D149153007B8581 /* LoginStatusView.swift */; };
 		41DA9E6B2D05DB9E0014F05E /* governorateSpecificGet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41DA9E6A2D05DB9E0014F05E /* governorateSpecificGet.swift */; };
 		41DC01D42CAEBBC500C77696 /* SizesUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41DC01D32CAEBBC500C77696 /* SizesUI.swift */; };
 		41E19E792CAD714100CA2256 /* PreviousNextBotton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E19E782CAD714100CA2256 /* PreviousNextBotton.swift */; };
@@ -92,14 +93,14 @@
 		416D8BE82CA4482500E2E6D8 /* const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = const.swift; sourceTree = "<group>"; };
 		418865702CBD296400E9097C /* sendAttendanceSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sendAttendanceSection.swift; sourceTree = "<group>"; };
 		4188DE282CD1425100B65478 /* SettingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSection.swift; sourceTree = "<group>"; };
-		418E94B82CB7FDD000ACFEEA /* registerPage4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage4.swift; sourceTree = "<group>"; };
-		418E94BA2CB80C5800ACFEEA /* registerPage5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage5.swift; sourceTree = "<group>"; };
+		418E94B82CB7FDD000ACFEEA /* registerPageAccept.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPageAccept.swift; sourceTree = "<group>"; };
+		418E94BA2CB80C5800ACFEEA /* registerPageDecline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPageDecline.swift; sourceTree = "<group>"; };
 		418E94BD2CB82D3100ACFEEA /* MainViewPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewPage.swift; sourceTree = "<group>"; };
 		418E94BF2CB8445700ACFEEA /* HadeethSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HadeethSection.swift; sourceTree = "<group>"; };
 		419ACE5A2CC816C4000D4433 /* TeacherDataTempViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherDataTempViewModel.swift; sourceTree = "<group>"; };
 		41A552582CC5310A008D913D /* StudyPlanSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSection.swift; sourceTree = "<group>"; };
 		41B8A8252CC67CB1002F614C /* TeacherInfo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TeacherInfo.xcdatamodel; sourceTree = "<group>"; };
-		41BD62C72CA2E69400529765 /* LoginPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPage1.swift; sourceTree = "<group>"; };
+		41BD62C72CA2E69400529765 /* RegisterInfoPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInfoPage.swift; sourceTree = "<group>"; };
 		41BD62CC2CA2FF4100529765 /* BahijTheSansArabic-Plain.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BahijTheSansArabic-Plain.ttf"; sourceTree = "<group>"; };
 		41BD62CD2CA2FF4100529765 /* BahijTheSansArabic-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BahijTheSansArabic-ExtraBold.ttf"; sourceTree = "<group>"; };
 		41BD62CE2CA2FF4100529765 /* BahijTheSansArabic-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BahijTheSansArabic-Bold.ttf"; sourceTree = "<group>"; };
@@ -110,7 +111,8 @@
 		41BD62DB2CA3092800529765 /* Amiri-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amiri-BoldItalic.ttf"; sourceTree = "<group>"; };
 		41CD8CE02CF75D360095A82D /* displayTeacherInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = displayTeacherInfo.swift; sourceTree = "<group>"; };
 		41D1DC4F2CB6A00F004EB23D /* registerPage2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage2.swift; sourceTree = "<group>"; };
-		41D1DC512CB6EDF7004EB23D /* registerPage3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage3.swift; sourceTree = "<group>"; };
+		41D1DC512CB6EDF7004EB23D /* registerPageWaitProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPageWaitProcess.swift; sourceTree = "<group>"; };
+		41D818262D149153007B8581 /* LoginStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStatusView.swift; sourceTree = "<group>"; };
 		41DA9E6A2D05DB9E0014F05E /* governorateSpecificGet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = governorateSpecificGet.swift; sourceTree = "<group>"; };
 		41DC01D32CAEBBC500C77696 /* SizesUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizesUI.swift; sourceTree = "<group>"; };
 		41E19E782CAD714100CA2256 /* PreviousNextBotton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviousNextBotton.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				410A52242CD3A66C00DE375B /* StudentViewModel.swift */,
 				41074C872CBE8F8400FA28AC /* LoginViewModel.swift */,
 				419ACE5A2CC816C4000D4433 /* TeacherDataTempViewModel.swift */,
+				41D818262D149153007B8581 /* LoginStatusView.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -250,14 +253,14 @@
 			isa = PBXGroup;
 			children = (
 				413E4BA22CA1C83100B1EEC5 /* SplashScreenView.swift */,
-				41BD62C72CA2E69400529765 /* LoginPage1.swift */,
+				41BD62C72CA2E69400529765 /* RegisterInfoPage.swift */,
 				41325AA62CA9B83D00664847 /* LoginPageWelcom.swift */,
 				41F9D0B52CAAE4C500BD7853 /* registerPage.swift */,
 				411097692CB5427C0004C9E4 /* registerPage1.swift */,
 				41D1DC4F2CB6A00F004EB23D /* registerPage2.swift */,
-				41D1DC512CB6EDF7004EB23D /* registerPage3.swift */,
-				418E94B82CB7FDD000ACFEEA /* registerPage4.swift */,
-				418E94BA2CB80C5800ACFEEA /* registerPage5.swift */,
+				41D1DC512CB6EDF7004EB23D /* registerPageWaitProcess.swift */,
+				418E94B82CB7FDD000ACFEEA /* registerPageAccept.swift */,
+				418E94BA2CB80C5800ACFEEA /* registerPageDecline.swift */,
 			);
 			path = LoginFolder;
 			sourceTree = "<group>";
@@ -373,20 +376,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				41D1DC522CB6EDF7004EB23D /* registerPage3.swift in Sources */,
+				41D1DC522CB6EDF7004EB23D /* registerPageWaitProcess.swift in Sources */,
 				41074C852CBE8EFB00FA28AC /* LoginRequest.swift in Sources */,
 				41414E2B2CB1B31A0070C380 /* testNavigationStackPop.swift in Sources */,
 				41CD8CE12CF75D360095A82D /* displayTeacherInfo.swift in Sources */,
+				41D818272D149153007B8581 /* LoginStatusView.swift in Sources */,
 				41DC01D42CAEBBC500C77696 /* SizesUI.swift in Sources */,
 				410AFBEF2CDBF11900501834 /* EditStudentAtStudentDataSection.swift in Sources */,
 				526790C22CA93EC8006A9A89 /* AdaptiveTextFieldView.swift in Sources */,
-				41BD62C82CA2E69400529765 /* LoginPage1.swift in Sources */,
+				41BD62C82CA2E69400529765 /* RegisterInfoPage.swift in Sources */,
 				418E94C02CB8445700ACFEEA /* HadeethSection.swift in Sources */,
 				41D1DC502CB6A010004EB23D /* registerPage2.swift in Sources */,
 				41074C882CBE8F8400FA28AC /* LoginViewModel.swift in Sources */,
 				41F34EF82CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift in Sources */,
 				41325AA72CA9B83D00664847 /* LoginPageWelcom.swift in Sources */,
-				418E94BB2CB80C5800ACFEEA /* registerPage5.swift in Sources */,
+				418E94BB2CB80C5800ACFEEA /* registerPageDecline.swift in Sources */,
 				419ACE5B2CC816C4000D4433 /* TeacherDataTempViewModel.swift in Sources */,
 				418E94BE2CB82D3100ACFEEA /* MainViewPage.swift in Sources */,
 				411CA47E2CBBF33A0094A94B /* socialMediaSection.swift in Sources */,
@@ -400,7 +404,7 @@
 				41A552592CC5310A008D913D /* StudyPlanSection.swift in Sources */,
 				41FC8A412CFDD681001C6E49 /* cityGet.swift in Sources */,
 				418865712CBD296400E9097C /* sendAttendanceSection.swift in Sources */,
-				418E94B92CB7FDD000ACFEEA /* registerPage4.swift in Sources */,
+				418E94B92CB7FDD000ACFEEA /* registerPageAccept.swift in Sources */,
 				41074C8A2CBED50F00FA28AC /* NotificationChannelSection.swift in Sources */,
 				414AFBDE2CC16D3A00D89B70 /* SubComponent.swift in Sources */,
 				4110976A2CB5427C0004C9E4 /* registerPage1.swift in Sources */,

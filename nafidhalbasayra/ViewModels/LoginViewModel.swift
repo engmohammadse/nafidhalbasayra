@@ -3,7 +3,8 @@
 //  nafidhalbasayra
 //
 //  Created by muhammad on 15/10/2024.
-//
+//new
+
 import SwiftUI
 import Network
 
@@ -15,32 +16,36 @@ class LoginViewModel: ObservableObject {
     @Published var responseMessage = ""
     @Published var isConnectedToInternet = true
     @Published var navigateToNextPage = false
-    @Published var isLoading = false // حالة التحميل
-    
-
+    @Published var isLoading = false
+    @Published var nextPage: PageType?
 
     private var apiService = ApiService()
 
-    // تسجيل الدخول
+    // تعريف أنواع الصفحات بناءً على الحالة
+    enum PageType {
+        case registerInfo
+        case waitProcess
+        case homePage
+        case rejectionIssue
+    }
+
+    // دالة تسجيل الدخول
     func login() {
         checkInternetConnection { [weak self] isConnected in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                
-
                 self.isConnectedToInternet = isConnected
                 if isConnected {
                     self.performLoginAttempt()
                 } else {
-                    self.isLoading = false // إيقاف التحميل عند الخطأ
-
+                    self.isLoading = false
                     self.loginError = "الجهاز غير مرتبط بالإنترنت. يرجى التحقق من الاتصال."
                 }
             }
         }
     }
 
-    // التحقق من الاتصال بالإنترنت عند الحاجة فقط
+    // التحقق من الاتصال بالإنترنت
     private func checkInternetConnection(completion: @escaping (Bool) -> Void) {
         guard let url = URL(string: "https://www.google.com") else {
             completion(false)
@@ -54,7 +59,6 @@ class LoginViewModel: ObservableObject {
         URLSession.shared.dataTask(with: request) { _, response, error in
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
                 completion(true)
-                
             } else {
                 completion(false)
             }
@@ -63,24 +67,16 @@ class LoginViewModel: ObservableObject {
 
     // محاولة تسجيل الدخول
     private func performLoginAttempt() {
+        self.isLoading = true
         apiService.login(username: username, password: password) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                self.isLoading = true
-                
+                self.isLoading = false
+
                 switch result {
                 case .success(let response):
-                    if response.state == 0 {
-                        self.isLoading = false
-                        self.handleSuccessfulLogin(response)
-              
-                    } else {
-                        self.isLoading = false
-                        self.handleFailedLogin(message: response.message)
-                        
-                    }
+                    self.handleSuccessfulLogin(response)
                 case .failure(let error):
-                    self.isLoading = false
                     self.handleLoginFailure(error: error)
                 }
             }
@@ -90,22 +86,38 @@ class LoginViewModel: ObservableObject {
     // التعامل مع تسجيل الدخول الناجح
     private func handleSuccessfulLogin(_ response: LoginResponse) {
         self.isLoggedIn = true
-        self.isLoading = false
-        self.responseMessage = "تم بنجاح تسجيل الدخول، ID: \(response.id)"
         self.loginError = nil
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.navigateToNextPage = true
+        
+        
+        // تحديث الرسالة لعرضها للمستخدم
+         self.responseMessage = "تم بنجاح تسجيل الدخول، ID: \(response.id)"
+
+        // تحديد الصفحة بناءً على الحالة
+        switch response.state {
+        case 0:
+            self.nextPage = .registerInfo
+        case 1:
+            self.nextPage = .waitProcess
+        case 2:
+            self.nextPage = .homePage
+        case 3:
+            self.nextPage = .rejectionIssue
+        default:
+            self.loginError = "حالة غير معروفة: \(response.state)"
+            self.nextPage = nil
+        }
+
+        // تفعيل التنقل إذا كانت الحالة معروفة
+        if self.nextPage != nil {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.navigateToNextPage = true
+            }
         }
     }
 
     // التعامل مع تسجيل الدخول الفاشل
-    private func handleFailedLogin(message: String) {
-        self.loginError = message
-        self.responseMessage = ""
-    }
-
-    // التعامل مع فشل الاتصال أو حدوث خطأ آخر
     private func handleLoginFailure(error: Error) {
+        self.isLoggedIn = false
         if !isConnectedToInternet {
             self.loginError = "الجهاز غير مرتبط بالإنترنت. يرجى التحقق من الاتصال."
         } else {
@@ -114,6 +126,145 @@ class LoginViewModel: ObservableObject {
         self.responseMessage = ""
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//old work
+//import SwiftUI
+//import Network
+//
+//class LoginViewModel: ObservableObject {
+//    @Published var username = ""
+//    @Published var password = ""
+//    @Published var loginError: String?
+//    @Published var isLoggedIn = false
+//    @Published var responseMessage = ""
+//    @Published var isConnectedToInternet = true
+//    @Published var navigateToNextPage = false
+//    @Published var isLoading = false // حالة التحميل
+//    
+//
+//
+//    private var apiService = ApiService()
+//
+//    // تسجيل الدخول
+//    func login() {
+//        checkInternetConnection { [weak self] isConnected in
+//            guard let self = self else { return }
+//            DispatchQueue.main.async {
+//                
+//
+//                self.isConnectedToInternet = isConnected
+//                if isConnected {
+//                    self.performLoginAttempt()
+//                } else {
+//                    self.isLoading = false // إيقاف التحميل عند الخطأ
+//
+//                    self.loginError = "الجهاز غير مرتبط بالإنترنت. يرجى التحقق من الاتصال."
+//                }
+//            }
+//        }
+//    }
+//
+//    // التحقق من الاتصال بالإنترنت عند الحاجة فقط
+//    private func checkInternetConnection(completion: @escaping (Bool) -> Void) {
+//        guard let url = URL(string: "https://www.google.com") else {
+//            completion(false)
+//            return
+//        }
+//
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "HEAD"
+//        request.timeoutInterval = 10
+//
+//        URLSession.shared.dataTask(with: request) { _, response, error in
+//            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+//                completion(true)
+//                
+//            } else {
+//                completion(false)
+//            }
+//        }.resume()
+//    }
+//
+//    // محاولة تسجيل الدخول
+//    private func performLoginAttempt() {
+//        apiService.login(username: username, password: password) { [weak self] result in
+//            guard let self = self else { return }
+//            DispatchQueue.main.async {
+//                self.isLoading = true
+//                
+//                switch result {
+//                case .success(let response):
+//                    if response.state == 0 {
+//                        self.isLoading = false
+//                        self.handleSuccessfulLogin(response)
+//              
+//                    } else {
+//                        self.isLoading = false
+//                        self.handleFailedLogin(message: response.message)
+//                        
+//                    }
+//                case .failure(let error):
+//                    self.isLoading = false
+//                    self.handleLoginFailure(error: error)
+//                }
+//            }
+//        }
+//    }
+//
+//    // التعامل مع تسجيل الدخول الناجح
+//    private func handleSuccessfulLogin(_ response: LoginResponse) {
+//        self.isLoggedIn = true
+//        self.isLoading = false
+//        self.responseMessage = "تم بنجاح تسجيل الدخول، ID: \(response.id)"
+//        self.loginError = nil
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//            self.navigateToNextPage = true
+//        }
+//    }
+//
+//    // التعامل مع تسجيل الدخول الفاشل
+//    private func handleFailedLogin(message: String) {
+//        self.loginError = message
+//        self.responseMessage = ""
+//    }
+//
+//    // التعامل مع فشل الاتصال أو حدوث خطأ آخر
+//    private func handleLoginFailure(error: Error) {
+//        if !isConnectedToInternet {
+//            self.loginError = "الجهاز غير مرتبط بالإنترنت. يرجى التحقق من الاتصال."
+//        } else {
+//            self.loginError = error.localizedDescription
+//        }
+//        self.responseMessage = ""
+//    }
+//}
 
 
 

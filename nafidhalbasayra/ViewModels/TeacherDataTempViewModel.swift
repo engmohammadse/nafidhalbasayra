@@ -11,6 +11,8 @@ import UIKit
 
 class TeacherDataViewModel: ObservableObject {
    
+    
+    @Published var userName: String?
     // معلومات المعلم الأساسية
     @Published var name: String = ""
    // @Published var birthDay: Date = Date() // استخدم Date بدلاً من Data للتمثيل الصحيح للتاريخ
@@ -35,7 +37,7 @@ class TeacherDataViewModel: ObservableObject {
     @Published var localIdCity: String = "672cc19964e07256213b02b0"
 
     @Published var cityCodefromApi: String?
-    
+    @Published var gender: String = ""
     
     //
     @Published  var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]

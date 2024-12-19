@@ -27,6 +27,7 @@
         <attribute name="currentWork" optional="YES" attributeType="String"/>
         <attribute name="didyoutaught" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="frontfaceidentity" optional="YES" attributeType="Binary"/>
+        <attribute name="gender" optional="YES" attributeType="String"/>
         <attribute name="mosquname" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="phonenumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct registerPage5: View {
+struct registerPageDecline: View {
     
     @State private var isPressed: Bool = false
     
@@ -64,6 +64,6 @@ struct registerPage5: View {
 }
 
 #Preview {
-    registerPage5()
+    registerPageDecline()
         .environmentObject(TeacherDataViewModel())
 }

@@ -5,10 +5,7 @@
 //  Created by muhammad on 23/09/2024.
 //
 
-
 import SwiftUI
-
-
 
 @main
 struct nafidhalbasayraApp: App {
@@ -29,38 +26,24 @@ struct nafidhalbasayraApp: App {
                                 showSplash = false
                             }
                         }
-                } else {
-                    // MainViewPage()
-                    LoginPage1()
-                    //registerPage2()
-                    //TeacherInfoView()
-                    //registerPage()
-                        .preferredColorScheme(.light)
-                        .environmentObject(vmAttendaceStatus)
-                        .environmentObject(teacherData)  // تأكد من تمرير البيانات هنا
-                        .environmentObject(coreDataViewModel)
-                        .environmentObject(SyncTeacherDataPostApi.shared)
-
-//                        .onAppear {
-//                                                   // تأكد من استدعاء startMonitoring هنا بعد تحميل coreDataViewModel
-//                                                   SyncTeacherDataPostApi.shared.startMonitoring(coreDataViewModel: coreDataViewModel)
-//                                               }
+                }  else {
+                       // LoginPage1()
+                    RegisterInfoPage()
+                            .preferredColorScheme(.light)
+                            .environmentObject(vmAttendaceStatus)
+                            .environmentObject(teacherData)
+                            .environmentObject(coreDataViewModel)
+                           // .environmentObject(SyncTeacherDataPostApi.shared)
+                            .onAppear {
+                                SyncTeacherDataPostApi.shared.startMonitoring(coreDataViewModel: coreDataViewModel)
+                                print("Initializing nafidhalbasayraApp...")
+                            }
+                    }
                 }
             }
         }
     }
-    
-    init() {
-        print("Initializing nafidhalbasayraApp...")
-        SyncTeacherDataPostApi.shared.startMonitoring(coreDataViewModel: coreDataViewModel)
-    }
 
-//    init() {
-//        // استدعاء NetworkManager لبدء مراقبة الاتصال ورفع البيانات
-//        SyncTeacherDataPostApi.shared.startMonitoring(coreDataViewModel: coreDataViewModel)
-//    }
-
-}
 
 
 

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LoginPage1: View {
+struct RegisterInfoPage: View {
     
     @StateObject private var viewModel = LoginViewModel()
     @EnvironmentObject var teacherData: TeacherDataViewModel
@@ -59,67 +59,8 @@ struct LoginPage1: View {
             
             
               // logic section and check
-            
-            
-            if viewModel.isLoading {
-                          ProgressView("جاري تسجيل الدخول...") // مؤشر التحميل
-                              .padding()
-            } else {
-                
-                LazyVStack {
-                    if !viewModel.isConnectedToInternet {
-                        Text("الجهاز غير مرتبط بالإنترنت. يرجى التحقق من الاتصال.")
-                            .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
-                            .padding(.horizontal)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.5)
-                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-                            .foregroundColor(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
-                            .bold()
-                            .background(
-                                Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1)
-                                    .cornerRadius(5)
-                            )
-                            .transition(.opacity) // Ensure this is used
-                            .animation(.easeIn(duration: 0.5), value: viewModel.isConnectedToInternet)
+            LoginStatusView(viewModel: viewModel)
 
-                    } else if viewModel.isLoggedIn {
-                        Text(viewModel.responseMessage.isEmpty ? "Logged in successfully!" : "تم بنجاح تسجيل الدخول")
-                            .foregroundColor(.green)
-                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-                            .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
-                            .transition(.opacity)
-                            .animation(.easeIn(duration: 0.5), value: viewModel.isLoggedIn)
-
-                    } else if let loginError = viewModel.loginError {
-                        Text(loginError)
-                            .frame(maxWidth: screenWidth * 0.8, maxHeight: screenHeight * 0.05)
-                            .padding(.horizontal)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.5)
-                            .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.04))
-                            .foregroundColor(Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255))
-                            .bold()
-                            .background(
-                                Color(red: 160 / 255, green: 70 / 255, blue: 70 / 255).opacity(0.1)
-                                    .cornerRadius(5)
-                            )
-                            .transition(.opacity.combined(with: .scale))
-                            .animation(.easeIn(duration: 0.5), value: viewModel.loginError)
-                    }
-                }
-
-
-                
-                
-            }
-            
-            
-
-
-
-            
-            
 
 
             Spacer()
@@ -149,9 +90,12 @@ struct LoginPage1: View {
                                
                                // تحويل الأحرف إلى صغيرة
                                viewModel.username = trimmedValue.lowercased()
+                               teacherData.userName = trimmedValue.lowercased()
                                
                                // تحقق من طول اسم المستخدم وكلمة المرور
                                isButtonDisabled = viewModel.username.count < 5 || viewModel.password.count < 6
+                        
+                        
                                        }
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
@@ -223,21 +167,13 @@ struct LoginPage1: View {
             
             
             Button(action: {
-//                isPressed.toggle()
-//                withAnimation(.easeInOut(duration: 0.5)) {
-//                    showError.toggle()
-//                }
-                
+//
+                hideKeyboardExplicitly()
                 viewModel.login()
                 viewModel.isLoading = true
-                DispatchQueue.main.async {
-                       hideKeyboard() // جعل الدالة تعمل بعد بعض الوقت
-                   }
+               
                 
-                // تحقق من تسجيل الدخول بعد محاولة تسجيل الدخول
-//                   if viewModel.isLoggedIn {
-//                       isGo = true
-//                   }
+
             }) {
                 Text("تسجيل الدخول")
                     .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.03))
@@ -254,9 +190,29 @@ struct LoginPage1: View {
             .opacity(isButtonDisabled ? 0.5 : 1.0)
             
 
-            .navigationDestination(isPresented: $viewModel.navigateToNextPage) {
-                LoginPageWelcom().environmentObject(teacherData) // Assuming this is your destination view
-            }
+//            .navigationDestination(isPresented: $viewModel.navigateToNextPage) {
+//                LoginPageWelcom().environmentObject(teacherData) // Assuming this is your destination view
+//            }
+            
+            
+            // Dynamic Navigation
+                       .navigationDestination(isPresented: $viewModel.navigateToNextPage) {
+                           switch viewModel.nextPage {
+                           case .registerInfo:
+                               LoginPageWelcom().environmentObject(teacherData)
+                           case .waitProcess:
+                               registerPageWaitProcess().environmentObject(teacherData)
+                           case .homePage:
+                               registerPageAccept().environmentObject(teacherData)
+                           case .rejectionIssue:
+                               registerPageDecline().environmentObject(teacherData)
+                           case .none:
+                               EmptyView()
+                           }
+                       }
+
+            
+            
 
             Spacer()
                 .frame(height: screenHeight * 0.2)
@@ -266,9 +222,7 @@ struct LoginPage1: View {
             
             
         }
-//        .onTapGesture {
-//                   hideKeyboard()
-//               }
+
         
 
         .padding(.horizontal, 40)
@@ -289,7 +243,7 @@ struct LoginPage1: View {
 
 struct LoginPage1_Previews: PreviewProvider {
     static var previews: some View {
-        LoginPage1()
+        RegisterInfoPage()
             .environmentObject(TeacherDataViewModel())
     }
 }

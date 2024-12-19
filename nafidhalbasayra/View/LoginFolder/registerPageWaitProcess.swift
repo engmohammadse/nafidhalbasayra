@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct registerPage3: View {
+struct registerPageWaitProcess: View {
     
     @State private var isPressed: Bool = false
     
@@ -51,6 +51,6 @@ struct registerPage3: View {
 }
 
 #Preview {
-    registerPage3()
+    registerPageWaitProcess()
         .environmentObject(TeacherDataViewModel())
 }

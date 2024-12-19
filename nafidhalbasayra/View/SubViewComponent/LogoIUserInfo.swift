@@ -38,12 +38,18 @@ struct LogoIUserInfo: View {
                              
                          }
                     
-                    Text("user1212")
-                        .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.032 : geoW * 0.02))
-                        .foregroundStyle(Color.white)
-                        .padding(.horizontal, geoW * 0.04)
-                        .background(Color(UIColor(red: 27 / 255, green: 62 / 255, blue: 93 / 255, alpha: 1.0)))
-                        .cornerRadius(5)
+                    
+                    
+                    
+                        Text(teacherData.userName ?? "user1212")
+                            .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.032 : geoW * 0.02))
+                            .foregroundStyle(Color.white)
+                            .padding(.horizontal, geoW * 0.04)
+                            .background(Color(UIColor(red: 27 / 255, green: 62 / 255, blue: 93 / 255, alpha: 1.0)))
+                            .cornerRadius(5)
+                  
+                    
+                    
                     
                   
                     

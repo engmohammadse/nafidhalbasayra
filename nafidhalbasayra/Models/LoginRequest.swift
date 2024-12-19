@@ -82,31 +82,7 @@ class ApiService {
             }
         }.resume()
 
-        
-        //old
-//        URLSession.shared.dataTask(with: request) { data, response, error in
-//            if let error = error {
-//                completion(.failure(error))
-//                return
-//            }
-//
-//            guard let httpResponse = response as? HTTPURLResponse else {
-//                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "لا يوجد استجابة من الخادم"])))
-//                return
-//            }
-//
-//            switch httpResponse.statusCode {
-//            case 401:
-//                // إذا كانت الاستجابة 401، يتم التحقق من الرسالة المُعادة
-//                self.handleUnauthorizedError(data: data, completion: completion)
-//            case 200:
-//                // إذا كانت الاستجابة 200، يتم فك تشفير الاستجابة
-//                self.handleSuccessfulLoginResponse(data: data, completion: completion)
-//            default:
-//                // إذا كانت الاستجابة غير متوقعة
-//                completion(.failure(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "استجابة غير متوقعة من الخادم"])))
-//            }
-//        }.resume()
+   
     }
 
     // دالة معالجة الأخطاء من النوع 401

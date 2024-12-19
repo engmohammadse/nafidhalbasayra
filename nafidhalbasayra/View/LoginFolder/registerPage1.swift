@@ -64,7 +64,7 @@ struct registerPage1: View {
 //        .onAppear {
 //            dataFetcher.fetchData()
 //        }
-        .hideKeyboard()
+        
        
         
         .overlay {
@@ -74,7 +74,7 @@ struct registerPage1: View {
             
         }
                 
-
+        .hideKeyboard()
        
     }
 //    // Remove keyboard observers
