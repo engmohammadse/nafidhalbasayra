@@ -35,6 +35,16 @@ struct registerPage2: View {
         return true
     }
     
+    var isValidImages2: Bool {
+        guard let profileImage = teacherData.profileimage,
+              let frontFaceImage = teacherData.frontfaceidentity,
+              let backFaceImage = teacherData.backfaceidentity else {
+            return false
+        }
+        return profileImage.size.width > 0 && frontFaceImage.size.width > 0 && backFaceImage.size.width > 0
+    }
+
+    
 
 
     var body: some View {
@@ -322,12 +332,30 @@ struct registerPage2: View {
                 //في حال وجود صورة
                 coreDataViewModel.addTeacherInfoToCoreData(from: teacherData, with: imageData, with: frontId, with: BackId )
 
+                let teacherViewModel = TeacherDataViewModel()
 
-                
+      
+
                 // Print success message and clear temporary data
                 print("تم حفظ البيانات بنجاح في قاعدة البيانات!")
                 
-                resetField()
+                
+                
+                print("Profile Image عند الإرسال: \(teacherData.profileimage != nil ? " موجودة" : " غير موجودة")")
+                   print("Front Face Image عند الإرسال: \(teacherData.frontfaceidentity != nil ? " موجودة" : " غير موجودة")")
+                   print("Back Face Image عند الإرسال: \(teacherData.backfaceidentity != nil ? " موجودة" : " غير موجودة")")
+                   
+                   if isValidImages2 == false {
+                       showAlertEmptyImages = true
+                       print("❌ يجب تحميل جميع الصور قبل الإرسال.")
+                       return
+                   }
+                   
+                   // إرسال البيانات
+                   SyncTeacherDataPostApi.shared.sendTeacherDataFromViewModel(viewModel: teacherData)
+                   print("✅ تم إرسال البيانات.")
+                
+               // resetField()
                 
                 
 //                    isPressed.toggle()
@@ -363,6 +391,10 @@ struct registerPage2: View {
             Button(action: {
                 let coreDataViewModel = CoreDataViewModel()
                 coreDataViewModel.printStoredData()
+                
+                
+                
+                
             }) {
                 
                

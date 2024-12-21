@@ -5,6 +5,142 @@
 //  Created by muhammad on 28/11/2024.
 //
 
+//"teacher_id": "674da25d2b64e4f547d9ce58", // تخصيص إذا لزم الأمر
+//"region_id": "674da25d2b64e4f547d9ccdd", // تخصيص إذا لزم الأمر
+//"governorate_id": "674da25d2b64e4f547d9ccc7",
+
+
+// تم الارسال
+//Profile Image عند الإرسال:  موجودة
+//Front Face Image عند الإرسال:  موجودة
+//Back Face Image عند الإرسال:  موجودة
+//Profile Image عند الإرسال: موجودة
+//Front Face Image عند الإرسال: موجودة
+//Back Face Image عند الإرسال: موجودة
+//✅ تم إرسال البيانات.
+//🟡 HTTP Status Code: 200
+//🟡 Response Body: null
+//✅ Data sent successfully for teacher: User i
+
+
+
+
+
+
+// الان يعمل
+import UIKit
+
+class SyncTeacherDataPostApi {
+    static let shared = SyncTeacherDataPostApi()
+
+    private init() {}
+    
+    func sendTeacherDataFromViewModel(viewModel: TeacherDataViewModel) {
+        // تحميل الصورة من الأصول
+        guard let sharedImage = UIImage(named: "login") else {
+            print("❌ Failed to load image 'login' from assets. Make sure the image name is correct.")
+            return
+        }
+
+        // التأكيد على أن الصورة تم تحميلها
+        print("Profile Image عند الإرسال: \(sharedImage != nil ? "موجودة" : "غير موجودة")")
+        print("Front Face Image عند الإرسال: \(sharedImage != nil ? "موجودة" : "غير موجودة")")
+        print("Back Face Image عند الإرسال: \(sharedImage != nil ? "موجودة" : "غير موجودة")")
+
+        // URL
+        guard let url = URL(string: "http://198.244.227.48:8082/teachers/register-teacher") else {
+            print("❌ Invalid URL")
+            return
+        }
+
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "accept")
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+        var body = Data()
+
+        // إضافة الحقول النصية
+        let parameters: [String: String] = [
+            "teacher_id": "674da25d2b64e4f547d9ce58",
+            "region_id": "674da25d2b64e4f547d9ccdd",
+            "governorate_id": "672cc19964e07256213b02c8",
+            "full_name": viewModel.name,
+            "birth_date": "3/10/2002",
+            "phone_number": viewModel.phonenumber,
+            "work": "no work",
+            "mosque_name": "no name",
+            "degree": "no degree",
+            "gender": "ذكر",
+            "previous_teacher": viewModel.didyoutaught == true ? "true" : "false"
+        ]
+
+        for (key, value) in parameters {
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(value)\r\n".data(using: .utf8)!)
+        }
+
+        // إضافة الصور (جميعها نفس الصورة)
+        let images = [
+            ("image_1", sharedImage, "login-image-1.png"),
+            ("image_2", sharedImage, "login-image-2.png"),
+            ("image_3", sharedImage, "login-image-3.png")
+        ]
+
+        for (name, image, fileName) in images {
+            guard let imageData = image.jpegData(compressionQuality: 0.8) else { continue }
+
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
+            body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
+            body.append(imageData)
+            body.append("\r\n".data(using: .utf8)!)
+        }
+
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.httpBody = body
+
+        // إرسال الطلب
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("❌ Failed to send data: \(error.localizedDescription)")
+                return
+            }
+
+            if let httpResponse = response as? HTTPURLResponse {
+                print("🟡 HTTP Status Code: \(httpResponse.statusCode)")
+                if let data = data, let responseBody = String(data: data, encoding: .utf8) {
+                    print("🟡 Response Body: \(responseBody)")
+                }
+
+                if httpResponse.statusCode == 200 {
+                    print("✅ Data sent successfully for teacher: \(viewModel.name)")
+                } else {
+                    print("❌ Failed to send data. Status code: \(httpResponse.statusCode)")
+                }
+            }
+        }
+        task.resume()
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //import Foundation
 //import Network
 //import CoreData
@@ -209,121 +345,121 @@
 
 
 
-
-
-
-
-import Foundation
-import Network
-import CoreData
-
-class SyncTeacherDataPostApi {
-    static let shared = SyncTeacherDataPostApi()
-    private let monitor = NWPathMonitor()
-    private let queue = DispatchQueue(label: "NetworkMonitor")
-
-    private var coreDataViewModel: CoreDataViewModel?
-
-    private init() {}
-
-    func startMonitoring(coreDataViewModel: CoreDataViewModel) {
-        self.coreDataViewModel = coreDataViewModel
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.sendDataIfConnected()
-                }
-            }
-        }
-        monitor.start(queue: queue)
-    }
-
-    private func sendDataIfConnected() {
-        guard let context = coreDataViewModel?.container.viewContext else { return }
-
-        let fetchRequest: NSFetchRequest<TeacherInfo> = TeacherInfo.fetchRequest()
-
-        do {
-            let teachers = try context.fetch(fetchRequest)
-            for teacher in teachers {
-                sendTeacherData(teacher: teacher, context: context)
-            }
-        } catch {
-            print("Failed to fetch teachers: \(error.localizedDescription)")
-        }
-    }
-
-    private func sendTeacherData(teacher: TeacherInfo, context: NSManagedObjectContext) {
-        
-        //http://192.168.15.160:8082/
-        //198.244.227.48:8082
-        guard let url = URL(string: "http://192.168.15.160:8082/teachers/register-teacher") else { return }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        // Date Formatter
-        let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.formatOptions = [.withFullDate]
-
-        // Format birth_date or use an empty string if nil
-        let formattedDate = teacher.birthDay != nil ? dateFormatter.string(from: teacher.birthDay!) : ""
-
-        let body: [String: Any] = [
-//            "teacher_id": teacher.teacherID ?? "",
-//            "region_id": teacher.province ?? "",
-//            "governorate_id": teacher.city ?? "",
-            "teacher_id": "670a9990a8cd200cf7b0e8c7",
-            "region_id": "672cc19964e07256213b02c8",
-            "governorate_id": "672cc19964e07256213b02b2",
-            
-            "full_name": teacher.name ?? "tbrfb",
-            "gender": "male",
-//            "birth_date": formattedDate, // Use the formatted date here
-            "birth_date": "3/10/2002",
-            "phone_number": teacher.phonenumber ?? "rvrv",
-            "work": teacher.currentWork ?? "vrvr",
-            "mosque_name": teacher.mosquname ?? "vrvr",
-            "degree": teacher.academiclevel ?? "vrvr",
-            "previous_teacher": teacher.didyoutaught ?? false,
-            "image_1": teacher.frontfaceidentity?.base64EncodedString() ?? "",
-            "image_2": teacher.backfaceidentity?.base64EncodedString() ?? "",
-            "image_3": teacher.profileimage?.base64EncodedString() ?? ""
-        ]
-
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
-        } catch {
-            print("Failed to serialize body: \(error.localizedDescription)")
-            return
-        }
-
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Failed to send data: \(error.localizedDescription)")
-                return
-            }
-
-            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-                print("Data sent successfully for teacher: \(teacher.name ?? "Unknown")")
-                self.deleteTeacher(teacher, context: context)
-            } else {
-                print("Failed to send data. Status code: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
-            }
-        }
-        task.resume()
-    }
-
-
-    private func deleteTeacher(_ teacher: TeacherInfo, context: NSManagedObjectContext) {
-        context.delete(teacher)
-
-        do {
-            try context.save()
-            print("Teacher deleted successfully from Core Data.")
-        } catch {
-            print("Failed to delete teacher: \(error.localizedDescription)")
-        }
-    }
-}
+//
+//
+//
+//
+//import Foundation
+//import Network
+//import CoreData
+//
+//class SyncTeacherDataPostApi {
+//    static let shared = SyncTeacherDataPostApi()
+//    private let monitor = NWPathMonitor()
+//    private let queue = DispatchQueue(label: "NetworkMonitor")
+//
+//    private var coreDataViewModel: CoreDataViewModel?
+//
+//    private init() {}
+//
+//    func startMonitoring(coreDataViewModel: CoreDataViewModel) {
+//        self.coreDataViewModel = coreDataViewModel
+//        monitor.pathUpdateHandler = { path in
+//            if path.status == .satisfied {
+//                DispatchQueue.main.async {
+//                    self.sendDataIfConnected()
+//                }
+//            }
+//        }
+//        monitor.start(queue: queue)
+//    }
+//
+//    private func sendDataIfConnected() {
+//        guard let context = coreDataViewModel?.container.viewContext else { return }
+//
+//        let fetchRequest: NSFetchRequest<TeacherInfo> = TeacherInfo.fetchRequest()
+//
+//        do {
+//            let teachers = try context.fetch(fetchRequest)
+//            for teacher in teachers {
+//                sendTeacherData(teacher: teacher, context: context)
+//            }
+//        } catch {
+//            print("Failed to fetch teachers: \(error.localizedDescription)")
+//        }
+//    }
+//
+//    private func sendTeacherData(teacher: TeacherInfo, context: NSManagedObjectContext) {
+//        
+//        //http://192.168.15.160:8082/
+//        //198.244.227.48:8082
+//        guard let url = URL(string: "http://198.244.227.48:8082/teachers/register-teacher") else { return }
+//
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "POST"
+//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//
+//        // Date Formatter
+//        let dateFormatter = ISO8601DateFormatter()
+//        dateFormatter.formatOptions = [.withFullDate]
+//
+//        // Format birth_date or use an empty string if nil
+//        let formattedDate = teacher.birthDay != nil ? dateFormatter.string(from: teacher.birthDay!) : ""
+//
+//        let body: [String: Any] = [
+////            "teacher_id": teacher.teacherID ?? "",
+////            "region_id": teacher.province ?? "",
+////            "governorate_id": teacher.city ?? "",
+//            "teacher_id": "670a9990a8cd200cf7b0e8c7",
+//            "region_id": "672cc19964e07256213b02c8",
+//            "governorate_id": "672cc19964e07256213b02b2",
+//            
+//            "full_name": teacher.name ?? "tbrfb",
+//            "gender": "male",
+////            "birth_date": formattedDate, // Use the formatted date here
+//            "birth_date": "3/10/2002",
+//            "phone_number": teacher.phonenumber ?? "rvrv",
+//            "work": teacher.currentWork ?? "vrvr",
+//            "mosque_name": teacher.mosquname ?? "vrvr",
+//            "degree": teacher.academiclevel ?? "vrvr",
+//            "previous_teacher": teacher.didyoutaught ?? false,
+//            "image_1": teacher.frontfaceidentity?.base64EncodedString() ?? "",
+//            "image_2": teacher.backfaceidentity?.base64EncodedString() ?? "",
+//            "image_3": teacher.profileimage?.base64EncodedString() ?? ""
+//        ]
+//
+//        do {
+//            request.httpBody = try JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
+//        } catch {
+//            print("Failed to serialize body: \(error.localizedDescription)")
+//            return
+//        }
+//
+//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+//            if let error = error {
+//                print("Failed to send data: \(error.localizedDescription)")
+//                return
+//            }
+//
+//            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+//                print("Data sent successfully for teacher: \(teacher.name ?? "Unknown")")
+//                self.deleteTeacher(teacher, context: context)
+//            } else {
+//                print("Failed to send data. Status code: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
+//            }
+//        }
+//        task.resume()
+//    }
+//
+//
+//    private func deleteTeacher(_ teacher: TeacherInfo, context: NSManagedObjectContext) {
+//        context.delete(teacher)
+//
+//        do {
+//            try context.save()
+//            print("Teacher deleted successfully from Core Data.")
+//        } catch {
+//            print("Failed to delete teacher: \(error.localizedDescription)")
+//        }
+//    }
+//}

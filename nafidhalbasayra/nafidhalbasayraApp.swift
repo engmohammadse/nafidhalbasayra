@@ -34,10 +34,10 @@ struct nafidhalbasayraApp: App {
                             .environmentObject(teacherData)
                             .environmentObject(coreDataViewModel)
                            // .environmentObject(SyncTeacherDataPostApi.shared)
-                            .onAppear {
-                                SyncTeacherDataPostApi.shared.startMonitoring(coreDataViewModel: coreDataViewModel)
-                                print("Initializing nafidhalbasayraApp...")
-                            }
+//                            .onAppear {
+//                                SyncTeacherDataPostApi.shared.startMonitoring(coreDataViewModel: coreDataViewModel)
+//                                print("Initializing nafidhalbasayraApp...")
+//                            }
                     }
                 }
             }
