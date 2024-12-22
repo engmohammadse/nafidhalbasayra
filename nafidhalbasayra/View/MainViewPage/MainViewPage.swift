@@ -9,7 +9,8 @@ import SwiftUI
 
 struct MainViewPage: View {
     //@EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
-    @StateObject var teacherData = TeacherDataViewModel()
+    @EnvironmentObject var teacherData: TeacherDataViewModel
+    @EnvironmentObject var vmAttendaceStatus : AttendaceStatusViewModel
     var body: some View {
         
         
@@ -22,22 +23,34 @@ struct MainViewPage: View {
                           
                           
                           HStack(spacing: screenWidth * 0.04) {
-                              VStackSection(imageName: "Group 20", text: "إرسال الحضور", destination: sendAttendanceSection())
-                              VStackSection(imageName: "Group 19", text: "قناة التبليغات", destination: NotificationChannelSection())
+                              VStackSection(imageName: "Group 20", text: "إرسال الحضور", destination: sendAttendanceSection()
+                                .environmentObject(teacherData)
+                                .environmentObject(vmAttendaceStatus))
+                              VStackSection(imageName: "Group 19", text: "قناة التبليغات", destination: NotificationChannelSection()
+                                .environmentObject(teacherData)
+                                  .environmentObject(vmAttendaceStatus))
                           }
                           
                         //  Spacer().frame(height: screenHeight * 0.0)
                           
                           HStack(spacing: screenWidth * 0.04) {
-                              VStackSection(imageName: "Group 24", text: "سجل الحضور", destination: HistoryAttendance())
-                              VStackSection(imageName: "Group 23", text: "بيانات الطلبة", destination: StudentDataSection())
+                              VStackSection(imageName: "Group 24", text: "سجل الحضور", destination: HistoryAttendance()
+                                .environmentObject(teacherData)
+                                  .environmentObject(vmAttendaceStatus))
+                              VStackSection(imageName: "Group 23", text: "بيانات الطلبة", destination: StudentDataSection()
+                                .environmentObject(teacherData)
+                                  .environmentObject(vmAttendaceStatus))
                           }
                           
                          // Spacer().frame(height: screenHeight * 0.02)
                           
                           HStack(spacing: screenWidth * 0.04) {
-                              VStackSection(imageName: "Group 29", text: "دليل الاستخدام", destination: UserManual())
-                              VStackSection(imageName: "folder-minus-solid 1", text: "الخطة الدراسية", destination: StudyPlanSection())
+                              VStackSection(imageName: "Group 29", text: "دليل الاستخدام", destination: UserManual()
+                                .environmentObject(teacherData)
+                                .environmentObject(vmAttendaceStatus))
+                              VStackSection(imageName: "folder-minus-solid 1", text: "الخطة الدراسية", destination: StudyPlanSection()
+                                .environmentObject(teacherData)
+                                  .environmentObject(vmAttendaceStatus))
                           }
         
                       }
@@ -74,12 +87,16 @@ struct MainViewPage: View {
                   
                     .overlay(
                         LogoIUserInfo()
+                            .environmentObject(teacherData)
+                              .environmentObject(vmAttendaceStatus)
                             .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * -0.07 : screenHeight * -0.08)
                     )
             }
       
        }
         .environmentObject(teacherData) // إضافة الكائن إلى البيئة
+        .navigationBarBackButtonHidden(true)
+
 
     }
 }

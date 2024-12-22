@@ -11,6 +11,7 @@ struct LogoIUserInfo: View {
     
    // @ObservedObject var teacherData: TeacherDataViewModel
     @EnvironmentObject var teacherData: TeacherDataViewModel
+    @EnvironmentObject var vmAttendaceStatus : AttendaceStatusViewModel
     
     var body: some View {
         GeometryReader { geometry in
@@ -34,7 +35,7 @@ struct LogoIUserInfo: View {
                              Image("Group 63")
                                  .resizable()
                                  .aspectRatio(contentMode: .fit)
-                                 .frame(maxWidth: geoW * 0.07)
+                                 .frame(maxWidth: screenWidth * 0.07)
                              
                          }
                     
@@ -42,9 +43,9 @@ struct LogoIUserInfo: View {
                     
                     
                         Text(teacherData.userName ?? "user1212")
-                            .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? geoW * 0.032 : geoW * 0.02))
+                            .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                             .foregroundStyle(Color.white)
-                            .padding(.horizontal, geoW * 0.04)
+                            .padding(.horizontal, geoW * 0.05)
                             .background(Color(UIColor(red: 27 / 255, green: 62 / 255, blue: 93 / 255, alpha: 1.0)))
                             .cornerRadius(5)
                   
@@ -61,7 +62,7 @@ struct LogoIUserInfo: View {
                         .resizable()
                         .renderingMode(.template)  // Forces the image to be drawn as a template (grayscale)
                         .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: geoW * 0.42 )
+                        .frame(maxWidth: screenWidth * 0.42 )
                         .foregroundColor(Color(UIColor(red: 27 / 255, green: 62 / 255, blue: 93 / 255, alpha: 1.0)))
                         .padding(.bottom, 10)
                 }

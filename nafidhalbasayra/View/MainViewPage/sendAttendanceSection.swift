@@ -24,6 +24,7 @@ struct sendAttendanceSection: View {
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
+    @EnvironmentObject var teacherData: TeacherDataViewModel
     
     
     var body: some View {
@@ -70,7 +71,9 @@ struct sendAttendanceSection: View {
                         }
                         
                         Button(action: {
-                            locationManager.requestLocation()
+                            
+
+                        locationManager.requestLocation()
                         }) {
                             Text("تثبيت")
                                 .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025))
@@ -325,8 +328,16 @@ struct sendAttendanceSection: View {
 
 
 #Preview {
-    sendAttendanceSection().environmentObject(AttendaceStatusViewModel())
+    sendAttendanceSection()
+        .environmentObject(AttendaceStatusViewModel())
+        .environmentObject(TeacherDataViewModel()) // ضروري إذا كان LogoIUserInfo يحتاجه
 }
+
+//#Preview {
+//    sendAttendanceSection()
+//        .environmentObject(AttendaceStatusViewModel())
+//    
+//}
 
 // Helper function to hide the keyboard
 extension View {

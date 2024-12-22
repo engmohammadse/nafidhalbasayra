@@ -10,6 +10,9 @@ import SwiftUI
 struct registerPageAccept: View {
     
     @State private var isPressed: Bool = false
+    @EnvironmentObject var teacherData : TeacherDataViewModel
+    @EnvironmentObject var vmAttendaceStatus : AttendaceStatusViewModel
+    @EnvironmentObject var coreDataViewModel : CoreDataViewModel
     
     var body: some View {
         VStack {
@@ -35,17 +38,33 @@ struct registerPageAccept: View {
             Spacer()
                 .frame(height: screenHeight * 0.03)
             
-            Button(action: {
-                
-            }){
-                Text("بدء استخدام التطبيق")
-                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.02))
-                    .frame(height: screenHeight * 0.04)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.8 : screenWidth * 0.8)
-            }
+            NavigationLink(
+                destination: MainViewPage()
+                    .environmentObject(teacherData)
+                    .environmentObject(vmAttendaceStatus), // استبدل `NextView()` بالـ View الذي تريد الانتقال إليه
+                label: {
+                    Text("بدء استخدام التطبيق")
+                        .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.02))
+                        .frame(height: screenHeight * 0.04)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.8 : screenWidth * 0.8)
+                }
+            )
             .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
             .cornerRadius(5)
+
+            
+//            Button(action: {
+//                
+//            }){
+//                Text("بدء استخدام التطبيق")
+//                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.02))
+//                    .frame(height: screenHeight * 0.04)
+//                    .foregroundColor(.white)
+//                    .frame(maxWidth: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.8 : screenWidth * 0.8)
+//            }
+//            .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
+//            .cornerRadius(5)
             
              
         }

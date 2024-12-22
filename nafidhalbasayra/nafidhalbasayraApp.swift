@@ -5,47 +5,88 @@
 //  Created by muhammad on 23/09/2024.
 //
 
+
 import SwiftUI
+
 
 @main
 struct nafidhalbasayraApp: App {
-    
-    @StateObject private var teacherData = TeacherDataViewModel()
-    @StateObject private var vmAttendaceStatus = AttendaceStatusViewModel()
-    @StateObject private var coreDataViewModel = CoreDataViewModel()
-
     @State private var showSplash = true
 
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                if showSplash {
-                    SplashScreenView()
-                        .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                                showSplash = false
-                            }
+            if showSplash {
+                SplashScreenView()
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            showSplash = false
                         }
-                }  else {
-                       // LoginPage1()
-                    RegisterInfoPage()
-                            .preferredColorScheme(.light)
-                            .environmentObject(vmAttendaceStatus)
-                            .environmentObject(teacherData)
-                            .environmentObject(coreDataViewModel)
-                           // .environmentObject(SyncTeacherDataPostApi.shared)
-//                            .onAppear {
-//                                SyncTeacherDataPostApi.shared.startMonitoring(coreDataViewModel: coreDataViewModel)
-//                                print("Initializing nafidhalbasayraApp...")
-//                            }
                     }
-                }
+            } else {
+                MainParentView() // هنا يتم إنشاء الـ ViewModels لأول مرة بعد السبلاتش
             }
         }
     }
+}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+//import SwiftUI
+//
+//@main
+//struct nafidhalbasayraApp: App {
+//    
+//    @StateObject private var teacherData = TeacherDataViewModel()
+//    @StateObject private var vmAttendaceStatus = AttendaceStatusViewModel()
+//    @StateObject private var coreDataViewModel = CoreDataViewModel()
+//
+//    @State private var showSplash = true
+//
+//    var body: some Scene {
+//        WindowGroup {
+//            NavigationStack {
+//                if showSplash {
+//                    SplashScreenView()
+//                        .onAppear {
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//                                showSplash = false
+//                            }
+//                        }
+//                }  else {
+//                       // LoginPage1()
+//                    //MainViewPage()
+//
+//                    RegisterInfoPage()
+//                            .preferredColorScheme(.light)
+//                            .environmentObject(vmAttendaceStatus)
+//                            .environmentObject(teacherData)
+//                            .environmentObject(coreDataViewModel)
+//                           // .environmentObject(SyncTeacherDataPostApi.shared)
+////                            .onAppear {
+////                                SyncTeacherDataPostApi.shared.startMonitoring(coreDataViewModel: coreDataViewModel)
+////                                print("Initializing nafidhalbasayraApp...")
+////                            }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//
+//
 
 
 

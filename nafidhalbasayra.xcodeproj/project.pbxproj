@@ -30,6 +30,7 @@
 		414AFBDC2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414AFBDB2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift */; };
 		414AFBDE2CC16D3A00D89B70 /* SubComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414AFBDD2CC16D3A00D89B70 /* SubComponent.swift */; };
 		416D8BE92CA4482500E2E6D8 /* const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416D8BE82CA4482500E2E6D8 /* const.swift */; };
+		416FD1FF2D1856F700ED7DF8 /* MainParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416FD1FE2D1856F700ED7DF8 /* MainParentView.swift */; };
 		418865712CBD296400E9097C /* sendAttendanceSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418865702CBD296400E9097C /* sendAttendanceSection.swift */; };
 		4188DE292CD1425100B65478 /* SettingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4188DE282CD1425100B65478 /* SettingSection.swift */; };
 		418E94B92CB7FDD000ACFEEA /* registerPageAccept.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E94B82CB7FDD000ACFEEA /* registerPageAccept.swift */; };
@@ -91,6 +92,7 @@
 		414AFBDB2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStudentToStudentDataSection.swift; sourceTree = "<group>"; };
 		414AFBDD2CC16D3A00D89B70 /* SubComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubComponent.swift; sourceTree = "<group>"; };
 		416D8BE82CA4482500E2E6D8 /* const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = const.swift; sourceTree = "<group>"; };
+		416FD1FE2D1856F700ED7DF8 /* MainParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainParentView.swift; sourceTree = "<group>"; };
 		418865702CBD296400E9097C /* sendAttendanceSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sendAttendanceSection.swift; sourceTree = "<group>"; };
 		4188DE282CD1425100B65478 /* SettingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSection.swift; sourceTree = "<group>"; };
 		418E94B82CB7FDD000ACFEEA /* registerPageAccept.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPageAccept.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				41074C832CBE8ED700FA28AC /* Models */,
 				41BD62CB2CA2FF2D00529765 /* Fonts */,
 				413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */,
+				416FD1FE2D1856F700ED7DF8 /* MainParentView.swift */,
 				413E4BA12CA1C81300B1EEC5 /* View */,
 				413E4B922CA1C78400B1EEC5 /* Assets.xcassets */,
 				413E4B942CA1C78400B1EEC5 /* Preview Content */,
@@ -401,6 +404,7 @@
 				41E19E792CAD714100CA2256 /* PreviousNextBotton.swift in Sources */,
 				41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */,
 				4107BE5D2CB43C260073EC4B /* testFile.swift in Sources */,
+				416FD1FF2D1856F700ED7DF8 /* MainParentView.swift in Sources */,
 				41A552592CC5310A008D913D /* StudyPlanSection.swift in Sources */,
 				41FC8A412CFDD681001C6E49 /* cityGet.swift in Sources */,
 				418865712CBD296400E9097C /* sendAttendanceSection.swift in Sources */,
@@ -561,7 +565,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = nafidhalbasayra/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "\"التطبيق يحتاج إذن الكاميرا للتصوير\"";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"<string>نحتاج إلى الوصول إلى موقعك لتحسين تجربة استخدام التطبيق وتوفير ميزات قائمة على الموقع.\"";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"نحتاج إلى الوصول إلى موقعك لتحسين تجربة استخدام التطبيق وتوفير ميزات قائمة على الموقع.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -592,7 +596,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = nafidhalbasayra/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "\"التطبيق يحتاج إذن الكاميرا للتصوير\"";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"<string>نحتاج إلى الوصول إلى موقعك لتحسين تجربة استخدام التطبيق وتوفير ميزات قائمة على الموقع.\"";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"نحتاج إلى الوصول إلى موقعك لتحسين تجربة استخدام التطبيق وتوفير ميزات قائمة على الموقع.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
