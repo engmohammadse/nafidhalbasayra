@@ -39,9 +39,10 @@ class AttendaceStatusViewModel: ObservableObject {
                 """)
             }
         } catch let error {
-            print("❌ Error Fetching. \(error)")
+            print("❌ Error Fetching AttendaceStatus: \(error.localizedDescription)")
         }
     }
+
 
     
 //    func fetchAttendaceStatus() {

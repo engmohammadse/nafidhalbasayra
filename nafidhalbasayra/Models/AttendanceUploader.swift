@@ -6,142 +6,91 @@
 //
 
 
-
 import Foundation
-import Network
-
-struct AttendanceEntity: Identifiable {
-    var id: String
-    var latitude: Double?
-    var longitude: Double?
-    var numberOfStudents: Int?
-    var image: Data?
-    var notes: String?
-    var date: String?
-    var state: Int // 0 = not sent, 1 = sent
-}
-    
-
-
-
-import Foundation
-import Network
 
 class AttendanceUploader {
-    private let monitor = NWPathMonitor()
-    private let queue = DispatchQueue(label: "InternetMonitor")
-    private let database: AttendaceStatusViewModel // الربط مع قاعدة البيانات
-
-    init(database: AttendaceStatusViewModel) {
-        self.database = database
-        monitor.start(queue: queue)
-        monitor.pathUpdateHandler = { [weak self] path in
-            if path.status == .satisfied {
-                print("🌐 Internet connection is available.")
-                self?.sendPendingAttendanceData()
-            } else {
-                print("❌ No internet connection.")
-            }
-        }
-        print("✅ Uploader initialized and monitoring started.")
-    }
-
-    private func sendPendingAttendanceData() {
-        let unsentEntities = database.savedEntities.filter { $0.state == 0 }
-        
-        print("📦 Total saved entities: \(database.savedEntities.count)")
-        print("📦 Unsent entities: \(unsentEntities.count)")
-
-        guard !unsentEntities.isEmpty else {
-            print("⚠️ No unsent data to send.")
-            return
-        }
-
-        for entity in unsentEntities {
-            print("📤 Preparing to send data for entity ID: \(entity.id ?? "No ID")...")
-            sendAttendanceData(entity: entity) { success, statusCode, errorMessage in
-                if success {
-                    DispatchQueue.main.async {
-                        if let index = self.database.savedEntities.firstIndex(where: { $0.id == entity.id }) {
-                            self.database.savedEntities[index].state = 1
-                            self.database.saveData()
-                            print("✅ Successfully updated state for entity ID: \(entity.id ?? "No ID") to sent.")
-                        }
-                    }
-                } else {
-                    print("❌ Failed to send data for entity ID: \(entity.id ?? "No ID"). Status code: \(statusCode), Error: \(errorMessage ?? "Unknown error")")
-                }
-            }
-        }
-    }
-
-    private func sendAttendanceData(entity: AttendaceStatus, completion: @escaping (Bool, Int, String?) -> Void) {
+    
+    func sendAttendanceData(
+        teacherId: String,
+        studentsNumber: Int,
+       // image: Data,
+        message: String,
+        location: String,
+        date: String,
+        completion: @escaping (Bool, String?) -> Void
+    ) {
         guard let url = URL(string: "http://198.244.227.48:8082/attendance/send-attendance") else {
             print("❌ Invalid URL")
-            completion(false, -1, "Invalid URL")
+            completion(false, "Invalid URL")
             return
         }
-
-        print("🌐 Sending data for entity ID: \(entity.id ?? "No ID") to URL: \(url)")
-
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         let boundary = "Boundary-\(UUID().uuidString)"
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-
-        // إعداد بيانات الطلب
-        let numberOfStudents = entity.numberOfStudents ?? "0"
-        let notes = entity.notes ?? ""
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        let dateString = dateFormatter.string(from: entity.date ?? Date())
-        let location = "{\"lng\":\(entity.longitude),\"lat\":\(entity.latitude)}"
-
+        
         var body = Data()
-        body.append(convertFormField(name: "teacher_id", value: "12345", using: boundary)) // استبدل بـ ID المعلم الفعلي
-        body.append(convertFormField(name: "students_number", value: numberOfStudents, using: boundary))
-        body.append(convertFormField(name: "message", value: notes, using: boundary))
+        
+        // Add teacher_id
+        body.append(convertFormField(name: "teacher_id", value: teacherId, using: boundary))
+        
+        // Add students_number
+        body.append(convertFormField(name: "students_number", value: "\(studentsNumber)", using: boundary))
+        
+        // Add image
+//        body.append(convertFileField(name: "image", fileName: "attendance_image.jpg", mimeType: "image/jpeg", fileData: image, using: boundary))
+        
+        // Add message
+        body.append(convertFormField(name: "message", value: message, using: boundary))
+        
+        // Add register_location
         body.append(convertFormField(name: "register_location", value: location, using: boundary))
-        body.append(convertFormField(name: "register_date", value: dateString, using: boundary))
-        if let imageData = entity.image {
-            body.append(convertFileField(name: "image", fileName: "image.jpg", mimeType: "image/jpeg", fileData: imageData, using: boundary))
-        }
+        
+        // Add register_date
+        body.append(convertFormField(name: "register_date", value: date, using: boundary))
+        
+        // End boundary
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
         request.httpBody = body
-
-        print("📤 Request body created: \(String(data: request.httpBody ?? Data(), encoding: .utf8) ?? "No Body")")
-
+        
+        // Send the request
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                print("❌ Error sending data for entity \(entity.id ?? "No ID"): \(error.localizedDescription)")
-                completion(false, -1, error.localizedDescription)
+                print("❌ Error sending data: \(error.localizedDescription)")
+                completion(false, error.localizedDescription)
                 return
             }
-
+            
             guard let httpResponse = response as? HTTPURLResponse else {
-                print("❌ Invalid response for entity \(entity.id ?? "No ID")")
-                completion(false, -1, "Invalid response")
+                print("❌ No valid HTTP response")
+                completion(false, "No valid HTTP response")
                 return
             }
-
+            
             if httpResponse.statusCode == 200 {
-                print("✅ Data sent successfully for entity ID: \(entity.id ?? "No ID") with status code: \(httpResponse.statusCode)")
-                completion(true, httpResponse.statusCode, nil)
+                print("✅ Data sent successfully")
+                if let responseData = data, let responseString = String(data: responseData, encoding: .utf8) {
+                    print("Response: \(responseString)")
+                    completion(true, responseString)
+                } else {
+                    completion(true, "No response body")
+                }
             } else {
                 let errorMessage = String(data: data ?? Data(), encoding: .utf8) ?? "Unknown error"
-                print("❌ Failed to send data for entity ID: \(entity.id ?? "No ID"). Status code: \(httpResponse.statusCode), Error: \(errorMessage)")
-                completion(false, httpResponse.statusCode, errorMessage)
+                print("❌ Server error: \(httpResponse.statusCode), \(errorMessage)")
+                completion(false, errorMessage)
             }
         }.resume()
     }
-
+    
     private func convertFormField(name: String, value: String, using boundary: String) -> Data {
         var fieldString = "--\(boundary)\r\n"
         fieldString += "Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n"
         fieldString += "\(value)\r\n"
         return fieldString.data(using: .utf8)!
     }
-
+    
     private func convertFileField(name: String, fileName: String, mimeType: String, fileData: Data, using boundary: String) -> Data {
         var fieldString = "--\(boundary)\r\n"
         fieldString += "Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(fileName)\"\r\n"
