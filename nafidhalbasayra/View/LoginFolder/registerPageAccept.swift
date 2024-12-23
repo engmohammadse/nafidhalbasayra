@@ -14,6 +14,7 @@ struct registerPageAccept: View {
     @EnvironmentObject var vmAttendaceStatus : AttendaceStatusViewModel
     @EnvironmentObject var coreDataViewModel : CoreDataViewModel
     
+
     var body: some View {
         VStack {
             
@@ -68,6 +69,14 @@ struct registerPageAccept: View {
             
              
         }
+//        .onAppear {
+//            
+//        
+//            
+//            
+////                           let uploader = AttendanceUploader(database: vmAttendaceStatus)
+//                           print("Uploader initialized and monitoring started.")
+//                       }
         .padding(UIScreen.main.bounds.width < 400 ? 16 : 0)
             .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -78,6 +87,7 @@ struct registerPageAccept: View {
         }
         .navigationBarBackButtonHidden(true)
         }
+        
 }
 
 #Preview {

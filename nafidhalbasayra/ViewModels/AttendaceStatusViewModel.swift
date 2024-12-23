@@ -27,10 +27,31 @@ class AttendaceStatusViewModel: ObservableObject {
         let request = NSFetchRequest<AttendaceStatus>(entityName: "AttendaceStatus")
         do {
             savedEntities = try container.viewContext.fetch(request)
+            print("✅ Successfully fetched \(savedEntities.count) entities.")
+            for entity in savedEntities {
+                print("""
+                Entity:
+                ID: \(entity.id ?? "No ID")
+                State: \(entity.state)
+                Latitude: \(entity.latitude)
+                Longitude: \(entity.longitude)
+                Notes: \(entity.notes ?? "No notes")
+                """)
+            }
         } catch let error {
-            print("Error Fetching. \(error)")
+            print("❌ Error Fetching. \(error)")
         }
     }
+
+    
+//    func fetchAttendaceStatus() {
+//        let request = NSFetchRequest<AttendaceStatus>(entityName: "AttendaceStatus")
+//        do {
+//            savedEntities = try container.viewContext.fetch(request)
+//        } catch let error {
+//            print("Error Fetching. \(error)")
+//        }
+//    }
 
     func addAttendaceStatus(numberOfStudents: Int, imageData: Data?, notes: String, latitude: Double, longitude: Double, date: Date) {
         let newAttendaceStatus = AttendaceStatus(context: container.viewContext)
@@ -41,9 +62,19 @@ class AttendaceStatusViewModel: ObservableObject {
         newAttendaceStatus.latitude = latitude
         newAttendaceStatus.longitude = longitude
         newAttendaceStatus.date = date
+        newAttendaceStatus.state = 0
         saveData()
         fetchAttendaceStatus()
         print("Successfully saved attendance status.")
+        
+        print("Added new entity:")
+          print("""
+          ID: \(newAttendaceStatus.id ?? "No ID")
+          State: \(newAttendaceStatus.state)
+          Latitude: \(newAttendaceStatus.latitude)
+          Longitude: \(newAttendaceStatus.longitude)
+          Notes: \(newAttendaceStatus.notes ?? "No notes")
+          """)
     }
 
     func saveData() {
@@ -54,4 +85,17 @@ class AttendaceStatusViewModel: ObservableObject {
             print("Error saving. \(error)")
         }
     }
+    
+    
+    
+    
+    func resetAllStates() {
+        for entity in savedEntities {
+            entity.state = 0
+        }
+        saveData()
+        print("✅ All states reset to 0.")
+    }
+
+    
 }

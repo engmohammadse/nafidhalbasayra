@@ -12,7 +12,7 @@ import SwiftUI
 @main
 struct nafidhalbasayraApp: App {
     @State private var showSplash = true
-
+    
     var body: some Scene {
         WindowGroup {
             if showSplash {
@@ -20,12 +20,16 @@ struct nafidhalbasayraApp: App {
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             showSplash = false
+                            
                         }
                     }
             } else {
                 MainParentView() // هنا يتم إنشاء الـ ViewModels لأول مرة بعد السبلاتش
+                
+                   
             }
         }
+        
     }
 }
 

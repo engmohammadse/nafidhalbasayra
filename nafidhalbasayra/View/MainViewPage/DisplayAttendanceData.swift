@@ -24,7 +24,14 @@ struct DisplayAttendanceData: View {
                 VStack(alignment: .leading, spacing: 10) {
                     if let latitude = entity.latitude as? Double, let longitude = entity.longitude as? Double {
                         Text("الموقع: (\(latitude), \(longitude))")
+                        Text("بدون اضافات")
+                        Text("\(latitude), \(longitude)")
+//                        {"lng":2332,"lat":34434}
                     }
+                    
+                    
+                    Text("state is: \(entity.state)")
+
                     
                     if let numberOfStudents = entity.numberOfStudents {
                         Text("عدد الطلاب: \(numberOfStudents)")

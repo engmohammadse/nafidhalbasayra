@@ -59,6 +59,7 @@
 		41E9C6D22CC3C85000FE122F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D12CC3C85000FE122F /* Colors.swift */; };
 		41E9C6D42CC3CC0600FE122F /* UserManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D32CC3CC0600FE122F /* UserManual.swift */; };
 		41E9C6D62CC41A0100FE122F /* HistoryAttendanceSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D52CC41A0100FE122F /* HistoryAttendanceSection.swift */; };
+		41F1DE6E2D19BE95008CDAE5 /* AttendanceUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F1DE6D2D19BE95008CDAE5 /* AttendanceUploader.swift */; };
 		41F34EF82CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F34EF72CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift */; };
 		41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0B52CAAE4C500BD7853 /* registerPage.swift */; };
 		41F9D0B92CAB03BB00BD7853 /* LogoIUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0B82CAB03BB00BD7853 /* LogoIUserInfo.swift */; };
@@ -121,6 +122,7 @@
 		41E9C6D12CC3C85000FE122F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		41E9C6D32CC3CC0600FE122F /* UserManual.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManual.swift; sourceTree = "<group>"; };
 		41E9C6D52CC41A0100FE122F /* HistoryAttendanceSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryAttendanceSection.swift; sourceTree = "<group>"; };
+		41F1DE6D2D19BE95008CDAE5 /* AttendanceUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceUploader.swift; sourceTree = "<group>"; };
 		41F34EF72CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncTeacherDataPostApi.swift; sourceTree = "<group>"; };
 		41F9D0B52CAAE4C500BD7853 /* registerPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage.swift; sourceTree = "<group>"; };
 		41F9D0B82CAB03BB00BD7853 /* LogoIUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoIUserInfo.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			children = (
 				41074C842CBE8EFB00FA28AC /* LoginRequest.swift */,
 				41FC8A402CFDD681001C6E49 /* cityGet.swift */,
+				41F1DE6D2D19BE95008CDAE5 /* AttendanceUploader.swift */,
 				4114B10B2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift */,
 				41F34EF72CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift */,
 				412D80C22D04772800382D8A /* ModelRegisterPage1.swift */,
@@ -408,6 +411,7 @@
 				41A552592CC5310A008D913D /* StudyPlanSection.swift in Sources */,
 				41FC8A412CFDD681001C6E49 /* cityGet.swift in Sources */,
 				418865712CBD296400E9097C /* sendAttendanceSection.swift in Sources */,
+				41F1DE6E2D19BE95008CDAE5 /* AttendanceUploader.swift in Sources */,
 				418E94B92CB7FDD000ACFEEA /* registerPageAccept.swift in Sources */,
 				41074C8A2CBED50F00FA28AC /* NotificationChannelSection.swift in Sources */,
 				414AFBDE2CC16D3A00D89B70 /* SubComponent.swift in Sources */,

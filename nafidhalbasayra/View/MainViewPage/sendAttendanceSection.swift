@@ -241,6 +241,13 @@ struct sendAttendanceSection: View {
                             }
                             
                             
+                            // فثوح
+                            vmAttendaceStatus.resetAllStates()
+
+                          
+
+                         
+                            
                         }) {
                             Text("ارسال موقف الحضور")
                                 .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025))
