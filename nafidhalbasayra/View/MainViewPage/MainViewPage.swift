@@ -104,6 +104,7 @@ struct MainViewPage: View {
 #Preview {
     MainViewPage()
         .environmentObject(AttendaceStatusViewModel())
+        .environmentObject(TeacherDataViewModel())
 }
 
 //

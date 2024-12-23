@@ -10,8 +10,11 @@ import SwiftUI
 struct StudentDataSection: View {
     @Environment(\.dismiss) var dismiss
     
-    @StateObject var vmStudent = StudentViewModel()
+    
     @State private var selectedStudent: StudentInfo? = nil
+    @StateObject var vmStudent = StudentViewModel()
+    @EnvironmentObject var teacherData: TeacherDataViewModel
+    @EnvironmentObject var vmAttendaceStatus : AttendaceStatusViewModel
     
     var body: some View {
        
@@ -67,8 +70,11 @@ struct StudentDataSection: View {
             .frame(maxWidth: .infinity)
             
             
-            Button(action: {}){
-                NavigationLink(destination: AddStudentToStudentDataSection( teacherData: TeacherDataViewModel() ).environmentObject(vmStudent)){
+            //Button(action: {}){
+                NavigationLink(destination: AddStudentToStudentDataSection( )
+                    //.environmentObject(teacherData)
+                   
+                    .environmentObject(vmStudent)){
                     Text("تسجيل بيانات طالب جديد")
                         .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                         .foregroundStyle(.white)
@@ -78,7 +84,7 @@ struct StudentDataSection: View {
                         .cornerRadius(5)
                     
                 }
-            }
+            //}
            
             
             
@@ -118,6 +124,8 @@ struct StudentDataSection: View {
 
 #Preview {
     StudentDataSection()
+        .environmentObject(TeacherDataViewModel())
+        .environmentObject(StudentViewModel())
 }
 
 
@@ -134,6 +142,8 @@ struct StudentDataSection: View {
 struct studentInfo :View {
     
     @ObservedObject var vmStudent = StudentViewModel()
+    @EnvironmentObject var teacherData: TeacherDataViewModel
+
   //  @State var selectedStudent: StudentInfo?
     @State var updatedName: String = ""
     
@@ -154,7 +164,7 @@ struct studentInfo :View {
         
           VStack {
               Color.clear
-                 
+                  .frame(height: screenHeight * 0.05)
               
               VStack {
                       
@@ -172,7 +182,7 @@ struct studentInfo :View {
                               
                           }
                           Spacer()
-                              .frame(width: screenWidth * 0.2)
+                              .frame(width: screenWidth * 0.15)
                           
                           VStack{
                               Text("العمر")
@@ -185,7 +195,7 @@ struct studentInfo :View {
                           
                           
                           Spacer()
-                              .frame(width: screenWidth * 0.1)
+                              .frame(width: screenWidth * 0.05)
                           
                           VStack{
                               Text("اسم الطالب")
@@ -200,11 +210,11 @@ struct studentInfo :View {
                               Text(name)
                                   .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023))
 
-                              Text(phoneNumber)
-                              Text(age)
-                              Text(city)
-                              Text(level)
-                              Text(size)
+//                              Text(phoneNumber)
+//                              Text(age)
+//                              Text(city)
+//                              Text(level)
+//                              Text(size)
                           }
    
                       }
@@ -248,7 +258,13 @@ struct studentInfo :View {
 //                                             .padding(.all, screenWidth * 0.02)
                                          
                                          NavigationLink(destination: EditStudentAtStudentDataSection(student: student, teacherData: TeacherDataViewModel() )
-                                            .environmentObject(vmStudent)) { Text("تعديل البيانات") .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023)) .foregroundColor(Color(red: 24/255, green: 82/255, blue: 100/255)) .padding(.all, screenWidth * 0.02) }
+                                            .environmentObject(vmStudent)
+                                            .environmentObject(teacherData)
+                                         )
+                                         {
+                                             Text("تعديل البيانات")
+                                                
+                                                .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023)) .foregroundColor(Color(red: 24/255, green: 82/255, blue: 100/255)) .padding(.all, screenWidth * 0.02) }
                                          
                                          
                                          
@@ -286,7 +302,7 @@ struct studentInfo :View {
                     .foregroundColor(.white))
                 
                   .frame(width: screenWidth * 0.06)
-                  .offset(y: screenHeight * -0.075)
+                  .offset(y: screenHeight * -0.06)
              
           }
         

@@ -156,14 +156,16 @@ struct ImagePicker: UIViewControllerRepresentable {
 
 
 
-// new LocationManager
+
+
 import Foundation
 import CoreLocation
+import UIKit
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private var locationManager = CLLocationManager()
     @Published var location: CLLocation?
-    @Published var locationError: String? // متغير لتخزين رسالة الخطأ
+    @Published var locationError: String?
 
     override init() {
         super.init()
@@ -173,45 +175,215 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private func configureLocationManager() {
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationManager.requestWhenInUseAuthorization() // طلب إذن الوصول إلى الموقع
+
+        // التحقق من حالة الإذن عند بدء التطبيق
+        checkAuthorizationStatus()
     }
 
     func requestLocation() {
-        self.locationError = nil // إعادة تعيين رسالة الخطأ
+        self.locationError = nil
+
+        // التحقق من حالة خدمات الموقع وصلاحيات الإذن
         if CLLocationManager.locationServicesEnabled() {
-            self.locationManager.requestLocation()
+            switch locationManager.authorizationStatus {
+            case .notDetermined:
+                // طلب الإذن فقط إذا لم يتم تحديده مسبقًا
+                locationManager.requestWhenInUseAuthorization()
+            case .restricted, .denied:
+                self.locationError = "تم رفض الإذن. يرجى تمكينه من الإعدادات."
+                // فتح الإعدادات إذا تم رفض الإذن
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
+            case .authorizedWhenInUse, .authorizedAlways:
+                locationManager.requestLocation()
+            @unknown default:
+                self.locationError = "حالة غير معروفة."
+            }
         } else {
-            self.locationError = "خدمة الموقع غير مفعلة. يرجى تفعيلها من إعدادات الجهاز."
-            print("Location services are disabled.")
+            self.locationError = "خدمات الموقع معطلة. يرجى تفعيلها من إعدادات الجهاز."
+        }
+    }
+
+    func checkAuthorizationStatus() {
+        // التحقق من الإذن عند بدء التطبيق
+        let status = locationManager.authorizationStatus
+        switch status {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted, .denied:
+            self.locationError = "تم رفض الإذن. يرجى تمكينه من الإعدادات."
+        case .authorizedWhenInUse, .authorizedAlways:
+            locationManager.requestLocation()
+        @unknown default:
+            self.locationError = "حالة غير معروفة."
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        // التعامل مع التغير في حالة الإذن
+        switch status {
+        case .notDetermined:
+            print("لم يتم تحديد الإذن.")
+        case .restricted, .denied:
+            self.locationError = "تم رفض الإذن. يرجى تمكينه من الإعدادات."
+        case .authorizedWhenInUse, .authorizedAlways:
+            locationManager.requestLocation()
+        @unknown default:
+            print("حالة غير معروفة.")
         }
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let firstLocation = locations.first else {
-            self.locationError = "لم يتم تحديث الموقع"
-            print("No locations found.")
+            self.locationError = "لم يتم تحديث الموقع."
             return
         }
         self.location = firstLocation
-        print("Location updated: \(firstLocation.coordinate.latitude), \(firstLocation.coordinate.longitude)")
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         if let clError = error as? CLError {
             switch clError.code {
             case .denied:
-                self.locationError = "تم رفض إذن الموقع. يرجى السماح للتطبيق بالوصول إلى الموقع من الإعدادات."
+                self.locationError = "تم رفض الإذن. يرجى تمكينه من الإعدادات."
             case .locationUnknown:
-                self.locationError = "موقع غير معروف. يرجى المحاولة مرة أخرى."
+                self.locationError = "موقع غير معروف."
             default:
-                self.locationError = "فشل في الحصول على الموقع: \(error.localizedDescription)"
+                self.locationError = "خطأ: \(error.localizedDescription)"
             }
         } else {
-            self.locationError = "فشل في الحصول على الموقع: \(error.localizedDescription)"
+            self.locationError = "خطأ: \(error.localizedDescription)"
         }
-        print("Failed to get location: \(error.localizedDescription)")
     }
 }
+
+
+
+
+
+
+
+// يعمل
+//import Foundation
+//import CoreLocation
+//import UIKit
+//
+//class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+//    private var locationManager = CLLocationManager()
+//    @Published var location: CLLocation?
+//    @Published var locationError: String? // متغير لتخزين رسالة الخطأ
+//
+//    override init() {
+//        super.init()
+//        configureLocationManager()
+//    }
+//
+//    private func configureLocationManager() {
+//        self.locationManager.delegate = self
+//        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//        self.locationManager.requestWhenInUseAuthorization() // طلب إذن الوصول إلى الموقع
+//    }
+//
+//    func requestLocation() {
+//        self.locationError = nil // إعادة تعيين رسالة الخطأ
+//        if CLLocationManager.locationServicesEnabled() {
+//            self.locationManager.requestLocation()
+//        } else {
+//            self.locationError = "خدمة الموقع غير مفعلة. يرجى تفعيلها من إعدادات الجهاز."
+//            print("Location services are disabled.")
+//        }
+//    }
+//
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        guard let firstLocation = locations.first else {
+//            self.locationError = "لم يتم تحديث الموقع"
+//            print("No locations found.")
+//            return
+//        }
+//        self.location = firstLocation
+//        print("Location updated: \(firstLocation.coordinate.latitude), \(firstLocation.coordinate.longitude)")
+//    }
+//
+//    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+//        if let clError = error as? CLError {
+//            switch clError.code {
+//            case .denied:
+//                self.locationError = "تم رفض إذن الموقع. يرجى السماح للتطبيق بالوصول إلى الموقع من الإعدادات."
+//                // فتح الإعدادات
+//                if let url = URL(string: UIApplication.openSettingsURLString) {
+//                    UIApplication.shared.open(url)
+//                }
+//            case .locationUnknown:
+//                self.locationError = "موقع غير معروف. يرجى المحاولة مرة أخرى."
+//            default:
+//                self.locationError = "فشل في الحصول على الموقع: \(error.localizedDescription)"
+//            }
+//        } else {
+//            self.locationError = "فشل في الحصول على الموقع: \(error.localizedDescription)"
+//        }
+//        print("Failed to get location: \(error.localizedDescription)")
+//    }
+//}
+
+
+
+// new LocationManager
+//import Foundation
+//import CoreLocation
+//
+//class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+//    private var locationManager = CLLocationManager()
+//    @Published var location: CLLocation?
+//    @Published var locationError: String? // متغير لتخزين رسالة الخطأ
+//
+//    override init() {
+//        super.init()
+//        configureLocationManager()
+//    }
+//
+//    private func configureLocationManager() {
+//        self.locationManager.delegate = self
+//        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//        self.locationManager.requestWhenInUseAuthorization() // طلب إذن الوصول إلى الموقع
+//    }
+//
+//    func requestLocation() {
+//        self.locationError = nil // إعادة تعيين رسالة الخطأ
+//        if CLLocationManager.locationServicesEnabled() {
+//            self.locationManager.requestLocation()
+//        } else {
+//            self.locationError = "خدمة الموقع غير مفعلة. يرجى تفعيلها من إعدادات الجهاز."
+//            print("Location services are disabled.")
+//        }
+//    }
+//
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        guard let firstLocation = locations.first else {
+//            self.locationError = "لم يتم تحديث الموقع"
+//            print("No locations found.")
+//            return
+//        }
+//        self.location = firstLocation
+//        print("Location updated: \(firstLocation.coordinate.latitude), \(firstLocation.coordinate.longitude)")
+//    }
+//
+//    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+//        if let clError = error as? CLError {
+//            switch clError.code {
+//            case .denied:
+//                self.locationError = "تم رفض إذن الموقع. يرجى السماح للتطبيق بالوصول إلى الموقع من الإعدادات."
+//            case .locationUnknown:
+//                self.locationError = "موقع غير معروف. يرجى المحاولة مرة أخرى."
+//            default:
+//                self.locationError = "فشل في الحصول على الموقع: \(error.localizedDescription)"
+//            }
+//        } else {
+//            self.locationError = "فشل في الحصول على الموقع: \(error.localizedDescription)"
+//        }
+//        print("Failed to get location: \(error.localizedDescription)")
+//    }
+//}
 
 
 

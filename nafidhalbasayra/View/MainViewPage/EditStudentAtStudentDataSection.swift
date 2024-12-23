@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EditStudentAtStudentDataSection: View {
     @EnvironmentObject var vmStudent: StudentViewModel
-    @ObservedObject var teacherData: TeacherDataViewModel
+    @EnvironmentObject var teacherData: TeacherDataViewModel
     var student: StudentInfo // استلام الطالب المحدد
 
     @Environment(\.dismiss) var dismiss
@@ -29,7 +29,7 @@ struct EditStudentAtStudentDataSection: View {
     // Initializer to assign values to state variables
     init(student: StudentInfo, teacherData: TeacherDataViewModel) {
         self.student = student
-        self.teacherData = teacherData
+       // self.teacherData = teacherData
         _name = State(initialValue: student.name ?? "")
         _phoneNumber = State(initialValue: student.phoneNumber ?? "")
         _age = State(initialValue: student.age ?? "")

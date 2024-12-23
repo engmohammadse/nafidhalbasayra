@@ -12,7 +12,7 @@ struct AddStudentToStudentDataSection: View {
     
     @EnvironmentObject var vmStudent: StudentViewModel
     @State var selectedStudent: StudentInfo?
-    @ObservedObject var teacherData: TeacherDataViewModel
+    @EnvironmentObject var teacherData: TeacherDataViewModel
     @State var updatedName: String = ""
 
     @Environment(\.dismiss) var dismiss
@@ -118,10 +118,10 @@ struct AddStudentToStudentDataSection: View {
          .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
         //.background(Color.clear)
         .navigationBarBackButtonHidden(true)
-        .overlay {
-            LogoIUserInfo()
-                .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)
-        }
+//        .overlay {
+//            LogoIUserInfo()
+//                .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)
+//        }
         
         
         .overlay{
@@ -146,5 +146,6 @@ struct AddStudentToStudentDataSection: View {
 
 
 #Preview {
-    AddStudentToStudentDataSection( teacherData: TeacherDataViewModel())
+    AddStudentToStudentDataSection( )
+        .environmentObject(TeacherDataViewModel())
 }
