@@ -24,31 +24,53 @@ struct MainParentView: View {
                 .environmentObject(vmAttendaceStatus)
                 .environmentObject(coreDataViewModel)
                 .onAppear {
-                    let uploader = AttendanceUploader()
+                    
+                    
+                    
+                    
+                    let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+                    attendanceUploader.sendPendingAttendanceData()
 
-                    // البيانات التي سيتم إرسالها
-                    let teacherId = "67b9909e8dcdb77b0e0c7" // استخدم ID صحيح
-                    let studentsNumber = 34
-                    let message = "تم تسجيل الحضور بنجاح"
-                    let location = "{\"lng\":232.334,\"lat\":344.3434}" // صيغة الموقع المطلوبة
-                    let date = "2024-12-24"
-                    //let image = "attendanceImage"
+                    
+                    
+                    
+                    
+//                    let uploader = AttendanceUploader(database: vmAttendaceStatus)
+//                    uploader.sendPendingAttendanceData()
 
-                    // استدعاء الدالة
-                    uploader.sendAttendanceData(
-                        teacherId: teacherId,
-                        studentsNumber: studentsNumber,
-                        //image: image,
-                        message: message,
-                        location: location,
-                        date: date
-                    ) { success, response in
-                        if success {
-                            print("✅ Success: \(response ?? "No response")")
-                        } else {
-                            print("❌ Failure: \(response ?? "Unknown error")")
-                        }
-                    }
+                    
+                    
+                    
+//                    let uploader = AttendanceUploader()
+//                    uploader.sendAllUnsentData()
+                    
+                    
+                    
+//                    let uploader = AttendanceUploader()
+//
+//                    // البيانات التي سيتم إرسالها
+//                    let teacherId = "67b9909e8dcdb77b0e0c7" // استخدم ID صحيح
+//                    let studentsNumber = 34
+//                    let message = "تم تسجيل الحضور بنجاح"
+//                    let location = "{\"lng\":232.334,\"lat\":344.3434}" // صيغة الموقع المطلوبة
+//                    let date = "2024-12-24"
+//                    //let image = "attendanceImage"
+//
+//                    // استدعاء الدالة
+//                    uploader.sendAttendanceData(
+//                        teacherId: teacherId,
+//                        studentsNumber: studentsNumber,
+//                        //image: image,
+//                        message: message,
+//                        location: location,
+//                        date: date
+//                    ) { success, response in
+//                        if success {
+//                            print("✅ Success: \(response ?? "No response")")
+//                        } else {
+//                            print("❌ Failure: \(response ?? "Unknown error")")
+//                        }
+//                    }
                         }
         }
     }
