@@ -19,6 +19,8 @@ class AttendanceUploader {
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "InternetMonitor")
     private let database: AttendaceStatusViewModel // مرجع لقاعدة البيانات
+    private var vmTeacher = TeacherDataFromApiViewModel() // تعريف محلي لـ TeacherDataFromApiViewModel
+
 
     init(database: AttendaceStatusViewModel) {
         self.database = database
@@ -87,7 +89,9 @@ class AttendanceUploader {
 
         let location = "{\"lng\":\(entity.longitude),\"lat\":\(entity.latitude)}"
 
-        body.append(convertFormField(name: "teacher_id", value: "670a9990a8cd200cf7b0e8c7", using: boundary))
+        body.append(convertFormField(name: "teacher_id", value: vmTeacher.savedEntities.first?.idTeacherApi ?? "670a9990a8cd200cf7b0e8c7", using: boundary))
+
+//        body.append(convertFormField(name: "teacher_id", value: "670a9990a8cd200cf7b0e8c7", using: boundary))
         body.append(convertFormField(name: "students_number", value: entity.numberOfStudents ?? "0", using: boundary))
         body.append(convertFormField(name: "message", value: entity.notes ?? "", using: boundary))
         body.append(convertFormField(name: "register_location", value: location, using: boundary))

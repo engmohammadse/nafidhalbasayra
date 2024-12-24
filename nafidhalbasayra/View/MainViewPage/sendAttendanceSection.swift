@@ -241,10 +241,10 @@ struct sendAttendanceSection: View {
                             }
                             
                             
-                            // فثوح
-                            vmAttendaceStatus.resetAllStates()
-
-                          
+//                            // فثوح
+//                            vmAttendaceStatus.resetAllStates()
+//
+//                          
 
                          
                             

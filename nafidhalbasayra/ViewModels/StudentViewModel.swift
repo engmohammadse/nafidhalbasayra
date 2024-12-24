@@ -11,7 +11,7 @@
 
 
 
-import SwiftUI
+//import SwiftUI
 import CoreData
 
 class StudentViewModel: ObservableObject {

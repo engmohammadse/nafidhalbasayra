@@ -9,6 +9,8 @@ import SwiftUI
 import Network
 
 class LoginViewModel: ObservableObject {
+    private var vmTeacherFromApi = TeacherDataFromApiViewModel() // تعريف محلي لـ TeacherDataFromApiViewModel
+    
     @Published var username = ""
     @Published var password = ""
     @Published var loginError: String?
@@ -91,6 +93,14 @@ class LoginViewModel: ObservableObject {
         
         // تحديث الرسالة لعرضها للمستخدم
          self.responseMessage = "تم بنجاح تسجيل الدخول، ID: \(response.id)"
+        
+        
+        //save teacher id after login correct in local data 
+        vmTeacherFromApi.addTeacherData(id: response.id)
+        // تخزين معرف المعلم
+            
+         print("✅ تم تخزين معرف الأستاذ \(response.id) في قاعدة البيانات.")
+
 
         // تحديد الصفحة بناءً على الحالة
         switch response.state {

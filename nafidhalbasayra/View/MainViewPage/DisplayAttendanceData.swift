@@ -12,6 +12,10 @@ import CoreLocation
 
 struct DisplayAttendanceData: View {
     @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
+    @StateObject var vmTeacher = TeacherDataFromApiViewModel()
+//    private var vmTeacher = TeacherDataFromApiViewModel() // تعريف محلي لـ TeacherDataFromApiViewModel
+
+
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -19,6 +23,16 @@ struct DisplayAttendanceData: View {
             Text("بيانات الحضور المخزنة")
                 .font(.title)
                 .padding()
+            
+            
+            Text("Teacher id from api: \(vmTeacher.savedEntities.first?.idTeacherApi ?? "No ID available")")
+
+//            List(vmTeacher.savedEntities, id: \.self) { entity2 in
+//                Text("teacher id from api: \(entity2.idTeacherApi ?? "No ID available")")
+//            }
+
+         
+            
 
             List(vmAttendaceStatus.savedEntities) { entity in
                 VStack(alignment: .leading, spacing: 10) {
@@ -29,7 +43,9 @@ struct DisplayAttendanceData: View {
 //                        {"lng":2332,"lat":34434}
                     }
                     
+                  
                     
+                   
                     Text("state is: \(entity.state)")
 
                     

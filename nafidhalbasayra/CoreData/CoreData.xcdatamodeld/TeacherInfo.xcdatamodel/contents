@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23G93" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
     <entity name="AttendaceStatus" representedClassName="AttendaceStatus" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="String"/>
@@ -18,6 +18,9 @@
         <attribute name="phoneNumber" optional="YES" attributeType="String"/>
         <attribute name="size" optional="YES" attributeType="String"/>
         <attribute name="studentID" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="TeacherDataFromApi" representedClassName="TeacherDataFromApi" syncable="YES" codeGenerationType="class">
+        <attribute name="idTeacherApi" optional="YES" attributeType="String"/>
     </entity>
     <entity name="TeacherInfo" representedClassName="TeacherInfo" syncable="YES" codeGenerationType="class">
         <attribute name="academiclevel" optional="YES" attributeType="String"/>
