@@ -366,19 +366,17 @@ struct registerPage2: View {
 //                    isNavigate = true
             }) {
                 
-                
+                Text("إرسال البيانات")
+                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.025 ))
+                    .frame(height: screenHeight * 0.04)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
                
-                   // NavigationLink(destination: registerPage3().environmentObject(teacherData)) {
-                        
-                        Text("إرسال البيانات")
-                            .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.025 ))
-                            .frame(height: screenHeight * 0.04)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
-                        
+                    NavigationLink(destination: registerPageWaitProcess()
+                        .environmentObject(teacherData)) {
                     
-//                }
-//                    .disabled(!isValidImages)
+                }
+                    .disabled(!isValidImages)
                 
             }
            

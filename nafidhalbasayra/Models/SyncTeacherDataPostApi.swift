@@ -48,6 +48,8 @@ class SyncTeacherDataPostApi {
         print("Back Face Image عند الإرسال: \(sharedImage != nil ? "موجودة" : "غير موجودة")")
 
         // URL
+//    http://192.168.15.160:8082/teachers/register-teacher
+//    http://198.244.227.48:8082/teachers/register-teacher
         guard let url = URL(string: "http://198.244.227.48:8082/teachers/register-teacher") else {
             print("❌ Invalid URL")
             return
