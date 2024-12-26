@@ -11,7 +11,7 @@ struct registerPage2: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var teacherData: TeacherDataViewModel
     @StateObject private var viewModel = CoreDataViewModel()
-    @StateObject var coreDataViewModel = CoreDataViewModel() // temp
+//    @StateObject var coreDataViewModel = CoreDataViewModel() // temp
 
     @State private var showImagePicker = false
     @State private var showImagePickerFront = false

@@ -14,6 +14,7 @@ struct DisplayAttendanceData: View {
     @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
     @StateObject var vmTeacher = TeacherDataFromApiViewModel()
 //    private var vmTeacher = TeacherDataFromApiViewModel() // تعريف محلي لـ TeacherDataFromApiViewModel
+   // @State private var teacherId: String = ""
 
 
     @Environment(\.dismiss) var dismiss
@@ -26,6 +27,11 @@ struct DisplayAttendanceData: View {
             
             
             Text("Teacher id from api: \(vmTeacher.savedEntities.first?.idTeacherApi ?? "No ID available")")
+            
+            
+            let teacherId = UserDefaults.standard.string(forKey: "teacherId") ?? "No ID"
+
+            Text("techerId was store from api: \(teacherId)")
 
 //            List(vmTeacher.savedEntities, id: \.self) { entity2 in
 //                Text("teacher id from api: \(entity2.idTeacherApi ?? "No ID available")")

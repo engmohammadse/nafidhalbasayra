@@ -34,10 +34,12 @@ class TeacherDataViewModel: ObservableObject {
     @Published var academiclevel: String = ""
     @Published var currentWork: String = ""
     @Published var cityIdfromApi: String = ""
-    @Published var localIdCity: String = "672cc19964e07256213b02b0"
+    @Published var regionIdfromApi: String = ""
 
+    
+    
     @Published var cityCodefromApi: String?
-    @Published var gender: String = ""
+    @Published var gender: String = "man"
     
     //
     @Published  var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]
@@ -263,7 +265,7 @@ class TeacherDataViewModel: ObservableObject {
             
             
             print("cityIdfromApi: \(cityIdfromApi)")
-            print("localIdCity: \(localIdCity)")
+//            print("localIdCity: \(localIdCity)")
             print("cityCodefromApi: \(String(describing: cityCodefromApi))")
             print("checkFieldEmpty: \(checkFieldEmpty())")
             print("checkFieldEmptyRP: \(checkFieldEmptyRP())")

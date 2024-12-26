@@ -102,6 +102,11 @@ class DataFetcher: ObservableObject {
                 }
                 return
             }
+            
+            
+            
+            
+            
 
             guard let data = data else {
                 DispatchQueue.main.async {
@@ -125,6 +130,11 @@ class DataFetcher: ObservableObject {
                 }
             }
         }.resume()
+        
+        
+        
+       
+        
     }
 }
 

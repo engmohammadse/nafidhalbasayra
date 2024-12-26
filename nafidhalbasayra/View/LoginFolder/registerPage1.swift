@@ -390,6 +390,8 @@ struct CityRowView: View {
                         teacherData.city = governorate.governorateName
                         teacherData.cityIdfromApi = governorate.id
                         globalCityIdFromApi = governorate.id
+                        
+                        
                     }
                 }
 
@@ -455,7 +457,7 @@ struct ProvinceRowView: View {
                     dataFetcherProvine.fetchData()
                     
                     teacherData.province = province.regionName
-                    
+                    teacherData.regionIdfromApi = province.id
                    
                 } 
                

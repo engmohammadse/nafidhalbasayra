@@ -10,19 +10,112 @@
 //"governorate_id": "674da25d2b64e4f547d9ccc7",
 
 
-// تم الارسال
-//Profile Image عند الإرسال:  موجودة
-//Front Face Image عند الإرسال:  موجودة
-//Back Face Image عند الإرسال:  موجودة
-//Profile Image عند الإرسال: موجودة
-//Front Face Image عند الإرسال: موجودة
-//Back Face Image عند الإرسال: موجودة
-//✅ تم إرسال البيانات.
-//🟡 HTTP Status Code: 200
-//🟡 Response Body: null
-//✅ Data sent successfully for teacher: User i
+//import UIKit
+//
+//class SyncTeacherDataPostApi {
+//    static let shared = SyncTeacherDataPostApi()
+//
+//    private init() {}
+//    
+//    func sendTeacherDataFromViewModel(viewModel: TeacherDataViewModel) {
+//        // تحميل الصورة من الأصول
+//        guard let sharedImage = UIImage(named: "login") else {
+//            print("❌ Failed to load image 'login' from assets. Make sure the image name is correct.")
+//            return
+//        }
+//
+//        // التأكيد على أن الصورة تم تحميلها
+//        print("Profile Image عند الإرسال: \(sharedImage != nil ? "موجودة" : "غير موجودة")")
+//        print("Front Face Image عند الإرسال: \(sharedImage != nil ? "موجودة" : "غير موجودة")")
+//        print("Back Face Image عند الإرسال: \(sharedImage != nil ? "موجودة" : "غير موجودة")")
+//
+//        // URL
+////    http://192.168.15.160:8082/teachers/register-teacher
+////    http://198.244.227.48:8082/teachers/register-teacher
+//        guard let url = URL(string: "http://198.244.227.48:8082/teachers/register-teacher") else {
+//            print("❌ Invalid URL")
+//            return
+//        }
+//
+//        let boundary = "Boundary-\(UUID().uuidString)"
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "POST"
+//        request.setValue("application/json", forHTTPHeaderField: "accept")
+//        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+//
+//        var body = Data()
+//
+//        // إضافة الحقول النصية
+//        let parameters: [String: String] = [
+//            "teacher_id": "674da25d2b64e4f547d9ce58",
+//            "region_id": "674da25d2b64e4f547d9ccdd",
+//            "governorate_id": "672cc19964e07256213b02c8",
+//            "full_name": viewModel.name,
+//            "birth_date": "3/10/2002",
+//            "phone_number": viewModel.phonenumber,
+//            "work": "777",
+//            "mosque_name": "no name",
+//            "degree": "no degree",
+//            "gender": "ذكر",
+//            "previous_teacher": viewModel.didyoutaught == true ? "true" : "false"
+//        ]
+//
+//        for (key, value) in parameters {
+//            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+//            body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+//            body.append("\(value)\r\n".data(using: .utf8)!)
+//        }
+//
+//        // إضافة الصور (جميعها نفس الصورة)
+//        let images = [
+//            ("image_1", sharedImage, "login-image-1.png"),
+//            ("image_2", sharedImage, "login-image-2.png"),
+//            ("image_3", sharedImage, "login-image-3.png")
+//        ]
+//
+//        for (name, image, fileName) in images {
+//            guard let imageData = image.jpegData(compressionQuality: 0.8) else { continue }
+//
+//            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+//            body.append("Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
+//            body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
+//            body.append(imageData)
+//            body.append("\r\n".data(using: .utf8)!)
+//        }
+//
+//        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+//        request.httpBody = body
+//
+//        // إرسال الطلب
+//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+//            if let error = error {
+//                print("❌ Failed to send data: \(error.localizedDescription)")
+//                return
+//            }
+//
+//            if let httpResponse = response as? HTTPURLResponse {
+//                print("🟡 HTTP Status Code: \(httpResponse.statusCode)")
+//                if let data = data, let responseBody = String(data: data, encoding: .utf8) {
+//                    print("🟡 Response Body: \(responseBody)")
+//                }
+//
+//                if httpResponse.statusCode == 200 {
+//                    print("✅ Data sent successfully for teacher: \(viewModel.name)")
+//                } else {
+//                    print("❌ Failed to send data. Status code: \(httpResponse.statusCode)")
+//                }
+//            }
+//        }
+//        task.resume()
+//    }
+//
+//
+//}
 
 
+
+        
+        
 
 
 
@@ -32,10 +125,23 @@ import UIKit
 
 class SyncTeacherDataPostApi {
     static let shared = SyncTeacherDataPostApi()
+    
 
     private init() {}
     
     func sendTeacherDataFromViewModel(viewModel: TeacherDataViewModel) {
+        
+        // تحقق من teacherId في UserDefaults وقم بطباعته
+                if let teacherId = UserDefaults.standard.string(forKey: "teacherId") {
+                    print("✅ teacherId is a string: \(teacherId)")
+                } else {
+                    print("❌ teacherId is not a string or doesn't exist.")
+                }
+        
+        
+        
+        
+        
         // تحميل الصورة من الأصول
         guard let sharedImage = UIImage(named: "login") else {
             print("❌ Failed to load image 'login' from assets. Make sure the image name is correct.")
@@ -62,21 +168,50 @@ class SyncTeacherDataPostApi {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         var body = Data()
+        
+        
+        let teacherId = UserDefaults.standard.string(forKey: "teacherId") ?? "No ID"
+        
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd" // تحويل التاريخ إلى الصيغة المطلوبة
+        let dateString = dateFormatter.string(from: viewModel.birthDay ?? Date())
 
         // إضافة الحقول النصية
         let parameters: [String: String] = [
-            "teacher_id": "674da25d2b64e4f547d9ce58",
-            "region_id": "674da25d2b64e4f547d9ccdd",
-            "governorate_id": "672cc19964e07256213b02c8",
-            "full_name": viewModel.name,
-            "birth_date": "3/10/2002",
-            "phone_number": viewModel.phonenumber,
-            "work": "no work",
-            "mosque_name": "no name",
-            "degree": "no degree",
-            "gender": "ذكر",
-            "previous_teacher": viewModel.didyoutaught == true ? "true" : "false"
+            
+           
+         
+            "teacher_id": "6745c9453e5fc4b217eef1b3",
+            "region_id": "672cc19964e07256213b02c8",// //viewModel.regionIdfromApi
+            "governorate_id": "672cc19964e07256213b02b2", //viewModel.cityIdfromApi
+            "full_name": "ي",//viewModel.name,
+            "birth_date": "3/10/2002",//dateString,
+            "phone_number": "ekne",//viewModel.phonenumber,
+            "work": "hjrb",//viewModel.currentWork,
+            "mosque_name": "he",//viewModel.mosquname,
+            "degree": "jr",//viewModel.academiclevel,
+            "gender": "r",//viewModel.gender ,
+            "previous_teacher": "true"//viewModel.didyoutaught == true ? "true" : "false"
+
+
+
         ]
+        
+        // طباعة البيانات المرسلة
+              print("📤 Preparing to send the following data:")
+              for (key, value) in parameters {
+                  print(" - \(key): \(value)")
+                  body.append("--\(boundary)\r\n".data(using: .utf8)!)
+                  body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+                  body.append("\(value)\r\n".data(using: .utf8)!)
+              }
+        
+        
+      
+
+        
+        //
 
         for (key, value) in parameters {
             body.append("--\(boundary)\r\n".data(using: .utf8)!)

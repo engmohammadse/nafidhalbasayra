@@ -95,8 +95,14 @@ class LoginViewModel: ObservableObject {
          self.responseMessage = "تم بنجاح تسجيل الدخول، ID: \(response.id)"
         
         
-        //save teacher id after login correct in local data 
+        //save teacher id after login correct in local core data
         vmTeacherFromApi.addTeacherData(id: response.id)
+        
+        
+        let defaults = UserDefaults.standard
+        let teacherId = "\(response.id)"
+        defaults.set(teacherId, forKey: "teacherId")
+        
         // تخزين معرف المعلم
             
          print("✅ تم تخزين معرف الأستاذ \(response.id) في قاعدة البيانات.")
