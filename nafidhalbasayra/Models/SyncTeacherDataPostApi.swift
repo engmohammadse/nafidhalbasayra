@@ -18,16 +18,22 @@ class SyncTeacherDataPostApi {
     private init() {}
     
     func sendTeacherDataFromViewModel(viewModel: TeacherDataViewModel) {
-        // تحميل الصورة من الأصول
-        guard let sharedImage = UIImage(named: "login") else {
-            print("❌ Failed to load image 'login' from assets. Make sure the image name is correct.")
-            return
-        }
+     
+        
+        // التأكد من وجود الصور
+              guard let profileImage = viewModel.profileimage,
+                    let frontFaceImage = viewModel.frontfaceidentity,
+                    let backFaceImage = viewModel.backfaceidentity else {
+                  print("❌ One or more required images are missing.")
+                  return
+              }
 
-        // التأكيد على أن الصورة تم تحميلها
-        print("Profile Image عند الإرسال: \(sharedImage != nil ? "موجودة" : "غير موجودة")")
-        print("Front Face Image عند الإرسال: \(sharedImage != nil ? "موجودة" : "غير موجودة")")
-        print("Back Face Image عند الإرسال: \(sharedImage != nil ? "موجودة" : "غير موجودة")")
+              // التأكيد على أن الصور موجودة
+              print("Profile Image عند الإرسال: \(profileImage != nil ? "موجودة" : "غير موجودة")")
+              print("Front Face Image عند الإرسال: \(frontFaceImage != nil ? "موجودة" : "غير موجودة")")
+              print("Back Face Image عند الإرسال: \(backFaceImage != nil ? "موجودة" : "غير موجودة")")
+
+        
 
         // URL
 //    http://192.168.15.160:8082/teachers/register-teacher
@@ -78,11 +84,10 @@ class SyncTeacherDataPostApi {
             body.append("\(value)\r\n".data(using: .utf8)!)
         }
 
-        // إضافة الصور (جميعها نفس الصورة)
         let images = [
-            ("image_1", sharedImage, "login-image-1.png"),
-            ("image_2", sharedImage, "login-image-2.png"),
-            ("image_3", sharedImage, "login-image-3.png")
+            ("image_1", profileImage, "profile-image.jpg"),
+            ("image_2", frontFaceImage, "front-face-image.jpg"),
+            ("image_3", backFaceImage, "back-face-image.jpg")
         ]
 
         for (name, image, fileName) in images {
@@ -94,6 +99,7 @@ class SyncTeacherDataPostApi {
             body.append(imageData)
             body.append("\r\n".data(using: .utf8)!)
         }
+
 
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
         request.httpBody = body
