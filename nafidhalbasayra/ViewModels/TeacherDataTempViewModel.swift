@@ -39,7 +39,7 @@ class TeacherDataViewModel: ObservableObject {
     
     
     @Published var cityCodefromApi: String?
-    @Published var gender: String = "man"
+    @Published var gender: String = "ذكر"
     
     //
     @Published  var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]

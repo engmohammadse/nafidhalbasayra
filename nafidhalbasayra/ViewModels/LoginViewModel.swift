@@ -102,6 +102,7 @@ class LoginViewModel: ObservableObject {
         let defaults = UserDefaults.standard
         let teacherId = "\(response.id)"
         defaults.set(teacherId, forKey: "teacherId")
+        defaults.set(response.data?.rejectionReason, forKey: "rejectionReason")
         
         // تخزين معرف المعلم
             

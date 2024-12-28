@@ -19,6 +19,22 @@ struct LoginResponse: Codable {
     let id: String
     let state: Int
     let message: String
+    let data: LoginData?
+}
+
+struct LoginData: Codable {
+    let rejectionReason: String?
+    let region_id: String?
+    let governorate_id: String?
+    let full_name: String?
+    let birth_date: String?
+    let phone_number: String?
+    let students_number: Int?
+    let mosque_name: String?
+    let degree: String?
+    let work: String?
+    let previous_teacher: Bool?
+    let gender: String?
 }
 
 // ErrorResponse Model for 401 Errors
@@ -50,6 +66,7 @@ class ApiService {
         do {
             let requestBody = try JSONEncoder().encode(loginData)
             request.httpBody = requestBody
+            
         } catch {
             completion(.failure(error))
             return
@@ -110,7 +127,23 @@ class ApiService {
         }
     }
 
-    // دالة لمعالجة الاستجابة الناجحة
+//    // دالة لمعالجة الاستجابة الناجحة
+//    private func handleSuccessfulLoginResponse(data: Data?, completion: @escaping (Result<LoginResponse, Error>) -> Void) {
+//        guard let data = data else {
+//            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "لا توجد بيانات تم إرجاعها"])))
+//            return
+//        }
+//
+//        do {
+//            let decodedResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
+//            completion(.success(decodedResponse))
+//            
+//        } catch let decodingError {
+//            completion(.failure(decodingError))
+//        }
+//    }
+    
+    
     private func handleSuccessfulLoginResponse(data: Data?, completion: @escaping (Result<LoginResponse, Error>) -> Void) {
         guard let data = data else {
             completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "لا توجد بيانات تم إرجاعها"])))
@@ -119,11 +152,22 @@ class ApiService {
 
         do {
             let decodedResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
+            
+            // الوصول إلى rejectionReason إذا كانت موجودة
+            if let rejectionReason = decodedResponse.data?.rejectionReason {
+                //print("❌ سبب الرفض: \(rejectionReason)")
+                let defaults = UserDefaults.standard
+         
+                defaults.set(rejectionReason, forKey: "rejectionReason")
+            }
+            
             completion(.success(decodedResponse))
         } catch let decodingError {
             completion(.failure(decodingError))
         }
     }
+
+    
 }
 
 

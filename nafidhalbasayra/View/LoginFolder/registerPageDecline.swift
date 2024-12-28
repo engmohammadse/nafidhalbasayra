@@ -9,7 +9,10 @@ import SwiftUI
 
 struct registerPageDecline: View {
     
-    @State private var isPressed: Bool = false
+     
+    var rejectionReason = UserDefaults.standard.string(forKey: "rejectionReason") ?? "No details"
+    @EnvironmentObject var teacherData : TeacherDataViewModel
+
     
     var body: some View {
         VStack {
@@ -22,7 +25,7 @@ struct registerPageDecline: View {
                 .frame(height: screenHeight * 0.05)
             
             VStack{
-                Text("عذرا بيناتك غير دقيقة")
+                Text("\(rejectionReason)")
                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                     .multilineTextAlignment(.center)
 
@@ -37,17 +40,23 @@ struct registerPageDecline: View {
             Spacer()
                 .frame(height: screenHeight * 0.03)
             
-            Button(action: {
-                
-            }){
+            
+            
+            NavigationLink( destination: RegisterInfoPage()
+                .environmentObject(teacherData)
+            )
+            {
                 Text("اعادة ادخال البيانات")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.02))
                     .frame(height: screenHeight * 0.04)
                     .foregroundColor(.white)
                     .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.8 : screenWidth * 0.8 )
             }
-            .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
-            .cornerRadius(5)
+            .background( Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
+                      .cornerRadius(5)
+            
+            
+//            
             
              
         }

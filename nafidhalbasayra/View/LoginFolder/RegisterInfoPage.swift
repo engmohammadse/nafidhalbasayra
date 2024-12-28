@@ -172,7 +172,7 @@ struct RegisterInfoPage: View {
                     case .registerInfo:
                         LoginPageWelcom()
                             .environmentObject(teacherData)
-                            .environmentObject(vmAttendaceStatus)
+                           // .environmentObject(vmAttendaceStatus)
                     case .waitProcess:
                         registerPageWaitProcess()
                             .environmentObject(teacherData)
@@ -184,7 +184,7 @@ struct RegisterInfoPage: View {
                     case .rejectionIssue:
                         registerPageDecline()
                             .environmentObject(teacherData)
-                            .environmentObject(vmAttendaceStatus)
+                            //.environmentObject(vmAttendaceStatus)
                     case .none:
                         EmptyView()
                     }

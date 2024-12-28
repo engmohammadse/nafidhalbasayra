@@ -67,7 +67,7 @@ class SyncTeacherDataPostApi {
         ]
         
         // إضافة `previous_teacher` كـ Boolean
-           let previousTeacherValue = true //viewModel.didyoutaught
+        let previousTeacherValue = viewModel.didyoutaught! ? true : false
            body.append("--\(boundary)\r\n".data(using: .utf8)!)
            body.append("Content-Disposition: form-data; name=\"previous_teacher\"\r\n\r\n".data(using: .utf8)!)
            body.append("\(previousTeacherValue)\r\n".data(using: .utf8)!)
