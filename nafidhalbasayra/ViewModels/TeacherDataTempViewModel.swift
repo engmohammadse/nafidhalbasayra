@@ -147,7 +147,7 @@ class TeacherDataViewModel: ObservableObject {
     
     // end RP
     
-    
+    @Published var sendTeacherDataToBackEndState: Int = 0
     
     
     
@@ -258,8 +258,9 @@ class TeacherDataViewModel: ObservableObject {
  // end RP1
 
     
+        // RP2
     
-    
+  
     
     
     

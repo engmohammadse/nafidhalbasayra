@@ -24,16 +24,16 @@ class SyncTeacherDataPostApi {
               guard let profileImage = viewModel.profileimage,
                     let frontFaceImage = viewModel.frontfaceidentity,
                     let backFaceImage = viewModel.backfaceidentity else {
-                  print("❌ One or more required images are missing.")
+                 // print("❌ One or more required images are missing.")
                   return
               }
 
-              // التأكيد على أن الصور موجودة
-              print("Profile Image عند الإرسال: \(profileImage != nil ? "موجودة" : "غير موجودة")")
-              print("Front Face Image عند الإرسال: \(frontFaceImage != nil ? "موجودة" : "غير موجودة")")
-              print("Back Face Image عند الإرسال: \(backFaceImage != nil ? "موجودة" : "غير موجودة")")
-
-        
+//              // التأكيد على أن الصور موجودة
+//              print("Profile Image عند الإرسال: \(profileImage != nil ? "موجودة" : "غير موجودة")")
+//              print("Front Face Image عند الإرسال: \(frontFaceImage != nil ? "موجودة" : "غير موجودة")")
+//              print("Back Face Image عند الإرسال: \(backFaceImage != nil ? "موجودة" : "غير موجودة")")
+//
+//        
 
         // URL
 //    http://192.168.15.160:8082/teachers/register-teacher
@@ -119,8 +119,12 @@ class SyncTeacherDataPostApi {
 
                 if httpResponse.statusCode == 200 {
                     print("✅ Data sent successfully for teacher: \(viewModel.name)")
+                    viewModel.sendTeacherDataToBackEndState = 1
+                    
                 } else {
                     print("❌ Failed to send data. Status code: \(httpResponse.statusCode)")
+                    viewModel.sendTeacherDataToBackEndState = 2
+
                 }
             }
         }

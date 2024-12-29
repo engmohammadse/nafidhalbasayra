@@ -42,7 +42,8 @@ struct registerPageAccept: View {
             NavigationLink(
                 destination: MainViewPage()
                     .environmentObject(teacherData)
-                    .environmentObject(vmAttendaceStatus), // استبدل `NextView()` بالـ View الذي تريد الانتقال إليه
+                    .environmentObject(vmAttendaceStatus)
+                , // استبدل `NextView()` بالـ View الذي تريد الانتقال إليه
                 label: {
                     Text("بدء استخدام التطبيق")
                         .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.02))

@@ -180,7 +180,7 @@ struct RegisterInfoPage: View {
                     case .homePage:
                         registerPageAccept()
                             .environmentObject(teacherData)
-                           // .environmentObject(vmAttendaceStatus)
+                            .environmentObject(vmAttendaceStatus)
                     case .rejectionIssue:
                         registerPageDecline()
                             .environmentObject(teacherData)
