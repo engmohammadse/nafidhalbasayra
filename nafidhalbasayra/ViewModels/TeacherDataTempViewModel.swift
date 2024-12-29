@@ -39,11 +39,11 @@ class TeacherDataViewModel: ObservableObject {
     
     
     @Published var cityCodefromApi: String?
-    @Published var gender: String = "ذكر"
-    
+    @Published var gender: String = ""
     //
     @Published  var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]
     @Published  var itemsLectured = ["لا","نعم"]
+    @Published  var itemsGender = ["ذكر", "انثى"]
     @Published var selectedLecturedOption:  String = ""
     
     
@@ -176,6 +176,9 @@ class TeacherDataViewModel: ObservableObject {
     @Published var isGoRP1: Bool = false
     @Published var showProvinceEmpty: Bool = false
     @Published var showMosqunameEmpty: Bool = false
+    @Published var showGenderEmpty: Bool = false
+
+    
     @Published var showDidyoutaughtEmpty: Bool = false
     @Published var showAlertCityInRP1NOTEquall: Bool = false
 
@@ -219,6 +222,20 @@ class TeacherDataViewModel: ObservableObject {
                 self.showMosqunameEmpty = false
             }
         }
+        
+        
+        
+        if gender.isEmpty {
+            DispatchQueue.main.async {
+                self.showGenderEmpty = true
+            }
+            isValid = false
+        } else {
+            DispatchQueue.main.async {
+                self.showGenderEmpty = false
+            }
+        }
+        
 
         if didyoutaught == nil {
             DispatchQueue.main.async {
@@ -230,6 +247,9 @@ class TeacherDataViewModel: ObservableObject {
                 self.showDidyoutaughtEmpty = false
             }
         }
+        
+        
+        
 
         return isValid
     }

@@ -176,11 +176,11 @@ struct RegisterInfoPage: View {
                     case .waitProcess:
                         registerPageWaitProcess()
                             .environmentObject(teacherData)
-                            .environmentObject(vmAttendaceStatus)
+                            //.environmentObject(vmAttendaceStatus)
                     case .homePage:
                         registerPageAccept()
                             .environmentObject(teacherData)
-                            .environmentObject(vmAttendaceStatus)
+                           // .environmentObject(vmAttendaceStatus)
                     case .rejectionIssue:
                         registerPageDecline()
                             .environmentObject(teacherData)

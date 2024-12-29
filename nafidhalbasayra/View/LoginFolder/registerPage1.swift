@@ -16,15 +16,15 @@ struct registerPage1: View {
 
     @Environment(\.dismiss) var dismiss
     
-    @State var city: String = "النجف الأشرف"
-    @State var province: String = "اختر"
-    @State var mosque: String = ""
-    @State var isLectured: String = "اختر"
-    @State private var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]
-    @State private var itemsLectured = ["لا","نعم"]
-    @State private var selectedItem: String = ""
-    @State private var showDropdown = false
-    @State private var showDropdownLectured = false
+//    @State var city: String = "النجف الأشرف"
+//    @State var province: String = "اختر"
+//    @State var mosque: String = ""
+//    @State var isLectured: String = "اختر"
+//    @State private var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]
+//    @State private var itemsLectured = ["لا","نعم"]
+//    @State private var selectedItem: String = ""
+//    @State private var showDropdown = false
+//    @State private var showDropdownLectured = false
     @State  var showAlertcityIdNotValid = false
 
     
@@ -114,6 +114,7 @@ struct detailsRegisterPage1: View {
     @State private var showDropdownLectured = false
     @State private var showDropdownCity = false
     @State private var showDropdownProvince = false
+    @State private var showDropdownGender = false
 
     //@State  var showAlertcityIdNotValid = false
     @Binding var showAlertcityIdNotValid: Bool
@@ -123,10 +124,10 @@ struct detailsRegisterPage1: View {
     
     
     var body: some View {
-        LazyVStack(spacing: 10) {
+        LazyVStack(spacing: screenHeight * 0.023) {
             
             Spacer()
-                .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.07  : screenHeight * 0.10)
+                .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.05  : screenHeight * 0.10)
             
             DropdownField1(
                 label: "المحافظة",
@@ -204,9 +205,47 @@ struct detailsRegisterPage1: View {
             
             
             
-                Spacer().frame(maxHeight: screenHeight * 0.01)
+//                Spacer().frame(maxHeight: screenHeight * 0.01)
 
+            Text("اختر الجنس")
             
+                            .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+                            
+
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
+            
+            
+            TextField("اختر", text: $teacherData.gender)
+                                .frame(maxWidth: screenHeight * 0.4)
+                                .frame(height: screenHeight * 0.05)
+                                .multilineTextAlignment(.trailing)
+                                .padding(.horizontal)
+                                .background(Color.white)
+                                .cornerRadius(5)
+                                .disabled(true)
+                                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+                                .onTapGesture {
+                                    
+                                    showDropdownGender.toggle()
+                                    hideKeyboardExplicitly()
+
+                                }
+                                .overlay {
+                                    Image(showDropdownGender ? "Vector1" : "Vector")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025)
+                                        .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
+                                    
+                                    
+                                }
+            
+                            if showDropdownGender {
+                                DropdownGenderView(teacherData: teacherData, showDropdownGender: $showDropdownGender)
+                                    
+
+                            }
             
             Text("هل قمت بالتدريس سابقاً في الدورات القرآنية الصيفية")
             
@@ -228,7 +267,7 @@ struct detailsRegisterPage1: View {
                                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                                 .onTapGesture {
                                     showDropdownLectured.toggle()
-                                        
+                                    hideKeyboardExplicitly()
 
                                 }
                                 .overlay {
@@ -501,6 +540,8 @@ struct DropdownLecturedView: View {
                                 } else if item == "نعم" {
                                     teacherData.didyoutaught = true
                                 }
+                                
+                                
                             }
                     }
                     .padding(.horizontal) // Horizontal padding for each row
@@ -515,7 +556,39 @@ struct DropdownLecturedView: View {
 }
 
 
+struct DropdownGenderView: View {
+    @ObservedObject var teacherData: TeacherDataViewModel
+    @Binding var showDropdownGender: Bool
 
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 8) { // Adjust spacing as needed
+                ForEach(teacherData.itemsGender, id: \.self) { item in
+                    HStack {
+                        Text(item)
+                            .multilineTextAlignment(.trailing)
+                            .padding(8) // Add padding around text
+                            .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.023))
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(primaryColor) // Add a background color for each row
+                            .background(buttonAccentColor)
+                            .cornerRadius(5) // Optional: make rounded corners
+                            .onTapGesture {
+//teacherData.selectedLecturedOption = item
+                                showDropdownGender = false
+                                teacherData.gender = item
+                            }
+                    }
+                    .padding(.horizontal) // Horizontal padding for each row
+                }
+            }
+            .padding(.vertical) // Vertical padding for the entire list
+        }
+        .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6)
+        .background(Color.white)
+        .cornerRadius(5)
+    }
+}
 
 
 
