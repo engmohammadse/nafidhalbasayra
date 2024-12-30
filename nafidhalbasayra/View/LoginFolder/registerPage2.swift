@@ -18,7 +18,9 @@ struct registerPage2: View {
     @State private var showImagePickerBack = false
     @State private var showAlertEmptyImages = false
     
-    
+    //@State private var goToWaitPage = false
+    @State private var navigateTo: String?
+
 
     
     @State private var image1 = false
@@ -492,6 +494,15 @@ struct registerPage2: View {
                            .frame(maxWidth: .infinity, maxHeight: .infinity)
                            .background(Color.black.opacity(0.3))
                        }
+            
+            
+//            NavigationLink(
+//                destination: registerPageWaitProcess().environmentObject(teacherData),
+//                isActive: $goToWaitPage
+//            ) {
+//                EmptyView()
+//            }
+//           
                   
             
         }
@@ -501,11 +512,22 @@ struct registerPage2: View {
                 if !newValue {
                     // إيقاف ProgressView أو أي إجراء آخر
                     print("ProgressView should stop now.")
+//                     goToWaitPage = true
+//                    print("goToWaitPage: \(goToWaitPage)")
+                    navigateTo = "registerPageWaitProcess"
+
+                
+
+                    
 
                 }
             }
         }
-
+        .navigationDestination(for: String.self) { value in
+                      if value == "registerPageWaitProcess" {
+                          registerPageWaitProcess().environmentObject(teacherData)
+                      }
+                  }
         
 
 
