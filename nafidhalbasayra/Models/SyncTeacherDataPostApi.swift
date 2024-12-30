@@ -106,6 +106,8 @@ class SyncTeacherDataPostApi {
 
         // إرسال الطلب
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            
+          
             if let error = error {
                 print("❌ Failed to send data: \(error.localizedDescription)")
                 return
@@ -119,14 +121,42 @@ class SyncTeacherDataPostApi {
 
                 if httpResponse.statusCode == 200 {
                     print("✅ Data sent successfully for teacher: \(viewModel.name)")
-                    viewModel.sendTeacherDataToBackEndState = 1
+//                    DispatchQueue.main.async {
+//                        viewModel.isLoadingRP2 = false
+//                        viewModel.sendTeacherDataToBackEndState = 1 // أو أي حالة تريد تعيينها
+//                    }
+
+                   
                     
                 } else {
                     print("❌ Failed to send data. Status code: \(httpResponse.statusCode)")
-                    viewModel.sendTeacherDataToBackEndState = 2
+//                    DispatchQueue.main.async {
+//                        viewModel.isLoadingRP2 = false
+//                        viewModel.sendTeacherDataToBackEndState = 2 // أو أي حالة تريد تعيينها
+//                    }
+
+
 
                 }
+                
+                
+                
+                
+                DispatchQueue.main.async {
+                       viewModel.isLoadingRP2 = false
+                       if httpResponse.statusCode == 200 {
+                           viewModel.sendTeacherDataToBackEndState = 1
+                       } else {
+                           viewModel.sendTeacherDataToBackEndState = 2
+                       }
+                   }
+                
+                
             }
+            
+            
+         
+            
         }
         task.resume()
     }

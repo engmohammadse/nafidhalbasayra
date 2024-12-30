@@ -18,7 +18,7 @@ struct registerPage2: View {
     @State private var showImagePickerBack = false
     @State private var showAlertEmptyImages = false
     
-    @State private var isLoading = false
+    
 
     
     @State private var image1 = false
@@ -359,12 +359,14 @@ struct registerPage2: View {
                        print("✅ تم إرسال البيانات.")
                     
                     
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 30) {
+                        print("teacherData.isLoadingRP2 after 30 seconds: \(teacherData.isLoadingRP2)")
+                    }
+
                     
                     
                     if isValidImages2 == true && teacherData.sendTeacherDataToBackEndState == 0 {
-                        isLoading = true
-                    } else {
-                       isLoading = false
+                        teacherData.isLoadingRP2 = true
                     }
                     
                     
@@ -385,11 +387,11 @@ struct registerPage2: View {
                         .foregroundColor(.white)
                         .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
                    
-                        NavigationLink(destination: registerPageWaitProcess()
-                            .environmentObject(teacherData)) {
-                        
-                    }
-                        .disabled(!isValidImages)
+//                        NavigationLink(destination: registerPageWaitProcess()
+//                            .environmentObject(teacherData)) {
+//                        
+//                    }
+//                        .disabled(!isValidImages)
                     
                 }
                
@@ -467,6 +469,7 @@ struct registerPage2: View {
                     .offset(y: UIScreen.main.bounds.width < 400 ? screenHeight * 0.43 : screenHeight * 0.42)
 
             }
+          
             
             .alert("يجب تحميل صور ", isPresented: $showAlertEmptyImages, actions: {
                 Button("تم", role: .cancel) { }
@@ -477,7 +480,7 @@ struct registerPage2: View {
             
             
         
-                       if isLoading {
+                       if teacherData.isLoadingRP2  {
                            VStack {
                                ProgressView("جاري إرسال البيانات...")
                                    .progressViewStyle(CircularProgressViewStyle())
@@ -492,6 +495,21 @@ struct registerPage2: View {
                   
             
         }
+        .onChange(of: teacherData.isLoadingRP2) { newValue in
+            DispatchQueue.main.async {
+                print("isLoadingRP2 changed to: \(newValue)")
+                if !newValue {
+                    // إيقاف ProgressView أو أي إجراء آخر
+                    print("ProgressView should stop now.")
+
+                }
+            }
+        }
+
+        
+
+
+        
       
         
         

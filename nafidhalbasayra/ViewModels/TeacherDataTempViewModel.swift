@@ -9,6 +9,9 @@ import Foundation
 import Combine
 import UIKit
 
+
+//@MainActor
+
 class TeacherDataViewModel: ObservableObject {
    
     
@@ -260,7 +263,8 @@ class TeacherDataViewModel: ObservableObject {
     
         // RP2
     
-  
+    @Published var isLoadingRP2 = false
+
     
     
     
