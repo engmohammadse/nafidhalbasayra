@@ -10,6 +10,8 @@ import SwiftUI
 struct registerPageWaitProcess: View {
     
     @State private var isPressed: Bool = false
+    @EnvironmentObject var teacherData: TeacherDataViewModel
+
     
     var body: some View {
         VStack {
