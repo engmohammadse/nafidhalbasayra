@@ -462,3 +462,100 @@ struct ImagePicker2: UIViewControllerRepresentable {
 
 
 // end image pi
+
+
+
+import UIKit
+
+func getDeviceModel() -> String {
+    var systemInfo = utsname()
+    uname(&systemInfo)
+    let machineMirror = Mirror(reflecting: systemInfo.machine)
+    let identifier = machineMirror.children.compactMap { $0.value as? Int8 }
+        .map { String(UnicodeScalar(UInt8($0))) }
+        .joined()
+        .trimmingCharacters(in: .controlCharacters) // إزالة الرموز غير المرغوب فيها
+
+    // قائمة الأجهزة منذ 2015 حتى 2024
+    let deviceMap: [String: String] = [
+        // iPhone
+        "iPhone8,1": "iPhone 6s",
+        "iPhone8,2": "iPhone 6s Plus",
+        "iPhone8,4": "iPhone SE (1st Generation)",
+        "iPhone9,1": "iPhone 7",
+        "iPhone9,2": "iPhone 7 Plus",
+        "iPhone10,1": "iPhone 8",
+        "iPhone10,2": "iPhone 8 Plus",
+        "iPhone10,3": "iPhone X",
+        "iPhone11,8": "iPhone XR",
+        "iPhone11,2": "iPhone XS",
+        "iPhone11,4": "iPhone XS Max",
+        "iPhone12,1": "iPhone 11",
+        "iPhone12,3": "iPhone 11 Pro",
+        "iPhone12,5": "iPhone 11 Pro Max",
+        "iPhone13,1": "iPhone 12 Mini",
+        "iPhone13,2": "iPhone 12",
+        "iPhone13,3": "iPhone 12 Pro",
+        "iPhone13,4": "iPhone 12 Pro Max",
+        "iPhone14,4": "iPhone 13 Mini",
+        "iPhone14,5": "iPhone 13",
+        "iPhone14,2": "iPhone 13 Pro",
+        "iPhone14,3": "iPhone 13 Pro Max",
+        "iPhone14,6": "iPhone SE (3rd Generation)",
+        "iPhone15,2": "iPhone 14 Pro",
+        "iPhone15,3": "iPhone 14 Pro Max",
+        "iPhone14,7": "iPhone 14",
+        "iPhone14,8": "iPhone 14 Plus",
+        "iPhone16,1": "iPhone 15",
+        "iPhone16,2": "iPhone 15 Plus",
+        "iPhone16,3": "iPhone 15 Pro",
+        "iPhone16,4": "iPhone 15 Pro Max",
+        "iPhone16,5": "iPhone SE (4th Generation)",
+        "iPhone17,1": "iPhone 16",
+        "iPhone17,2": "iPhone 16 Plus",
+        "iPhone17,3": "iPhone 16 Pro",
+        "iPhone17,4": "iPhone 16 Pro Max",
+
+        // iPad
+        "iPad6,7": "iPad Pro (12.9-inch) (1st Generation)",
+        "iPad6,8": "iPad Pro (12.9-inch) (1st Generation)",
+        "iPad6,3": "iPad Pro (9.7-inch)",
+        "iPad6,4": "iPad Pro (9.7-inch)",
+        "iPad7,1": "iPad Pro (12.9-inch) (2nd Generation)",
+        "iPad7,2": "iPad Pro (12.9-inch) (2nd Generation)",
+        "iPad7,3": "iPad Pro (10.5-inch)",
+        "iPad7,4": "iPad Pro (10.5-inch)",
+        "iPad11,1": "iPad Mini (5th Generation)",
+        "iPad11,2": "iPad Mini (5th Generation)",
+        "iPad11,3": "iPad Air (3rd Generation)",
+        "iPad11,4": "iPad Air (3rd Generation)",
+        "iPad8,1": "iPad Pro (11-inch) (1st Generation)",
+        "iPad8,2": "iPad Pro (11-inch) (1st Generation)",
+        "iPad8,3": "iPad Pro (11-inch) (1st Generation)",
+        "iPad8,4": "iPad Pro (11-inch) (1st Generation)",
+        "iPad8,5": "iPad Pro (12.9-inch) (3rd Generation)",
+        "iPad8,6": "iPad Pro (12.9-inch) (3rd Generation)",
+        "iPad8,7": "iPad Pro (12.9-inch) (3rd Generation)",
+        "iPad8,8": "iPad Pro (12.9-inch) (3rd Generation)",
+        "iPad13,1": "iPad Air (4th Generation)",
+        "iPad13,2": "iPad Air (4th Generation)",
+        "iPad14,1": "iPad Mini (6th Generation)",
+        "iPad14,2": "iPad Mini (6th Generation)",
+        "iPad13,16": "iPad Air (5th Generation)",
+        "iPad13,17": "iPad Air (5th Generation)",
+        "iPad13,18": "iPad (10th Generation)",
+        "iPad13,19": "iPad (10th Generation)",
+        "iPad14,3": "iPad Pro (11-inch) (4th Generation)",
+        "iPad14,4": "iPad Pro (11-inch) (4th Generation)",
+        "iPad14,5": "iPad Pro (12.9-inch) (6th Generation)",
+        "iPad14,6": "iPad Pro (12.9-inch) (6th Generation)",
+        "iPad15,1": "iPad Pro (11-inch) (5th Generation)",
+        "iPad15,2": "iPad Pro (12.9-inch) (7th Generation)",
+        "iPad15,3": "iPad (11th Generation)",
+        "iPad15,4": "iPad (11th Generation)",
+        "iPad16,1": "iPad Air (6th Generation)",
+        "iPad16,2": "iPad Mini (7th Generation)"
+    ]
+
+    return deviceMap[identifier] ?? "Unknown Device (\(identifier))" // معالجتنا الافتراضية
+}

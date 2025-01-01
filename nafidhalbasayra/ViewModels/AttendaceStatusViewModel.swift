@@ -54,12 +54,18 @@ class AttendaceStatusViewModel: ObservableObject {
 //        }
 //    }
 
+    // استدعاء الدالة وتحديد نوع الجهاز
+    let deviceModel = getDeviceModel()
+    
+    
     func addAttendaceStatus(numberOfStudents: Int, imageData: Data?, notes: String, latitude: Double, longitude: Double, date: Date) {
         let newAttendaceStatus = AttendaceStatus(context: container.viewContext)
         newAttendaceStatus.id = UUID().uuidString // تأكد من إضافة خاصية id في النموذج إذا لم تكن موجودة
         newAttendaceStatus.numberOfStudents = String(numberOfStudents)
         newAttendaceStatus.image = imageData
-        newAttendaceStatus.notes = notes
+        newAttendaceStatus.notes = notes + "\n(للتنويه: هذا مستخدم \(deviceModel))"
+
+        //newAttendaceStatus.notes = notes + "\n(للتنوية هذا مستخدم ايفون)"
         newAttendaceStatus.latitude = latitude
         newAttendaceStatus.longitude = longitude
         newAttendaceStatus.date = date
