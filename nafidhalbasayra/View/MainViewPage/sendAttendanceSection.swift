@@ -15,7 +15,7 @@ struct sendAttendanceSection: View {
     
     @StateObject private var locationManager = LocationManager()
     @State private var numberOfStudents: String = ""
-    @State private var imageData: Data? = nil
+    @State private var imageData: UIImage? = nil
     @State private var notes: String = ""
     @State private var showAlert = false
     @State private var showImagePicker = false
@@ -25,6 +25,33 @@ struct sendAttendanceSection: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
     @EnvironmentObject var teacherData: TeacherDataViewModel
+    
+    @State private var debounceTask: DispatchWorkItem?
+
+    
+    private func debounceValidation(newValue: String) {
+           // إلغاء أي عملية تحقق سابقة
+           debounceTask?.cancel()
+
+           // إنشاء مهمة جديدة
+           debounceTask = DispatchWorkItem { [newValue] in
+               if let number = Int(newValue) {
+                   if number > 35 {
+                       numberOfStudents = "35" // إذا تجاوز الرقم الحد الأقصى، يتم التعيين إلى 35
+                   } else if number < 15 {
+                       numberOfStudents = "15" // إذا كان الرقم أقل من الحد الأدنى، يتم التعيين إلى 15
+                   }
+               } else {
+                   // إزالة الأحرف غير الصالحة
+                   numberOfStudents = String(newValue.filter { $0.isNumber })
+               }
+           }
+
+           // تنفيذ المهمة بعد تأخير
+           if let task = debounceTask {
+               DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: task)
+           }
+       }
     
     
     var body: some View {
@@ -133,7 +160,7 @@ struct sendAttendanceSection: View {
                             }
                         }
                         
-                        TextField("مثال: 20", text: $numberOfStudents)
+                        TextField("يجب أن يكون الرقم بين 15 و 35", text: $numberOfStudents)
                             .keyboardType(.asciiCapableNumberPad) // لوحة مفاتيح الأرقام باللغة الإنجليزية فقط
                             .textInputAutocapitalization(.none) // لمنع الأحرف الكبيرة (اختياري)
                             .frame(width: uiDevicePhone ? screenWidth * 0.63 : screenWidth * 0.5)
@@ -142,6 +169,12 @@ struct sendAttendanceSection: View {
                             .padding(.horizontal)
                             .background(Color.white)
                             .cornerRadius(5)
+                            .onChange(of: numberOfStudents) { newValue in
+                                              debounceValidation(newValue: newValue)
+                                          }
+
+                  
+
                         
                         Spacer().frame(height: screenHeight * 0.035)
                         
@@ -185,9 +218,15 @@ struct sendAttendanceSection: View {
                             }
                             .background(Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                             .cornerRadius(5)
+//                            .sheet(isPresented: $showImagePicker) {
+//                                ImagePicker2(imageData: $imageData)
+//                            }
+                            
+                            
                             .sheet(isPresented: $showImagePicker) {
-                                ImagePicker2(imageData: $imageData)
+                                ImagePicker(selectedImage: $imageData, sourceType: .camera)
                             }
+
                         }
                     }
                     
@@ -215,7 +254,7 @@ struct sendAttendanceSection: View {
                             .toolbar {
                                 ToolbarItem(placement: .keyboard) {
                                     Button("تم، اخفاء الكيبورد") {
-                                        hideKeyboard()
+                                        hideKeyboardExplicitly()
                                     }
                                 }
                             }
@@ -231,7 +270,21 @@ struct sendAttendanceSection: View {
                                 print("Saving attendance status for \(numberOfStudentsInt) students at location: \(location.coordinate.latitude), \(location.coordinate.longitude).")
                                 
                                 
-                                vmAttendaceStatus.addAttendaceStatus( numberOfStudents: numberOfStudentsInt, imageData: imageData, notes: notes, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, date: Date() ) 
+//                                vmAttendaceStatus.addAttendaceStatus( numberOfStudents: numberOfStudentsInt, imageData: imageData, notes: notes, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, date: Date() ) 
+                                
+                                
+                                if let imageData = imageData?.jpegData(compressionQuality: 0.5) {
+                                    vmAttendaceStatus.addAttendaceStatus(
+                                        numberOfStudents: numberOfStudentsInt,
+                                        imageData: imageData, // الصورة محولة إلى نوع Data
+                                        notes: notes,
+                                        latitude: location.coordinate.latitude,
+                                        longitude: location.coordinate.longitude,
+                                        date: Date()
+                                    )
+                                }
+                                
+                                
                                 showAlert = true
                                 
                                 
@@ -271,7 +324,7 @@ struct sendAttendanceSection: View {
                 }
             }
             .onTapGesture {
-                hideKeyboard()
+                hideKeyboardExplicitly()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))

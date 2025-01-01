@@ -89,7 +89,7 @@ class AttendanceUploader {
 
         let location = "{\"lng\":\(entity.longitude),\"lat\":\(entity.latitude)}"
 
-        body.append(convertFormField(name: "teacher_id", value: vmTeacher.savedEntities.first?.idTeacherApi ?? "670a9990a8cd200cf7b0e8c7", using: boundary))
+        body.append(convertFormField(name: "teacher_id", value:  UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7", using: boundary))
 
 //        body.append(convertFormField(name: "teacher_id", value: "670a9990a8cd200cf7b0e8c7", using: boundary))
         body.append(convertFormField(name: "students_number", value: entity.numberOfStudents ?? "0", using: boundary))
@@ -125,7 +125,7 @@ class AttendanceUploader {
                 return
             }
 
-            if httpResponse.statusCode == 200 {
+            if httpResponse.statusCode == 200 || httpResponse.statusCode == 201  {
                 print("✅ Data sent successfully for entity ID: \(entity.id ?? "No ID") with status code: \(httpResponse.statusCode)")
                 completion(true, httpResponse.statusCode, nil)
             } else {
