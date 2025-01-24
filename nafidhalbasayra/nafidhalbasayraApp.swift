@@ -25,6 +25,7 @@ struct nafidhalbasayraApp: App {
                     }
             } else {
                 MainParentView() // هنا يتم إنشاء الـ ViewModels لأول مرة بعد السبلاتش
+//                ContentViewCity()
                 
                    
             }

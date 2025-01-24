@@ -12,25 +12,15 @@ import SwiftUI
 
 struct registerPage1: View {
     @EnvironmentObject var teacherData: TeacherDataViewModel
-    @StateObject private var dataFetcher = DataFetcher()
+    @StateObject private var dataFetcher = DataFetcherCity()
 
     @Environment(\.dismiss) var dismiss
     
-//    @State var city: String = "النجف الأشرف"
-//    @State var province: String = "اختر"
-//    @State var mosque: String = ""
-//    @State var isLectured: String = "اختر"
-//    @State private var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]
-//    @State private var itemsLectured = ["لا","نعم"]
-//    @State private var selectedItem: String = ""
-//    @State private var showDropdown = false
-//    @State private var showDropdownLectured = false
+
     @State  var showAlertcityIdNotValid = false
 
     
     
-//    @State private var isGo: Bool = teacherData.isGoRP1
-
     var body: some View {
         VStack {
             ScrollView {
@@ -61,9 +51,10 @@ struct registerPage1: View {
            
          
         } 
-//        .onAppear {
-//            dataFetcher.fetchData()
-//        }
+        .onAppear {
+       
+            dataFetcher.fetchData()
+        }
         
        
         
@@ -77,11 +68,7 @@ struct registerPage1: View {
         .hideKeyboard()
        
     }
-//    // Remove keyboard observers
-//    private func removeKeyboardObservers() {
-//         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-//         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-//     }
+
 }
 
 
@@ -99,10 +86,8 @@ import Network
 
 struct detailsRegisterPage1: View {
     @ObservedObject var teacherData: TeacherDataViewModel
-    @StateObject private var dataFetcher = DataFetcher()
-    @StateObject private var dataFetcherProvine = ProvinceSpecificGet()
-
-    //@State var mustChooseCityAlertRP1: Bool = false
+    @StateObject  var dataFetcher = DataFetcherCity()
+    @StateObject  var dataFetcherProvine = ProvinceSpecificGet()
 
 
    
@@ -134,10 +119,15 @@ struct detailsRegisterPage1: View {
                 text: $teacherData.city,
                 onTap: {
                     showDropdownCity.toggle()
+                    
+                    dataFetcher.fetchData()
+                    
                     if dataFetcher.governorates.isEmpty {
                         showProgressLoding = true
                         dataFetcher.fetchData()
                     }
+                    
+                   
                 },
                 imageName: showDropdownCity ? "Vector1" : "Vector"
             )
@@ -286,6 +276,10 @@ struct detailsRegisterPage1: View {
 
                             }
                         }
+//        .onAppear {
+//
+//            dataFetcher.fetchData()
+//        }
      
         
         .alert("رمز المحافظة المدخل بالصفحة السابقة لا يطابق المحافظة التي اخترتها، يجب ان يكونا متطابقان", isPresented: $teacherData.showAlertCityInRP1NOTEquall, actions: {
@@ -305,9 +299,9 @@ struct detailsRegisterPage1: View {
         .onChange(of: dataFetcherProvine.showProgress) { newValue in
             showProgressLodingProvince = newValue
         }
-        .onChange(of: dataFetcher.governorates) { _ in
-            showProgressLoding = false
-        }
+//        .onChange(of: dataFetcher.governorates) { _ in
+//            showProgressLoding = false
+//        }
         .onChange(of: dataFetcherProvine.province) { _ in
             showProgressLodingProvince = false
         }
@@ -325,6 +319,7 @@ struct detailsRegisterPage1: View {
 
    
 }
+     
 
 
 struct DropdownField1: View {
@@ -366,7 +361,7 @@ struct DropdownField1: View {
 
 
 struct DropdownCityView: View {
-    @ObservedObject var dataFetcher: DataFetcher
+    @ObservedObject var dataFetcher: DataFetcherCity
     @ObservedObject var teacherData: TeacherDataViewModel
     @Binding var showDropdownCity: Bool
     @Binding var showAlertcityIdNotValid: Bool
@@ -395,7 +390,7 @@ struct DropdownCityView: View {
 struct CityRowView: View {
     let governorate: Governorate
     @ObservedObject var teacherData: TeacherDataViewModel
-    @StateObject private var dataFetcher = DataFetcher()
+    @StateObject private var dataFetcher = DataFetcherCity()
 
     @Binding var showDropdownCity: Bool
     @Binding var showAlertcityIdNotValid: Bool
@@ -416,6 +411,8 @@ struct CityRowView: View {
                     
                    
                     teacherData.cityCodefromApi = String(governorate.governorateCode)
+                    
+                    
                     showDropdownCity = false
                     // Check if city ID is valid
                     if let citynumber = Int(teacherData.citynumber), citynumber != governorate.governorateCode {

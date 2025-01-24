@@ -60,6 +60,7 @@
 		41E9C6D22CC3C85000FE122F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D12CC3C85000FE122F /* Colors.swift */; };
 		41E9C6D42CC3CC0600FE122F /* UserManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D32CC3CC0600FE122F /* UserManual.swift */; };
 		41E9C6D62CC41A0100FE122F /* HistoryAttendanceSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D52CC41A0100FE122F /* HistoryAttendanceSection.swift */; };
+		41EE60A62D429D120044D777 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41EE60A52D429D110044D777 /* test.swift */; };
 		41F1DE6E2D19BE95008CDAE5 /* AttendanceUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F1DE6D2D19BE95008CDAE5 /* AttendanceUploader.swift */; };
 		41F34EF82CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F34EF72CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift */; };
 		41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0B52CAAE4C500BD7853 /* registerPage.swift */; };
@@ -124,6 +125,7 @@
 		41E9C6D12CC3C85000FE122F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		41E9C6D32CC3CC0600FE122F /* UserManual.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManual.swift; sourceTree = "<group>"; };
 		41E9C6D52CC41A0100FE122F /* HistoryAttendanceSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryAttendanceSection.swift; sourceTree = "<group>"; };
+		41EE60A52D429D110044D777 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		41F1DE6D2D19BE95008CDAE5 /* AttendanceUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceUploader.swift; sourceTree = "<group>"; };
 		41F34EF72CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncTeacherDataPostApi.swift; sourceTree = "<group>"; };
 		41F9D0B52CAAE4C500BD7853 /* registerPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				41074C872CBE8F8400FA28AC /* LoginViewModel.swift */,
 				419ACE5A2CC816C4000D4433 /* TeacherDataTempViewModel.swift */,
 				416F71412D1AF64D009FF9EE /* TeacherDataFromApiViewModel.swift */,
+				41EE60A52D429D110044D777 /* test.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				41D1DC522CB6EDF7004EB23D /* registerPageWaitProcess.swift in Sources */,
+				41EE60A62D429D120044D777 /* test.swift in Sources */,
 				41074C852CBE8EFB00FA28AC /* LoginRequest.swift in Sources */,
 				41414E2B2CB1B31A0070C380 /* testNavigationStackPop.swift in Sources */,
 				41CD8CE12CF75D360095A82D /* displayTeacherInfo.swift in Sources */,
