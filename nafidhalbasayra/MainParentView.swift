@@ -12,6 +12,9 @@ struct MainParentView: View {
     @StateObject var vmAttendaceStatus = AttendaceStatusViewModel()
     @StateObject var coreDataViewModel = CoreDataViewModel()
     
+    @StateObject var studentViewModel = StudentViewModel() // إضافة StudentViewModel
+
+    
 
 
     var body: some View {
@@ -32,8 +35,10 @@ struct MainParentView: View {
                     attendanceUploader.sendPendingAttendanceData()
 
                     
-                    
-                    
+                    // إرسال بيانات الطلاب
+                    let studentUploader = StudentUploader(database: studentViewModel)
+                    studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
+
                     
 //                    let uploader = AttendanceUploader(database: vmAttendaceStatus)
 //                    uploader.sendPendingAttendanceData()

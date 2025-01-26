@@ -13,10 +13,12 @@
     <entity name="StudentInfo" representedClassName="StudentInfo" syncable="YES" codeGenerationType="class">
         <attribute name="age" optional="YES" attributeType="String"/>
         <attribute name="city" optional="YES" attributeType="String"/>
+        <attribute name="gender" optional="YES" attributeType="String"/>
         <attribute name="level" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="phoneNumber" optional="YES" attributeType="String"/>
         <attribute name="size" optional="YES" attributeType="String"/>
+        <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="studentID" optional="YES" attributeType="String"/>
     </entity>
     <entity name="TeacherDataFromApi" representedClassName="TeacherDataFromApi" syncable="YES" codeGenerationType="class">

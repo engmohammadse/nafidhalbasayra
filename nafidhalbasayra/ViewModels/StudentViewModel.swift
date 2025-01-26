@@ -62,6 +62,7 @@ class StudentViewModel: ObservableObject {
         newStudentInfo.city = city
         newStudentInfo.level = level
         newStudentInfo.size = size
+        newStudentInfo.state = 0
         
         saveStudentData()
         fetchStudentInfo() // استدعاء fetch بعد الحفظ للتأكد من تحديث البيانات
@@ -70,8 +71,11 @@ class StudentViewModel: ObservableObject {
     
     
     
-   
-    
+   // تحديث الحالة
+    func updateStudentState(entity: StudentInfo, newState: Int) {
+         entity.state = Int16(newState) // تحديث حالة الطالب
+         saveStudentData() // حفظ التغييرات
+     }
     
     
     

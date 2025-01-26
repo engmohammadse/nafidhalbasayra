@@ -47,7 +47,8 @@ struct StudentDataSection: View {
                         size: entity.size ?? "no size",
                         student: entity,
                         orderNumber: index + 1,
-                        onEdit: { selectedStudent = entity } // تعيين الطالب المحدد
+                        onEdit: { selectedStudent = entity }, // تعيين الطالب المحدد
+                        state: Int(entity.state)
                     )
                     
                 }
@@ -156,6 +157,7 @@ struct studentInfo :View {
     var student: StudentInfo // إضافة هذا المتغير للإشارة إلى الكائن الحالي
     var orderNumber: Int
     var onEdit: () -> Void
+    var state: Int
    
     
     var body: some View {
@@ -176,7 +178,7 @@ struct studentInfo :View {
                               Spacer()
                                   
                                   .frame(height: screenHeight * 0.02)
-                              Text("الاولى")
+                              Text(level)
                                   .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023 ))
                               
                               
@@ -189,7 +191,7 @@ struct studentInfo :View {
                                   .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                               Spacer()
                                   .frame(height: screenHeight * 0.02)
-                              Text("١٢ سنة")
+                              Text(age)
                                   .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023 ))
                           }
                           
@@ -209,6 +211,9 @@ struct studentInfo :View {
                               
                               Text(name)
                                   .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023))
+                              
+                              
+                              Text("\(state)")
 
 //                              Text(phoneNumber)
 //                              Text(age)
