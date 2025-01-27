@@ -63,6 +63,7 @@ class StudentViewModel: ObservableObject {
         newStudentInfo.level = level
         newStudentInfo.size = size
         newStudentInfo.state = 0
+        newStudentInfo.isSending = false
         
         saveStudentData()
         fetchStudentInfo() // استدعاء fetch بعد الحفظ للتأكد من تحديث البيانات

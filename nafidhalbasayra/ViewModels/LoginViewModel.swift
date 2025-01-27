@@ -106,7 +106,8 @@ class LoginViewModel: ObservableObject {
         
         // تخزين معرف المعلم
             
-         print("✅ تم تخزين معرف الأستاذ \(response.id) في قاعدة البيانات.")
+         print("✅ تم تخزين معرف الأستاذ في قاعدة البيانات.")
+         print("\(response.id)")
 
 
         // تحديد الصفحة بناءً على الحالة
