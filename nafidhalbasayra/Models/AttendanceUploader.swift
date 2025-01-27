@@ -19,7 +19,7 @@ class AttendanceUploader {
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "InternetMonitor")
     private let database: AttendaceStatusViewModel // مرجع لقاعدة البيانات
-    private var vmTeacher = TeacherDataFromApiViewModel() // تعريف محلي لـ TeacherDataFromApiViewModel
+  //  private var vmTeacher = TeacherDataFromApiViewModel() // تعريف محلي لـ TeacherDataFromApiViewModel
 
 
     init(database: AttendaceStatusViewModel) {

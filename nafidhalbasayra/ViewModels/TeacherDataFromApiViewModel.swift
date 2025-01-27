@@ -5,63 +5,63 @@
 //  Created by muhammad on 24/12/2024.
 //
 
-import Foundation
-
-import CoreData
-
-class TeacherDataFromApiViewModel: ObservableObject {
-    let container: NSPersistentContainer
-    @Published var savedEntities: [TeacherDataFromApi] = []
-
-    init() {
-        container = NSPersistentContainer(name: "CoreData")
-        container.loadPersistentStores { _, error in
-            if let error = error {
-                print("ERROR LOADING CORE DATA. \(error)")
-            }
-        }
-        fetchTeacherData()
-    }
-    
-    
-    
-    
-
-    func fetchTeacherData() {
-        let request = NSFetchRequest<TeacherDataFromApi>(entityName: "TeacherDataFromApi")
-        do {
-            savedEntities = try container.viewContext.fetch(request)
-        } catch let error {
-            print("Error Fetching. \(error)")
-        }
-    }
-    
-    
-    
-
-    
-    
-    
-    func addTeacherData(id: String) {
-        
-        
-        // تحقق إذا كان المعلم موجودًا بالفعل
-           if savedEntities.contains(where: { $0.idTeacherApi == id }) {
-               print("⚠️ المعلم موجود بالفعل في قاعدة البيانات.")
-               return
-           }
-        
-        // إضافة معلم جديد
-        
-        let newTeacherData = TeacherDataFromApi(context: container.viewContext)
-        
-        newTeacherData.idTeacherApi = id
-       
-        
-        saveTeacherData()
-        fetchTeacherData() // استدعاء fetch بعد الحفظ للتأكد من تحديث البيانات
-
-    }
+//import Foundation
+//
+//import CoreData
+//
+//class TeacherDataFromApiViewModel: ObservableObject {
+//    let container: NSPersistentContainer
+//    @Published var savedEntities: [TeacherDataFromApi] = []
+//
+//    init() {
+//        container = NSPersistentContainer(name: "CoreData")
+//        container.loadPersistentStores { _, error in
+//            if let error = error {
+//                print("ERROR LOADING CORE DATA. \(error)")
+//            }
+//        }
+//        fetchTeacherData()
+//    }
+//    
+//    
+//    
+//    
+//
+//    func fetchTeacherData() {
+//        let request = NSFetchRequest<TeacherDataFromApi>(entityName: "TeacherDataFromApi")
+//        do {
+//            savedEntities = try container.viewContext.fetch(request)
+//        } catch let error {
+//            print("Error Fetching. \(error)")
+//        }
+//    }
+//    
+//    
+//    
+//
+//    
+//    
+//    
+//    func addTeacherData(id: String) {
+//        
+//        
+//        // تحقق إذا كان المعلم موجودًا بالفعل
+//           if savedEntities.contains(where: { $0.idTeacherApi == id }) {
+//               print("⚠️ المعلم موجود بالفعل في قاعدة البيانات.")
+//               return
+//           }
+//        
+//        // إضافة معلم جديد
+//        
+//        let newTeacherData = TeacherDataFromApi(context: container.viewContext)
+//        
+//        newTeacherData.idTeacherApi = id
+//       
+//        
+//        saveTeacherData()
+//        fetchTeacherData() // استدعاء fetch بعد الحفظ للتأكد من تحديث البيانات
+//
+//    }
     
     
     
@@ -124,15 +124,15 @@ class TeacherDataFromApiViewModel: ObservableObject {
 
     
     
-
-    func saveTeacherData() {
-        do {
-            try container.viewContext.save()
-            fetchTeacherData()
-        } catch let error {
-            print("Error saving. \(error)")
-        }
-    }
-    
-    
-}
+//
+//    func saveTeacherData() {
+//        do {
+//            try container.viewContext.save()
+//            fetchTeacherData()
+//        } catch let error {
+//            print("Error saving. \(error)")
+//        }
+//    }
+//    
+//    
+//}

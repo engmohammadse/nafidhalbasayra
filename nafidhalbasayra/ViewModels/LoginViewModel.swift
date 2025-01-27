@@ -9,7 +9,7 @@ import SwiftUI
 import Network
 
 class LoginViewModel: ObservableObject {
-    private var vmTeacherFromApi = TeacherDataFromApiViewModel() // تعريف محلي لـ TeacherDataFromApiViewModel
+   // private var vmTeacherFromApi = TeacherDataFromApiViewModel() // تعريف محلي لـ TeacherDataFromApiViewModel
     
     @Published var username = ""
     @Published var password = ""
@@ -96,7 +96,7 @@ class LoginViewModel: ObservableObject {
         
         
         //save teacher id after login correct in local core data
-        vmTeacherFromApi.addTeacherData(id: response.id)
+       // vmTeacherFromApi.addTeacherData(id: response.id)
         
         
         let defaults = UserDefaults.standard

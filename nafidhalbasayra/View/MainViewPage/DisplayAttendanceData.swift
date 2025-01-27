@@ -12,7 +12,7 @@ import CoreLocation
 
 struct DisplayAttendanceData: View {
     @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
-    @StateObject var vmTeacher = TeacherDataFromApiViewModel()
+  //  @StateObject var vmTeacher = TeacherDataFromApiViewModel()
 //    private var vmTeacher = TeacherDataFromApiViewModel() // تعريف محلي لـ TeacherDataFromApiViewModel
    // @State private var teacherId: String = ""
 
@@ -26,7 +26,7 @@ struct DisplayAttendanceData: View {
                 .padding()
             
             
-            Text("Teacher id from api: \(vmTeacher.savedEntities.first?.idTeacherApi ?? "No ID available")")
+//            Text("Teacher id from api: \(vmTeacher.savedEntities.first?.idTeacherApi ?? "No ID available")")
             
             
             let teacherId = UserDefaults.standard.string(forKey: "teacherId") ?? "No ID"
