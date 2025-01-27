@@ -43,15 +43,19 @@ struct DropdownField: View {
     @Binding var selectedOption: String
     var options: [String]
     @State private var showDropdown: Bool = false
-    
+
     var body: some View {
-        VStack(alignment: .trailing, spacing: 5) {
+        
+        //alignment: .trailing,
+        VStack(spacing: 5) {
+            // عنوان الحقل
             Text(label)
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                 .foregroundStyle(primaryColor)
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
 
+            // الحقل النصي
             TextField(selectedOption, text: $selectedOption)
                 .onTapGesture {
                     showDropdown.toggle()
@@ -71,23 +75,31 @@ struct DropdownField: View {
                         .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
                 }
 
+            // قائمة الخيارات
             if showDropdown {
-                List(options, id: \.self) { option in
-                    HStack {
-                        Spacer()
-                        Text(option)
-                            .multilineTextAlignment(.trailing)
-                            .padding(6)
+                ScrollView {
+                    VStack(spacing: 8) {
+                        ForEach(options, id: \.self) { option in
+                            Text(option)
+                                .multilineTextAlignment(.trailing)
+                                .padding(8)
+                                .font(.custom("BahijTheSansArabic-Plain", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.03 : screenWidth * 0.023))
+                                .frame(maxWidth: .infinity)
+                                .foregroundColor(primaryColor)
+                                .background(buttonAccentColor)
+                                .cornerRadius(5)
+                                .onTapGesture {
+                                    selectedOption = option
+                                    showDropdown = false
+                                }
+                        }
                     }
-                    .padding(6)
-                    .onTapGesture {
-                        selectedOption = option
-                        showDropdown = false
-                    }
+                    .padding(.all)
                 }
-                .frame(maxWidth: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.8 : screenWidth * 0.6)
+                .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.78 : screenWidth * 0.6)
                 .frame(height: 200)
-                .listStyle(PlainListStyle())
+                .background(Color.white)
+                .cornerRadius(5)
             }
         }
     }
@@ -99,6 +111,22 @@ struct DropdownField: View {
 
 
 
+
+
+
+
+
+
+
+
+
 //#Preview {
 //    FormField(label: "", text: $"")
 //}
+
+
+
+
+
+
+

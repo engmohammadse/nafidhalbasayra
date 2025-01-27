@@ -23,8 +23,22 @@ struct EditStudentAtStudentDataSection: View {
     
     @State var  showAlert = false
 
-    @State private var itemsProvince = ["مركز المدينة", "النجف", "Option 3", "Option 4"]
-    @State private var itemsLectured = ["لا", "نعم"]
+    @State private var itemsProvince = [
+        "بغداد",
+        "النجف الأشرف",
+        "ميسان",
+        "ذي قار",
+        "كربلاء المقدسة",
+        "الديوانية",
+        "كركوك",
+        "بابل",
+        "المثنى",
+        "صلاح الدين",
+        "واسط",
+      ]
+    @State private var itemsLectured = ["الابتدائية", "المتوسطة", "الإعدادية"]
+    
+    @State private var sizes = ["صغير جدًا (XS)", "صغير (S)", "متوسط (M)", "كبير (L)", "كبير جدًا (XL)", "ضخم (XXL)"]
 
     // Initializer to assign values to state variables
     init(student: StudentInfo, teacherData: TeacherDataViewModel) {
@@ -57,7 +71,7 @@ struct EditStudentAtStudentDataSection: View {
 
                     DropdownField(label: "المحافظة", selectedOption: $city, options: itemsProvince)
                     DropdownField(label: "المرحلة", selectedOption: $level, options: itemsLectured)
-                    DropdownField(label: "القياس", selectedOption: $size, options: itemsLectured)
+                    DropdownField(label: "القياس", selectedOption: $size, options: sizes)
                 }
                 .padding(.horizontal, screenWidth * 0.09)
             }
