@@ -253,7 +253,7 @@ struct studentInfo :View {
                                                                      // عرض التنبيه أولاً
                                                                      alertInternetMessage = "✅ تم حذف الطالب من الخادم بنجاح."
                                                                      showInternetAlert = true
-                                                                     
+                                                                     print("idFromApi was delete: \(idFromApi)")
 //                                                                     // حذف الطالب محليًا بعد عرض التنبيه
                                                                          if let index = vmStudent.savedEntities.firstIndex(of: student) {
                                                                              vmStudent.deleteStudentInfo(indexSet: IndexSet(integer: index))

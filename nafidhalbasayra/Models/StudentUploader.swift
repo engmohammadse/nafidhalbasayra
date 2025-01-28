@@ -94,7 +94,7 @@ class StudentUploader {
         // إعداد بيانات الطالب
         let studentData: [String: Any] = [
             "name": student.name ?? "default value",
-            "age": Int(student.age ?? "0") ?? 0,
+            "age": Int(student.age ?? "00") ?? 000,
             "phone_number": student.phoneNumber ?? "default value",
             "degree": student.level ?? "default value",
             "gender": student.gender ?? "ذكر",
