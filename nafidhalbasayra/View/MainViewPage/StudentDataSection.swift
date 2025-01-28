@@ -16,6 +16,8 @@ struct StudentDataSection: View {
     @EnvironmentObject var teacherData: TeacherDataViewModel
     @EnvironmentObject var vmAttendaceStatus : AttendaceStatusViewModel
     
+   
+    
     var body: some View {
        
         VStack{
@@ -148,6 +150,11 @@ struct studentInfo :View {
   //  @State var selectedStudent: StudentInfo?
     @State var updatedName: String = ""
     
+    
+    @State private var showInternetAlert = false
+      @State private var alertInternetMessage = ""
+    
+    
     var name: String
     var age: String
     var phoneNumber: String
@@ -158,6 +165,7 @@ struct studentInfo :View {
     var orderNumber: Int
     var onEdit: () -> Void
     var state: Int
+    
    
     
     var body: some View {
@@ -231,15 +239,129 @@ struct studentInfo :View {
                                      
                                      
                                      Button(action: {
-                                         if let index = vmStudent.savedEntities.firstIndex(of: student) {
-                                             vmStudent.deleteStudentInfo(indexSet: IndexSet(integer: index))
+                                         
+                                         InternetChecker.isInternetAvailable { isAvailable in
+                                             DispatchQueue.main.async {
+                                                 if isAvailable {
+                                                     // التحقق من وجود idFromApi
+                                                     if let idFromApi = student.idFromApi {
+                                                         // استدعاء دالة الحذف من API
+                                                         StudentDeleter.deleteStudent(withId: idFromApi) { success, statusCode, errorMessage in
+                                                             DispatchQueue.main.async {
+                                                                 if success {
+                                                                     
+                                                                     // عرض التنبيه أولاً
+                                                                     alertInternetMessage = "✅ تم حذف الطالب من الخادم بنجاح."
+                                                                     showInternetAlert = true
+                                                                     
+//                                                                     // حذف الطالب محليًا بعد عرض التنبيه
+                                                                         if let index = vmStudent.savedEntities.firstIndex(of: student) {
+                                                                             vmStudent.deleteStudentInfo(indexSet: IndexSet(integer: index))
+                                                                         }
+//                                                                     
+//                                                                     
+//                                                                     print("✅ تم حذف الطالب من الخادم بنجاح.")
+
+                                                                 } else {
+                                                                     print("❌ فشل حذف الطالب من الخادم. رمز الخطأ: \(statusCode), الرسالة: \(errorMessage ?? "لا توجد رسالة")")
+                                                                     // عرض رسالة خطأ
+                                                                     alertInternetMessage = "فشل الحذف من الخادم: \(errorMessage ?? "خطأ غير معروف")"
+                                                                     showInternetAlert = true
+                                                                 }
+                                                             }
+                                                         }
+                                                     } else {
+                                                         print("❌ لا يحتوي الطالب على معرف idFromApi صالح.")
+                                                         alertInternetMessage = "لا يمكن حذف الطالب لأن المعرف غير صالح."
+                                                         showInternetAlert = true
+                                                     }
+                                                 } else {
+                                                     print("❌ لا يوجد اتصال بالإنترنت.")
+                                                     alertInternetMessage = "يجب توفر اتصال بالإنترنت لتنفيذ عملية الحذف."
+                                                     showInternetAlert = true
+                                                 }
+                                             }
                                          }
+
+                                         
+//                                         InternetChecker.isInternetAvailable { isAvailable in
+//                                             DispatchQueue.main.async {
+//                                                 if isAvailable {
+//                                                     // التحقق من وجود idFromApi
+//                                                     if let idFromApi = student.idFromApi {
+//                                                         // استدعاء دالة الحذف من API
+//                                                         StudentDeleter.deleteStudent(withId: idFromApi) { success, statusCode, errorMessage in
+//                                                             DispatchQueue.main.async {
+//                                                                 if success {
+//                                                                     print("✅ تم حذف الطالب من الخادم بنجاح.")
+//                                                                     
+//                                                                    
+//                                                                     alertInternetMessage = ("✅ تم حذف الطالب من الخادم بنجاح.")
+//                                                                     showInternetAlert = true
+//                                                                     
+//                                                                     // حذف الطالب محليًا
+//                                                                     if let index = vmStudent.savedEntities.firstIndex(of: student) {
+//                                                                         vmStudent.deleteStudentInfo(indexSet: IndexSet(integer: index))
+//                                                                       
+//                                                                     }
+//                                                                 } else {
+//                                                                     print("❌ فشل حذف الطالب من الخادم. رمز الخطأ: \(statusCode), الرسالة: \(errorMessage ?? "لا توجد رسالة")")
+//                                                                     // عرض رسالة خطأ
+//                                                                     alertInternetMessage = "فشل الحذف من الخادم: \(errorMessage ?? "خطأ غير معروف")"
+//                                                                     showInternetAlert = true
+//                                                                 }
+//                                                             }
+//                                                         }
+//                                                     } else {
+//                                                         print("❌ لا يحتوي الطالب على معرف idFromApi صالح.")
+//                                                         alertInternetMessage = "لا يمكن حذف الطالب لأن المعرف غير صالح."
+//                                                         showInternetAlert = true
+//                                                     }
+//                                                 } else {
+//                                                     print("❌ لا يوجد اتصال بالإنترنت.")
+//                                                     alertInternetMessage = "يجب توفر اتصال بالإنترنت لتنفيذ عملية الحذف."
+//                                                     showInternetAlert = true
+//                                                 }
+//                                             }
+//                                         }
+
+                                         
+//                                         InternetChecker.isInternetAvailable { isAvailable in
+//                                             
+//                                             DispatchQueue.main.async {
+//                                                 if isAvailable {
+//                                                     
+//                                                     if let index = vmStudent.savedEntities.firstIndex(of: student) {
+//                                                         vmStudent.deleteStudentInfo(indexSet: IndexSet(integer: index))
+//                                                     }
+//                                                 } else {
+//                                                     showInternetAlert = true
+//                                                 }
+//                                             }
+//                                             
+//                                             
+//                                         }
+                                         
+                                         
+                                       
+                                         
+                                         
                                      }) {
                                          Text("حذف بيانات الطالب")
                                              .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023))
                                              .foregroundColor(Color(red: 123/255, green: 42/255, blue: 42/255))
                                              .padding(.all, screenWidth * 0.02)
                                      }
+                                     .alert(isPresented: $showInternetAlert) {
+                                         Alert(
+                                             title: Text("حالة الإنترنت"),
+                                             message: Text(alertInternetMessage),
+                                             dismissButton: .default(Text("حسنًا")) {
+                                                 // إجراء إضافي بعد إغلاق التنبيه إذا لزم الأمر
+                                             }
+                                         )
+                                     }
+
 
 
                                      
