@@ -140,7 +140,7 @@ struct DropdownField: View {
                     .padding(.all)
                 }
                 .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.78 : screenWidth * 0.6)
-                .frame(height: 200)
+               // .frame(height: 200)
                 .background(Color.white)
                 .cornerRadius(5)
             }

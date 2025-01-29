@@ -24,25 +24,21 @@ struct AddStudentToStudentDataSection: View {
     @State var level: String = "اختر"
     @State var size: String = "اختر"
     
-    @State var showAlert = false
+    @State private var alertType: AlertType?  // نوع التنبيه
 
-    
-//    @State private var itemsProvince = [
-//        "بغداد",
-//        "النجف الأشرف",
-//        "ميسان",
-//        "ذي قار",
-//        "كربلاء المقدسة",
-//        "الديوانية",
-//        "كركوك",
-//        "بابل",
-//        "المثنى",
-//        "صلاح الدين",
-//        "واسط",
-//      ]
+
     @State private var itemsLectured = ["الابتدائية", "المتوسطة", "الإعدادية"]
     
-    @State private var sizes = ["صغير جدًا (XS)", "صغير (S)", "متوسط (M)", "كبير (L)", "كبير جدًا (XL)", "ضخم (XXL)"]
+    @State private var sizes = ["صغير (S)", "متوسط (M)", "كبير (L)"]
+    
+    
+    var isFormValid: Bool {
+        return !name.isEmpty &&
+               !phoneNumber.isEmpty &&
+               !age.isEmpty &&
+               level != "اختر" &&
+               size != "اختر"
+    }
     
     var body: some View {
         VStack {
@@ -88,17 +84,42 @@ struct AddStudentToStudentDataSection: View {
             // button
             Button(action: {
                 
-                guard !name.isEmpty else { return }
-                vmStudent.addStudentInfo(name: name, phoneNumber: phoneNumber, age: age, level: level, size: size)
                 
-                name = ""
-                phoneNumber = ""
-                age = ""
-//                city = ""
-                level = ""
-                size = ""
                 
-                showAlert = true
+                if isFormValid {
+                       // إذا كانت جميع الحقول ممتلئة، احفظ البيانات
+                       vmStudent.addStudentInfo(name: name, phoneNumber: phoneNumber, age: age, level: level, size: size)
+                       
+                       // إظهار تنبيه النجاح
+                       alertType = .success
+                       // إعادة تعيين الحقول بعد الحفظ
+                       name = ""
+                       phoneNumber = ""
+                       age = ""
+                       level = "اختر"
+                       size = "اختر"
+                                   
+                                  
+                           } else {
+                               // عرض تنبيه الخطأ عند نقص البيانات
+                              alertType = .error
+                           }
+                        
+                
+                
+                
+                
+//                guard !name.isEmpty else { return }
+//                vmStudent.addStudentInfo(name: name, phoneNumber: phoneNumber, age: age, level: level, size: size)
+//                
+//                name = ""
+//                phoneNumber = ""
+//                age = ""
+////                city = ""
+//                level = ""
+//                size = ""
+//                
+//                showAlert = true
                 
                 
             }){
@@ -110,21 +131,25 @@ struct AddStudentToStudentDataSection: View {
                     .background(Color(red: 27/255, green: 62/255, blue: 94/255))
                     .cornerRadius(5)
             }
-            .alert(isPresented: $showAlert) {
-                Alert( title: Text("تم الحفظ"),
-                       message: Text("تم حفظ بيانات الطالب بنجاح!"),
-                       dismissButton: .default(Text("موافق")) {
-                    //dismiss() // Dismiss the view after saving
-                } ) }
+            .alert(item: $alertType) { type in
+                           switch type {
+                           case .success:
+                               return Alert(
+                                   title: Text("تم الحفظ"),
+                                   message: Text("تم حفظ بيانات الطالب بنجاح!"),
+                                   dismissButton: .default(Text("موافق"))
+                               )
+                           case .error:
+                               return Alert(
+                                   title: Text("خطأ"),
+                                   message: Text("يرجى ملء جميع الحقول قبل الحفظ."),
+                                   dismissButton: .default(Text("حسناً"))
+                               )
+                           }
+                       }
             
-            
-            
-    
             
           
-            
-            
-            
             
             
         }
@@ -157,6 +182,21 @@ struct AddStudentToStudentDataSection: View {
         
     }
 }
+
+
+// تعريف نوع التنبيه
+enum AlertType: Identifiable {
+    case success
+    case error
+    
+    var id: Int {
+        switch self {
+        case .success: return 1
+        case .error: return 2
+        }
+    }
+}
+
 
 
 #Preview {

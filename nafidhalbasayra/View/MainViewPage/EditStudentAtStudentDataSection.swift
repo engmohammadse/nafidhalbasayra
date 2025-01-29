@@ -38,7 +38,7 @@ struct EditStudentAtStudentDataSection: View {
 //      ]
     @State private var itemsLectured = ["الابتدائية", "المتوسطة", "الإعدادية"]
     
-    @State private var sizes = ["صغير جدًا (XS)", "صغير (S)", "متوسط (M)", "كبير (L)", "كبير جدًا (XL)", "ضخم (XXL)"]
+    @State private var sizes = ["صغير (S)", "متوسط (M)", "كبير (L)"]
 
     // Initializer to assign values to state variables
     init(student: StudentInfo, teacherData: TeacherDataViewModel) {
