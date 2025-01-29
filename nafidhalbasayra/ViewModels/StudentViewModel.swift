@@ -52,14 +52,14 @@ class StudentViewModel: ObservableObject {
     
     
     
-    func addStudentInfo(name: String, phoneNumber: String, age: String, city: String, level: String, size: String) {
+    func addStudentInfo(name: String, phoneNumber: String, age: String, level: String, size: String) {
         let newStudentInfo = StudentInfo(context: container.viewContext)
         
         newStudentInfo.studentID = UUID().uuidString // توليد المعرف تلقائيًا
         newStudentInfo.name = name
         newStudentInfo.phoneNumber = phoneNumber
         newStudentInfo.age = age
-        newStudentInfo.city = city
+//        newStudentInfo.city = city
         newStudentInfo.level = level
         newStudentInfo.size = size
         newStudentInfo.state = 0
@@ -82,11 +82,11 @@ class StudentViewModel: ObservableObject {
     
     
 
-    func updateStudentInfo(entity: StudentInfo, with newName: String, with newphoneNumber: String, with newAge: String, with newCity: String, with newLevel: String, with newSize: String) {
+    func updateStudentInfo(entity: StudentInfo, with newName: String, with newphoneNumber: String, with newAge: String, with newLevel: String, with newSize: String) {
         entity.name = newName
         entity.phoneNumber = newphoneNumber
         entity.age = newAge
-        entity.city = newCity
+//        entity.city = newCity
         entity.level = newLevel
         entity.size = newSize
         saveStudentData()

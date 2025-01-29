@@ -11,7 +11,8 @@ class StudentDeleter {
     /// دالة حذف الطالب باستخدام `idFromApi`
     static func deleteStudent(withId idFromApi: String, completion: @escaping (Bool, Int, String?) -> Void) {
         // تكوين الرابط مع `idFromApi`
-        guard let url = URL(string: "http://198.244.227.48:8082/students/delete/\(idFromApi)") else {
+        guard let url = URL(string: "http://198.244.227.48:8082/students/to-delete/\(idFromApi)") else {
+        
             print("❌ رابط غير صالح.")
             completion(false, -1, "رابط غير صالح.")
             return
@@ -19,7 +20,7 @@ class StudentDeleter {
 
         // إعداد الطلب
         var request = URLRequest(url: url)
-        request.httpMethod = "DELETE"
+        request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         // إرسال الطلب باستخدام URLSession
@@ -36,7 +37,7 @@ class StudentDeleter {
                 return
             }
 
-            if httpResponse.statusCode == 200 || httpResponse.statusCode == 204 {
+            if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
                 print("✅ تم حذف الطالب بنجاح.")
                 completion(true, httpResponse.statusCode, nil)
             } else {

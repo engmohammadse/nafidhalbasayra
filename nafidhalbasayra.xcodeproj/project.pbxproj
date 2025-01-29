@@ -15,6 +15,7 @@
 		410AFBEF2CDBF11900501834 /* EditStudentAtStudentDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410AFBEE2CDBF11900501834 /* EditStudentAtStudentDataSection.swift */; };
 		4110976A2CB5427C0004C9E4 /* registerPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411097692CB5427C0004C9E4 /* registerPage1.swift */; };
 		4114B10C2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4114B10B2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift */; };
+		411C82482D4A232C008C1AA8 /* StudentUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411C82472D4A232C008C1AA8 /* StudentUpdater.swift */; };
 		411CA47E2CBBF33A0094A94B /* socialMediaSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */; };
 		4124DC612CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4124DC602CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift */; };
 		4124DC632CDD61B70083E5F9 /* DisplayAttendanceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4124DC622CDD61B70083E5F9 /* DisplayAttendanceData.swift */; };
@@ -82,6 +83,7 @@
 		410AFBEE2CDBF11900501834 /* EditStudentAtStudentDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStudentAtStudentDataSection.swift; sourceTree = "<group>"; };
 		411097692CB5427C0004C9E4 /* registerPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage1.swift; sourceTree = "<group>"; };
 		4114B10B2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogicHistoryAttendanceUpdateState.swift; sourceTree = "<group>"; };
+		411C82472D4A232C008C1AA8 /* StudentUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentUpdater.swift; sourceTree = "<group>"; };
 		411CA47D2CBBF33A0094A94B /* socialMediaSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = socialMediaSection.swift; sourceTree = "<group>"; };
 		4124DC602CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendaceStatusViewModel.swift; sourceTree = "<group>"; };
 		4124DC622CDD61B70083E5F9 /* DisplayAttendanceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayAttendanceData.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				41DA9E6A2D05DB9E0014F05E /* ProvinceSpecificGet.swift */,
 				418238FD2D457AE8001F82EA /* StudentUploader.swift */,
 				412D3DCD2D48C2B1006CDAF1 /* InternetChecker.swift */,
+				411C82472D4A232C008C1AA8 /* StudentUpdater.swift */,
 				412D3DCF2D48D0D2006CDAF1 /* StudentDeleter.swift */,
 			);
 			path = Models;
@@ -400,6 +403,7 @@
 				41D1DC522CB6EDF7004EB23D /* registerPageWaitProcess.swift in Sources */,
 				41EE60A62D429D120044D777 /* test.swift in Sources */,
 				41074C852CBE8EFB00FA28AC /* LoginRequest.swift in Sources */,
+				411C82482D4A232C008C1AA8 /* StudentUpdater.swift in Sources */,
 				41414E2B2CB1B31A0070C380 /* testNavigationStackPop.swift in Sources */,
 				41CD8CE12CF75D360095A82D /* displayTeacherInfo.swift in Sources */,
 				41D818272D149153007B8581 /* LoginStatusView.swift in Sources */,

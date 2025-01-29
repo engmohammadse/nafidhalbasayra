@@ -18,7 +18,7 @@ struct AddStudentToStudentDataSection: View {
     @Environment(\.dismiss) var dismiss
     
     @State var phoneNumber: String = ""
-    @State var city: String = "اختر"
+//    @State var city: String = "اختر"
     @State var name: String = ""
     @State var age: String = ""
     @State var level: String = "اختر"
@@ -27,19 +27,19 @@ struct AddStudentToStudentDataSection: View {
     @State var showAlert = false
 
     
-    @State private var itemsProvince = [
-        "بغداد",
-        "النجف الأشرف",
-        "ميسان",
-        "ذي قار",
-        "كربلاء المقدسة",
-        "الديوانية",
-        "كركوك",
-        "بابل",
-        "المثنى",
-        "صلاح الدين",
-        "واسط",
-      ]
+//    @State private var itemsProvince = [
+//        "بغداد",
+//        "النجف الأشرف",
+//        "ميسان",
+//        "ذي قار",
+//        "كربلاء المقدسة",
+//        "الديوانية",
+//        "كركوك",
+//        "بابل",
+//        "المثنى",
+//        "صلاح الدين",
+//        "واسط",
+//      ]
     @State private var itemsLectured = ["الابتدائية", "المتوسطة", "الإعدادية"]
     
     @State private var sizes = ["صغير جدًا (XS)", "صغير (S)", "متوسط (M)", "كبير (L)", "كبير جدًا (XL)", "ضخم (XXL)"]
@@ -66,10 +66,10 @@ struct AddStudentToStudentDataSection: View {
                     Spacer().frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.05  : screenHeight * 0.10)
 
                     FormField(label: "الأسم الثلاثي", text: $name)
-                    FormField(label: "رقم الهاتف", text: $phoneNumber, isPhoneNumber: true)
-                    FormField(label: "العمر", text: $age)
+                    FormFieldNumber(label: "رقم الهاتف", text: $phoneNumber)
+                    FormFieldNumber(label: "العمر", text: $age)
                     
-                    DropdownField(label: "المحافظة", selectedOption: $city, options: itemsProvince)
+//                    DropdownField(label: "المحافظة", selectedOption: $city, options: itemsProvince)
                     DropdownField(label: "المرحلة", selectedOption: $level, options: itemsLectured)
                    
                     DropdownField(label: "القياس", selectedOption: $size, options: sizes)
@@ -89,12 +89,12 @@ struct AddStudentToStudentDataSection: View {
             Button(action: {
                 
                 guard !name.isEmpty else { return }
-                vmStudent.addStudentInfo(name: name, phoneNumber: phoneNumber, age: age, city: city, level: level, size: size)
+                vmStudent.addStudentInfo(name: name, phoneNumber: phoneNumber, age: age, level: level, size: size)
                 
                 name = ""
                 phoneNumber = ""
                 age = ""
-                city = ""
+//                city = ""
                 level = ""
                 size = ""
                 

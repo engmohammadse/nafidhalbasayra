@@ -17,25 +17,25 @@ struct EditStudentAtStudentDataSection: View {
     @State private var name: String
     @State private var phoneNumber: String
     @State private var age: String
-    @State private var city: String
+//    @State private var city: String
     @State private var level: String
     @State private var size: String
     
     @State var  showAlert = false
 
-    @State private var itemsProvince = [
-        "بغداد",
-        "النجف الأشرف",
-        "ميسان",
-        "ذي قار",
-        "كربلاء المقدسة",
-        "الديوانية",
-        "كركوك",
-        "بابل",
-        "المثنى",
-        "صلاح الدين",
-        "واسط",
-      ]
+//    @State private var itemsProvince = [
+//        "بغداد",
+//        "النجف الأشرف",
+//        "ميسان",
+//        "ذي قار",
+//        "كربلاء المقدسة",
+//        "الديوانية",
+//        "كركوك",
+//        "بابل",
+//        "المثنى",
+//        "صلاح الدين",
+//        "واسط",
+//      ]
     @State private var itemsLectured = ["الابتدائية", "المتوسطة", "الإعدادية"]
     
     @State private var sizes = ["صغير جدًا (XS)", "صغير (S)", "متوسط (M)", "كبير (L)", "كبير جدًا (XL)", "ضخم (XXL)"]
@@ -47,7 +47,7 @@ struct EditStudentAtStudentDataSection: View {
         _name = State(initialValue: student.name ?? "")
         _phoneNumber = State(initialValue: student.phoneNumber ?? "")
         _age = State(initialValue: student.age ?? "")
-        _city = State(initialValue: student.city ?? "اختر")
+//        _city = State(initialValue: student.city ?? "اختر")
         _level = State(initialValue: student.level ?? "اختر")
         _size = State(initialValue: student.size ?? "اختر")
     }
@@ -66,10 +66,10 @@ struct EditStudentAtStudentDataSection: View {
                     Spacer().frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.05 : screenHeight * 0.10)
 
                     FormField(label: "الأسم الثلاثي", text: $name)
-                    FormField(label: "رقم الهاتف", text: $phoneNumber, isPhoneNumber: true)
-                    FormField(label: "العمر", text: $age)
+                    FormFieldNumber(label: "رقم الهاتف", text: $phoneNumber)
+                    FormFieldNumber(label: "العمر", text: $age)
 
-                    DropdownField(label: "المحافظة", selectedOption: $city, options: itemsProvince)
+//                    DropdownField(label: "المحافظة", selectedOption: $city, options: itemsProvince)
                     DropdownField(label: "المرحلة", selectedOption: $level, options: itemsLectured)
                     DropdownField(label: "القياس", selectedOption: $size, options: sizes)
                 }
@@ -77,16 +77,31 @@ struct EditStudentAtStudentDataSection: View {
             }
 
             // زر الحفظ
+            
             Button(action: {
                 guard !name.isEmpty else { return }
 
-                // تحديث بيانات الطالب المحدد
-                vmStudent.updateStudentInfo(entity: student, with: name, with: phoneNumber, with: age, with: city, with: level, with: size)
+                // تحديث بيانات الطالب محليًا
+                vmStudent.updateStudentInfo(entity: student, with: name, with: phoneNumber, with: age, with: level, with: size)
 
-                //dismiss() // اغلاق شاشة التعديل
-                
-                showAlert = true
-                
+                // استدعاء دالة التحديث في API
+                let updatedStudent = student
+                updatedStudent.name = name
+                updatedStudent.phoneNumber = phoneNumber
+                updatedStudent.age = age
+//                updatedStudent.city = city
+                updatedStudent.level = level
+                updatedStudent.size = size
+
+                StudentUpdater.updateStudent(student: updatedStudent) { success, statusCode, message in
+                    DispatchQueue.main.async {
+                        if success {
+                            showAlert = true
+                        } else {
+                            print("❌ فشل التعديل: \(message ?? "خطأ غير معروف")")
+                        }
+                    }
+                }
             }) {
                 Text("حفظ بيانات الطالب")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
@@ -97,11 +112,46 @@ struct EditStudentAtStudentDataSection: View {
                     .cornerRadius(5)
             }
             .alert(isPresented: $showAlert) {
-                Alert( title: Text("تم التعديل"),
-                       message: Text("تم تعديب بيانات الطالب بنجاح!"),
-                       dismissButton: .default(Text("موافق")) {
-                    dismiss() // Dismiss the view after saving
-                } ) }
+                Alert(
+                    title: Text("تم التعديل"),
+                    message: Text("تم تعديل بيانات الطالب بنجاح!"),
+                    dismissButton: .default(Text("موافق")) {
+                        dismiss() // إغلاق الشاشة بعد الحفظ
+                    }
+                )
+            }
+
+            
+            
+            
+            
+            
+            
+//            Button(action: {
+//                guard !name.isEmpty else { return }
+//
+//                // تحديث بيانات الطالب المحدد
+//                vmStudent.updateStudentInfo(entity: student, with: name, with: phoneNumber, with: age, with: city, with: level, with: size)
+//
+//                //dismiss() // اغلاق شاشة التعديل
+//                
+//                showAlert = true
+//                
+//            }) {
+//                Text("حفظ بيانات الطالب")
+//                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
+//                    .foregroundStyle(.white)
+//                    .frame(width: screenWidth * 0.85)
+//                    .frame(height: screenHeight * 0.05)
+//                    .background(Color(red: 27/255, green: 62/255, blue: 94/255))
+//                    .cornerRadius(5)
+//            }
+//            .alert(isPresented: $showAlert) {
+//                Alert( title: Text("تم التعديل"),
+//                       message: Text("تم تعديب بيانات الطالب بنجاح!"),
+//                       dismissButton: .default(Text("موافق")) {
+//                    dismiss() // Dismiss the view after saving
+//                } ) }
             
             
             

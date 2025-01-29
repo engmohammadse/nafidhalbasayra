@@ -12,7 +12,7 @@ import SwiftUI
 struct FormField: View {
     var label: String
     @Binding var text: String
-    var isPhoneNumber: Bool = false
+   // var isPhoneNumber: Bool = false
     
     var body: some View {
         VStack(alignment: .trailing, spacing: 5) {
@@ -23,7 +23,7 @@ struct FormField: View {
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
 
             TextField("", text: $text)
-                .keyboardType(isPhoneNumber ? .phonePad : .default)
+               // .keyboardType(isPhoneNumber ? .phonePad : .default)
                 .foregroundStyle(primaryColor)
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
@@ -34,6 +34,40 @@ struct FormField: View {
         }
     }
 }
+
+
+struct FormFieldNumber: View {
+    var label: String
+    @Binding var text: String
+    var isPhoneNumber: Bool = false
+
+    var body: some View {
+        VStack(alignment: .trailing, spacing: 5) {
+            Text(label)
+                .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+                .foregroundStyle(primaryColor)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
+
+
+            TextField("", text: $text)
+                .keyboardType(.numberPad) // تحديد نوع لوحة المفاتيح للأرقام فقط
+                .foregroundStyle(primaryColor)
+                .frame(maxWidth: screenHeight * 0.4)
+                .frame(height: screenHeight * 0.05)
+                .multilineTextAlignment(.trailing)
+                .padding(.horizontal)
+                .background(Color.white)
+                .cornerRadius(5)
+
+                // فلترة الإدخال ليكون أرقامًا فقط
+                .onChange(of: text) { newValue in
+                    text = newValue.filter { "0123456789".contains($0) } // إبقاء الأرقام فقط
+                }
+        }
+    }
+}
+
 
 
 import SwiftUI
@@ -57,9 +91,9 @@ struct DropdownField: View {
 
             // الحقل النصي
             TextField(selectedOption, text: $selectedOption)
-                .onTapGesture {
-                    showDropdown.toggle()
-                }
+//                .onTapGesture {
+//                    showDropdown.toggle()
+//                }
                 .foregroundStyle(primaryColor)
                 .frame(maxWidth: screenHeight * 0.4)
                 .frame(height: screenHeight * 0.05)
@@ -67,6 +101,15 @@ struct DropdownField: View {
                 .padding(.horizontal)
                 .background(Color.white)
                 .cornerRadius(5)
+                .disabled(true)
+                .overlay(
+                       Color.clear
+                           .contentShape(Rectangle()) // يجعل الطبقة قابلة للنقر
+                           .onTapGesture {
+                               showDropdown.toggle()
+                           }
+                   )
+
                 .overlay {
                     Image(showDropdown ? "Vector1" : "Vector")
                         .resizable()
