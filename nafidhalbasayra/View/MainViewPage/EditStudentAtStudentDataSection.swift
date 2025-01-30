@@ -21,21 +21,21 @@ struct EditStudentAtStudentDataSection: View {
     @State private var level: String
     @State private var size: String
     
-    @State var  showAlert = false
+    @State private var messageOfError = ""
+    @State private var alertInternetMessage = ""
 
-//    @State private var itemsProvince = [
-//        "بغداد",
-//        "النجف الأشرف",
-//        "ميسان",
-//        "ذي قار",
-//        "كربلاء المقدسة",
-//        "الديوانية",
-//        "كركوك",
-//        "بابل",
-//        "المثنى",
-//        "صلاح الدين",
-//        "واسط",
-//      ]
+    
+//    @State var  showAlert = false
+
+    var isFormValid: Bool {
+        return !name.isEmpty &&
+               !phoneNumber.isEmpty &&
+               !age.isEmpty &&
+               level != "اختر" &&
+               size != "اختر"
+    }
+    @State private var alertType2: AlertType2?  // نوع التنبيه
+
     @State private var itemsLectured = ["الابتدائية", "المتوسطة", "الإعدادية"]
     
     @State private var sizes = ["صغير (S)", "متوسط (M)", "كبير (L)"]
@@ -79,29 +79,58 @@ struct EditStudentAtStudentDataSection: View {
             // زر الحفظ
             
             Button(action: {
-                guard !name.isEmpty else { return }
+                
+                InternetChecker.isInternetAvailable { isAvailable in
+                    
+                    if isAvailable {
+                        
+                        if isFormValid {
+                       
+                            // استدعاء دالة التحديث في API
+                            var updatedStudent = student
+                            updatedStudent.name = name
+                            updatedStudent.phoneNumber = phoneNumber
+                            updatedStudent.age = age
+                            updatedStudent.level = level
+                            updatedStudent.size = size
+                            
+                            
+                           
+                          
+                            
+                            StudentUpdater.updateStudent(student: updatedStudent) { success, statusCode, message in
+                                DispatchQueue.main.async {
+                                    if success {
+                                        // تحديث بيانات الطالب محليًا فقط إذا نجح التحديث في API
+                                        DispatchQueue.main.async {
+                                            vmStudent.updateStudentInfo(entity: student, with: name, with: phoneNumber, with: age, with: level, with: size)
+                                            
+                                            alertType2 = .success
+                                        }
+                                        
+                                    } else {
+                                        messageOfError = " \(statusCode) رمز الحالة\n  ❌ فشل التعديل: \(message ?? "خطأ غير معروف") "
+                                        alertType2 = .typeError
+                                    }
+                                }
+                            }
 
-                // تحديث بيانات الطالب محليًا
-                vmStudent.updateStudentInfo(entity: student, with: name, with: phoneNumber, with: age, with: level, with: size)
-
-                // استدعاء دالة التحديث في API
-                let updatedStudent = student
-                updatedStudent.name = name
-                updatedStudent.phoneNumber = phoneNumber
-                updatedStudent.age = age
-//                updatedStudent.city = city
-                updatedStudent.level = level
-                updatedStudent.size = size
-
-                StudentUpdater.updateStudent(student: updatedStudent) { success, statusCode, message in
-                    DispatchQueue.main.async {
-                        if success {
-                            showAlert = true
+                            
                         } else {
-                            print("❌ فشل التعديل: \(message ?? "خطأ غير معروف")")
+                            alertType2 = .error
+                            
                         }
                     }
+                    else {
+                        alertInternetMessage = "يجب توفر اتصال بالإنترنت لتنفيذ عملية التعديل."
+                        alertType2 = .internetError
+                    }
+                    
                 }
+                
+             
+
+              
             }) {
                 Text("حفظ بيانات الطالب")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
@@ -111,50 +140,50 @@ struct EditStudentAtStudentDataSection: View {
                     .background(Color(red: 27/255, green: 62/255, blue: 94/255))
                     .cornerRadius(5)
             }
-            .alert(isPresented: $showAlert) {
-                Alert(
-                    title: Text("تم التعديل"),
-                    message: Text("تم تعديل بيانات الطالب بنجاح!"),
-                    dismissButton: .default(Text("موافق")) {
-                        dismiss() // إغلاق الشاشة بعد الحفظ
-                    }
-                )
-            }
+            .alert(item: $alertType2) { type in
+                           switch type {
+                           case .success:
+                               return Alert(
+                                   title: Text("تم الحفظ"),
+                                   message: Text("تم حفظ بيانات الطالب بنجاح!"),
+                                   dismissButton: .default(Text("حسناً")) {
+                                       
+                                       dismiss()
 
-            
-            
-            
-            
-            
-            
-//            Button(action: {
-//                guard !name.isEmpty else { return }
-//
-//                // تحديث بيانات الطالب المحدد
-//                vmStudent.updateStudentInfo(entity: student, with: name, with: phoneNumber, with: age, with: city, with: level, with: size)
-//
-//                //dismiss() // اغلاق شاشة التعديل
-//                
-//                showAlert = true
-//                
-//            }) {
-//                Text("حفظ بيانات الطالب")
-//                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
-//                    .foregroundStyle(.white)
-//                    .frame(width: screenWidth * 0.85)
-//                    .frame(height: screenHeight * 0.05)
-//                    .background(Color(red: 27/255, green: 62/255, blue: 94/255))
-//                    .cornerRadius(5)
-//            }
-//            .alert(isPresented: $showAlert) {
-//                Alert( title: Text("تم التعديل"),
-//                       message: Text("تم تعديب بيانات الطالب بنجاح!"),
-//                       dismissButton: .default(Text("موافق")) {
-//                    dismiss() // Dismiss the view after saving
-//                } ) }
-            
-            
-            
+                                   }
+                               )
+                           case .error:
+                               return Alert(
+                                   title: Text("خطأ"),
+                                   message: Text("يرجى ملء جميع الحقول قبل الحفظ."),
+                                   dismissButton: .default(Text("حسناً")) {
+                                       
+                                       dismiss()
+
+                                   }
+                               )
+                           case .typeError:
+                               return Alert(
+                                   title: Text("خطأ"),
+                                   message: Text("\(messageOfError)"),
+                                   dismissButton: .default(Text("حسناً")) {
+                                       
+                                       dismiss()
+
+                                   }
+                               )
+                           case .internetError:
+                               return Alert(
+                                   title: Text("خطأ"),
+                                   message: Text("\(alertInternetMessage)"),
+                                   dismissButton: .default(Text("حسناً")) {
+                                       
+                                       dismiss()
+
+                                   }
+                               )
+                           }
+                       }
             
             
             
@@ -181,6 +210,28 @@ struct EditStudentAtStudentDataSection: View {
         }
     }
 }
+
+
+
+// تعريف نوع التنبيه
+enum AlertType2: Identifiable {
+    case success
+    case error
+    case typeError
+    case internetError
+    
+    var id: Int {
+        switch self {
+        case .success: return 1
+        case .error: return 2
+        case .typeError: return 3
+        case .internetError: return 4
+        }
+    }
+}
+
+
+
 
 #Preview {
     EditStudentAtStudentDataSection(student: StudentInfo(), teacherData: TeacherDataViewModel())
