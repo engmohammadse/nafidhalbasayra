@@ -23,6 +23,7 @@
 		412D3DCE2D48C2B1006CDAF1 /* InternetChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412D3DCD2D48C2B1006CDAF1 /* InternetChecker.swift */; };
 		412D3DD02D48D0D2006CDAF1 /* StudentDeleter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412D3DCF2D48D0D2006CDAF1 /* StudentDeleter.swift */; };
 		412D80C32D04772800382D8A /* ModelRegisterPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412D80C22D04772800382D8A /* ModelRegisterPage1.swift */; };
+		413140342D4C15F100BECBAE /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413140332D4C15F100BECBAE /* NotificationViewModel.swift */; };
 		41325AA72CA9B83D00664847 /* LoginPageWelcom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41325AA62CA9B83D00664847 /* LoginPageWelcom.swift */; };
 		413E4B8F2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */; };
 		413E4B912CA1C78200B1EEC5 /* TeacherCoreDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4B902CA1C78200B1EEC5 /* TeacherCoreDataViewModel.swift */; };
@@ -93,6 +94,7 @@
 		412D3DCD2D48C2B1006CDAF1 /* InternetChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetChecker.swift; sourceTree = "<group>"; };
 		412D3DCF2D48D0D2006CDAF1 /* StudentDeleter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentDeleter.swift; sourceTree = "<group>"; };
 		412D80C22D04772800382D8A /* ModelRegisterPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelRegisterPage1.swift; sourceTree = "<group>"; };
+		413140332D4C15F100BECBAE /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		41325AA62CA9B83D00664847 /* LoginPageWelcom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageWelcom.swift; sourceTree = "<group>"; };
 		413E4B8B2CA1C78200B1EEC5 /* nafidhalbasayra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nafidhalbasayra.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nafidhalbasayraApp.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				412D3DCF2D48D0D2006CDAF1 /* StudentDeleter.swift */,
 				41FC5C492D4BE19E009477FF /* GuideService.swift */,
 				41FC5C4B2D4BE8DF009477FF /* LectureViewModel.swift */,
+				413140332D4C15F100BECBAE /* NotificationViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -463,6 +466,7 @@
 				413E4B8F2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift in Sources */,
 				412D80C32D04772800382D8A /* ModelRegisterPage1.swift in Sources */,
 				414AFBDC2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift in Sources */,
+				413140342D4C15F100BECBAE /* NotificationViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
