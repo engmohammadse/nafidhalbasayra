@@ -16,8 +16,17 @@ struct NotificationChannelSection: View {
     var body: some View {
         VStack {
             // التنبيه إذا كانت حالة الانترنت غير متاحة
+            
+           
+            
             if showInternetAlert {
+                
+                Spacer()
+                    .frame(height: screenHeight * 0.2)
+                
                 VStack {
+                  
+                    
                     Text("❌ لا يوجد اتصال بالإنترنت.")
                         .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
                         .foregroundColor(.red)
@@ -29,13 +38,25 @@ struct NotificationChannelSection: View {
                         .padding()
                     
                     Button(action: {
-                        self.showInternetAlert = false // إخفاء التنبيه
+                        notificationVM.fetchNotifications()
+                        
+                        InternetChecker.isInternetAvailable { isAvailable in
+                            DispatchQueue.main.async {
+                                if isAvailable {
+                                    self.showInternetAlert = false // إخفاء التنبيه
+
+                                }
+                            }
+                        }
+
+                        
+
                     }) {
                         Text("حاول مجددًا")
                             .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
                             .foregroundColor(.white)
                             .padding()
-                            .background(Color.blue)
+                            .background(primaryButtonColor)
                             .cornerRadius(8)
                     }
                     .padding()
@@ -44,10 +65,13 @@ struct NotificationChannelSection: View {
                 .cornerRadius(10)
                 .shadow(radius: 5)
                 .padding()
+                
+
             }
             
             ScrollView {
-                Spacer().frame(height: screenHeight * 0.1)
+                Spacer()
+                    .frame(height: screenHeight * 0.1)
                 
                 ForEach(notificationVM.notifications) { notification in
                     MessageView(
@@ -59,14 +83,31 @@ struct NotificationChannelSection: View {
                     
                     Spacer().frame(height: screenHeight * 0.05)
                 }
-            }
+            } 
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(backgroundColorPage)
         }
         .padding(.horizontal, screenWidth * 0.1)
         .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
+        .overlay {
+            LogoIUserInfo()
+                .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)
+        }
+        .navigationBarBackButtonHidden(true)
         .onAppear {
             notificationVM.fetchNotifications()
+            
+            InternetChecker.isInternetAvailable { isAvailable in
+                DispatchQueue.main.async {
+                    
+                    if !isAvailable {
+                        showInternetAlert = true
+                    }
+                    
+                }
+                
+            }
         }
-        .overlay(LogoIUserInfo().offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.0 : screenHeight * 0))
         .overlay {
             ZStack {
                 Button(action: {
