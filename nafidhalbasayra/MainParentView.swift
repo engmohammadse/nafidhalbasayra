@@ -13,6 +13,11 @@ struct MainParentView: View {
     @StateObject var coreDataViewModel = CoreDataViewModel()
     
     @StateObject var studentViewModel = StudentViewModel() // إضافة StudentViewModel
+    let teacherId = UserDefaults.standard.string(forKey: "teacherId") ?? "No ID"
+    
+    @StateObject var viewModelAttendance: AttendanceViewModel = AttendanceViewModel(database: AttendaceStatusViewModel())
+
+    
 
     
 
@@ -38,6 +43,21 @@ struct MainParentView: View {
                     // إرسال بيانات الطلاب
                     let studentUploader = StudentUploader(database: studentViewModel)
                     studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
+                    
+                    
+//                    Task {
+//                           await viewModelAttendance.fetchAndStoreAttendances(teacherID: teacherId)
+//                       }
+                    
+                    Task {
+                        // تأخير التنفيذ لمدة معينة (مثلاً 2 ثانية)
+                        try await Task.sleep(nanoseconds: 20 * 1_000_000_000) // 2 ثانية
+                        await viewModelAttendance.fetchAndStoreAttendances(teacherID: teacherId)
+                    }
+
+                    
+//
+//                              
 
                     
 //                    let uploader = AttendanceUploader(database: vmAttendaceStatus)

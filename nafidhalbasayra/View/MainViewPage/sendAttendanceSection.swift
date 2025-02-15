@@ -280,7 +280,9 @@ struct sendAttendanceSection: View {
                                         notes: notes,
                                         latitude: location.coordinate.latitude,
                                         longitude: location.coordinate.longitude,
-                                        date: Date()
+                                        date: Date(),
+                                        state: 0
+                                 
                                     )
                                 }
                                 

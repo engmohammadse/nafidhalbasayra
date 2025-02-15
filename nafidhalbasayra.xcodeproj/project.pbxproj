@@ -13,6 +13,7 @@
 		4107BE5D2CB43C260073EC4B /* testFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107BE5C2CB43C260073EC4B /* testFile.swift */; };
 		410A52252CD3A66C00DE375B /* StudentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410A52242CD3A66C00DE375B /* StudentViewModel.swift */; };
 		410AFBEF2CDBF11900501834 /* EditStudentAtStudentDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410AFBEE2CDBF11900501834 /* EditStudentAtStudentDataSection.swift */; };
+		410B923C2D60ED8C00FE9259 /* fetchAndStoreAttendances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410B923B2D60ED8C00FE9259 /* fetchAndStoreAttendances.swift */; };
 		4110976A2CB5427C0004C9E4 /* registerPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411097692CB5427C0004C9E4 /* registerPage1.swift */; };
 		4114B10C2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4114B10B2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift */; };
 		411C82482D4A232C008C1AA8 /* StudentUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411C82472D4A232C008C1AA8 /* StudentUpdater.swift */; };
@@ -84,6 +85,7 @@
 		4107BE5C2CB43C260073EC4B /* testFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testFile.swift; sourceTree = "<group>"; };
 		410A52242CD3A66C00DE375B /* StudentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentViewModel.swift; sourceTree = "<group>"; };
 		410AFBEE2CDBF11900501834 /* EditStudentAtStudentDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStudentAtStudentDataSection.swift; sourceTree = "<group>"; };
+		410B923B2D60ED8C00FE9259 /* fetchAndStoreAttendances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fetchAndStoreAttendances.swift; sourceTree = "<group>"; };
 		411097692CB5427C0004C9E4 /* registerPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage1.swift; sourceTree = "<group>"; };
 		4114B10B2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogicHistoryAttendanceUpdateState.swift; sourceTree = "<group>"; };
 		411C82472D4A232C008C1AA8 /* StudentUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentUpdater.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				41FC5C492D4BE19E009477FF /* GuideService.swift */,
 				41FC5C4B2D4BE8DF009477FF /* LectureViewModel.swift */,
 				413140332D4C15F100BECBAE /* NotificationViewModel.swift */,
+				410B923B2D60ED8C00FE9259 /* fetchAndStoreAttendances.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				41E9C6D62CC41A0100FE122F /* HistoryAttendanceSection.swift in Sources */,
 				4188DE292CD1425100B65478 /* SettingSection.swift in Sources */,
 				4114B10C2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift in Sources */,
+				410B923C2D60ED8C00FE9259 /* fetchAndStoreAttendances.swift in Sources */,
 				413E4B912CA1C78200B1EEC5 /* TeacherCoreDataViewModel.swift in Sources */,
 				41E19E792CAD714100CA2256 /* PreviousNextBotton.swift in Sources */,
 				41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */,

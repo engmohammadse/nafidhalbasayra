@@ -11,9 +11,13 @@ struct HistoryAttendance: View {
     @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
     @Environment(\.dismiss) var dismiss
     
+    
+    
     var body: some View {
         
          VStack{
+             
+             
              HStack{
                  
                  Text("عدد مرات تسجيل الحضور: \(vmAttendaceStatus.savedEntities.count)")                     .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.037 : screenWidth * 0.023 ))
@@ -87,11 +91,17 @@ struct HistoryAttendance: View {
      var entity: AttendaceStatus
      var orderNumber: Int
      
+     
+     
      var body: some View {
          
          
          
            VStack {
+               
+       
+               
+               
                Color.clear
                   
                
@@ -144,27 +154,27 @@ struct HistoryAttendance: View {
     
                        }
                        
-                   if repeatSend {
-                       HStack(spacing: 0) {
-                               
-                                  
-                                  // Second half with blue background
-                                  ZStack {
-                                   
-                                      
-                                      Button(action: {}){
-                                          Text("اعادة ارسال")
-                                              .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.036 : screenWidth * 0.023 ))
-                                              .foregroundColor(.white)
-                                              .padding(.all, screenWidth * 0.02)
-                                      }
-                                      
-                                  }
-                                
-                                  .frame(maxWidth: .infinity) // Takes up half of the HStack width
-                       }
-                       .background(primaryButtonColor)
-                   }
+//                   if repeatSend == false {
+//                       HStack(spacing: 0) {
+//                               
+//                                  
+//                                  // Second half with blue background
+//                                  ZStack {
+//                                   
+//                                      
+//                                      Button(action: {}){
+//                                          Text("اعادة ارسال")
+//                                              .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.036 : screenWidth * 0.023 ))
+//                                              .foregroundColor(.white)
+//                                              .padding(.all, screenWidth * 0.02)
+//                                      }
+//                                      
+//                                  }
+//                                
+//                                  .frame(maxWidth: .infinity) // Takes up half of the HStack width
+//                       }
+//                       .background(primaryButtonColor)
+//                   }
                    
                   
                               
@@ -203,6 +213,16 @@ struct HistoryAttendance: View {
                      .offset(y: repeatSend == false ? screenHeight * -0.052 : screenHeight * -0.075 )
                 
              }
+           .onAppear{
+               // تحديد إذا كان تم إرسال البيانات بناءً على قيمة الـ state
+                         if entity.state == 1 {
+                             repeatSendState = true
+                             repeatSend = false
+                         } else {
+                             repeatSendState = false
+                             repeatSend = true
+                         }
+           }
            
            
            
