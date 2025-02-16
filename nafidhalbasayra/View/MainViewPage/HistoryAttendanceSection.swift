@@ -20,7 +20,7 @@ struct HistoryAttendance: View {
              
              HStack{
                  
-                 Text("عدد مرات تسجيل الحضور: \(vmAttendaceStatus.savedEntities.count)")                     .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.037 : screenWidth * 0.023 ))
+                 Text("عدد مرات تسجيل الحضور: \(vmAttendaceStatus.savedEntitiesAttendace.count)")                     .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.037 : screenWidth * 0.023 ))
                      .padding(.all, screenWidth * 0.025)
              }
              .background(.white)
@@ -30,7 +30,7 @@ struct HistoryAttendance: View {
              Spacer()
                  .frame(height: screenHeight * 0.07)
 
-             ScrollView { ForEach(Array(vmAttendaceStatus.savedEntities.enumerated()),id: \.element) { index, entity in
+             ScrollView { ForEach(Array(vmAttendaceStatus.savedEntitiesAttendace.enumerated()),id: \.element) { index, entity in
                  studentHistory(entity: entity, orderNumber: index + 1) }
              }
              
@@ -50,6 +50,11 @@ struct HistoryAttendance: View {
                  .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.0 : screenHeight * 0)
               
          }
+        
+         .onAppear {
+             vmAttendaceStatus.fetchAttendaceStatus() // 🛑 إعادة تحميل البيانات عند فتح الصفحة
+         }
+
      
          
          

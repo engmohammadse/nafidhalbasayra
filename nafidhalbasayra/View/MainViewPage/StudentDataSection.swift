@@ -23,7 +23,7 @@ struct StudentDataSection: View {
         VStack{
             HStack{
                 
-                Text("عدد طلاب الدورة: \(vmStudent.savedEntities.count)")
+                Text("عدد طلاب الدورة: \(vmStudent.savedEntitiesStudent.count)")
                     .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                     .padding(.all, screenWidth * 0.025)
             }
@@ -38,7 +38,7 @@ struct StudentDataSection: View {
             
             
             ScrollView {
-                ForEach(Array(vmStudent.savedEntities.enumerated()), id: \.element.studentID) { index, entity in
+                ForEach(Array(vmStudent.savedEntitiesStudent.enumerated()), id: \.element.studentID) { index, entity in
                     studentInfo(
                         vmStudent: vmStudent,
                         name: entity.name ?? "لا يوجد اسم",
@@ -255,7 +255,7 @@ struct studentInfo :View {
                                                                      showInternetAlert = true
                                                                      print("idFromApi was delete: \(idFromApi)")
 //                                                                     // حذف الطالب محليًا بعد عرض التنبيه
-                                                                         if let index = vmStudent.savedEntities.firstIndex(of: student) {
+                                                                         if let index = vmStudent.savedEntitiesStudent.firstIndex(of: student) {
                                                                              vmStudent.deleteStudentInfo(indexSet: IndexSet(integer: index))
                                                                          }
 //                                                                     

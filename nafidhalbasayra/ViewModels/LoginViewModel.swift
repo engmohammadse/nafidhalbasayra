@@ -101,6 +101,7 @@ class LoginViewModel: ObservableObject {
         
         let defaults = UserDefaults.standard
         let teacherId = "\(response.id)"
+       
         defaults.set(teacherId, forKey: "teacherId")
         defaults.set(response.data?.rejectionReason, forKey: "rejectionReason")
         
@@ -118,6 +119,8 @@ class LoginViewModel: ObservableObject {
             self.nextPage = .waitProcess
         case 2:
             self.nextPage = .homePage
+            let loginState = 2
+            defaults.set(loginState, forKey: "loginState")
         case 3:
             self.nextPage = .rejectionIssue
         default:

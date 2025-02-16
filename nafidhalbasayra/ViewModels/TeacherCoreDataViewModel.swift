@@ -13,7 +13,7 @@ import CoreData
 
 class CoreDataViewModel: ObservableObject {
     let container: NSPersistentContainer
-    @Published var savedEntities: [TeacherInfo] = []
+    @Published var savedEntitiesTeacher: [TeacherInfo] = []
 
     init() {
         container = NSPersistentContainer(name: "CoreData")
@@ -31,7 +31,7 @@ class CoreDataViewModel: ObservableObject {
     func fetchTeacherInfo() {
         let request = NSFetchRequest<TeacherInfo>(entityName: "TeacherInfo")
         do {
-            savedEntities = try container.viewContext.fetch(request)
+            savedEntitiesTeacher = try container.viewContext.fetch(request)
         } catch let error {
             print("Error Fetching. \(error)")
         }
@@ -58,7 +58,7 @@ class CoreDataViewModel: ObservableObject {
 
     func deleteTeacherInfo(indexSet: IndexSet) {
         guard let index = indexSet.first else { return }
-        let entity = savedEntities[index]
+        let entity = savedEntitiesTeacher[index]
         container.viewContext.delete(entity)
         saveTeacherData()
     }
@@ -166,7 +166,7 @@ class CoreDataViewModel: ObservableObject {
     // دالة لطباعة البيانات المخزنة
     func printStoredData() {
         fetchTeacherInfo() // جلب البيانات
-        for entity in savedEntities {
+        for entity in savedEntitiesTeacher {
             
      
 
@@ -241,7 +241,7 @@ struct TeacherViewModel: View {
                 })
 
                 List {
-                    ForEach(vmTeacher.savedEntities) { entity in
+                    ForEach(vmTeacher.savedEntitiesTeacher) { entity in
                         HStack {
                             if selectedTeacher == entity {
                                 TextField("Update name", text: $updatedName, onCommit: {

@@ -40,7 +40,7 @@ struct DisplayAttendanceData: View {
          
             
 
-            List(vmAttendaceStatus.savedEntities) { entity in
+            List(vmAttendaceStatus.savedEntitiesAttendace) { entity in
                 VStack(alignment: .leading, spacing: 10) {
                     if let latitude = entity.latitude as? Double, let longitude = entity.longitude as? Double {
                         Text("الموقع: (\(latitude), \(longitude))")

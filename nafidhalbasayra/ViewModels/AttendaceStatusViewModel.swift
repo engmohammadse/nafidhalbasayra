@@ -11,7 +11,7 @@ import CoreData
 
 class AttendaceStatusViewModel: ObservableObject {
     let container: NSPersistentContainer
-    @Published var savedEntities: [AttendaceStatus] = []
+    @Published var savedEntitiesAttendace: [AttendaceStatus] = []
 
     init() {
         container = NSPersistentContainer(name: "CoreData")
@@ -26,9 +26,9 @@ class AttendaceStatusViewModel: ObservableObject {
     func fetchAttendaceStatus() {
         let request = NSFetchRequest<AttendaceStatus>(entityName: "AttendaceStatus")
         do {
-            savedEntities = try container.viewContext.fetch(request)
-            print("✅ Successfully fetched \(savedEntities.count) entities.")
-            for entity in savedEntities {
+            savedEntitiesAttendace = try container.viewContext.fetch(request)
+            print("✅ Successfully fetched \(savedEntitiesAttendace.count) entities.")
+            for entity in savedEntitiesAttendace {
                 print("""
                 Entity:
                 ID: \(entity.id ?? "No ID")
@@ -44,15 +44,7 @@ class AttendaceStatusViewModel: ObservableObject {
     }
 
 
-    
-//    func fetchAttendaceStatus() {
-//        let request = NSFetchRequest<AttendaceStatus>(entityName: "AttendaceStatus")
-//        do {
-//            savedEntities = try container.viewContext.fetch(request)
-//        } catch let error {
-//            print("Error Fetching. \(error)")
-//        }
-//    }
+
 
     // استدعاء الدالة وتحديد نوع الجهاز
     let deviceModel = getDeviceModel()
@@ -84,20 +76,36 @@ class AttendaceStatusViewModel: ObservableObject {
           """)
     }
 
+    
     func saveData() {
         do {
             try container.viewContext.save()
-            fetchAttendaceStatus()
+            DispatchQueue.main.async {
+                self.fetchAttendaceStatus() // 🛑 تحديث البيانات بعد كل عملية حفظ
+            }
         } catch let error {
-            print("Error saving. \(error)")
+            print("❌ Error saving data: \(error)")
         }
     }
+
+    
+    
+    
+    
+//    func saveData() {
+//        do {
+//            try container.viewContext.save()
+//            fetchAttendaceStatus()
+//        } catch let error {
+//            print("Error saving. \(error)")
+//        }
+//    }
     
     
     
     
     func resetAllStates() {
-        for entity in savedEntities {
+        for entity in savedEntitiesAttendace {
             entity.state = 0
         }
         saveData()

@@ -14,6 +14,10 @@ struct registerPageAccept: View {
     @EnvironmentObject var vmAttendaceStatus : AttendaceStatusViewModel
     @EnvironmentObject var coreDataViewModel : CoreDataViewModel
     
+    let teacherId = UserDefaults.standard.string(forKey: "teacherId") ?? "No ID"
+
+    @StateObject var viewModelAttendance: fetchAndStoreAttendancesFromBackEnd = fetchAndStoreAttendancesFromBackEnd(database: AttendaceStatusViewModel())
+
 
     var body: some View {
         VStack {
@@ -26,7 +30,7 @@ struct registerPageAccept: View {
                 .frame(height: uiDevicePhone ? screenHeight * 0.05 : screenHeight * 0.05)
             
             VStack{
-                Text("تمت قبول طلب التسجيل، يمكنك استخدام التطبيق")
+                Text("تم قبول طلب التسجيل، يمكنك استخدام التطبيق")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.02))
                     .multilineTextAlignment(.center)
                    
@@ -70,14 +74,15 @@ struct registerPageAccept: View {
             
              
         }
-//        .onAppear {
-//            
-//        
-//            
-//            
-////                           let uploader = AttendanceUploader(database: vmAttendaceStatus)
-//                           print("Uploader initialized and monitoring started.")
-//                       }
+        .onAppear {
+            
+            Task {
+                // تأخير التنفيذ لمدة معينة (مثلاً 2 ثانية)
+                try await Task.sleep(nanoseconds: 20 * 1_000_000_000) // 2 ثانية
+                await viewModelAttendance.fetchAndStoreAttendances(teacherID: teacherId)
+            }
+
+                }
         .padding(UIScreen.main.bounds.width < 400 ? 16 : 0)
             .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)

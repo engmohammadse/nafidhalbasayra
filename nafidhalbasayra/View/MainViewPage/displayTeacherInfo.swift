@@ -7,7 +7,7 @@ struct TeacherInfoView: View {
         NavigationView {
             ScrollView {
                 LazyVStack {
-                    ForEach(viewModel.savedEntities, id: \.self) { teacher in
+                    ForEach(viewModel.savedEntitiesTeacher, id: \.self) { teacher in
                         VStack(alignment: .leading, spacing: 10) {
                             Text("Name: \(teacher.name ?? "Unknown")")
                                 .font(.headline)

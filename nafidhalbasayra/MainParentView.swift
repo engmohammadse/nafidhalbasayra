@@ -13,90 +13,63 @@ struct MainParentView: View {
     @StateObject var coreDataViewModel = CoreDataViewModel()
     
     @StateObject var studentViewModel = StudentViewModel() // إضافة StudentViewModel
-    let teacherId = UserDefaults.standard.string(forKey: "teacherId") ?? "No ID"
-    
-    @StateObject var viewModelAttendance: AttendanceViewModel = AttendanceViewModel(database: AttendaceStatusViewModel())
-
-    
-
-    
 
 
     var body: some View {
         NavigationStack {
             // أي شاشة (أو شاشات) تحتاج هذه الـ ViewModels
             // سيتم وضعها هنا أو التنقّل منها
-            RegisterInfoPage()
-                .preferredColorScheme(.light)
-                .environmentObject(teacherData)
-                .environmentObject(vmAttendaceStatus)
-                .environmentObject(coreDataViewModel)
-                .onAppear {
-                    
-                    
-                    
-                    
-                    let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
-                    attendanceUploader.sendPendingAttendanceData()
+            
+            
+            let loginState = UserDefaults.standard.integer(forKey: "loginState")
+            
+            if loginState == 2 {
+                
+                 MainViewPage()
+                    .preferredColorScheme(.light)
+                    .environmentObject(teacherData)
+                    .environmentObject(vmAttendaceStatus)
+                    .environmentObject(coreDataViewModel)
+                    .onAppear {
 
-                    
-                    // إرسال بيانات الطلاب
-                    let studentUploader = StudentUploader(database: studentViewModel)
-                    studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
-                    
-                    
-//                    Task {
-//                           await viewModelAttendance.fetchAndStoreAttendances(teacherID: teacherId)
-//                       }
-                    
-                    Task {
-                        // تأخير التنفيذ لمدة معينة (مثلاً 2 ثانية)
-                        try await Task.sleep(nanoseconds: 20 * 1_000_000_000) // 2 ثانية
-                        await viewModelAttendance.fetchAndStoreAttendances(teacherID: teacherId)
-                    }
+                        let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+                        attendanceUploader.sendPendingAttendanceData()
 
-                    
-//
-//                              
+                        
+                        // إرسال بيانات الطلاب
+                        let studentUploader = StudentUploader(database: studentViewModel)
+                        studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
+                        
 
-                    
-//                    let uploader = AttendanceUploader(database: vmAttendaceStatus)
-//                    uploader.sendPendingAttendanceData()
 
-                    
-                    
-                    
-//                    let uploader = AttendanceUploader()
-//                    uploader.sendAllUnsentData()
-                    
-                    
-                    
-//                    let uploader = AttendanceUploader()
-//
-//                    // البيانات التي سيتم إرسالها
-//                    let teacherId = "67b9909e8dcdb77b0e0c7" // استخدم ID صحيح
-//                    let studentsNumber = 34
-//                    let message = "تم تسجيل الحضور بنجاح"
-//                    let location = "{\"lng\":232.334,\"lat\":344.3434}" // صيغة الموقع المطلوبة
-//                    let date = "2024-12-24"
-//                    //let image = "attendanceImage"
-//
-//                    // استدعاء الدالة
-//                    uploader.sendAttendanceData(
-//                        teacherId: teacherId,
-//                        studentsNumber: studentsNumber,
-//                        //image: image,
-//                        message: message,
-//                        location: location,
-//                        date: date
-//                    ) { success, response in
-//                        if success {
-//                            print("✅ Success: \(response ?? "No response")")
-//                        } else {
-//                            print("❌ Failure: \(response ?? "Unknown error")")
-//                        }
-//                    }
-                        }
+
+                            }
+                
+            }  else {
+                
+                RegisterInfoPage()
+                    .preferredColorScheme(.light)
+                    .environmentObject(teacherData)
+                    .environmentObject(vmAttendaceStatus)
+                    .environmentObject(coreDataViewModel)
+                    .onAppear {
+
+                        let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+                        attendanceUploader.sendPendingAttendanceData()
+
+                        
+                        // إرسال بيانات الطلاب
+                        let studentUploader = StudentUploader(database: studentViewModel)
+                        studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
+
+                        
+                       
+
+
+                            }
+            }
+            
+          
         }
     }
 }

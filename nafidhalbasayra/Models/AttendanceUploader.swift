@@ -37,7 +37,7 @@ class AttendanceUploader {
 
      func sendPendingAttendanceData() {
         // جلب الكيانات التي حالتها state = 0
-        let unsentEntities = database.savedEntities.filter { $0.state == 0 }
+        let unsentEntities = database.savedEntitiesAttendace.filter { $0.state == 0 }
         
         print("✅ Successfully fetched \(unsentEntities.count) unsent entities.")
         
@@ -51,8 +51,8 @@ class AttendanceUploader {
             sendAttendanceData(entity: entity) { success, statusCode, errorMessage in
                 if success {
                     DispatchQueue.main.async {
-                        if let index = self.database.savedEntities.firstIndex(where: { $0.id == entity.id }) {
-                            self.database.savedEntities[index].state = 1 // تحديث الحالة إلى 1
+                        if let index = self.database.savedEntitiesAttendace.firstIndex(where: { $0.id == entity.id }) {
+                            self.database.savedEntitiesAttendace[index].state = 1 // تحديث الحالة إلى 1
                             self.database.saveData() // حفظ التعديلات
                             print("✅ Successfully updated state for entity ID: \(entity.id ?? "No ID") to sent.")
                         }

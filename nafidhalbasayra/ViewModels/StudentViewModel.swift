@@ -16,7 +16,7 @@ import CoreData
 
 class StudentViewModel: ObservableObject {
     let container: NSPersistentContainer
-    @Published var savedEntities: [StudentInfo] = []
+    @Published var savedEntitiesStudent: [StudentInfo] = []
 
     init() {
         container = NSPersistentContainer(name: "CoreData")
@@ -35,7 +35,7 @@ class StudentViewModel: ObservableObject {
     func fetchStudentInfo() {
         let request = NSFetchRequest<StudentInfo>(entityName: "StudentInfo")
         do {
-            savedEntities = try container.viewContext.fetch(request)
+            savedEntitiesStudent = try container.viewContext.fetch(request)
         } catch let error {
             print("Error Fetching. \(error)")
         }
@@ -98,7 +98,7 @@ class StudentViewModel: ObservableObject {
     
     func deleteStudentInfo(indexSet: IndexSet) {
         guard let index = indexSet.first else { return }
-        let entity = savedEntities[index]
+        let entity = savedEntitiesStudent[index]
         container.viewContext.delete(entity)
         
         do {
