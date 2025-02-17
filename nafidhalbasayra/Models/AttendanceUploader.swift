@@ -37,7 +37,17 @@ class AttendanceUploader {
 
      func sendPendingAttendanceData() {
         // جلب الكيانات التي حالتها state = 0
-        let unsentEntities = database.savedEntitiesAttendace.filter { $0.state == 0 }
+         
+         
+//        let unsentEntities = database.savedEntitiesAttendace.filter { $0.state == 0 }
+         
+         let unsentEntities = database.savedEntitiesAttendace.filter { $0.state == 0 }
+
+         for entity in unsentEntities {
+             print("📤 Sending data for entity ID: \(entity.id ?? "No ID")")
+             print("📸 Image Data: \(entity.image != nil ? "✅ Available" : "❌ Not Available")")
+         }
+
         
         print("✅ Successfully fetched \(unsentEntities.count) unsent entities.")
         
@@ -97,14 +107,24 @@ class AttendanceUploader {
         body.append(convertFormField(name: "register_location", value: location, using: boundary))
         body.append(convertFormField(name: "register_date", value: dateString, using: boundary))
 
-        // تحميل الصورة
+        
+        
         if let imageData = entity.image {
             body.append(convertFileField(name: "image", fileName: "image.jpg", mimeType: "image/jpeg", fileData: imageData, using: boundary))
         } else {
-            print("❌ No image provided for entity ID: \(entity.id ?? "No ID")")
-            completion(false, 400, "Image is required")
-            return
+            print("⚠️ Warning: No image provided for entity ID: \(entity.id ?? "No ID"), but continuing...")
+            completion(false, 400, "Image is required") // جرب تعليق هذا السطر لاختبار الإرسال بدون صورة
         }
+
+        
+        // تحميل الصورة
+//        if let imageData = entity.image {
+//            body.append(convertFileField(name: "image", fileName: "image.jpg", mimeType: "image/jpeg", fileData: imageData, using: boundary))
+//        } else {
+//            print("❌ No image provided for entity ID: \(entity.id ?? "No ID")")
+//            completion(false, 400, "Image is required")
+//            return
+//        }
 
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
         request.httpBody = body

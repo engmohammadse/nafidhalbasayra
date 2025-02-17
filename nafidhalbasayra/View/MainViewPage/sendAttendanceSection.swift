@@ -269,9 +269,7 @@ struct sendAttendanceSection: View {
                                 
                                 print("Saving attendance status for \(numberOfStudentsInt) students at location: \(location.coordinate.latitude), \(location.coordinate.longitude).")
                                 
-                                
-//                                vmAttendaceStatus.addAttendaceStatus( numberOfStudents: numberOfStudentsInt, imageData: imageData, notes: notes, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, date: Date() ) 
-                                
+
                                 
                                 if let imageData = imageData?.jpegData(compressionQuality: 0.5) {
                                     vmAttendaceStatus.addAttendaceStatus(
@@ -284,13 +282,16 @@ struct sendAttendanceSection: View {
                                         state: 0
                                  
                                     )
+                                }  else {
+                                    print("⚠️ Warning: No image was selected before saving attendance.")
                                 }
                                 
                                 
                                 showAlert = true
                                 
                                 
-                            } else { print("Error: Invalid input or location not available.")
+                            } else { 
+                                print("Error: Invalid input or location not available.")
                                 showAlert = true
                                 // اظهر التنبيه حتى في حالة الخطأ لعرض رسالة مخصصة
                             }

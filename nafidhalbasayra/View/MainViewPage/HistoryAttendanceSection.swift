@@ -44,12 +44,12 @@ struct HistoryAttendance: View {
          }
          .padding(.all, screenWidth * 0.02)
          .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
-         .overlay{
-
-             LogoIUserInfo()
-                 .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.0 : screenHeight * 0)
-              
-         }
+//         .overlay{
+//
+//             LogoIUserInfo()
+//                 .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.0 : screenHeight * 0)
+//              
+//         }
         
          .onAppear {
              vmAttendaceStatus.fetchAttendaceStatus() // 🛑 إعادة تحميل البيانات عند فتح الصفحة
@@ -159,27 +159,27 @@ struct HistoryAttendance: View {
     
                        }
                        
-//                   if repeatSend == false {
-//                       HStack(spacing: 0) {
-//                               
-//                                  
-//                                  // Second half with blue background
-//                                  ZStack {
-//                                   
-//                                      
-//                                      Button(action: {}){
-//                                          Text("اعادة ارسال")
-//                                              .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.036 : screenWidth * 0.023 ))
-//                                              .foregroundColor(.white)
-//                                              .padding(.all, screenWidth * 0.02)
-//                                      }
-//                                      
-//                                  }
-//                                
-//                                  .frame(maxWidth: .infinity) // Takes up half of the HStack width
-//                       }
-//                       .background(primaryButtonColor)
-//                   }
+                   if repeatSend == false {
+                       HStack(spacing: 0) {
+                               
+                                  
+                                  // Second half with blue background
+                                  ZStack {
+                                   
+                                      
+                                      Button(action: {}){
+                                          Text("اعادة ارسال")
+                                              .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.036 : screenWidth * 0.023 ))
+                                              .foregroundColor(.white)
+                                              .padding(.all, screenWidth * 0.02)
+                                      }
+                                      
+                                  }
+                                
+                                  .frame(maxWidth: .infinity) // Takes up half of the HStack width
+                       }
+                       .background(primaryButtonColor)
+                   }
                    
                   
                               
@@ -189,7 +189,8 @@ struct HistoryAttendance: View {
                }
                .frame(maxWidth: screenWidth * 0.85)
                .padding(.top, screenHeight * 0.025)
-               .padding(.bottom, repeatSend == false ? screenHeight * 0.015 : 0 )
+               .padding(.bottom, repeatSend == false ? 0 : screenHeight * 0.015)
+//               .padding(.bottom, repeatSend == false ? screenHeight * 0.015 : 0 )
                    
                    
                       
@@ -204,7 +205,8 @@ struct HistoryAttendance: View {
                
                   
 
-           }.overlay{
+           }
+           .overlay{
                //  Image("Group 124")
                  //Text("\(orderNumber)")
                  Circle()
@@ -215,9 +217,10 @@ struct HistoryAttendance: View {
                        .foregroundColor(.white))
                    
                      .frame(width: screenWidth * 0.06)
-                     .offset(y: repeatSend == false ? screenHeight * -0.052 : screenHeight * -0.075 )
+                     .offset(y: repeatSend == false ? screenHeight * -0.075 : screenHeight * -0.05 )
                 
              }
+         
            .onAppear{
                // تحديد إذا كان تم إرسال البيانات بناءً على قيمة الـ state
                          if entity.state == 1 {
@@ -255,7 +258,24 @@ struct HistoryAttendance: View {
      
  }
 
+//#Preview {
+//    HistoryAttendance()
+//        .environmentObject(AttendaceStatusViewModel())
+//}
+
+
 #Preview {
-    HistoryAttendance()
-        .environmentObject(AttendaceStatusViewModel())
+    let previewModel = AttendaceStatusViewModel()
+    
+    let sampleEntity = AttendaceStatus(context: previewModel.container.viewContext)
+    sampleEntity.id = UUID().uuidString
+    sampleEntity.numberOfStudents = "25"
+    sampleEntity.date = Date()
+    sampleEntity.state = 0
+
+    previewModel.savedEntitiesAttendace.append(sampleEntity)
+
+    return HistoryAttendance()
+        .environmentObject(previewModel) // توفير EnvironmentObject في البريفيو
 }
+

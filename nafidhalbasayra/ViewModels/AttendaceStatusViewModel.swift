@@ -61,7 +61,7 @@ class AttendaceStatusViewModel: ObservableObject {
         newAttendaceStatus.latitude = latitude
         newAttendaceStatus.longitude = longitude
         newAttendaceStatus.date = date
-       // newAttendaceStatus.state = 0
+        newAttendaceStatus.state = 0
         saveData()
         fetchAttendaceStatus()
         print("Successfully saved attendance status.")

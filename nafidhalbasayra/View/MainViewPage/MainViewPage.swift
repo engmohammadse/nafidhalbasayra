@@ -11,6 +11,12 @@ struct MainViewPage: View {
     //@EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
     @EnvironmentObject var teacherData: TeacherDataViewModel
     @EnvironmentObject var vmAttendaceStatus : AttendaceStatusViewModel
+    
+    
+    
+    @StateObject var studentViewModel = StudentViewModel()
+    
+    
     var body: some View {
         
         
@@ -96,6 +102,31 @@ struct MainViewPage: View {
        }
         .environmentObject(teacherData) // إضافة الكائن إلى البيئة
         .navigationBarBackButtonHidden(true)
+        .onAppear {
+            
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                
+                
+                   let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+                   attendanceUploader.sendPendingAttendanceData()
+                
+                // إرسال بيانات الطلاب
+                let studentUploader = StudentUploader(database: studentViewModel)
+                studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
+                
+                
+               }
+
+//            let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+//            attendanceUploader.sendPendingAttendanceData()
+
+            
+        
+
+
+
+                }
 
 
     }

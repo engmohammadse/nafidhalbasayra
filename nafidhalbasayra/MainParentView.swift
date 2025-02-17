@@ -30,20 +30,7 @@ struct MainParentView: View {
                     .environmentObject(teacherData)
                     .environmentObject(vmAttendaceStatus)
                     .environmentObject(coreDataViewModel)
-                    .onAppear {
-
-                        let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
-                        attendanceUploader.sendPendingAttendanceData()
-
-                        
-                        // إرسال بيانات الطلاب
-                        let studentUploader = StudentUploader(database: studentViewModel)
-                        studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
-                        
-
-
-
-                            }
+                   
                 
             }  else {
                 
