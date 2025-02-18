@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HistoryAttendance: View {
     @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
+
     @Environment(\.dismiss) var dismiss
     
     
@@ -92,7 +93,7 @@ struct HistoryAttendance: View {
      @State private var repeatSend : Bool = false
      @State private var repeatSendState : Bool = false
 
-     //@ObservedObject var vmStudent = StudentViewModel()
+     @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
      var entity: AttendaceStatus
      var orderNumber: Int
      
@@ -167,7 +168,20 @@ struct HistoryAttendance: View {
                                   ZStack {
                                    
                                       
-                                      Button(action: {}){
+                                      Button(action: {
+                                          
+                                          DispatchQueue.main.asyncAfter(deadline: .now() ) {
+                                              let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+                                              attendanceUploader.sendPendingAttendanceData()
+                                          }
+                                          
+                                          
+                                          DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                              vmAttendaceStatus.fetchAttendaceStatus()
+                                          }
+                                         
+                                          
+                                      }){
                                           Text("اعادة ارسال")
                                               .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.036 : screenWidth * 0.023 ))
                                               .foregroundColor(.white)

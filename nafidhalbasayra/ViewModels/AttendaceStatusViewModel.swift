@@ -88,21 +88,7 @@ class AttendaceStatusViewModel: ObservableObject {
         }
     }
 
-    
-    
-    
-    
-//    func saveData() {
-//        do {
-//            try container.viewContext.save()
-//            fetchAttendaceStatus()
-//        } catch let error {
-//            print("Error saving. \(error)")
-//        }
-//    }
-    
-    
-    
+  
     
     func resetAllStates() {
         for entity in savedEntitiesAttendace {

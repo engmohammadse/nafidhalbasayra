@@ -103,7 +103,7 @@ class AttendanceUploader {
 
 //        body.append(convertFormField(name: "teacher_id", value: "670a9990a8cd200cf7b0e8c7", using: boundary))
         body.append(convertFormField(name: "students_number", value: entity.numberOfStudents ?? "0", using: boundary))
-        body.append(convertFormField(name: "message", value: entity.notes ?? "", using: boundary))
+        body.append(convertFormField(name: "message", value: entity.notes ?? " لا توجد ملاحظات", using: boundary))
         body.append(convertFormField(name: "register_location", value: location, using: boundary))
         body.append(convertFormField(name: "register_date", value: dateString, using: boundary))
 

@@ -20,13 +20,29 @@ struct sendAttendanceSection: View {
     @State private var showAlert = false
     @State private var showImagePicker = false
     @State private var isPressed: Bool = false
-    
+    @State private var isSendingLocation: Bool = false
+    @State private var isSendingImageData: Bool = false
+
+
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
     @EnvironmentObject var teacherData: TeacherDataViewModel
     
     @State private var debounceTask: DispatchWorkItem?
+
+    
+    @State private var alertTitle: String = ""
+    @State private var alertMessage: String = ""
+
+    
+    // ✅ متغير للتحقق من صحة النموذج
+    private var isFormValid: Bool {
+        return !numberOfStudents.isEmpty &&
+               Int(numberOfStudents) != nil &&
+               imageData != nil &&
+               locationManager.location != nil
+    }
 
     
     private func debounceValidation(newValue: String) {
@@ -101,14 +117,18 @@ struct sendAttendanceSection: View {
                             
 
                         locationManager.requestLocation()
+                            
+                                isSendingLocation = true
+
+                            
                         }) {
-                            Text("تثبيت")
+                            Text(isSendingLocation ? "تم تثبيت الموقع" : "تثبيت")
                                 .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025))
                                 .frame(height: screenHeight * 0.04)
                                 .foregroundColor(.white)
                                 .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
                         }
-                        .background(Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
+                        .background(isSendingLocation ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                         .cornerRadius(5)
                         
                         
@@ -209,14 +229,17 @@ struct sendAttendanceSection: View {
                             
                             Button(action: {
                                 showImagePicker.toggle()
+                                
+                                    isSendingImageData = true
+               
                             }) {
-                                Text("تحميل الصورة")
+                                Text(isSendingImageData ? "تم تحميل الصورة" : "تحميل الصورة")
                                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025))
                                     .frame(height: screenHeight * 0.04)
                                     .foregroundColor(.white)
                                     .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
                             }
-                            .background(Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
+                            .background(isSendingImageData ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                             .cornerRadius(5)
 //                            .sheet(isPresented: $showImagePicker) {
 //                                ImagePicker2(imageData: $imageData)
@@ -262,45 +285,88 @@ struct sendAttendanceSection: View {
                         Spacer().frame(height: screenHeight * 0.035)
                         
                         Button(action: {
-                         
-                            if let numberOfStudentsInt = Int(numberOfStudents), let location = locationManager.location {
-                                
-                                // Save attendance status
-                                
-                                print("Saving attendance status for \(numberOfStudentsInt) students at location: \(location.coordinate.latitude), \(location.coordinate.longitude).")
-                                
+                            
+                            
+                            if numberOfStudents.isEmpty || locationManager.location == nil || imageData == nil {
+                                    // ❌ المدخلات غير مكتملة، إظهار التنبيه
+                                    alertTitle = "خطأ في المدخلات"
+                                    alertMessage = "يرجى التأكد من إدخال عدد الطلاب وتوفر الموقع والصورة الجماعية."
+                                    showAlert = true
+                                } else {
+                                    // ✅ المدخلات صحيحة، حفظ البيانات
+                                    if let numberOfStudentsInt = Int(numberOfStudents),
+                                       let location = locationManager.location,
+                                       let image = imageData,  // ✅ تأكد أن `imageData` ليست nil
+                                       let imageDataCompressed = image.jpegData(compressionQuality: 0.5) { // ✅ تحويل `UIImage` إلى `Data`
+                                        
+                                        print("✅ Saving attendance status for \(numberOfStudentsInt) students at location: \(location.coordinate.latitude), \(location.coordinate.longitude).")
 
-                                
-                                if let imageData = imageData?.jpegData(compressionQuality: 0.5) {
-                                    vmAttendaceStatus.addAttendaceStatus(
-                                        numberOfStudents: numberOfStudentsInt,
-                                        imageData: imageData, // الصورة محولة إلى نوع Data
-                                        notes: notes,
-                                        latitude: location.coordinate.latitude,
-                                        longitude: location.coordinate.longitude,
-                                        date: Date(),
-                                        state: 0
-                                 
-                                    )
-                                }  else {
-                                    print("⚠️ Warning: No image was selected before saving attendance.")
+                                        vmAttendaceStatus.addAttendaceStatus(
+                                            numberOfStudents: numberOfStudentsInt,
+                                            imageData: imageDataCompressed, // ✅ تم التحقق من أن الصورة ليست nil
+                                            notes: notes,
+                                            latitude: location.coordinate.latitude,
+                                            longitude: location.coordinate.longitude,
+                                            date: Date(),
+                                            state: 0
+                                        )
+
+                                        // ✅ إظهار تنبيه النجاح
+                                        alertTitle = "تم الحفظ"
+                                        alertMessage = "تم حفظ موقف الحضور بنجاح!"
+                                        showAlert = true
+
+                                        // ✅ إعادة تعيين الحقول بعد الحفظ
+                                        numberOfStudents = ""
+                                        imageData = nil // ✅ إعادة تعيين `UIImage` إلى `nil`
+                                        notes = ""
+                                    }
+                                    
+                                   
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                        
+                                        dismiss()
+                                    }
                                 }
-                                
-                                
-                                showAlert = true
-                                
-                                
-                            } else { 
-                                print("Error: Invalid input or location not available.")
-                                showAlert = true
-                                // اظهر التنبيه حتى في حالة الخطأ لعرض رسالة مخصصة
-                            }
+
                             
                             
-//                            // فثوح
-//                            vmAttendaceStatus.resetAllStates()
+                         
+//                            if let numberOfStudentsInt = Int(numberOfStudents), let location = locationManager.location {
+//                                
+//                                // Save attendance status
+//                                
+//                                print("Saving attendance status for \(numberOfStudentsInt) students at location: \(location.coordinate.latitude), \(location.coordinate.longitude).")
+//                                
 //
-//                          
+//                                
+//                                if let imageData = imageData?.jpegData(compressionQuality: 0.5) {
+//                                    vmAttendaceStatus.addAttendaceStatus(
+//                                        numberOfStudents: numberOfStudentsInt,
+//                                        imageData: imageData, // الصورة محولة إلى نوع Data
+//                                        notes: notes,
+//                                        latitude: location.coordinate.latitude,
+//                                        longitude: location.coordinate.longitude,
+//                                        date: Date(),
+//                                        state: 0
+//                                 
+//                                    )
+//                                }  else {
+//                                    print("⚠️ Warning: No image was selected before saving attendance.")
+//                                }
+//                                
+//                                
+//                                showAlert = true
+//                                
+//                                
+//                            } else { 
+//                                print("Error: Invalid input or location not available.")
+//                                showAlert = true
+//                                // اظهر التنبيه حتى في حالة الخطأ لعرض رسالة مخصصة
+//                            }
+//                            
+                            
 
                          
                             
@@ -310,10 +376,13 @@ struct sendAttendanceSection: View {
                                 .frame(height: screenHeight * 0.04)
                                 .foregroundColor(.white)
                                 .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
+                            
                         }
                         .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                         .cornerRadius(5)
-                        
+                        .alert(isPresented: $showAlert) {
+                            Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("موافق")))
+                        }
                         
                         
                         
@@ -351,25 +420,25 @@ struct sendAttendanceSection: View {
             }
             .navigationBarBackButtonHidden(true)
             
-            .alert(isPresented: $showAlert) {
-                if numberOfStudents.isEmpty || locationManager.location == nil {
-                    return Alert(
-                        title: Text("خطأ في المدخلات"),
-                        message: Text("يرجى التأكد من إدخال عدد الطلاب وتوفر الموقع."), dismissButton: .default(Text("موافق"))
-                    )
-                    
-                } else {
-                    return Alert( title: Text("تم الحفظ"),
-                                  message: Text("تم حفظ موقف الحضور بنجاح!"),
-                                  dismissButton: .default(Text("موافق")) {
-                        // Reset fields
-                        numberOfStudents = ""
-                        imageData = nil
-                        notes = ""
-                    }
-                    )
-                }
-        }
+//            .alert(isPresented: $showAlert) {
+//                if numberOfStudents.isEmpty || locationManager.location == nil || imageData == nil {
+//                    return Alert(
+//                        title: Text("خطأ في المدخلات"),
+//                        message: Text(" يرجى التأكد من إدخال عدد الطلاب وتوفر الموقع والصورة الجماعية ."), dismissButton: .default(Text("موافق"))
+//                    )
+//                    
+//                } else {
+//                    return Alert( title: Text("تم الحفظ"),
+//                                  message: Text("تم حفظ موقف الحضور بنجاح!"),
+//                                  dismissButton: .default(Text("موافق")) {
+//                        // Reset fields
+//                        numberOfStudents = ""
+//                        imageData = nil
+//                        notes = ""
+//                    }
+//                    )
+//                }
+//        }
         
                     
                     
