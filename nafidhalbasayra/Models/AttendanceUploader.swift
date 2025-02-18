@@ -117,14 +117,7 @@ class AttendanceUploader {
         }
 
         
-        // تحميل الصورة
-//        if let imageData = entity.image {
-//            body.append(convertFileField(name: "image", fileName: "image.jpg", mimeType: "image/jpeg", fileData: imageData, using: boundary))
-//        } else {
-//            print("❌ No image provided for entity ID: \(entity.id ?? "No ID")")
-//            completion(false, 400, "Image is required")
-//            return
-//        }
+
 
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
         request.httpBody = body

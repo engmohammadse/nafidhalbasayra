@@ -122,7 +122,7 @@ struct HistoryAttendance: View {
                                    .frame(height: screenHeight * 0.02)
                               
                                   
-                               if repeatSendState == false {
+                               if repeatSendState == true {
                                    Text("مرسل")
                                        .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                                } else {
@@ -225,27 +225,14 @@ struct HistoryAttendance: View {
                // تحديد إذا كان تم إرسال البيانات بناءً على قيمة الـ state
                          if entity.state == 1 {
                              repeatSendState = true
-                             repeatSend = false
+                             repeatSend = true
                          } else {
                              repeatSendState = false
-                             repeatSend = true
+                             repeatSend = false
                          }
            }
            
-           
-           
-           
-//           .overlay{
-//               Image("Group 124")
-//                   .resizable()
-//                   .aspectRatio(contentMode: .fit)
-//                   .frame(width: screenWidth * 0.06)
-//               
-//               //screenHeight * -0.075
-//                   .offset(y: repeatSend == false ? screenHeight * -0.052 : screenHeight * -0.075 )
-//              
-//           }
-         
+
          
      }
      
