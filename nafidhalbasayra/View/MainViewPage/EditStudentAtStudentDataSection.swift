@@ -20,9 +20,21 @@ struct EditStudentAtStudentDataSection: View {
 //    @State private var city: String
     @State private var level: String
     @State private var size: String
+    @State private var gender: String
+    @State private var academic_level: String
     
     @State private var messageOfError = ""
     @State private var alertInternetMessage = ""
+    
+    
+    @State private var levelList = ["أولى", "ثانية", "ثالثة"]
+
+    @State private var academic_levelList =  [
+        "أول ابتدائي", "ثاني ابتدائي", "ثالث ابتدائي", "رابع ابتدائي",
+        "خامس ابتدائي", "سادس ابتدائي", "أول متوسط", "ثاني متوسط", "ثالث متوسط"]
+
+    @State private var sizes = ["صغير ", "متوسط ", "كبير "]
+    @State private var genderList =  ["ذكر","انثى"]
 
     
 //    @State var  showAlert = false
@@ -32,13 +44,14 @@ struct EditStudentAtStudentDataSection: View {
                !phoneNumber.isEmpty &&
                !age.isEmpty &&
                level != "اختر" &&
-               size != "اختر"
+               size != "اختر" &&
+               academic_level != "اختر" &&
+               gender != "اختر"
     }
     @State private var alertType2: AlertType2?  // نوع التنبيه
 
     @State private var itemsLectured = ["الابتدائية", "المتوسطة", "الإعدادية"]
     
-    @State private var sizes = ["صغير (S)", "متوسط (M)", "كبير (L)"]
 
     // Initializer to assign values to state variables
     init(student: StudentInfo, teacherData: TeacherDataViewModel) {
@@ -50,6 +63,8 @@ struct EditStudentAtStudentDataSection: View {
 //        _city = State(initialValue: student.city ?? "اختر")
         _level = State(initialValue: student.level ?? "اختر")
         _size = State(initialValue: student.size ?? "اختر")
+        _gender = State(initialValue: student.gender ?? "اختر")
+        _academic_level = State(initialValue: student.academic_level ?? "اختر")
     }
 
     var body: some View {
@@ -68,9 +83,11 @@ struct EditStudentAtStudentDataSection: View {
                     FormField(label: "الأسم الثلاثي", text: $name)
                     FormFieldNumber(label: "رقم الهاتف", text: $phoneNumber)
                     FormFieldNumber(label: "العمر", text: $age)
-
-//                    DropdownField(label: "المحافظة", selectedOption: $city, options: itemsProvince)
-                    DropdownField(label: "المرحلة", selectedOption: $level, options: itemsLectured)
+                    DropdownField(label: "الجنس", selectedOption: $gender, options: genderList)
+                    DropdownField(label: "المرحلة", selectedOption: $level, options: levelList)
+                    
+                    DropdownField(label: " المرحلةالدراسية", selectedOption: $academic_level, options: academic_levelList)
+                   
                     DropdownField(label: "القياس", selectedOption: $size, options: sizes)
                 }
                 .padding(.horizontal, screenWidth * 0.09)
@@ -93,6 +110,8 @@ struct EditStudentAtStudentDataSection: View {
                             updatedStudent.age = age
                             updatedStudent.level = level
                             updatedStudent.size = size
+                            updatedStudent.gender = gender
+                            updatedStudent.academic_level = academic_level
                             
                             
                            
@@ -103,7 +122,7 @@ struct EditStudentAtStudentDataSection: View {
                                     if success {
                                         // تحديث بيانات الطالب محليًا فقط إذا نجح التحديث في API
                                         DispatchQueue.main.async {
-                                            vmStudent.updateStudentInfo(entity: student, with: name, with: phoneNumber, with: age, with: level, with: size)
+                                            vmStudent.updateStudentInfo(entity: student, with: name, with: phoneNumber, with: age, with: level, with: size, with: gender, with: academic_level)
                                             
                                             alertType2 = .success
                                         }

@@ -28,20 +28,13 @@ struct AddStudentToStudentDataSection: View {
 
     
     @State private var alertType: AlertType?  // نوع التنبيه
-
-
     @State private var itemsLectured = ["الابتدائية", "المتوسطة", "الإعدادية"]
     @State private var levelList = ["أولى", "ثانية", "ثالثة"]
 
-    
     @State private var academic_levelList =  [
         "أول ابتدائي", "ثاني ابتدائي", "ثالث ابتدائي", "رابع ابتدائي",
-        "خامس ابتدائي", "سادس ابتدائي", "أول متوسط", "ثاني متوسط", "ثالث متوسط"
-    ]
+        "خامس ابتدائي", "سادس ابتدائي", "أول متوسط", "ثاني متوسط", "ثالث متوسط"]
 
-
-    
-    
     @State private var sizes = ["صغير ", "متوسط ", "كبير "]
     @State private var genderList =  ["ذكر","انثى"]
     
@@ -51,7 +44,8 @@ struct AddStudentToStudentDataSection: View {
                !age.isEmpty &&
                level != "اختر" &&
                size != "اختر" &&
-               academic_level != "اختر"
+               academic_level != "اختر" &&
+               gender != "اختر" 
         
     }
     

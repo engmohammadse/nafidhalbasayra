@@ -85,13 +85,15 @@ class StudentViewModel: ObservableObject {
     
     
 
-    func updateStudentInfo(entity: StudentInfo, with newName: String, with newphoneNumber: String, with newAge: String, with newLevel: String, with newSize: String) {
+    func updateStudentInfo(entity: StudentInfo, with newName: String, with newphoneNumber: String, with newAge: String, with newLevel: String, with newSize: String, with newGender: String, with newAcademic_level: String) {
         entity.name = newName
         entity.phoneNumber = newphoneNumber
         entity.age = newAge
 //        entity.city = newCity
         entity.level = newLevel
         entity.size = newSize
+        entity.gender = newGender
+        entity.academic_level = newAcademic_level
         saveStudentData()
     }
     

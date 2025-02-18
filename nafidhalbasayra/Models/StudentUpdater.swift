@@ -31,9 +31,10 @@ class StudentUpdater {
             "name": student.name ?? "بدون اسم",
             "age": Int(student.age ?? "0") ?? 0, // تحويل العمر إلى Int
             "phone_number": student.phoneNumber ?? "بدون رقم",
-            "gender": student.gender ?? "غير معروف",
             "degree": student.level ?? "غير محدد",
             "size": student.size ?? "غير محدد",
+            "gender": student.gender ?? "خطا باالاختيار",
+            "academic_level": student.academic_level ?? "خطا باالاختيار"
             
         ]
 
