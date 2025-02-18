@@ -33,7 +33,8 @@ class StudentUpdater {
             "phone_number": student.phoneNumber ?? "بدون رقم",
             "gender": student.gender ?? "غير معروف",
             "degree": student.level ?? "غير محدد",
-            "size": student.size ?? "غير محدد"
+            "size": student.size ?? "غير محدد",
+            
         ]
 
         do {

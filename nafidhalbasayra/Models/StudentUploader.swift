@@ -97,8 +97,9 @@ class StudentUploader {
             "age": Int(student.age ?? "00") ?? 000,
             "phone_number": student.phoneNumber ?? "default value",
             "degree": student.level ?? "default value",
-            "gender": student.gender ?? "ذكر",
+            "gender": student.gender ?? "خطا باالاختيار",
             "size": student.size ?? "default value",
+            "academic_level": student.academic_level ?? "خطا باالاختيار",
             "teacher_id": UserDefaults.standard.string(forKey: "teacherId") ?? "No ID"
         ]
 

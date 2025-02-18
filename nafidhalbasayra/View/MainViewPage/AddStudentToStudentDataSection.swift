@@ -23,21 +23,36 @@ struct AddStudentToStudentDataSection: View {
     @State var age: String = ""
     @State var level: String = "اختر"
     @State var size: String = "اختر"
+    @State var gender: String = "اختر"
+    @State var academic_level: String = "اختر"
+
     
     @State private var alertType: AlertType?  // نوع التنبيه
 
 
     @State private var itemsLectured = ["الابتدائية", "المتوسطة", "الإعدادية"]
+    @State private var levelList = ["أولى", "ثانية", "ثالثة"]
+
     
-    @State private var sizes = ["صغير (S)", "متوسط (M)", "كبير (L)"]
+    @State private var academic_levelList =  [
+        "أول ابتدائي", "ثاني ابتدائي", "ثالث ابتدائي", "رابع ابتدائي",
+        "خامس ابتدائي", "سادس ابتدائي", "أول متوسط", "ثاني متوسط", "ثالث متوسط"
+    ]
+
+
     
+    
+    @State private var sizes = ["صغير ", "متوسط ", "كبير "]
+    @State private var genderList =  ["ذكر","انثى"]
     
     var isFormValid: Bool {
         return !name.isEmpty &&
                !phoneNumber.isEmpty &&
                !age.isEmpty &&
                level != "اختر" &&
-               size != "اختر"
+               size != "اختر" &&
+               academic_level != "اختر"
+        
     }
     
     var body: some View {
@@ -64,9 +79,10 @@ struct AddStudentToStudentDataSection: View {
                     FormField(label: "الأسم الثلاثي", text: $name)
                     FormFieldNumber(label: "رقم الهاتف", text: $phoneNumber)
                     FormFieldNumber(label: "العمر", text: $age)
+                    DropdownField(label: "الجنس", selectedOption: $gender, options: genderList)
+                    DropdownField(label: "المرحلة", selectedOption: $level, options: levelList)
                     
-//                    DropdownField(label: "المحافظة", selectedOption: $city, options: itemsProvince)
-                    DropdownField(label: "المرحلة", selectedOption: $level, options: itemsLectured)
+                    DropdownField(label: " المرحلةالدراسية", selectedOption: $academic_level, options: academic_levelList)
                    
                     DropdownField(label: "القياس", selectedOption: $size, options: sizes)
                 }
@@ -88,7 +104,7 @@ struct AddStudentToStudentDataSection: View {
                 
                 if isFormValid {
                        // إذا كانت جميع الحقول ممتلئة، احفظ البيانات
-                       vmStudent.addStudentInfo(name: name, phoneNumber: phoneNumber, age: age, level: level, size: size)
+                    vmStudent.addStudentInfo(name: name, phoneNumber: phoneNumber, age: age, level: level, size: size, gender: gender, academic_level: academic_level)
                        
                        // إظهار تنبيه النجاح
                        alertType = .success
@@ -98,7 +114,8 @@ struct AddStudentToStudentDataSection: View {
                        age = ""
                        level = "اختر"
                        size = "اختر"
-                                   
+                       academic_level = "اختر"
+                    
                                   
                            } else {
                                // عرض تنبيه الخطأ عند نقص البيانات
