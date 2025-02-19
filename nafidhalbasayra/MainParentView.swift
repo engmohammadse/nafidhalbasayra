@@ -14,7 +14,6 @@ struct MainParentView: View {
     
     @StateObject var studentViewModel = StudentViewModel() // إضافة StudentViewModel
 
-
     var body: some View {
         NavigationStack {
             // أي شاشة (أو شاشات) تحتاج هذه الـ ViewModels
@@ -30,7 +29,6 @@ struct MainParentView: View {
                     .environmentObject(teacherData)
                     .environmentObject(vmAttendaceStatus)
                     .environmentObject(coreDataViewModel)
-                   
                 
             }  else {
                 

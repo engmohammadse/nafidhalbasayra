@@ -12,6 +12,7 @@ import SwiftUI
 @main
 struct nafidhalbasayraApp: App {
     @State private var showSplash = true
+    @StateObject var appViewModel = AppViewModel()
     
     var body: some Scene {
         WindowGroup {
@@ -25,6 +26,7 @@ struct nafidhalbasayraApp: App {
                     }
             } else {
                 MainParentView() // هنا يتم إنشاء الـ ViewModels لأول مرة بعد السبلاتش
+                    .environmentObject(appViewModel)
 //                ContentViewCity()
                 
                    
