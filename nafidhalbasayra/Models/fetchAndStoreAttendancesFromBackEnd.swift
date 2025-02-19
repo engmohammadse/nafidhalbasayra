@@ -60,13 +60,16 @@ class fetchAndStoreAttendancesFromBackEnd: ObservableObject {
         }
     }
     
+    
+    
+    
     private func storeAttendancesInDatabase(_ attendances: [Attendance]) {
         for attendance in attendances {
             let dateFormatter = ISO8601DateFormatter()
             let date = dateFormatter.date(from: attendance.register_date) ?? Date()
-            
+
             print("📝 تخزين الحضور: \(attendance.register_date), عدد الطلاب: \(attendance.students_number), الرسالة: \(attendance.message)")
-            
+
             database.addAttendaceStatus(
                 numberOfStudents: attendance.students_number,
                 imageData: nil, // لا يوجد بيانات صورة من الـ API
@@ -74,15 +77,41 @@ class fetchAndStoreAttendancesFromBackEnd: ObservableObject {
                 latitude: attendance.register_location.lat,
                 longitude: attendance.register_location.lng,
                 date: date,
-                state: 1
+                state: 1 // ✅ تعيين `state = 1` للتأكد من أنه مخزن بشكل صحيح
             )
         }
 
-        // 🛑 **إضافة هذه السطر لإعادة تحميل البيانات بعد التخزين**
+        // ✅ إعادة تحميل البيانات بعد التخزين
         DispatchQueue.main.async {
             self.database.fetchAttendaceStatus()
         }
     }
+
+    
+    
+//    private func storeAttendancesInDatabase(_ attendances: [Attendance]) {
+//        for attendance in attendances {
+//            let dateFormatter = ISO8601DateFormatter()
+//            let date = dateFormatter.date(from: attendance.register_date) ?? Date()
+//            
+//            print("📝 تخزين الحضور: \(attendance.register_date), عدد الطلاب: \(attendance.students_number), الرسالة: \(attendance.message)")
+//            
+//            database.addAttendaceStatus(
+//                numberOfStudents: attendance.students_number,
+//                imageData: nil, // لا يوجد بيانات صورة من الـ API
+//                notes: attendance.message,
+//                latitude: attendance.register_location.lat,
+//                longitude: attendance.register_location.lng,
+//                date: date,
+//                state: 1
+//            )
+//        }
+//
+//        // 🛑 **إضافة هذه السطر لإعادة تحميل البيانات بعد التخزين**
+//        DispatchQueue.main.async {
+//            self.database.fetchAttendaceStatus()
+//        }
+//    }
 
     
 //    private func storeAttendancesInDatabase(_ attendances: [Attendance]) {

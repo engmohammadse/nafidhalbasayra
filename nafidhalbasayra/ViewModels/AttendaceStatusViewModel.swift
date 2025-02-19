@@ -52,29 +52,56 @@ class AttendaceStatusViewModel: ObservableObject {
     
     func addAttendaceStatus(numberOfStudents: Int, imageData: Data?, notes: String, latitude: Double, longitude: Double, date: Date, state: Int16) {
         let newAttendaceStatus = AttendaceStatus(context: container.viewContext)
-        newAttendaceStatus.id = UUID().uuidString // تأكد من إضافة خاصية id في النموذج إذا لم تكن موجودة
+        newAttendaceStatus.id = UUID().uuidString
         newAttendaceStatus.numberOfStudents = String(numberOfStudents)
         newAttendaceStatus.image = imageData
         newAttendaceStatus.notes = notes + "\n(للتنويه: هذا مستخدم \(deviceModel))"
-
-        //newAttendaceStatus.notes = notes + "\n(للتنوية هذا مستخدم ايفون)"
         newAttendaceStatus.latitude = latitude
         newAttendaceStatus.longitude = longitude
         newAttendaceStatus.date = date
-        newAttendaceStatus.state = 0
+
+        // ✅ التأكد من تعيين قيمة `state` بناءً على المصدر (API أو إدخال يدوي)
+        newAttendaceStatus.state = state
+
         saveData()
         fetchAttendaceStatus()
-        print("Successfully saved attendance status.")
         
-        print("Added new entity:")
-          print("""
-          ID: \(newAttendaceStatus.id ?? "No ID")
-          State: \(newAttendaceStatus.state)
-          Latitude: \(newAttendaceStatus.latitude)
-          Longitude: \(newAttendaceStatus.longitude)
-          Notes: \(newAttendaceStatus.notes ?? "No notes")
-          """)
+        print("✅ Successfully saved attendance status.")
+        print("""
+        ID: \(newAttendaceStatus.id ?? "No ID")
+        State: \(newAttendaceStatus.state) ✅
+        Latitude: \(newAttendaceStatus.latitude)
+        Longitude: \(newAttendaceStatus.longitude)
+        Notes: \(newAttendaceStatus.notes ?? "No notes")
+        """)
     }
+
+    
+//    func addAttendaceStatus(numberOfStudents: Int, imageData: Data?, notes: String, latitude: Double, longitude: Double, date: Date, state: Int16) {
+//        let newAttendaceStatus = AttendaceStatus(context: container.viewContext)
+//        newAttendaceStatus.id = UUID().uuidString // تأكد من إضافة خاصية id في النموذج إذا لم تكن موجودة
+//        newAttendaceStatus.numberOfStudents = String(numberOfStudents)
+//        newAttendaceStatus.image = imageData
+//        newAttendaceStatus.notes = notes + "\n(للتنويه: هذا مستخدم \(deviceModel))"
+//
+//        //newAttendaceStatus.notes = notes + "\n(للتنوية هذا مستخدم ايفون)"
+//        newAttendaceStatus.latitude = latitude
+//        newAttendaceStatus.longitude = longitude
+//        newAttendaceStatus.date = date
+//       // newAttendaceStatus.state = 0
+//        saveData()
+//        fetchAttendaceStatus()
+//        print("Successfully saved attendance status.")
+//        
+//        print("Added new entity:")
+//          print("""
+//          ID: \(newAttendaceStatus.id ?? "No ID")
+//          State: \(newAttendaceStatus.state)
+//          Latitude: \(newAttendaceStatus.latitude)
+//          Longitude: \(newAttendaceStatus.longitude)
+//          Notes: \(newAttendaceStatus.notes ?? "No notes")
+//          """)
+//    }
 
     
     func saveData() {
@@ -97,6 +124,36 @@ class AttendaceStatusViewModel: ObservableObject {
         saveData()
         print("✅ All states reset to 0.")
     }
+    
+    
+    
+    
+    func clearAllAttendanceData() {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "AttendaceStatus")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            // ✅ تنفيذ الحذف الفعلي للبيانات
+            try container.viewContext.execute(deleteRequest)
+            
+            // ✅ حفظ التغييرات للتأكد من أنها تمت في قاعدة البيانات
+            try container.viewContext.save()
+            
+            // ✅ مسح الكاش والتأكد من عدم وجود بيانات قديمة محملة في الذاكرة
+            container.viewContext.refreshAllObjects()
+            
+            // ✅ إعادة تحميل البيانات للتأكد من أنها فارغة
+            DispatchQueue.main.async {
+                self.savedEntitiesAttendace.removeAll()
+                self.fetchAttendaceStatus()
+            }
+            
+            print("✅ تم مسح جميع بيانات الحضور من CoreData بنجاح.")
+        } catch let error {
+            print("❌ فشل في مسح بيانات الحضور: \(error.localizedDescription)")
+        }
+    }
+
 
     
 }

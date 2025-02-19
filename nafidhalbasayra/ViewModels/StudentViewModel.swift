@@ -131,6 +131,25 @@ class StudentViewModel: ObservableObject {
     }
     
     
+    
+    func clearAllStudentData() {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "StudentInfo")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            try container.viewContext.execute(deleteRequest)
+            try container.viewContext.save()
+            DispatchQueue.main.async {
+                self.savedEntitiesStudent.removeAll() // تحديث القائمة لتفريغ البيانات
+            }
+            print("✅ تم مسح جميع بيانات الطلاب من CoreData.")
+        } catch let error {
+            print("❌ فشل في مسح بيانات الطلاب: \(error.localizedDescription)")
+        }
+    }
+
+    
+    
 }
 
 

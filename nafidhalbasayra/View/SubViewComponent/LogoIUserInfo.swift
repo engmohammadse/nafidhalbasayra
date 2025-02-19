@@ -10,16 +10,26 @@ import SwiftUI
 class AppViewModel: ObservableObject {
     @Published var isLoggedIn: Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")
     
-    
     func logout() {
-        UserDefaults.standard.set(false, forKey: "isLoggedIn")
-
+        let defaults = UserDefaults.standard
+        
+        // ✅ مسح جميع بيانات المستخدم من UserDefaults
+        defaults.removeObject(forKey: "isLoggedIn")
+        defaults.removeObject(forKey: "teacherId")
+        defaults.removeObject(forKey: "rejectionReason")
+        defaults.removeObject(forKey: "loginState")
+        defaults.synchronize()
+        
         DispatchQueue.main.async {
             self.isLoggedIn = false
-
-            // ✅ إعادة تعيين البيانات لمنع الاستهلاك غير الضروري
-            self.objectWillChange.send() // إجبار SwiftUI على التحديث
             
+            // ✅ تفريغ جميع بيانات الحضور والطلاب
+            let attendanceViewModel = AttendaceStatusViewModel()
+            let studentViewModel = StudentViewModel()
+            attendanceViewModel.clearAllAttendanceData()
+            studentViewModel.clearAllStudentData()
+
+            // ✅ إعادة تعيين `rootViewController` لمسح كل الشاشات والعودة لشاشة تسجيل الدخول
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                   let window = windowScene.windows.first else { return }
 
@@ -28,6 +38,7 @@ class AppViewModel: ObservableObject {
                     .environmentObject(AppViewModel())
                     .environmentObject(TeacherDataViewModel())
                     .environmentObject(AttendaceStatusViewModel())
+                    .environmentObject(StudentViewModel())
                     .environmentObject(CoreDataViewModel())
                     .preferredColorScheme(.light)
             }
@@ -37,29 +48,6 @@ class AppViewModel: ObservableObject {
         }
     }
 
-    
-//    func logout() {
-//        UserDefaults.standard.set(false, forKey: "isLoggedIn")
-//
-//        DispatchQueue.main.async {
-//            self.isLoggedIn = false
-//
-//            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-//                  let window = windowScene.windows.first else { return }
-//
-//            let newRootView = NavigationStack { // ✅ وضع RegisterInfoPage داخل NavigationStack
-//                RegisterInfoPage()
-//                    .environmentObject(AppViewModel())
-//                    .environmentObject(TeacherDataViewModel())
-//                    .environmentObject(AttendaceStatusViewModel())
-//                    .environmentObject(CoreDataViewModel())
-//                    .preferredColorScheme(.light)
-//            }
-//
-//            window.rootViewController = UIHostingController(rootView: newRootView)
-//            window.makeKeyAndVisible()
-//        }
-//    }
 
 }
 
