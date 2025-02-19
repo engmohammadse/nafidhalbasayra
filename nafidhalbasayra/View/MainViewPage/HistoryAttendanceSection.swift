@@ -266,7 +266,7 @@ struct HistoryAttendance: View {
 
 
 #Preview {
-    let previewModel = AttendaceStatusViewModel()
+    let previewModel = AttendaceStatusViewModel.shared
     
     let sampleEntity = AttendaceStatus(context: previewModel.container.viewContext)
     sampleEntity.id = UUID().uuidString

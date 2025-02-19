@@ -14,7 +14,7 @@ struct MainViewPage: View {
     
     
     
-    @StateObject var studentViewModel = StudentViewModel()
+    @StateObject var studentViewModel = StudentViewModel.shared
     
     
     var body: some View {
@@ -134,7 +134,7 @@ struct MainViewPage: View {
 
 #Preview {
     MainViewPage()
-        .environmentObject(AttendaceStatusViewModel())
+        .environmentObject(AttendaceStatusViewModel.shared)
         .environmentObject(TeacherDataViewModel())
 }
 

@@ -9,10 +9,10 @@ import SwiftUI
 
 struct MainParentView: View {
     @StateObject var teacherData = TeacherDataViewModel()
-    @StateObject var vmAttendaceStatus = AttendaceStatusViewModel()
+    @ObservedObject var vmAttendaceStatus = AttendaceStatusViewModel.shared // ✅ استخدام Singleton
     @StateObject var coreDataViewModel = CoreDataViewModel()
     
-    @StateObject var studentViewModel = StudentViewModel() // إضافة StudentViewModel
+    @StateObject var studentViewModel = StudentViewModel.shared // إضافة StudentViewModel
 
     var body: some View {
         NavigationStack {

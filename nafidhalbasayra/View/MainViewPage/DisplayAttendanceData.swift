@@ -95,7 +95,7 @@ struct DisplayAttendanceData: View {
 }
 
 #Preview {
-    DisplayAttendanceData().environmentObject(AttendaceStatusViewModel())
+    DisplayAttendanceData().environmentObject(AttendaceStatusViewModel.shared)
 }
 
 

@@ -15,10 +15,14 @@
 import CoreData
 
 class StudentViewModel: ObservableObject {
+    
+    static let shared = StudentViewModel() // ✅ Singleton لتجنب تحميل النموذج أكثر من مرة
+
+    
     let container: NSPersistentContainer
     @Published var savedEntitiesStudent: [StudentInfo] = []
 
-    init() {
+    private init() { // ✅ جعل الـ initializer خاصًا لمنع إنشاء نسخ جديدة
         container = NSPersistentContainer(name: "CoreData")
         container.loadPersistentStores { _, error in
             if let error = error {
@@ -132,6 +136,7 @@ class StudentViewModel: ObservableObject {
     
     
     
+    
     func clearAllStudentData() {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "StudentInfo")
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
@@ -140,13 +145,32 @@ class StudentViewModel: ObservableObject {
             try container.viewContext.execute(deleteRequest)
             try container.viewContext.save()
             DispatchQueue.main.async {
-                self.savedEntitiesStudent.removeAll() // تحديث القائمة لتفريغ البيانات
+                self.savedEntitiesStudent.removeAll()
             }
             print("✅ تم مسح جميع بيانات الطلاب من CoreData.")
         } catch let error {
             print("❌ فشل في مسح بيانات الطلاب: \(error.localizedDescription)")
         }
     }
+
+    
+    
+    
+//    func clearAllStudentData() {
+//        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "StudentInfo")
+//        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+//
+//        do {
+//            try container.viewContext.execute(deleteRequest)
+//            try container.viewContext.save()
+//            DispatchQueue.main.async {
+//                self.savedEntitiesStudent.removeAll() // تحديث القائمة لتفريغ البيانات
+//            }
+//            print("✅ تم مسح جميع بيانات الطلاب من CoreData.")
+//        } catch let error {
+//            print("❌ فشل في مسح بيانات الطلاب: \(error.localizedDescription)")
+//        }
+//    }
 
     
     

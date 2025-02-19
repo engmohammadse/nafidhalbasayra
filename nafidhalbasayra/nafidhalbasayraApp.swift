@@ -12,7 +12,7 @@ import SwiftUI
 @main
 struct nafidhalbasayraApp: App {
     @State private var showSplash = true
-    @StateObject var appViewModel = AppViewModel()
+    @StateObject var appViewModel = AppViewModel.shared
     
     var body: some Scene {
         WindowGroup {

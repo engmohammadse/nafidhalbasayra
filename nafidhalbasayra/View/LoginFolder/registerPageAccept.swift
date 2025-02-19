@@ -16,7 +16,7 @@ struct registerPageAccept: View {
     
     let teacherId = UserDefaults.standard.string(forKey: "teacherId") ?? "No ID"
 
-    @StateObject var viewModelAttendance: fetchAndStoreAttendancesFromBackEnd = fetchAndStoreAttendancesFromBackEnd(database: AttendaceStatusViewModel())
+    @StateObject var viewModelAttendance: fetchAndStoreAttendancesFromBackEnd = fetchAndStoreAttendancesFromBackEnd(database: AttendaceStatusViewModel.shared)
 
 
     var body: some View {

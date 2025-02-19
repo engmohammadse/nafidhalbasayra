@@ -12,7 +12,7 @@ struct StudentDataSection: View {
     
     
     @State private var selectedStudent: StudentInfo? = nil
-    @StateObject var vmStudent = StudentViewModel()
+    @StateObject var vmStudent = StudentViewModel.shared
     @EnvironmentObject var teacherData: TeacherDataViewModel
     @EnvironmentObject var vmAttendaceStatus : AttendaceStatusViewModel
     
@@ -128,7 +128,7 @@ struct StudentDataSection: View {
 #Preview {
     StudentDataSection()
         .environmentObject(TeacherDataViewModel())
-        .environmentObject(StudentViewModel())
+        .environmentObject(StudentViewModel.shared)
 }
 
 
@@ -144,7 +144,7 @@ struct StudentDataSection: View {
 
 struct studentInfo :View {
     
-    @ObservedObject var vmStudent = StudentViewModel()
+    @ObservedObject var vmStudent = StudentViewModel.shared
     @EnvironmentObject var teacherData: TeacherDataViewModel
 
   //  @State var selectedStudent: StudentInfo?

@@ -10,10 +10,14 @@ import SwiftUI
 import CoreData
 
 class AttendaceStatusViewModel: ObservableObject {
+    
+    static let shared = AttendaceStatusViewModel() // ✅ Singleton لتجنب تحميل النموذج أكثر من مرة
+
+    
     let container: NSPersistentContainer
     @Published var savedEntitiesAttendace: [AttendaceStatus] = []
 
-    init() {
+    private init() {
         container = NSPersistentContainer(name: "CoreData")
         container.loadPersistentStores { _, error in
             if let error = error {
@@ -133,26 +137,40 @@ class AttendaceStatusViewModel: ObservableObject {
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
 
         do {
-            // ✅ تنفيذ الحذف الفعلي للبيانات
             try container.viewContext.execute(deleteRequest)
-            
-            // ✅ حفظ التغييرات للتأكد من أنها تمت في قاعدة البيانات
             try container.viewContext.save()
-            
-            // ✅ مسح الكاش والتأكد من عدم وجود بيانات قديمة محملة في الذاكرة
-            container.viewContext.refreshAllObjects()
-            
-            // ✅ إعادة تحميل البيانات للتأكد من أنها فارغة
             DispatchQueue.main.async {
                 self.savedEntitiesAttendace.removeAll()
-                self.fetchAttendaceStatus()
             }
-            
-            print("✅ تم مسح جميع بيانات الحضور من CoreData بنجاح.")
+            print("✅ تم مسح جميع بيانات الحضور بنجاح.")
         } catch let error {
             print("❌ فشل في مسح بيانات الحضور: \(error.localizedDescription)")
         }
     }
+
+    
+//    func clearAllAttendanceData() {
+//        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "AttendaceStatus")
+//        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+//
+//        container.viewContext.performAndWait {
+//            do {
+//                try container.viewContext.execute(deleteRequest)
+//                try container.viewContext.save()
+//
+//                // ✅ إعادة تحميل Persistent Store لضمان تحديث البيانات
+//                container.viewContext.reset()
+//                savedEntitiesAttendace.removeAll()
+//                
+//                // ✅ تحميل البيانات مرة أخرى بعد الحذف
+//                fetchAttendaceStatus()
+//
+//                print("✅ تم مسح جميع بيانات الحضور بنجاح.")
+//            } catch let error {
+//                print("❌ فشل في مسح بيانات الحضور: \(error.localizedDescription)")
+//            }
+//        }
+//    }
 
 
     

@@ -461,7 +461,7 @@ struct sendAttendanceSection: View {
 
 #Preview {
     sendAttendanceSection()
-        .environmentObject(AttendaceStatusViewModel())
+        .environmentObject(AttendaceStatusViewModel.shared)
         .environmentObject(TeacherDataViewModel()) // ضروري إذا كان LogoIUserInfo يحتاجه
 }
 
