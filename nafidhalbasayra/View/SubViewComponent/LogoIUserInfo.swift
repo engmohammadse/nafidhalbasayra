@@ -10,6 +10,9 @@ import SwiftUI
 
 class AppViewModel: ObservableObject {
     // ✅ إنشاء Singleton
+    
+    @Environment(\.dismiss) var dismiss
+
     static let shared = AppViewModel()
     
     @Published var isLoggedIn: Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")

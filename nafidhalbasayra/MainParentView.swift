@@ -5,56 +5,141 @@
 //  Created by muhammad on 22/12/2024.
 //
 
+
 import SwiftUI
 
 struct MainParentView: View {
     @StateObject var teacherData = TeacherDataViewModel()
-    @ObservedObject var vmAttendaceStatus = AttendaceStatusViewModel.shared // ✅ استخدام Singleton
+    @ObservedObject var vmAttendaceStatus = AttendaceStatusViewModel.shared
     @StateObject var coreDataViewModel = CoreDataViewModel()
-    
-    @StateObject var studentViewModel = StudentViewModel.shared // إضافة StudentViewModel
+    @StateObject var studentViewModel = StudentViewModel.shared
+
+    @Environment(\.scenePhase) private var scenePhase // 🔹 متابعة حالة التطبيق
 
     var body: some View {
         NavigationStack {
-            // أي شاشة (أو شاشات) تحتاج هذه الـ ViewModels
-            // سيتم وضعها هنا أو التنقّل منها
-            
-            
             let loginState = UserDefaults.standard.integer(forKey: "loginState")
             
             if loginState == 2 {
-                
-                 MainViewPage()
+                MainViewPage()
                     .preferredColorScheme(.light)
                     .environmentObject(teacherData)
                     .environmentObject(vmAttendaceStatus)
                     .environmentObject(coreDataViewModel)
-                
-            }  else {
-                
+                    .onAppear {
+                        uploadData() // تحميل البيانات عند فتح الصفحة لأول مرة
+                    }
+                    .onChange(of: scenePhase) { newPhase in
+                        if newPhase == .active {
+                            uploadData() // تحميل البيانات عند إعادة فتح التطبيق من الخلفية
+                        }
+                    }
+            } else {
                 RegisterInfoPage()
                     .preferredColorScheme(.light)
                     .environmentObject(teacherData)
                     .environmentObject(vmAttendaceStatus)
                     .environmentObject(coreDataViewModel)
                     .onAppear {
-
-                        let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
-                        attendanceUploader.sendPendingAttendanceData()
-
-                        
-                        // إرسال بيانات الطلاب
-                        let studentUploader = StudentUploader(database: studentViewModel)
-                        studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
-
-                        
-                       
-
-
-                            }
+                        uploadData()
+                    }
+                    .onChange(of: scenePhase) { newPhase in
+                        if newPhase == .active {
+                            uploadData()
+                        }
+                    }
             }
-            
-          
         }
     }
+
+    // 🔹 دالة تحميل بيانات الحضور والطلاب
+    func uploadData() {
+        print("🔄 تحميل بيانات الحضور والطلاب...")
+
+        let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+        attendanceUploader.sendPendingAttendanceData()
+
+        let studentUploader = StudentUploader(database: studentViewModel)
+        studentUploader.sendPendingStudentData()
+
+        print("✅ تم تحميل البيانات بنجاح!")
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//import SwiftUI
+//
+//struct MainParentView: View {
+//    @StateObject var teacherData = TeacherDataViewModel()
+//    @ObservedObject var vmAttendaceStatus = AttendaceStatusViewModel.shared // ✅ استخدام Singleton
+//    @StateObject var coreDataViewModel = CoreDataViewModel()
+//    
+//    @StateObject var studentViewModel = StudentViewModel.shared // إضافة StudentViewModel
+//
+//    var body: some View {
+//        NavigationStack {
+//            // أي شاشة (أو شاشات) تحتاج هذه الـ ViewModels
+//            // سيتم وضعها هنا أو التنقّل منها
+//            
+//            
+//            let loginState = UserDefaults.standard.integer(forKey: "loginState")
+//            
+//            if loginState == 2 {
+//                
+//                 MainViewPage()
+//                    .preferredColorScheme(.light)
+//                    .environmentObject(teacherData)
+//                    .environmentObject(vmAttendaceStatus)
+//                    .environmentObject(coreDataViewModel)
+//                
+//            }  else {
+//                
+//                RegisterInfoPage()
+//                    .preferredColorScheme(.light)
+//                    .environmentObject(teacherData)
+//                    .environmentObject(vmAttendaceStatus)
+//                    .environmentObject(coreDataViewModel)
+//                    .onAppear {
+//
+//                        let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+//                        attendanceUploader.sendPendingAttendanceData()
+//
+//                        
+//                        // إرسال بيانات الطلاب
+//                        let studentUploader = StudentUploader(database: studentViewModel)
+//                        studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
+//
+//                        
+//                       
+//
+//
+//                            }
+//            }
+//            
+//          
+//            
+//            
+//            
+//        }
+//    }
+//    
+//    
+//
+//    
+//}
