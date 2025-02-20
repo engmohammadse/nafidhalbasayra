@@ -27,6 +27,12 @@ class AppViewModel: ObservableObject {
         defaults.removeObject(forKey: "teacherId")
         defaults.removeObject(forKey: "rejectionReason")
         defaults.removeObject(forKey: "loginState")
+        defaults.removeObject(forKey: "username")
+        defaults.removeObject(forKey: "profileImagePath") // ✅ إزالة مسار الصورة
+        
+        // ✅ مسح الصورة من FileManager
+        deleteProfileImage()
+           
         defaults.synchronize()
 
         DispatchQueue.main.async {
@@ -79,8 +85,9 @@ struct LogoIUserInfo: View {
                 Button(action: {
                     showLogoutConfirmation = true // عرض تأكيد تسجيل الخروج
                 }) {
-                    if let image = teacherData.profileimage {
-                        Image(uiImage: image)
+                    
+                    if let profileImage = getSavedProfileImage() {
+                        Image(uiImage: profileImage)
                             .resizable()
                             .scaledToFit()
                             .frame(maxWidth: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.1 : screenWidth * 0.2) : screenWidth * 0.2)

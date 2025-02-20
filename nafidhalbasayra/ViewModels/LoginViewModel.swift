@@ -112,6 +112,12 @@ class LoginViewModel: ObservableObject {
             defaults.set(username, forKey: "username")
             print("✅ تم حفظ اسم المستخدم في UserDefaults: \(username)")
         }
+        
+        // ✅ حفظ رابط الصورة وتنزيلها محليًا
+          if let imageUrl = response.data?.image_1 {
+              let fullImageUrl = "http://198.244.227.48:8082\(imageUrl)" // 🔗 تحويل الرابط النسبي إلى مطلق
+              downloadAndSaveImage(imageUrl: fullImageUrl)
+          }
 
         
         
@@ -160,7 +166,70 @@ class LoginViewModel: ObservableObject {
 
 
 
+// save profile image after login from backend
 
+func downloadAndSaveImage(imageUrl: String) {
+    guard let url = URL(string: imageUrl) else {
+        print("❌ رابط الصورة غير صالح: \(imageUrl)")
+        return
+    }
+    
+    let task = URLSession.shared.dataTask(with: url) { data, _, error in
+        if let error = error {
+            print("❌ فشل تحميل الصورة: \(error.localizedDescription)")
+            return
+        }
+        
+        guard let data = data, let image = UIImage(data: data) else {
+            print("❌ فشل في تحويل البيانات إلى صورة")
+            return
+        }
+        
+        if let savedPath = saveImageToFileManager(image: image) {
+            UserDefaults.standard.set(savedPath, forKey: "profileImagePath")
+            print("✅ تم حفظ الصورة في: \(savedPath)")
+        }
+    }
+    task.resume()
+}
+
+func saveImageToFileManager(image: UIImage) -> String? {
+    let fileManager = FileManager.default
+    guard let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
+    
+    let filePath = directory.appendingPathComponent("profile_image.jpg") // 🖼️ حفظ باسم ثابت
+    if let data = image.jpegData(compressionQuality: 0.8) {
+        do {
+            try data.write(to: filePath)
+            return filePath.path
+        } catch {
+            print("❌ فشل حفظ الصورة محليًا: \(error.localizedDescription)")
+        }
+    }
+    return nil
+}
+
+
+func getSavedProfileImage() -> UIImage? {
+    if let savedPath = UserDefaults.standard.string(forKey: "profileImagePath") {
+        return UIImage(contentsOfFile: savedPath)
+    }
+    return nil
+}
+
+func deleteProfileImage() {
+    let fileManager = FileManager.default
+    if let savedPath = UserDefaults.standard.string(forKey: "profileImagePath") {
+        let fileURL = URL(fileURLWithPath: savedPath)
+        
+        do {
+            try fileManager.removeItem(at: fileURL)
+            print("✅ تم حذف الصورة بنجاح من FileManager.")
+        } catch {
+            print("❌ فشل في حذف الصورة: \(error.localizedDescription)")
+        }
+    }
+}
 
 
 
