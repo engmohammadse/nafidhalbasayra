@@ -23,6 +23,8 @@ struct LoginResponse: Codable {
 }
 
 struct LoginData: Codable {
+    let username: String? // ✅ أضف `username`
+
     let rejectionReason: String?
     let region_id: String?
     let governorate_id: String?

@@ -59,63 +59,6 @@ class AppViewModel: ObservableObject {
 
 
 
-//import SwiftUI
-//
-//class AppViewModel: ObservableObject {
-//    static let shared = AppViewModel() // ✅ Singleton لضمان استخدام نفس الكائن في كل مكان
-//
-//    @Published var isLoggedIn: Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")
-//
-//    private init() {} // ✅ منع إنشاء كائنات جديدة
-//
-//    func logout() {
-//        let defaults = UserDefaults.standard
-//
-//        // ✅ مسح جميع بيانات المستخدم
-//        defaults.removeObject(forKey: "isLoggedIn")
-//        defaults.removeObject(forKey: "teacherId")
-//        defaults.removeObject(forKey: "rejectionReason")
-//        defaults.removeObject(forKey: "loginState")
-//        defaults.synchronize()
-//
-//        DispatchQueue.main.async {
-//            self.isLoggedIn = false
-//
-//            // ✅ مسح بيانات الحضور والطلاب
-//            AttendaceStatusViewModel.shared.clearAllAttendanceData()
-//            StudentViewModel.shared.clearAllStudentData()
-//
-//            // ✅ إعادة تحميل Core Data
-//            AttendaceStatusViewModel.shared.container.loadPersistentStores { _, error in
-//                if let error = error {
-//                    print("❌ خطأ في إعادة تحميل Core Data بعد الحذف: \(error.localizedDescription)")
-//                } else {
-//                    print("✅ تم إعادة تحميل Core Data بعد الحذف.")
-//                }
-//            }
-//
-//            // ✅ إعادة تعيين `rootViewController` مع التأكد من استخدام نفس كائن `AppViewModel`
-//            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-//                  let window = windowScene.windows.first else { return }
-//
-//            let newRootView = NavigationStack {
-//                RegisterInfoPage()
-//                    .environmentObject(AppViewModel.shared) // ✅ استخدم نفس كائن AppViewModel
-//                    .environmentObject(TeacherDataViewModel())
-//                    .environmentObject(AttendaceStatusViewModel.shared)
-//                    .environmentObject(StudentViewModel.shared)
-//                    .environmentObject(CoreDataViewModel())
-//                    .preferredColorScheme(.light)
-//            }
-//
-//            window.rootViewController = UIHostingController(rootView: newRootView)
-//            window.makeKeyAndVisible()
-//        }
-//    }
-//}
-
-
-
 import SwiftUI
 
 struct LogoIUserInfo: View {
@@ -158,7 +101,7 @@ struct LogoIUserInfo: View {
                     Button("إلغاء", role: .cancel) { }
                 }
 
-                Text(teacherData.userName ?? "user1212")
+                Text(UserDefaults.standard.string(forKey: "username") ?? "لا يوجد اسم مستخدم")
                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                     .foregroundStyle(Color.white)
                     .padding(.horizontal, geoW * 0.05)
