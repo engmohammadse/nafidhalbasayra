@@ -12,7 +12,8 @@ struct MainViewPage: View {
     @EnvironmentObject var teacherData: TeacherDataViewModel
     @EnvironmentObject var vmAttendaceStatus : AttendaceStatusViewModel
     
-    
+    @StateObject var studentFetcher = fetchAndStoreStudentsFromBackEnd(database: StudentViewModel.shared)
+
     
     @StateObject var studentViewModel = StudentViewModel.shared
     
@@ -115,6 +116,10 @@ struct MainViewPage: View {
                 let studentUploader = StudentUploader(database: studentViewModel)
                 studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
                 
+                
+                Task {
+                           await studentFetcher.fetchAndStoreStudents(teacherID: UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7") // 🔹 جلب الطلاب عند إعادة فتح التطبيق
+                       }
                 
                }
 

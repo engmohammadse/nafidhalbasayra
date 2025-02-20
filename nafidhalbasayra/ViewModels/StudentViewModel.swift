@@ -56,7 +56,7 @@ class StudentViewModel: ObservableObject {
     
     
     
-    func addStudentInfo(name: String, phoneNumber: String, age: String, level: String, size: String, gender: String, academic_level: String) {
+    func addStudentInfo(name: String, phoneNumber: String, age: String, level: String, size: String, gender: String, academic_level: String, state:Int16 ) {
         let newStudentInfo = StudentInfo(context: container.viewContext)
         
         newStudentInfo.studentID = UUID().uuidString // توليد المعرف تلقائيًا
@@ -66,7 +66,7 @@ class StudentViewModel: ObservableObject {
 //        newStudentInfo.city = city
         newStudentInfo.level = level
         newStudentInfo.size = size
-        newStudentInfo.state = 0
+        newStudentInfo.state = state
         newStudentInfo.isSending = false
         newStudentInfo.gender = gender
         newStudentInfo.academic_level = academic_level

@@ -98,7 +98,7 @@ struct AddStudentToStudentDataSection: View {
                 
                 if isFormValid {
                        // إذا كانت جميع الحقول ممتلئة، احفظ البيانات
-                    vmStudent.addStudentInfo(name: name, phoneNumber: phoneNumber, age: age, level: level, size: size, gender: gender, academic_level: academic_level)
+                    vmStudent.addStudentInfo(name: name, phoneNumber: phoneNumber, age: age, level: level, size: size, gender: gender, academic_level: academic_level, state: 0)
                        
                        // إظهار تنبيه النجاح
                        alertType = .success
