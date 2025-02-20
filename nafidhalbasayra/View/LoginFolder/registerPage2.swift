@@ -10,7 +10,7 @@ import SwiftUI
 struct registerPage2: View {    
  
     @EnvironmentObject var teacherData: TeacherDataViewModel
-    @StateObject private var viewModel = CoreDataViewModel()
+    @StateObject private var vmTeacher = CoreDataViewModel()
     @Environment(\.dismiss) var dismiss
 //    @StateObject var coreDataViewModel = CoreDataViewModel() // temp
 
@@ -308,49 +308,14 @@ struct registerPage2: View {
                     
                     Button(action: {
                 
-                     
-        //                // Ensure capturedImage is not nil before proceeding
-        //                guard let image = teacherData.profileimage,
-        //                      let imageData = image.jpegData(compressionQuality: 0.8) else {
-        //                    print("يرجى إضافة صورة قبل الإرسال.")
-        //                    return
-        //                }
-        //                guard let frontImage = teacherData.frontfaceidentity,
-        //                      let frontId = frontImage.jpegData(compressionQuality: 0.8) else {
-        //                    print("يرجى إضافة صورة قبل الإرسال.")
-        //                    return
-        //                }
-        //                
-        //                guard let BackImage = teacherData.backfaceidentity,
-        //                      let BackId = BackImage.jpegData(compressionQuality: 0.8) else {
-        //                    print("يرجى إضافة صورة قبل الإرسال.")
-        //                    return
-        //                }
-                        
-                      //
-        //                let coreDataViewModel = CoreDataViewModel()
-        //
-        //
-        //                //في حال وجود صورة
-        //                coreDataViewModel.addTeacherInfoToCoreData(from: teacherData, with: imageData, with: frontId, with: BackId )
-        //
-        //                let teacherViewModel = TeacherDataViewModel()
-
-              
-
-                        // Print success message and clear temporary data
-        //                print("تم حفظ البيانات بنجاح في قاعدة البيانات!")
-                        
-                        
-                        
-        //                print("Profile Image عند الإرسال: \(teacherData.profileimage != nil ? " موجودة" : " غير موجودة")")
-        //                   print("Front Face Image عند الإرسال: \(teacherData.frontfaceidentity != nil ? " موجودة" : " غير موجودة")")
-        //                   print("Back Face Image عند الإرسال: \(teacherData.backfaceidentity != nil ? " موجودة" : " غير موجودة")")
-                        
-        //                if isValidImages == false {
-        //                    showAlertEmptyImages = true
-        //
-        //                }
+                        // ✅ استدعاء `addTeacherInfoToCoreData` لحفظ جميع بيانات الأستاذ
+                        vmTeacher.addTeacherInfoToCoreData(
+                                         from: teacherData,
+                                         with: teacherData.profileimage?.jpegData(compressionQuality: 0.8),
+                                         with: teacherData.frontfaceidentity?.jpegData(compressionQuality: 0.8),
+                                         with: teacherData.backfaceidentity?.jpegData(compressionQuality: 0.8)
+                                     )
+    
                            
                            if isValidImages2 == false {
                                showAlertEmptyImages = true
@@ -438,7 +403,7 @@ struct registerPage2: View {
                     
                     // delete
                     Button(action: {
-                        viewModel.deleteAllTeacherInfo()
+                        vmTeacher.deleteAllTeacherInfo()
                     }) {
                         Text("delete all data ")
                             .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025))

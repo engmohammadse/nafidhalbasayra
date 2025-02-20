@@ -68,6 +68,16 @@ struct MainViewPage: View {
                   .background(Color(red: 236/255, green: 242/255, blue: 245/255))
             
             
+            // 🔹 زر للانتقال إلى صفحة بيانات الأستاذ
+                        NavigationLink(destination: TeacherProfileView()) {
+                            Text("عرض بيانات الأستاذ")
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+            
+            
                // button setting
                     VStack {
                         

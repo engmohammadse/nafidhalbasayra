@@ -101,6 +101,8 @@ class CoreDataViewModel: ObservableObject {
         // Map values from TeacherDataViewModel to TeacherInfo entity
         newTeacherInfo.name = teacherData.name
         newTeacherInfo.birthDay = teacherData.birthDay
+        // check error 0 phonenumber
+        newTeacherInfo.phonenumber = Int16(teacherData.phonenumber) ?? 00
         newTeacherInfo.province = teacherData.province
         newTeacherInfo.city = teacherData.city
         newTeacherInfo.didyoutaught = teacherData.didyoutaught ?? false

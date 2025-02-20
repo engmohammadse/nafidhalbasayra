@@ -172,18 +172,27 @@ struct RegisterInfoPage: View {
                     case .registerInfo:
                         LoginPageWelcom()
                             .environmentObject(teacherData)
+                            .preferredColorScheme(.light)
+
                            // .environmentObject(vmAttendaceStatus)
                     case .waitProcess:
                         registerPageWaitProcess()
                             .environmentObject(teacherData)
+                            .preferredColorScheme(.light)
+
                             //.environmentObject(vmAttendaceStatus)
                     case .homePage:
-                        registerPageAccept()
-                            .environmentObject(teacherData)
+                        MainViewPage()
                             .environmentObject(vmAttendaceStatus)
+                            .environmentObject(coreDataViewModel)
+                            .environmentObject(teacherData)
+                            .preferredColorScheme(.light)
+
                     case .rejectionIssue:
                         registerPageDecline()
                             .environmentObject(teacherData)
+                            .preferredColorScheme(.light)
+
                             //.environmentObject(vmAttendaceStatus)
                     case .none:
                         EmptyView()
