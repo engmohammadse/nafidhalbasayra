@@ -61,7 +61,7 @@ class fetchAndStoreStudentsFromBackEnd: ObservableObject {
             }
 
             // ✅ التحقق مما إذا كان الطالب موجودًا بالفعل في CoreData
-            if let existingStudent = database.savedEntitiesStudent.first(where: { $0.studentID == student._id }) {
+            if let existingStudent = database.savedEntitiesStudent.first(where: { $0.idFromApi == student._id }) {
                 // ✅ تحديث البيانات بدلًا من إضافة الطالب مرة أخرى
                 print("🔄 تحديث بيانات الطالب: \(student.name)")
                 database.updateStudentInfo(
@@ -87,7 +87,9 @@ class fetchAndStoreStudentsFromBackEnd: ObservableObject {
                     size: student.size,
                     gender: student.gender,
                     academic_level: student.academic_level,
-                    state: 1 // ✅ تعيين `state = 1` لأنه مرسل مسبقًا
+                    state: 1, // ✅ تعيين `state = 1` لأنه مرسل مسبقًا
+                    idFromApi: student._id
+                    
                 )
             }
         }

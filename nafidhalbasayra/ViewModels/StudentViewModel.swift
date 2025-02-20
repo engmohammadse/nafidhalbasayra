@@ -56,7 +56,7 @@ class StudentViewModel: ObservableObject {
     
     
     
-    func addStudentInfo(name: String, phoneNumber: String, age: String, level: String, size: String, gender: String, academic_level: String, state:Int16 ) {
+    func addStudentInfo(name: String, phoneNumber: String, age: String, level: String, size: String, gender: String, academic_level: String, state:Int16, idFromApi: String ) {
         let newStudentInfo = StudentInfo(context: container.viewContext)
         
         newStudentInfo.studentID = UUID().uuidString // توليد المعرف تلقائيًا
@@ -70,6 +70,7 @@ class StudentViewModel: ObservableObject {
         newStudentInfo.isSending = false
         newStudentInfo.gender = gender
         newStudentInfo.academic_level = academic_level
+        newStudentInfo.idFromApi = idFromApi
         
         
         saveStudentData()
