@@ -11,6 +11,16 @@ import UIKit
 
 
 
+extension Date {
+    /// 🔹 دالة تقوم بتحويل `Date` إلى نص بتنسيق MM/dd/yyyy hh:mm a
+    func formattedDateTimeUs() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy hh:mm a" // ✅ تنسيق الوقت 12 ساعة مع AM/PM
+        formatter.locale = Locale(identifier: "en_US_POSIX") // ✅ التأكد من استخدام تنسيق 12 ساعة
+        return formatter.string(from: self)
+    }
+}
+
 
 
 

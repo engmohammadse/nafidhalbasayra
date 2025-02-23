@@ -54,7 +54,7 @@ class AttendaceStatusViewModel: ObservableObject {
     let deviceModel = getDeviceModel()
     
     
-    func addAttendaceStatus(numberOfStudents: Int, imageData: Data?, notes: String, latitude: Double, longitude: Double, date: Date, state: Int16) {
+    func addAttendaceStatus(numberOfStudents: Int, imageData: Data?, notes: String, latitude: Double, longitude: Double, date: Date, state: Int16, idFromApi: String? = nil) {
         let newAttendaceStatus = AttendaceStatus(context: container.viewContext)
         newAttendaceStatus.id = UUID().uuidString
         newAttendaceStatus.numberOfStudents = String(numberOfStudents)
@@ -63,6 +63,8 @@ class AttendaceStatusViewModel: ObservableObject {
         newAttendaceStatus.latitude = latitude
         newAttendaceStatus.longitude = longitude
         newAttendaceStatus.date = date
+        newAttendaceStatus.idFromApi = idFromApi // ✅ حفظ `idFromApi`
+
 
         // ✅ التأكد من تعيين قيمة `state` بناءً على المصدر (API أو إدخال يدوي)
         newAttendaceStatus.state = state

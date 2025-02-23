@@ -10,8 +10,13 @@ import Foundation
 import SwiftUI
 import CoreLocation
 
+
+
+
+
 struct sendAttendanceSection: View {
     
+  
     
     @StateObject private var locationManager = LocationManager()
     @State private var numberOfStudents: String = ""
@@ -307,7 +312,7 @@ struct sendAttendanceSection: View {
                                             notes: notes,
                                             latitude: location.coordinate.latitude,
                                             longitude: location.coordinate.longitude,
-                                            date: Date(),
+                                            date: Date(), // ✅ تخزين التاريخ والوقت بصيغة النص
                                             state: 0
                                         )
 
@@ -457,6 +462,8 @@ struct sendAttendanceSection: View {
 //        }
     }
 }
+
+
 
 
 #Preview {

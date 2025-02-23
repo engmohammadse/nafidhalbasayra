@@ -31,6 +31,18 @@ struct SettingSection: View {
                 VStack(spacing: 0) {
                     Weeks3(languageChoose: $selectedLanguage) // تمرير اللغة المختارة
                 }
+                
+                
+                
+                            // 🔹 زر للانتقال إلى صفحة بيانات الأستاذ
+                                        NavigationLink(destination: TeacherProfileView()) {
+                                            Text("عرض بيانات الأستاذ")
+                                                .padding()
+                                                .background(Color.blue)
+                                                .foregroundColor(.white)
+                                                .cornerRadius(8)
+                                        }
+                            
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(backgroundColorPage)

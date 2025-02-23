@@ -13,8 +13,8 @@ struct MainViewPage: View {
     @EnvironmentObject var vmAttendaceStatus : AttendaceStatusViewModel
     
     @StateObject var studentFetcher = fetchAndStoreStudentsFromBackEnd(database: StudentViewModel.shared)
+    @StateObject var attendanceFetcher = fetchAndStoreAttendancesFromBackEnd(database: AttendaceStatusViewModel.shared)
 
-    
     @StateObject var studentViewModel = StudentViewModel.shared
     
     
@@ -68,20 +68,15 @@ struct MainViewPage: View {
                   .background(Color(red: 236/255, green: 242/255, blue: 245/255))
             
             
-            // 🔹 زر للانتقال إلى صفحة بيانات الأستاذ
-                        NavigationLink(destination: TeacherProfileView()) {
-                            Text("عرض بيانات الأستاذ")
-                                .padding()
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                        }
-            
+
             
                // button setting
                     VStack {
                         
                         ButtonSetting()
+                        
+                        
+                        //SettingSection
                         
                         Spacer()
                             .frame(height: screenHeight * 0.02)
@@ -126,6 +121,10 @@ struct MainViewPage: View {
                 let studentUploader = StudentUploader(database: studentViewModel)
                 studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
                 
+                
+                Task {
+                                   await attendanceFetcher.fetchAndStoreAttendances(teacherID: UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7")
+                               }
                 
                 Task {
                            await studentFetcher.fetchAndStoreStudents(teacherID: UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7") // 🔹 جلب الطلاب عند إعادة فتح التطبيق
@@ -217,28 +216,49 @@ struct VStackSection<Destination: View>: View {
 }
 
 
+//struct ButtonSetting: View {
+//    
+//    var body: some View {
+// 
+//        HStack{
+//            
+//            Button(action: {}){
+//                
+//                Text("الإعدادات")
+//                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.033  : screenWidth * 0.025))
+//                    .foregroundStyle(Color.black)
+//                
+//                Image("VectorSetting")
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fit)
+//                    .frame(width: uiDevicePhone ?  screenWidth * 0.05 : screenWidth * 0.04)
+//            }
+//        }
+//        .frame(width: uiDevicePhone ?  screenWidth * 0.63 : screenWidth * 0.56, height: screenHeight * 0.05)
+//        .background(Color.white)
+//        .cornerRadius(5)
+//        
+//    }
+//}
+
+
 struct ButtonSetting: View {
-    
     var body: some View {
- 
-        HStack{
-            
-            Button(action: {}){
-                
+        NavigationLink(destination: SettingSection(province: .constant(""))) {
+            HStack {
                 Text("الإعدادات")
-                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.033  : screenWidth * 0.025))
+                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.033 : screenWidth * 0.025))
                     .foregroundStyle(Color.black)
-                
+
                 Image("VectorSetting")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: uiDevicePhone ?  screenWidth * 0.05 : screenWidth * 0.04)
+                    .frame(width: uiDevicePhone ? screenWidth * 0.05 : screenWidth * 0.04)
             }
         }
-        .frame(width: uiDevicePhone ?  screenWidth * 0.63 : screenWidth * 0.56, height: screenHeight * 0.05)
+        .frame(width: uiDevicePhone ? screenWidth * 0.63 : screenWidth * 0.56, height: screenHeight * 0.05)
         .background(Color.white)
         .cornerRadius(5)
-        
     }
 }
 

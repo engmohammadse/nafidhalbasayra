@@ -63,21 +63,41 @@ class fetchAndStoreAttendancesFromBackEnd: ObservableObject {
     
     
     
+    
     private func storeAttendancesInDatabase(_ attendances: [Attendance]) {
+        let context = database.container.viewContext
+
         for attendance in attendances {
             let dateFormatter = ISO8601DateFormatter()
             let date = dateFormatter.date(from: attendance.register_date) ?? Date()
 
-            print("📝 تخزين الحضور: \(attendance.register_date), عدد الطلاب: \(attendance.students_number), الرسالة: \(attendance.message)")
+            // ✅ استعلام في Core Data للتحقق من وجود السجل مسبقًا باستخدام `idFromApi`
+            let fetchRequest: NSFetchRequest<AttendaceStatus> = AttendaceStatus.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "idFromApi == %@", attendance._id)
 
+            do {
+                let existingRecords = try context.fetch(fetchRequest)
+                if !existingRecords.isEmpty {
+                    print("🚫 الحضور موجود مسبقًا في Core Data، سيتم تجاهله: \(attendance.register_date)")
+                    continue // ❌ تخطي الإضافة إذا كان موجودًا
+                }
+            } catch {
+                print("❌ خطأ في استعلام Core Data: \(error.localizedDescription)")
+                continue
+            }
+
+            print("📝 تخزين الحضور الجديد: \(attendance.register_date), عدد الطلاب: \(attendance.students_number), الرسالة: \(attendance.message)")
+
+            // ✅ إضافة الحضور الجديد مع `idFromApi` مباشرة
             database.addAttendaceStatus(
                 numberOfStudents: attendance.students_number,
-                imageData: nil, // لا يوجد بيانات صورة من الـ API
+                imageData: nil, // 🔹 لا يوجد بيانات صورة من الـ API
                 notes: attendance.message,
                 latitude: attendance.register_location.lat,
                 longitude: attendance.register_location.lng,
                 date: date,
-                state: 1 // ✅ تعيين `state = 1` للتأكد من أنه مخزن بشكل صحيح
+                state: 1, // ✅ تعيين `state = 1` للتأكد من أنه مخزن بشكل صحيح
+                idFromApi: attendance._id // ✅ تخزين `idFromApi` مباشرة أثناء الإضافة
             )
         }
 
@@ -86,6 +106,44 @@ class fetchAndStoreAttendancesFromBackEnd: ObservableObject {
             self.database.fetchAttendaceStatus()
         }
     }
+
+    
+    
+    
+    
+    
+    
+//    private func storeAttendancesInDatabase(_ attendances: [Attendance]) {
+//        for attendance in attendances {
+//            let dateFormatter = ISO8601DateFormatter()
+//            let date = dateFormatter.date(from: attendance.register_date) ?? Date()
+//            
+//            
+//            // ✅ التحقق مما إذا كان الحضور موجودًا مسبقًا
+//                 if database.savedEntitiesAttendace.contains(where: { $0.idFromApi == attendance._id }) {
+//                     print("🔄 الحضور موجود مسبقًا في Core Data، سيتم تجاهله: \(attendance.register_date)")
+//                     continue // تخطي الإضافة إذا كان موجودًا
+//                 }
+//            
+//
+//            print("📝 تخزين الحضور: \(attendance.register_date), عدد الطلاب: \(attendance.students_number), الرسالة: \(attendance.message)")
+//
+//            database.addAttendaceStatus(
+//                numberOfStudents: attendance.students_number,
+//                imageData: nil, // لا يوجد بيانات صورة من الـ API
+//                notes: attendance.message,
+//                latitude: attendance.register_location.lat,
+//                longitude: attendance.register_location.lng,
+//                date: date,
+//                state: 1 // ✅ تعيين `state = 1` للتأكد من أنه مخزن بشكل صحيح
+//            )
+//        }
+//
+//        // ✅ إعادة تحميل البيانات بعد التخزين
+//        DispatchQueue.main.async {
+//            self.database.fetchAttendaceStatus()
+//        }
+//    }
 
     
     

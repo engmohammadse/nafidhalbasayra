@@ -74,7 +74,10 @@ class AttendanceUploader {
             }
         }
     }
-
+    
+    
+    
+    
     private func sendAttendanceData(entity: AttendaceStatus, completion: @escaping (Bool, Int, String?) -> Void) {
         guard let url = URL(string: "http://198.244.227.48:8082/attendance/send-attendance") else {
             print("❌ Invalid URL")
@@ -92,39 +95,31 @@ class AttendanceUploader {
 
         var body = Data()
 
-        // إعداد الحقول النصية
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd" // تحويل التاريخ إلى الصيغة المطلوبة
-        let dateString = dateFormatter.string(from: entity.date ?? Date())
+        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a" // ✅ ضبط التنسيق
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // ✅ التأكد من استخدام تنسيق 12 ساعة
+        let formattedDateString = dateFormatter.string(from: entity.date ?? Date()) // ✅ تحويل التاريخ للصيغة المطلوبة
 
         let location = "{\"lng\":\(entity.longitude),\"lat\":\(entity.latitude)}"
 
-        body.append(convertFormField(name: "teacher_id", value:  UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7", using: boundary))
-
-//        body.append(convertFormField(name: "teacher_id", value: "670a9990a8cd200cf7b0e8c7", using: boundary))
+        body.append(convertFormField(name: "teacher_id", value: UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7", using: boundary))
         body.append(convertFormField(name: "students_number", value: entity.numberOfStudents ?? "0", using: boundary))
         body.append(convertFormField(name: "message", value: entity.notes ?? " لا توجد ملاحظات", using: boundary))
         body.append(convertFormField(name: "register_location", value: location, using: boundary))
-        body.append(convertFormField(name: "register_date", value: dateString, using: boundary))
+        body.append(convertFormField(name: "register_date", value: formattedDateString, using: boundary))
 
-        
-        
         if let imageData = entity.image {
             body.append(convertFileField(name: "image", fileName: "image.jpg", mimeType: "image/jpeg", fileData: imageData, using: boundary))
         } else {
-            print("⚠️ Warning: No image provided for entity ID: \(entity.id ?? "No ID"), but continuing...")
-            completion(false, 400, "Image is required") // جرب تعليق هذا السطر لاختبار الإرسال بدون صورة
+            print("⚠️ No image provided for entity ID: \(entity.id ?? "No ID")")
         }
-
-        
-
 
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
         request.httpBody = body
 
         print("📤 Request body created for entity ID: \(entity.id ?? "No ID").")
 
-        // إرسال الطلب
+        // ✅ **إرسال الطلب**
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("❌ Error sending data for entity \(entity.id ?? "No ID"): \(error.localizedDescription)")
@@ -137,17 +132,163 @@ class AttendanceUploader {
                 completion(false, -1, "Invalid response")
                 return
             }
+            
+            
+            if httpResponse.statusCode == 200 || httpResponse.statusCode == 201, let data = data {
+                do {
+                    // ✅ **تحليل JSON واستخراج `_id`**
+                    let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                    if let attendanceId = jsonResponse?["_id"] as? String {
+                        print("✅ Data sent successfully! Attendance ID: \(attendanceId)")
 
-            if httpResponse.statusCode == 200 || httpResponse.statusCode == 201  {
-                print("✅ Data sent successfully for entity ID: \(entity.id ?? "No ID") with status code: \(httpResponse.statusCode)")
+                        // ✅ **تحديث `idFromApi` في Core Data**
+                        DispatchQueue.main.async {
+                            if let context = entity.managedObjectContext {
+                                entity.idFromApi = attendanceId
+                                do {
+                                    try context.save() // ✅ **حفظ التعديلات في Core Data**
+                                    print("✅ Successfully updated `idFromApi` in Core Data for entity \(entity.id ?? "No ID").")
+                                } catch {
+                                    print("❌ Error saving `idFromApi` to Core Data: \(error.localizedDescription)")
+                                }
+                            }
+                        }
+                    }
+                } catch {
+                    print("❌ Error parsing JSON response: \(error.localizedDescription)")
+                }
+
                 completion(true, httpResponse.statusCode, nil)
-            } else {
+            }
+
+
+//            if httpResponse.statusCode == 200 || httpResponse.statusCode == 201, let data = data {
+//                do {
+//                    // ✅ **تحليل JSON واستخراج `_id`**
+//                    let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+//                    if let attendanceId = jsonResponse?["_id"] as? String {
+//                        print("✅ Data sent successfully! Attendance ID: \(attendanceId)")
+//
+//                        // ✅ **تحديث `idFromApi` في Core Data**
+//                        DispatchQueue.main.async {
+//                            if let context = entity.managedObjectContext {
+//                                entity.idFromApi = attendanceId
+//                                do {
+//                                    try context.save() // ✅ **حفظ التعديلات في Core Data**
+//                                    print("✅ Successfully updated `idFromApi` in Core Data for entity \(entity.id ?? "No ID").")
+//                                } catch {
+//                                    print("❌ Error saving `idFromApi` to Core Data: \(error.localizedDescription)")
+//                                }
+//                            }
+//                        }
+//                    }
+//                } catch {
+//                    print("❌ Error parsing JSON response: \(error.localizedDescription)")
+//                }
+//
+//                completion(true, httpResponse.statusCode, nil)
+//            } 
+            
+            else {
                 let serverMessage = String(data: data ?? Data(), encoding: .utf8) ?? "No server message"
-                print("❌ Failed to send data for entity ID: \(entity.id ?? "No ID"). HTTP Status: \(httpResponse.statusCode), Server Response: \(serverMessage)")
+                print("❌ Failed to send data. HTTP Status: \(httpResponse.statusCode), Server Response: \(serverMessage)")
                 completion(false, httpResponse.statusCode, serverMessage)
             }
         }.resume()
     }
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+//    private func sendAttendanceData(entity: AttendaceStatus, completion: @escaping (Bool, Int, String?) -> Void) {
+//        guard let url = URL(string: "http://198.244.227.48:8082/attendance/send-attendance") else {
+//            print("❌ Invalid URL")
+//            completion(false, -1, "Invalid URL")
+//            return
+//        }
+//
+//        print("📤 Sending data for entity ID: \(entity.id ?? "No ID") to URL: \(url)")
+//
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "POST"
+//
+//        let boundary = "Boundary-\(UUID().uuidString)"
+//        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+//
+//        var body = Data()
+//
+//        // إعداد الحقول النصية
+////        let dateFormatter = DateFormatter()
+////        dateFormatter.dateFormat = "yyyy-MM-dd" // تحويل التاريخ إلى الصيغة المطلوبة
+////        let dateString = dateFormatter.string(from: entity.date ?? Date())
+//        
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a" // ✅ ضبط التنسيق على MM/dd/yyyy hh:mm a
+//        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // ✅ التأكد من استخدام تنسيق 12 ساعة
+//
+//        let formattedDateString = dateFormatter.string(from: entity.date ?? Date()) // ✅ تحويل التاريخ للصيغة المطلوبة
+//
+//        
+//        
+//        
+//
+//        let location = "{\"lng\":\(entity.longitude),\"lat\":\(entity.latitude)}"
+//
+//        body.append(convertFormField(name: "teacher_id", value:  UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7", using: boundary))
+//
+////        body.append(convertFormField(name: "teacher_id", value: "670a9990a8cd200cf7b0e8c7", using: boundary))
+//        body.append(convertFormField(name: "students_number", value: entity.numberOfStudents ?? "0", using: boundary))
+//        body.append(convertFormField(name: "message", value: entity.notes ?? " لا توجد ملاحظات", using: boundary))
+//        body.append(convertFormField(name: "register_location", value: location, using: boundary))
+//        body.append(convertFormField(name: "register_date", value: formattedDateString, using: boundary))
+//
+//        
+//        
+//        if let imageData = entity.image {
+//            body.append(convertFileField(name: "image", fileName: "image.jpg", mimeType: "image/jpeg", fileData: imageData, using: boundary))
+//        } else {
+//            print("⚠️ Warning: No image provided for entity ID: \(entity.id ?? "No ID"), but continuing...")
+//            completion(false, 400, "Image is required") // جرب تعليق هذا السطر لاختبار الإرسال بدون صورة
+//        }
+//
+//        
+//
+//
+//        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+//        request.httpBody = body
+//
+//        print("📤 Request body created for entity ID: \(entity.id ?? "No ID").")
+//
+//        // إرسال الطلب
+//        URLSession.shared.dataTask(with: request) { data, response, error in
+//            if let error = error {
+//                print("❌ Error sending data for entity \(entity.id ?? "No ID"): \(error.localizedDescription)")
+//                completion(false, -1, error.localizedDescription)
+//                return
+//            }
+//
+//            guard let httpResponse = response as? HTTPURLResponse else {
+//                print("❌ Invalid response for entity \(entity.id ?? "No ID")")
+//                completion(false, -1, "Invalid response")
+//                return
+//            }
+//
+//            if httpResponse.statusCode == 200 || httpResponse.statusCode == 201  {
+//                print("✅ Data sent successfully for entity ID: \(entity.id ?? "No ID") with status code: \(httpResponse.statusCode)")
+//                completion(true, httpResponse.statusCode, nil)
+//            } else {
+//                let serverMessage = String(data: data ?? Data(), encoding: .utf8) ?? "No server message"
+//                print("❌ Failed to send data for entity ID: \(entity.id ?? "No ID"). HTTP Status: \(httpResponse.statusCode), Server Response: \(serverMessage)")
+//                completion(false, httpResponse.statusCode, serverMessage)
+//            }
+//        }.resume()
+//    }
 
     private func convertFormField(name: String, value: String, using boundary: String) -> Data {
         var fieldString = "--\(boundary)\r\n"

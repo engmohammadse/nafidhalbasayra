@@ -47,6 +47,7 @@ struct HadeethSection: View {
                     
         
                }
+               .padding(.top, screenHeight * 0.003)
                
                
 //               .frame(maxWidth: .infinity, maxHeight: .infinity)
