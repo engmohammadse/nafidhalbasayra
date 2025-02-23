@@ -73,6 +73,327 @@ func hideKeyboardExplicitly() {
 }
 
 
+    
+
+
+
+import SwiftUI
+import UIKit
+import AVFoundation
+import Vision
+
+struct SelfieCameraPicker: UIViewControllerRepresentable {
+    @Binding var selectedImage: UIImage?
+    @Environment(\.presentationMode) var presentationMode
+
+    func makeUIViewController(context: Context) -> CameraViewController {
+        let viewController = CameraViewController()
+        viewController.delegate = context.coordinator
+        return viewController
+    }
+
+    func updateUIViewController(_ uiViewController: CameraViewController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, CameraViewControllerDelegate {
+        let parent: SelfieCameraPicker
+
+        init(_ parent: SelfieCameraPicker) {
+            self.parent = parent
+        }
+
+        func didCapture(image: UIImage) {
+            DispatchQueue.main.async {
+                self.parent.selectedImage = image
+                self.parent.presentationMode.wrappedValue.dismiss()
+            }
+        }
+    }
+}
+
+// MARK: - Camera ViewController
+class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+    var captureSession: AVCaptureSession?
+    var cameraOutput = AVCapturePhotoOutput()
+    let faceDetectionRequest = VNDetectFaceRectanglesRequest()
+    var delegate: CameraViewControllerDelegate?
+    var isCapturing = false // متغير لمنع التقاط صور متكررة
+
+    // عناصر واجهة المستخدم
+    let overlayView = UIView()
+    let messageLabel = UILabel()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.setupCamera()
+        }
+    }
+
+    // إعداد واجهة المستخدم وإضافة التنبية الأخضر
+    func setupUI() {
+        overlayView.frame = view.bounds
+        overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        overlayView.isHidden = true
+        view.addSubview(overlayView)
+
+        // تعديل موضع التنبيه ليكون في الأعلى
+        let safeAreaTop = view.safeAreaInsets.top + 20
+        messageLabel.frame = CGRect(x: 20, y: safeAreaTop, width: view.bounds.width - 40, height: 60)
+        messageLabel.textAlignment = .center
+        messageLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        messageLabel.textColor = .white
+        messageLabel.numberOfLines = 2
+        messageLabel.layer.cornerRadius = 10
+        messageLabel.layer.masksToBounds = true
+        messageLabel.backgroundColor = UIColor.green
+        messageLabel.isHidden = true
+        view.addSubview(messageLabel)
+    }
+
+    func setupCamera() {
+        let session = AVCaptureSession()
+        session.sessionPreset = .photo
+
+        guard let frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
+            print("❌ لا يمكن العثور على الكاميرا الأمامية")
+            return
+        }
+
+        do {
+            let input = try AVCaptureDeviceInput(device: frontCamera)
+            if session.canAddInput(input) {
+                session.addInput(input)
+            }
+
+            if session.canAddOutput(cameraOutput) {
+                session.addOutput(cameraOutput)
+            }
+
+            let videoOutput = AVCaptureVideoDataOutput()
+            if session.canAddOutput(videoOutput) {
+                session.addOutput(videoOutput)
+                videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue.global(qos: .userInitiated))
+            }
+
+            DispatchQueue.main.async {
+                let previewLayer = AVCaptureVideoPreviewLayer(session: session)
+                previewLayer.videoGravity = .resizeAspectFill
+                previewLayer.frame = self.view.bounds
+                self.view.layer.insertSublayer(previewLayer, at: 0)
+            }
+
+            session.startRunning()
+            self.captureSession = session
+
+        } catch {
+            print("❌ خطأ في إعداد الكاميرا: \(error.localizedDescription)")
+        }
+    }
+
+    func capturePhoto() {
+        guard !isCapturing else { return }  // منع التقاط صور متكررة
+        isCapturing = true
+
+        DispatchQueue.main.async {
+            self.messageLabel.text = "تم التعرف على الوجه، سيتم التقاط الصورة، لا تتحرك"
+            self.messageLabel.isHidden = false
+            self.overlayView.isHidden = false
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {  // تأخير لمدة 3 ثوانٍ قبل الالتقاط
+            let settings = AVCapturePhotoSettings()
+            self.cameraOutput.capturePhoto(with: settings, delegate: self)
+
+            DispatchQueue.main.async {
+                self.messageLabel.isHidden = true
+                self.overlayView.isHidden = true
+            }
+        }
+    }
+
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+
+        let requestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
+        do {
+            try requestHandler.perform([faceDetectionRequest])
+            if let results = faceDetectionRequest.results as? [VNFaceObservation], !results.isEmpty {
+                capturePhoto()
+            }
+        } catch {
+            print("❌ خطأ في تحليل الصورة: \(error.localizedDescription)")
+        }
+    }
+}
+
+// MARK: - Photo Capture Delegate
+extension CameraViewController: AVCapturePhotoCaptureDelegate {
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        guard let imageData = photo.fileDataRepresentation(), let image = UIImage(data: imageData) else { return }
+        delegate?.didCapture(image: image)
+        dismiss(animated: true)
+    }
+}
+
+// MARK: - Delegate Protocol
+protocol CameraViewControllerDelegate {
+    func didCapture(image: UIImage)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// work selfie camera
+//import SwiftUI
+//import UIKit
+//import AVFoundation
+//import Vision
+//
+//struct SelfieCameraPicker: UIViewControllerRepresentable {
+//    @Binding var selectedImage: UIImage?
+//    @Environment(\.presentationMode) var presentationMode
+//
+//    func makeUIViewController(context: Context) -> CameraViewController {
+//        let viewController = CameraViewController()
+//        viewController.delegate = context.coordinator
+//        return viewController
+//    }
+//
+//    func updateUIViewController(_ uiViewController: CameraViewController, context: Context) {}
+//
+//    func makeCoordinator() -> Coordinator {
+//        Coordinator(self)
+//    }
+//
+//    class Coordinator: NSObject, CameraViewControllerDelegate {
+//        let parent: SelfieCameraPicker
+//
+//        init(_ parent: SelfieCameraPicker) {
+//            self.parent = parent
+//        }
+//
+//        func didCapture(image: UIImage) {
+//            DispatchQueue.main.async {
+//                self.parent.selectedImage = image
+//                self.parent.presentationMode.wrappedValue.dismiss()
+//            }
+//        }
+//    }
+//}
+//
+//// MARK: - Camera ViewController
+//class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+//    var captureSession: AVCaptureSession?
+//    var cameraOutput = AVCapturePhotoOutput()
+//    let faceDetectionRequest = VNDetectFaceRectanglesRequest()
+//    var delegate: CameraViewControllerDelegate?
+//    var isCapturing = false  // متغير لمنع التقاط صور متكررة
+//
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        DispatchQueue.global(qos: .userInitiated).async {
+//            self.setupCamera()
+//        }
+//    }
+//
+//    func setupCamera() {
+//        let session = AVCaptureSession()
+//        session.sessionPreset = .photo
+//
+//        guard let frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
+//            print("❌ لا يمكن العثور على الكاميرا الأمامية")
+//            return
+//        }
+//
+//        do {
+//            let input = try AVCaptureDeviceInput(device: frontCamera)
+//            if session.canAddInput(input) {
+//                session.addInput(input)
+//            }
+//
+//            if session.canAddOutput(cameraOutput) {
+//                session.addOutput(cameraOutput)
+//            }
+//
+//            let videoOutput = AVCaptureVideoDataOutput()
+//            if session.canAddOutput(videoOutput) {
+//                session.addOutput(videoOutput)
+//                videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue.global(qos: .userInitiated))
+//            }
+//
+//            DispatchQueue.main.async {
+//                let previewLayer = AVCaptureVideoPreviewLayer(session: session)
+//                previewLayer.videoGravity = .resizeAspectFill
+//                previewLayer.frame = self.view.bounds
+//                self.view.layer.insertSublayer(previewLayer, at: 0)
+//            }
+//
+//            session.startRunning()
+//            self.captureSession = session
+//
+//        } catch {
+//            print("❌ خطأ في إعداد الكاميرا: \(error.localizedDescription)")
+//        }
+//    }
+//
+//    func capturePhoto() {
+//        guard !isCapturing else { return }  // منع التقاط صور متكررة
+//        isCapturing = true
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {  // تأخير لمدة 3 ثواني قبل الالتقاط
+//            let settings = AVCapturePhotoSettings()
+//            self.cameraOutput.capturePhoto(with: settings, delegate: self)
+//        }
+//    }
+//
+//    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+//        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+//
+//        let requestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
+//        do {
+//            try requestHandler.perform([faceDetectionRequest])
+//            if let results = faceDetectionRequest.results as? [VNFaceObservation], !results.isEmpty {
+//                capturePhoto()
+//            }
+//        } catch {
+//            print("❌ خطأ في تحليل الصورة: \(error.localizedDescription)")
+//        }
+//    }
+//}
+//
+//// MARK: - Photo Capture Delegate
+//extension CameraViewController: AVCapturePhotoCaptureDelegate {
+//    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+//        guard let imageData = photo.fileDataRepresentation(), let image = UIImage(data: imageData) else { return }
+//        delegate?.didCapture(image: image)
+//        dismiss(animated: true)
+//    }
+//}
+//
+//// MARK: - Delegate Protocol
+//protocol CameraViewControllerDelegate {
+//    func didCapture(image: UIImage)
+//}
+
+
+
+
+
 
 
 
@@ -90,6 +411,15 @@ struct ImagePicker: UIViewControllerRepresentable {
         let picker = UIImagePickerController()
         picker.delegate = context.coordinator
         picker.sourceType = sourceType // تحديد مصدر الصور بشكل ديناميكي
+
+        // تشغيل الكاميرا في خيط الخلفية لتجنب تجمد التطبيق
+        DispatchQueue.global(qos: .userInitiated).async {
+            DispatchQueue.main.async {
+                // تشغيل `UIImagePickerController` على `Main Thread` بعد تحميله في الخلفية
+                picker.modalPresentationStyle = .fullScreen
+            }
+        }
+        
         return picker
     }
 
@@ -107,17 +437,72 @@ struct ImagePicker: UIViewControllerRepresentable {
         }
 
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            if let image = info[.originalImage] as? UIImage {
-                parent.selectedImage = image
+            DispatchQueue.global(qos: .userInitiated).async {
+                if let image = info[.originalImage] as? UIImage {
+                    DispatchQueue.main.async {
+                        self.parent.selectedImage = image
+                        self.parent.presentationMode.wrappedValue.dismiss()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.parent.presentationMode.wrappedValue.dismiss()
+                    }
+                }
             }
-            parent.presentationMode.wrappedValue.dismiss()
         }
 
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            parent.presentationMode.wrappedValue.dismiss()
+            DispatchQueue.main.async {
+                self.parent.presentationMode.wrappedValue.dismiss()
+            }
         }
     }
 }
+
+
+
+
+
+//import SwiftUI
+//import UIKit
+//
+//struct ImagePicker: UIViewControllerRepresentable {
+//    @Binding var selectedImage: UIImage?
+//    var sourceType: UIImagePickerController.SourceType = .photoLibrary
+//    @Environment(\.presentationMode) var presentationMode
+//
+//    func makeUIViewController(context: Context) -> UIImagePickerController {
+//        let picker = UIImagePickerController()
+//        picker.delegate = context.coordinator
+//        picker.sourceType = sourceType // تحديد مصدر الصور بشكل ديناميكي
+//        return picker
+//    }
+//
+//    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+//
+//    func makeCoordinator() -> Coordinator {
+//        Coordinator(self)
+//    }
+//
+//    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+//        let parent: ImagePicker
+//
+//        init(_ parent: ImagePicker) {
+//            self.parent = parent
+//        }
+//
+//        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//            if let image = info[.originalImage] as? UIImage {
+//                parent.selectedImage = image
+//            }
+//            parent.presentationMode.wrappedValue.dismiss()
+//        }
+//
+//        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//            parent.presentationMode.wrappedValue.dismiss()
+//        }
+//    }
+//}
 
 
 

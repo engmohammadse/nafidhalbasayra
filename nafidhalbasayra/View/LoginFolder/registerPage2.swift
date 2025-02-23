@@ -119,9 +119,13 @@ struct registerPage2: View {
                         }
                         .background((teacherData.profileimage != nil) ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                         .cornerRadius(5)
+//                        .sheet(isPresented: $showImagePicker) {
+//                                   ImagePicker(selectedImage: $teacherData.profileimage, sourceType: .camera)
+//                               }
                         .sheet(isPresented: $showImagePicker) {
-                                   ImagePicker(selectedImage: $teacherData.profileimage, sourceType: .camera)
-                               }
+                            SelfieCameraPicker(selectedImage: $teacherData.profileimage)
+                        }
+
                     }
                     
                     Spacer()

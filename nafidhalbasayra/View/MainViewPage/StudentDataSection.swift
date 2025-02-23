@@ -32,7 +32,7 @@ struct StudentDataSection: View {
             .offset(x: screenWidth * 0.25 ,y: screenHeight * 0.05)
             
             Spacer()
-                .frame(height: screenHeight * 0.02)
+                .frame(height: screenHeight * 0.06)
             
             
             
