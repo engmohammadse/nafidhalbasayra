@@ -34,7 +34,8 @@ struct HistoryAttendance: View {
              ScrollView { ForEach(Array(vmAttendaceStatus.savedEntitiesAttendace.enumerated()),id: \.element) { index, entity in
                  studentHistory(entity: entity, orderNumber: index + 1) }
              }
-             
+             .scrollIndicators(.hidden) // ✅ إخفاء شريط التمرير
+
              .frame(maxWidth: .infinity)
              
              

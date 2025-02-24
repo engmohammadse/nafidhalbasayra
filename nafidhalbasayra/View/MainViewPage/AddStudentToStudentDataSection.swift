@@ -61,14 +61,14 @@ struct AddStudentToStudentDataSection: View {
           
          
             .cornerRadius(5)
-            .offset(x: 0 ,y: screenHeight * 0.07)
-            
-            Spacer()
-                .frame(height: screenHeight * 0.07)
+            .offset(x: 0 ,y: screenHeight * 0.03)
+//            
+//            Spacer()
+//                .frame(height: screenHeight * 0.001)
             
             ScrollView {
                 VStack(spacing: 16) {
-                    Spacer().frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.05  : screenHeight * 0.10)
+                    Spacer().frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01  : screenHeight * 0.10)
 
                     FormField(label: "الأسم الثلاثي", text: $name)
                     FormFieldNumber(label: "رقم الهاتف", text: $phoneNumber)
@@ -82,7 +82,8 @@ struct AddStudentToStudentDataSection: View {
                 }
                 .padding(.horizontal, screenWidth * 0.09)
             }
-          
+            .scrollIndicators(.hidden) // ✅ إخفاء شريط التمرير
+
    
             
            

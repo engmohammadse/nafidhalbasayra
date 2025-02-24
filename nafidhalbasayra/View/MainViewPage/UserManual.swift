@@ -25,6 +25,8 @@ struct UserManual: View {
             }
             .padding(.all, screenWidth * 0.1)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .scrollIndicators(.hidden) // ✅ إخفاء شريط التمرير
+
         }
         .background(backgroundColorPage)
         .onAppear {

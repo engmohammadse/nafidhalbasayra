@@ -83,9 +83,9 @@ struct sendAttendanceSection: View {
             VStack {
                 ScrollView {
                     
-                    Color.clear
-                        .frame(height: 1)
-                        .frame(maxWidth: screenWidth * 2)
+//                    Color.clear
+//                        .frame(height: 1)
+//                        .frame(maxWidth: screenWidth * 2)
                     
                     
                     VStack {
@@ -399,6 +399,8 @@ struct sendAttendanceSection: View {
                  
                     
                 }
+                .scrollIndicators(.hidden) // ✅ إخفاء شريط التمرير
+
             }
             .onTapGesture {
                 hideKeyboardExplicitly()

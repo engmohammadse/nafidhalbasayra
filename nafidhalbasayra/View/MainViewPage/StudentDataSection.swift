@@ -56,6 +56,8 @@ struct StudentDataSection: View {
                 }
                 
             }
+            .scrollIndicators(.hidden) // ✅ إخفاء شريط التمرير
+
             
            
 

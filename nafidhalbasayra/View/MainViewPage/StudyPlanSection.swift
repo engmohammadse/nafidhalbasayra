@@ -26,6 +26,8 @@ struct StudyPlanSection: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(backgroundColorPage)
+            .scrollIndicators(.hidden) // ✅ إخفاء شريط التمرير
+
         }
         .onAppear {
             lectureVM.fetchLectures() // جلب البيانات عند تحميل الصفحة

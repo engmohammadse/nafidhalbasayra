@@ -85,7 +85,9 @@ struct NotificationChannelSection: View {
                 }
             } 
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(backgroundColorPage)
+            .scrollIndicators(.hidden) // ✅ إخفاء شريط التمرير
+
+//                .background(backgroundColorPage)
         }
         .padding(.horizontal, screenWidth * 0.1)
         .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
