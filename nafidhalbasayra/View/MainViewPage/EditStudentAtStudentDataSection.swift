@@ -86,7 +86,7 @@ struct EditStudentAtStudentDataSection: View {
                     DropdownField(label: "الجنس", selectedOption: $gender, options: genderList)
                     DropdownField(label: "المرحلة", selectedOption: $level, options: levelList)
                     
-                    DropdownField(label: " المرحلةالدراسية", selectedOption: $academic_level, options: academic_levelList)
+                    DropdownField(label: " المرحلة الدراسية", selectedOption: $academic_level, options: academic_levelList)
                    
                     DropdownField(label: "القياس", selectedOption: $size, options: sizes)
                 }
