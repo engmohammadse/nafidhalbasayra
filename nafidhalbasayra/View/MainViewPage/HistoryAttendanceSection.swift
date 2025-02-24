@@ -71,7 +71,7 @@ struct HistoryAttendance: View {
                          .aspectRatio(contentMode: .fit)
                          .frame(width: uiDevicePhone ? screenWidth * 0.1 : screenWidth * 0.064)
                  }
-                 .offset(x: screenWidth * 0.46, y: screenHeight * -0.03)
+                 .offset(x: uiDevicePhone ? screenWidth * 0.46 : screenWidth * 0.47, y: screenHeight * -0.03)
              }
          }
         
@@ -112,9 +112,8 @@ struct HistoryAttendance: View {
            VStack {
                
        
-               
-               
                Color.clear
+                   .frame(height: screenHeight * 0.05)
                   
                
                VStack {
@@ -237,7 +236,9 @@ struct HistoryAttendance: View {
                        .foregroundColor(.white))
                    
                      .frame(width: screenWidth * 0.06)
-                     .offset(y: repeatSend == false ? screenHeight * -0.075 : screenHeight * -0.05 )
+                     .position(x: screenWidth * 0.47, y: screenHeight * 0.055) // تعديل الإحداثيات
+
+//                     .offset(y: repeatSend == false ? screenHeight * -0.075 : screenHeight * -0.05 )
                 
              }
          
@@ -281,6 +282,14 @@ struct HistoryAttendance: View {
     sampleEntity.state = 0
 
     previewModel.savedEntitiesAttendace.append(sampleEntity)
+    
+    let sampleEntity2 = AttendaceStatus(context: previewModel.container.viewContext)
+    sampleEntity.id = UUID().uuidString
+    sampleEntity.numberOfStudents = "25"
+    sampleEntity.date = Date()
+    sampleEntity.state = 1
+
+    previewModel.savedEntitiesAttendace.append(sampleEntity2)
 
     return HistoryAttendance()
         .environmentObject(previewModel) // توفير EnvironmentObject في البريفيو

@@ -120,7 +120,7 @@ struct NotificationChannelSection: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: uiDevicePhone ? screenWidth * 0.1 : screenWidth * 0.064)
                 }
-                .offset(x: screenWidth * 0.46, y: screenHeight * 0)
+                .offset(x: uiDevicePhone ? screenWidth * 0.46 : screenWidth * 0.47, y: screenHeight * -0.03)
             }
         }
     }

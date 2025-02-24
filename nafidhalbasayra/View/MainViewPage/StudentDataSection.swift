@@ -116,7 +116,7 @@ struct StudentDataSection: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: uiDevicePhone ? screenWidth * 0.09 : screenWidth * 0.064)
                 }
-                .offset(x: screenWidth * 0.46, y: screenHeight * -0.03)
+                .offset(x: uiDevicePhone ? screenWidth * 0.46 : screenWidth * 0.47, y: screenHeight * -0.03)
             }
         }
         
@@ -321,69 +321,7 @@ struct studentInfo :View {
                                              }
                                          }
 
-                                         
-//                                         InternetChecker.isInternetAvailable { isAvailable in
-//                                             DispatchQueue.main.async {
-//                                                 if isAvailable {
-//                                                     // التحقق من وجود idFromApi
-//                                                     if let idFromApi = student.idFromApi {
-//                                                         // استدعاء دالة الحذف من API
-//                                                         StudentDeleter.deleteStudent(withId: idFromApi) { success, statusCode, errorMessage in
-//                                                             DispatchQueue.main.async {
-//                                                                 if success {
-//                                                                     print("✅ تم حذف الطالب من الخادم بنجاح.")
-//                                                                     
-//                                                                    
-//                                                                     alertInternetMessage = ("✅ تم حذف الطالب من الخادم بنجاح.")
-//                                                                     showInternetAlert = true
-//                                                                     
-//                                                                     // حذف الطالب محليًا
-//                                                                     if let index = vmStudent.savedEntities.firstIndex(of: student) {
-//                                                                         vmStudent.deleteStudentInfo(indexSet: IndexSet(integer: index))
-//                                                                       
-//                                                                     }
-//                                                                 } else {
-//                                                                     print("❌ فشل حذف الطالب من الخادم. رمز الخطأ: \(statusCode), الرسالة: \(errorMessage ?? "لا توجد رسالة")")
-//                                                                     // عرض رسالة خطأ
-//                                                                     alertInternetMessage = "فشل الحذف من الخادم: \(errorMessage ?? "خطأ غير معروف")"
-//                                                                     showInternetAlert = true
-//                                                                 }
-//                                                             }
-//                                                         }
-//                                                     } else {
-//                                                         print("❌ لا يحتوي الطالب على معرف idFromApi صالح.")
-//                                                         alertInternetMessage = "لا يمكن حذف الطالب لأن المعرف غير صالح."
-//                                                         showInternetAlert = true
-//                                                     }
-//                                                 } else {
-//                                                     print("❌ لا يوجد اتصال بالإنترنت.")
-//                                                     alertInternetMessage = "يجب توفر اتصال بالإنترنت لتنفيذ عملية الحذف."
-//                                                     showInternetAlert = true
-//                                                 }
-//                                             }
-//                                         }
-
-                                         
-//                                         InternetChecker.isInternetAvailable { isAvailable in
-//                                             
-//                                             DispatchQueue.main.async {
-//                                                 if isAvailable {
-//                                                     
-//                                                     if let index = vmStudent.savedEntities.firstIndex(of: student) {
-//                                                         vmStudent.deleteStudentInfo(indexSet: IndexSet(integer: index))
-//                                                     }
-//                                                 } else {
-//                                                     showInternetAlert = true
-//                                                 }
-//                                             }
-//                                             
-//                                             
-//                                         }
-                                         
-                                         
-                                       
-                                         
-                                         
+                                        
                                      }) {
                                          Text("حذف بيانات الطالب")
                                              .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023))
@@ -483,8 +421,8 @@ struct studentInfo :View {
                     .foregroundColor(.white))
                 
                   .frame(width: screenWidth * 0.06)
-                  .offset(y: screenHeight * -0.06)
-             
+                  .position(x: screenWidth * 0.42, y: screenHeight * 0.058) // تعديل الإحداثيات
+
           }
         
         
