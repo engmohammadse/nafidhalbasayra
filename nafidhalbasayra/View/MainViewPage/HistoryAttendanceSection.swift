@@ -22,11 +22,12 @@ struct HistoryAttendance: View {
              HStack{
                  
                  Text("عدد مرات تسجيل الحضور: \(vmAttendaceStatus.savedEntitiesAttendace.count)")                     .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.037 : screenWidth * 0.023 ))
-                     .padding(.all, screenWidth * 0.025)
+                     .padding(.all, screenWidth * 0.023)
              }
              .background(.white)
              .cornerRadius(5)
-             .offset(x: screenWidth * 0.17 ,y: screenHeight * 0.06)
+             .offset(x: uiDevicePhone ? screenWidth * 0.17 : screenWidth * 0.27 ,y: uiDevicePhone ? screenHeight * 0.06 : screenHeight * 0.07)
+             .padding(.bottom, screenHeight * 0.005)
              
              Spacer()
                  .frame(height: screenHeight * 0.07)
