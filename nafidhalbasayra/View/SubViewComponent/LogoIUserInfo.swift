@@ -76,6 +76,9 @@ struct LogoIUserInfo: View {
     
     @State private var showLogoutConfirmation = false // تأكيد تسجيل الخروج
     
+    @State private var profileImage: UIImage? = getSavedProfileImage()
+
+    
     var body: some View {
         GeometryReader { geometry in
             let geoW = geometry.size.width
@@ -86,12 +89,13 @@ struct LogoIUserInfo: View {
                     showLogoutConfirmation = true // عرض تأكيد تسجيل الخروج
                 }) {
                     
-                    if let profileImage = getSavedProfileImage() {
-                        Image(uiImage: profileImage)
+                    if let image = profileImage {
+                        Image(uiImage: image)
                             .resizable()
                             .scaledToFit()
                             .frame(maxWidth: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.1 : screenWidth * 0.2) : screenWidth * 0.2)
                             .clipShape(Circle())
+                            
                     } else {
                         Image("Group 63")
                             .resizable()
@@ -108,12 +112,13 @@ struct LogoIUserInfo: View {
                     Button("إلغاء", role: .cancel) { }
                 }
 
-                Text(UserDefaults.standard.string(forKey: "username") ?? "لا يوجد اسم مستخدم")
+                Text(UserDefaults.standard.string(forKey: "username") ?? "لا يوجد مستخدم")
                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                     .foregroundStyle(Color.white)
                     .padding(.horizontal, geoW * 0.05)
                     .background(Color(UIColor(red: 27 / 255, green: 62 / 255, blue: 93 / 255, alpha: 1.0)))
                     .cornerRadius(5)
+                    .padding(.horizontal, screenWidth * 0.005)
                 
                 Spacer()
                 
@@ -121,13 +126,37 @@ struct LogoIUserInfo: View {
                     .resizable()
                     .renderingMode(.template)
                     .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: screenWidth * 0.42)
+                    .frame(maxWidth: uiDevicePhone ? screenWidth * 0.5 : screenWidth * 0.4)
                     .foregroundColor(Color(UIColor(red: 27 / 255, green: 62 / 255, blue: 93 / 255, alpha: 1.0)))
                     .padding(.bottom, 10)
             }
-            .padding(.horizontal, 40)
-            .background(Color(red: 236/255, green: 242/255, blue: 245/255))
+            .padding(.horizontal, screenWidth * 0.08)
+//            .padding(.bottom, screenHeight * 0.005)
+            .offset(y: uiDevicePhone ? -screenHeight * 0.01 : 0) // 🔼 رفع العنصر للأعلى قليلًا
+            
+
+           // .background(Color(red: 236/255, green: 242/255, blue: 245/255))
+            .background(
+                VStack {
+                    Color(red: 236/255, green: 242/255, blue: 245/255)
+                        .frame(height: screenHeight * 0.3) // ✅ زيادة الخلفية فقط
+                }
+                    .offset(y: screenHeight * -0.135)
+            )
+
+
+            .onAppear {
+                           // ✅ الاستماع إلى الإشعار عند تحديث الصورة
+                           NotificationCenter.default.addObserver(forName: NSNotification.Name("ProfileImageUpdated"), object: nil, queue: .main) { _ in
+                               self.profileImage = getSavedProfileImage() // 🔄 إعادة تحميل الصورة
+                           }
+                       }
+                       .onDisappear {
+                           // ✅ إزالة المستمع لتوفير الموارد
+                           NotificationCenter.default.removeObserver(self, name: NSNotification.Name("ProfileImageUpdated"), object: nil)
+                       }
         }
+
     }
 }
 

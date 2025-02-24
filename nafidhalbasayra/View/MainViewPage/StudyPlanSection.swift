@@ -46,6 +46,7 @@ struct StudyPlanSection: View {
         .overlay {
             LogoIUserInfo()
                 .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)
+
         }
         .navigationBarBackButtonHidden(true)
     }

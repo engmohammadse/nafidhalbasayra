@@ -169,29 +169,23 @@ class LoginViewModel: ObservableObject {
 // save profile image after login from backend
 
 func downloadAndSaveImage(imageUrl: String) {
-    guard let url = URL(string: imageUrl) else {
-        print("❌ رابط الصورة غير صالح: \(imageUrl)")
-        return
-    }
-    
+    guard let url = URL(string: imageUrl) else { return }
+
     let task = URLSession.shared.dataTask(with: url) { data, _, error in
-        if let error = error {
-            print("❌ فشل تحميل الصورة: \(error.localizedDescription)")
-            return
-        }
-        
-        guard let data = data, let image = UIImage(data: data) else {
-            print("❌ فشل في تحويل البيانات إلى صورة")
-            return
-        }
-        
+        guard let data = data, let image = UIImage(data: data) else { return }
+
         if let savedPath = saveImageToFileManager(image: image) {
             UserDefaults.standard.set(savedPath, forKey: "profileImagePath")
-            print("✅ تم حفظ الصورة في: \(savedPath)")
+            
+            // ✅ إرسال إشعار عند تحديث الصورة
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: NSNotification.Name("ProfileImageUpdated"), object: nil)
+            }
         }
     }
     task.resume()
 }
+
 
 func saveImageToFileManager(image: UIImage) -> String? {
     let fileManager = FileManager.default

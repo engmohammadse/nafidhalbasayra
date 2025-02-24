@@ -73,7 +73,9 @@ struct MainViewPage: View {
                // button setting
                     VStack {
                         
-                        ButtonSetting()
+                        
+                            ButtonSetting()
+                        
                         
                         
                         //SettingSection

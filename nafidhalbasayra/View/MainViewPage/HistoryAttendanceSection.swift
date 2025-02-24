@@ -26,7 +26,7 @@ struct HistoryAttendance: View {
              }
              .background(.white)
              .cornerRadius(5)
-             .offset(x: screenWidth * 0.17 ,y: screenHeight * 0.05)
+             .offset(x: screenWidth * 0.17 ,y: screenHeight * 0.06)
              
              Spacer()
                  .frame(height: screenHeight * 0.07)
@@ -72,6 +72,11 @@ struct HistoryAttendance: View {
                  }
                  .offset(x: screenWidth * 0.46, y: screenHeight * -0.03)
              }
+         }
+        
+         .overlay {
+             LogoIUserInfo()
+                 .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)
          }
          .navigationBarBackButtonHidden(true)
          
