@@ -15,12 +15,14 @@ struct FormField: View {
    // var isPhoneNumber: Bool = false
     
     var body: some View {
-        VStack(alignment: .trailing, spacing: 5) {
+        
+        
+        VStack( alignment: .trailing, spacing: screenHeight * 0.01) {
             Text(label)
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                 .foregroundStyle(primaryColor)
                 .frame(maxWidth: .infinity, alignment: .trailing)
-                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
+                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.08 : screenWidth * 0.05)
 
             TextField("", text: $text)
                // .keyboardType(isPhoneNumber ? .phonePad : .default)
@@ -32,6 +34,9 @@ struct FormField: View {
                 .background(Color.white)
                 .cornerRadius(5)
         }
+        .position(x: uiDevicePhone ? screenWidth * 0.4  : screenWidth * 0.28) // تعديل الإحداثيات
+
+       
     }
 }
 
@@ -42,13 +47,13 @@ struct FormFieldNumber: View {
     var isPhoneNumber: Bool = false
 
     var body: some View {
-        VStack(alignment: .trailing, spacing: 5) {
+        VStack(alignment: .trailing, spacing: screenHeight * 0.01) {
             Text(label)
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                 .foregroundStyle(primaryColor)
                 .frame(maxWidth: .infinity, alignment: .trailing)
-                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
-
+                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.08 : screenWidth * 0.02)
+               
 
             TextField("", text: $text)
                 .keyboardType(.numberPad) // تحديد نوع لوحة المفاتيح للأرقام فقط
@@ -64,7 +69,8 @@ struct FormFieldNumber: View {
                 .onChange(of: text) { newValue in
                     text = newValue.filter { "0123456789".contains($0) } // إبقاء الأرقام فقط
                 }
-        }
+        } 
+        .position(x: uiDevicePhone ? screenWidth * 0.4  : screenWidth * 0.28) // تعديل الإحداثيات
     }
 }
 
@@ -81,7 +87,7 @@ struct DropdownField: View {
     var body: some View {
         
         //alignment: .trailing,
-        VStack(spacing: 5) {
+        VStack(spacing: screenHeight * 0.01) {
             // عنوان الحقل
             Text(label)
                 .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
@@ -145,6 +151,7 @@ struct DropdownField: View {
                 .cornerRadius(5)
             }
         }
+//        .position(x: screenWidth * 0.54, y: screenHeight * 0.04) // تعديل الإحداثيات
     }
 }
 
@@ -162,14 +169,17 @@ struct DropdownField: View {
 
 
 
-
+//
 //#Preview {
-//    FormField(label: "", text: $"")
+//    DropdownField
 //}
 
 
 
 
-
+#Preview {
+    AddStudentToStudentDataSection( )
+        .environmentObject(TeacherDataViewModel())
+}
 
 

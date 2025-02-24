@@ -67,8 +67,9 @@ struct AddStudentToStudentDataSection: View {
 //                .frame(height: screenHeight * 0.001)
             
             ScrollView {
-                VStack(spacing: 16) {
-                    Spacer().frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01  : screenHeight * 0.10)
+                VStack() {
+                    Spacer()
+                        .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.08  : screenHeight * 0.10)
 
                     FormField(label: "الأسم الثلاثي", text: $name)
                     FormFieldNumber(label: "رقم الهاتف", text: $phoneNumber)
@@ -87,7 +88,7 @@ struct AddStudentToStudentDataSection: View {
    
             
            
-            .ignoresSafeArea(edges: .bottom)
+//            .ignoresSafeArea(edges: .bottom)
             .navigationBarBackButtonHidden(true)
           
             
@@ -119,19 +120,7 @@ struct AddStudentToStudentDataSection: View {
                         
                 
                 
-                
-                
-//                guard !name.isEmpty else { return }
-//                vmStudent.addStudentInfo(name: name, phoneNumber: phoneNumber, age: age, level: level, size: size)
-//                
-//                name = ""
-//                phoneNumber = ""
-//                age = ""
-////                city = ""
-//                level = ""
-//                size = ""
-//                
-//                showAlert = true
+
                 
                 
             }){
