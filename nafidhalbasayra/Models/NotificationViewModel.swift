@@ -32,7 +32,7 @@ class NotificationViewModel: ObservableObject {
                 do {
                     let decodedData = try JSONDecoder().decode([NotificationModel].self, from: data)
                     DispatchQueue.main.async {
-                        self.notifications = decodedData
+                        self.notifications = decodedData.reversed() // ✅ عكس الترتيب هنا
                     }
                 } catch {
                     print("Error decoding notifications: \(error)")
