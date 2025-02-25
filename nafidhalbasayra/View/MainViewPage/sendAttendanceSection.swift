@@ -89,7 +89,7 @@ struct sendAttendanceSection: View {
                     
                     
                     VStack {
-                        Spacer().frame(height: screenHeight * 0.07)
+                        Spacer().frame(height: uiDevicePhone ? screenHeight * 0.07 : screenHeight * 0.09 )
                         HStack {
                             VStack {
                                 Image("Group 46")

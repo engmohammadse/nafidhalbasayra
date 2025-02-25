@@ -141,7 +141,7 @@ struct LogoIUserInfo: View {
                     Color(red: 236/255, green: 242/255, blue: 245/255)
                         .frame(height: screenHeight * 0.3) // ✅ زيادة الخلفية فقط
                 }
-                    .offset(y: screenHeight * -0.135)
+                    .offset(y: uiDevicePhone ? screenHeight * -0.135 : screenHeight * -0.1)
             )
 
 
