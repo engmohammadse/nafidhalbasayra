@@ -31,8 +31,10 @@ struct MainViewPage: View {
                           
                           HStack(spacing: screenWidth * 0.04) {
                               VStackSection(imageName: "Group 20", text: "إرسال الحضور", destination: sendAttendanceSection()
+                                .environmentObject(StudentViewModel.shared)
                                 .environmentObject(teacherData)
                                 .environmentObject(vmAttendaceStatus))
+                              
                               VStackSection(imageName: "Group 19", text: "قناة التبليغات", destination: NotificationChannelSection()
                                 .environmentObject(teacherData)
                                   .environmentObject(vmAttendaceStatus))

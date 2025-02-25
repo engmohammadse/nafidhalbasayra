@@ -33,6 +33,9 @@ struct sendAttendanceSection: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
     @EnvironmentObject var teacherData: TeacherDataViewModel
+    @EnvironmentObject var studentViewModel: StudentViewModel // ✅ الوصول إلى بيانات الطلاب
+    var maxStudentsAllowed = 35 // الحد الأقصى المسموح به للطلاب
+
     
     @State private var debounceTask: DispatchWorkItem?
 
@@ -50,29 +53,49 @@ struct sendAttendanceSection: View {
     }
 
     
+//    private func debounceValidation(newValue: String) {
+//           // إلغاء أي عملية تحقق سابقة
+//           debounceTask?.cancel()
+//
+//           // إنشاء مهمة جديدة
+//           debounceTask = DispatchWorkItem { [newValue] in
+//               if let number = Int(newValue) {
+//                   if number > 35 {
+//                       numberOfStudents = "35" // إذا تجاوز الرقم الحد الأقصى، يتم التعيين إلى 35
+//                   } else if number < 15 {
+//                       numberOfStudents = "15" // إذا كان الرقم أقل من الحد الأدنى، يتم التعيين إلى 15
+//                   }
+//               } else {
+//                   // إزالة الأحرف غير الصالحة
+//                   numberOfStudents = String(newValue.filter { $0.isNumber })
+//               }
+//           }
+//
+//           // تنفيذ المهمة بعد تأخير
+//           if let task = debounceTask {
+//               DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: task)
+//           }
+//       }
+    
     private func debounceValidation(newValue: String) {
-           // إلغاء أي عملية تحقق سابقة
-           debounceTask?.cancel()
+        // إلغاء أي عملية تحقق سابقة
+        debounceTask?.cancel()
 
-           // إنشاء مهمة جديدة
-           debounceTask = DispatchWorkItem { [newValue] in
-               if let number = Int(newValue) {
-                   if number > 35 {
-                       numberOfStudents = "35" // إذا تجاوز الرقم الحد الأقصى، يتم التعيين إلى 35
-                   } else if number < 15 {
-                       numberOfStudents = "15" // إذا كان الرقم أقل من الحد الأدنى، يتم التعيين إلى 15
-                   }
-               } else {
-                   // إزالة الأحرف غير الصالحة
-                   numberOfStudents = String(newValue.filter { $0.isNumber })
-               }
-           }
+        // إنشاء مهمة جديدة
+        debounceTask = DispatchWorkItem { [newValue] in
+            // ✅ السماح فقط بالأرقام الإنجليزية
+            let filteredNumber = newValue.filter { "0123456789".contains($0) }
+            
+            // ✅ تحديث القيمة بعد التصفية
+            numberOfStudents = filteredNumber
+        }
 
-           // تنفيذ المهمة بعد تأخير
-           if let task = debounceTask {
-               DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: task)
-           }
-       }
+        // تنفيذ المهمة بعد تأخير (لتجنب التحديث مع كل حرف يتم إدخاله)
+        if let task = debounceTask {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: task)
+        }
+    }
+
     
     
     var body: some View {
@@ -292,84 +315,54 @@ struct sendAttendanceSection: View {
                         Button(action: {
                             
                             
-                            if numberOfStudents.isEmpty || locationManager.location == nil || imageData == nil {
-                                    // ❌ المدخلات غير مكتملة، إظهار التنبيه
-                                    alertTitle = "خطأ في المدخلات"
-                                    alertMessage = "يرجى التأكد من إدخال عدد الطلاب وتوفر الموقع والصورة الجماعية."
-                                    showAlert = true
-                                } else {
-                                    // ✅ المدخلات صحيحة، حفظ البيانات
-                                    if let numberOfStudentsInt = Int(numberOfStudents),
-                                       let location = locationManager.location,
-                                       let image = imageData,  // ✅ تأكد أن `imageData` ليست nil
-                                       let imageDataCompressed = image.jpegData(compressionQuality: 0.5) { // ✅ تحويل `UIImage` إلى `Data`
-                                        
-                                        print("✅ Saving attendance status for \(numberOfStudentsInt) students at location: \(location.coordinate.latitude), \(location.coordinate.longitude).")
-
-                                        vmAttendaceStatus.addAttendaceStatus(
-                                            numberOfStudents: numberOfStudentsInt,
-                                            imageData: imageDataCompressed, // ✅ تم التحقق من أن الصورة ليست nil
-                                            notes: notes,
-                                            latitude: location.coordinate.latitude,
-                                            longitude: location.coordinate.longitude,
-                                            date: Date(), // ✅ تخزين التاريخ والوقت بصيغة النص
-                                            state: 0
-                                        )
-
-                                        // ✅ إظهار تنبيه النجاح
-                                        alertTitle = "تم الحفظ"
-                                        alertMessage = "تم حفظ موقف الحضور بنجاح!"
-                                        showAlert = true
-
-                                        // ✅ إعادة تعيين الحقول بعد الحفظ
-                                        numberOfStudents = ""
-                                        imageData = nil // ✅ إعادة تعيين `UIImage` إلى `nil`
-                                        notes = ""
-                                    }
-                                    
-                                   
-                                    
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                                        
-                                        dismiss()
-                                    }
-                                }
-
                             
                             
-                         
-//                            if let numberOfStudentsInt = Int(numberOfStudents), let location = locationManager.location {
-//                                
-//                                // Save attendance status
-//                                
-//                                print("Saving attendance status for \(numberOfStudentsInt) students at location: \(location.coordinate.latitude), \(location.coordinate.longitude).")
-//                                
+                            validateAndSendAttendance()
+//                            
+//                            if numberOfStudents.isEmpty || locationManager.location == nil || imageData == nil {
+//                                    // ❌ المدخلات غير مكتملة، إظهار التنبيه
+//                                    alertTitle = "خطأ في المدخلات"
+//                                    alertMessage = "يرجى التأكد من إدخال عدد الطلاب وتوفر الموقع والصورة الجماعية."
+//                                    showAlert = true
+//                                } else {
+//                                    // ✅ المدخلات صحيحة، حفظ البيانات
+//                                    if let numberOfStudentsInt = Int(numberOfStudents),
+//                                       let location = locationManager.location,
+//                                       let image = imageData,  // ✅ تأكد أن `imageData` ليست nil
+//                                       let imageDataCompressed = image.jpegData(compressionQuality: 0.5) { // ✅ تحويل `UIImage` إلى `Data`
+//                                        
+//                                        print("✅ Saving attendance status for \(numberOfStudentsInt) students at location: \(location.coordinate.latitude), \(location.coordinate.longitude).")
 //
-//                                
-//                                if let imageData = imageData?.jpegData(compressionQuality: 0.5) {
-//                                    vmAttendaceStatus.addAttendaceStatus(
-//                                        numberOfStudents: numberOfStudentsInt,
-//                                        imageData: imageData, // الصورة محولة إلى نوع Data
-//                                        notes: notes,
-//                                        latitude: location.coordinate.latitude,
-//                                        longitude: location.coordinate.longitude,
-//                                        date: Date(),
-//                                        state: 0
-//                                 
-//                                    )
-//                                }  else {
-//                                    print("⚠️ Warning: No image was selected before saving attendance.")
+//                                        vmAttendaceStatus.addAttendaceStatus(
+//                                            numberOfStudents: numberOfStudentsInt,
+//                                            imageData: imageDataCompressed, // ✅ تم التحقق من أن الصورة ليست nil
+//                                            notes: notes,
+//                                            latitude: location.coordinate.latitude,
+//                                            longitude: location.coordinate.longitude,
+//                                            date: Date(), // ✅ تخزين التاريخ والوقت بصيغة النص
+//                                            state: 0
+//                                        )
+//
+//                                        // ✅ إظهار تنبيه النجاح
+//                                        alertTitle = "تم الحفظ"
+//                                        alertMessage = "تم حفظ موقف الحضور بنجاح!"
+//                                        showAlert = true
+//
+//                                        // ✅ إعادة تعيين الحقول بعد الحفظ
+//                                        numberOfStudents = ""
+//                                        imageData = nil // ✅ إعادة تعيين `UIImage` إلى `nil`
+//                                        notes = ""
+//                                    }
+//                                    
+//                                   
+//                                    
+//                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//                                        
+//                                        dismiss()
+//                                    }
 //                                }
-//                                
-//                                
-//                                showAlert = true
-//                                
-//                                
-//                            } else { 
-//                                print("Error: Invalid input or location not available.")
-//                                showAlert = true
-//                                // اظهر التنبيه حتى في حالة الخطأ لعرض رسالة مخصصة
-//                            }
+
+    
 //                            
                             
 
@@ -426,44 +419,116 @@ struct sendAttendanceSection: View {
                 }
             }
             .navigationBarBackButtonHidden(true)
-            
-//            .alert(isPresented: $showAlert) {
-//                if numberOfStudents.isEmpty || locationManager.location == nil || imageData == nil {
-//                    return Alert(
-//                        title: Text("خطأ في المدخلات"),
-//                        message: Text(" يرجى التأكد من إدخال عدد الطلاب وتوفر الموقع والصورة الجماعية ."), dismissButton: .default(Text("موافق"))
-//                    )
-//                    
-//                } else {
-//                    return Alert( title: Text("تم الحفظ"),
-//                                  message: Text("تم حفظ موقف الحضور بنجاح!"),
-//                                  dismissButton: .default(Text("موافق")) {
-//                        // Reset fields
-//                        numberOfStudents = ""
-//                        imageData = nil
-//                        notes = ""
-//                    }
-//                    )
-//                }
-//        }
-        
-                    
-                    
-        
-//        .alert(isPresented: $showAlert) {
-//            Alert(
-//                title: Text("تم الحفظ"),
-//                message: Text("تم حفظ موقف الحضور بنجاح!"),
-//                dismissButton: .default(Text("موافق")) {
-//                    // Reset fields
-//                    numberOfStudents = ""
-//                    imageData = nil
-//                    notes = ""
-//                }
-//            )
-//        }
+
+    }
+    
+    
+    
+    
+    
+    
+    // ✅ **التحقق من عدد الطلاب المدخل**
+    private func validateStudentNumber(newValue: String) {
+        if let enteredNumber = Int(newValue) {
+            let registeredStudentsCount = studentViewModel.savedEntitiesStudent.count
+
+            if enteredNumber < 15 {
+                numberOfStudents = "15"
+                alertTitle = "عدد غير كافٍ"
+                alertMessage = "يجب أن يكون هناك على الأقل 15 طالبًا لإرسال الحضور. الحد الأدنى لإرسال الحضور هو 15 طالبًا، لذا يجب أن يكون لديك هذا العدد مسجلًا على الأقل."
+                showAlert = true
+            } else if enteredNumber > maxStudentsAllowed {
+                numberOfStudents = "\(maxStudentsAllowed)"
+                alertTitle = "عدد زائد"
+                alertMessage = "لا يمكن تسجيل أكثر من \(maxStudentsAllowed) طالبًا."
+                showAlert = true
+            } else if enteredNumber > registeredStudentsCount {
+                numberOfStudents = "\(registeredStudentsCount)"
+                alertTitle = "عدد أكبر من المسجل"
+                alertMessage = "لديك (registeredStudentsCount) طالبًا مسجلًا، لا يمكنك تسجيل عدد أكبر من ذلك. الحد الأدنى لإرسال الحضور هو 15 طالبًا، لذا يجب أن يكون لديك على الأقل 15 طالبًا مسجلًا."
+                showAlert = true
+            }
+        } else {
+            numberOfStudents = newValue.filter { $0.isNumber }
+        }
+    }
+
+    // ✅ **التحقق من البيانات قبل الإرسال**
+    private func validateAndSendAttendance() {
+        let registeredStudentsCount = studentViewModel.savedEntitiesStudent.count
+
+        if numberOfStudents.isEmpty || locationManager.location == nil || imageData == nil {
+            alertTitle = "خطأ في المدخلات"
+            alertMessage = "يرجى التأكد من إدخال عدد الطلاب وتوفر الموقع والصورة الجماعية."
+            showAlert = true
+            return
+        }
+
+        if let numberOfStudentsInt = Int(numberOfStudents) {
+            if numberOfStudentsInt < 15 {
+                alertTitle = "عدد غير كافٍ"
+                alertMessage = "يجب أن يكون هناك على الأقل 15 طالبًا لإرسال الحضور."
+                showAlert = true
+                return
+            } else if numberOfStudentsInt > maxStudentsAllowed {
+                alertTitle = "عدد زائد"
+                alertMessage = "لا يمكن تسجيل أكثر من \(maxStudentsAllowed) طالبًا."
+                showAlert = true
+                return
+            } else if numberOfStudentsInt > registeredStudentsCount {
+                alertTitle = "عدد أكبر من المسجل"
+                alertMessage = "لا يمكنك تسجيل أكثر من \(registeredStudentsCount) طالبًا حيث أن هذا هو عدد الطلاب المسجلين."
+                showAlert = true
+                return
+            }
+        }
+
+        // ✅ **إرسال الحضور بعد التحقق**
+        if let numberOfStudentsInt = Int(numberOfStudents),
+           let location = locationManager.location,
+           let image = imageData,
+           let imageDataCompressed = image.jpegData(compressionQuality: 0.5) {
+
+            vmAttendaceStatus.addAttendaceStatus(
+                numberOfStudents: numberOfStudentsInt,
+                imageData: imageDataCompressed,
+                notes: notes,
+                latitude: location.coordinate.latitude,
+                longitude: location.coordinate.longitude,
+                date: Date(),
+                state: 0
+            )
+
+            alertTitle = "تم الحفظ"
+            alertMessage = "تم حفظ موقف الحضور بنجاح!"
+            showAlert = true
+
+            // ✅ **إعادة تعيين القيم بعد الحفظ**
+            numberOfStudents = ""
+            imageData = nil
+            notes = ""
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                dismiss()
+            }
+        }
     }
 }
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
