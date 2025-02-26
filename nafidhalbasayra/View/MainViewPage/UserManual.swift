@@ -21,7 +21,13 @@ struct UserManual: View {
                 // 🔹 عرض البيانات باستخدام ForEach
                 ForEach(Array(guideVM.guides.enumerated()), id: \.element._id) { index, guide in
                     guidInfo(index: index, title: guide.title, description: guide.description, youtubeURL: guide.youtube_url)
+                    
+                    Spacer()
+                        .frame(height:  uiDevicePhone ? screenHeight * 0.02 : screenHeight * 0.03)
                 }
+                
+                
+               
             }
             .padding(.all, screenWidth * 0.1)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -96,16 +102,16 @@ struct guidInfo: View {
             .background(Color.white)
             .cornerRadius(5)
             .overlay {
-                // 🔹 إضافة دائرة تحتوي على رقم الدليل بدل الصورة
-                Text("\(index + 1)")  // يبدأ من 1 بدلاً من 0
-                    .font(.custom("BahijTheSansArabic-Bold", size: screenWidth * 0.035))
+                Text("\(index + 1)")
+                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.03))
                     .foregroundColor(.white)
-                    .frame(width: screenWidth * 0.08, height: screenWidth * 0.08)
+                    .frame(width: uiDevicePhone ? screenWidth * 0.08 : screenWidth * 0.055 , height: uiDevicePhone ? screenWidth * 0.08 : screenWidth * 0.055)
                     .background(primaryColor)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                    .offset(y: screenHeight * -0.065)
+                    .position(x: screenWidth * 0.4, y: screenHeight * 0.0) // ⚡ ضبط القيم حسب الحاجة
             }
+
         }
     }
 }
@@ -115,6 +121,11 @@ struct guidInfo: View {
 
 
 
+
+
+#Preview {
+    UserManual()
+}
 
 
 
