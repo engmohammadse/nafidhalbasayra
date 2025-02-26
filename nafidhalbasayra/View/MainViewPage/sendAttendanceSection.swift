@@ -208,7 +208,7 @@ struct sendAttendanceSection: View {
                         }
                     }
                     
-                    TextField("يجب أن يكون الرقم بين 15 و 35", text: $numberOfStudents)
+                    TextField("أدخل رقم الطلبة الحاضرين في الجلسة. يجب ألا يكون العدد أكثر من الطلبة المسجلين لديك، وألا يزيد عن 35.", text: $numberOfStudents)
                         .keyboardType(.asciiCapableNumberPad) // لوحة مفاتيح الأرقام باللغة الإنجليزية فقط
                         .textInputAutocapitalization(.none) // لمنع الأحرف الكبيرة (اختياري)
                         .frame(width: uiDevicePhone ? screenWidth * 0.63 : screenWidth * 0.5)
