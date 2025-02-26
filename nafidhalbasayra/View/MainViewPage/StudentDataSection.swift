@@ -143,7 +143,7 @@ struct StudentDataSection: View {
     // ✅ إنشاء بيانات وهمية
     let student1 = StudentInfo(context: previewStudentViewModel.container.viewContext)
     student1.setValue(UUID().uuidString, forKey: "studentID")
-    student1.setValue("أحمد محمد", forKey: "name")
+    student1.setValue("أحمد محمد محمد", forKey: "name")
     student1.setValue("14", forKey: "age")
     student1.setValue("0912345678", forKey: "phoneNumber")
     student1.setValue("طرابلس", forKey: "city")
@@ -153,7 +153,7 @@ struct StudentDataSection: View {
 
     let student2 = StudentInfo(context: previewStudentViewModel.container.viewContext)
     student2.setValue(UUID().uuidString, forKey: "studentID")
-    student2.setValue("فاطمة الزهراء", forKey: "name")
+    student2.setValue("فاطمة الزهراء محمد محمد", forKey: "name")
     student2.setValue("12", forKey: "age")
     student2.setValue("0923456789", forKey: "phoneNumber")
     student2.setValue("بنغازي", forKey: "city")
@@ -216,59 +216,50 @@ struct studentInfo :View {
               
               VStack {
                       
-                      HStack{
-                          
-                          VStack{
-                              Text("المرحلة")
-                                  .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
-                              Spacer()
-                                  
-                                  .frame(height: screenHeight * 0.02)
-                              Text(level)
-                                  .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023 ))
-                              
-                              
-                          }
-                          Spacer()
-                              .frame(width: screenWidth * 0.15)
-                          
-                          VStack{
-                              Text("العمر")
-                                  .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
-                              Spacer()
-                                  .frame(height: screenHeight * 0.02)
-                              Text(age)
-                                  .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023 ))
-                          }
-                          
-                          
-                          Spacer()
-                              .frame(width: screenWidth * 0.05)
-                          
-                          VStack{
-                              Text("اسم الطالب")
-                                  .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
-                              Spacer()
-                                  .frame(height: screenHeight * 0.02)
-                              
-                     
-                           
-                              
-                              
-                              Text(name)
-                                  .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023))
-                              
-                              
-                            //  Text("\(state)")
+                  HStack(alignment: .firstTextBaseline) { // ✅ يضمن بقاء جميع النصوص على نفس الخط
+                      // المرحلة (على اليسار)
+                      VStack(alignment: .leading) {
+                          Text("المرحلة")
+                              .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
+                              .frame(maxWidth: .infinity, minHeight: screenHeight * 0.04, alignment: .leading) // ✅ ضبط الارتفاع
 
-//                              Text(phoneNumber)
-//                              Text(age)
-//                              Text(city)
-//                              Text(level)
-//                              Text(size)
-                          }
-   
+                          Text(level)
+                              .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023))
+                              .frame(maxWidth: .infinity, alignment: .leading)
+                              .minimumScaleFactor(0.8)
+                              .lineLimit(1)
                       }
+
+                      // العمر (في المنتصف)
+                      VStack(alignment: .center) {
+                          Text("العمر")
+                              .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
+                              .frame(maxWidth: .infinity, minHeight: screenHeight * 0.04, alignment: .center) // ✅ ضبط الارتفاع
+
+                          Text(age)
+                              .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023))
+                              .frame(maxWidth: .infinity, alignment: .center)
+                              .minimumScaleFactor(0.8)
+                              .lineLimit(1)
+                      }
+
+                      // الاسم (على اليمين)
+                      VStack(alignment: .trailing) {
+                          Text("اسم الطالب")
+                              .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
+                              .frame(maxWidth: .infinity, minHeight: screenHeight * 0.04, alignment: .trailing) // ✅ ضبط الارتفاع
+
+                          Text(name)
+                              .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023))
+                              .frame(maxWidth: .infinity, alignment: .trailing)
+                              .minimumScaleFactor(0.7)
+                              .lineLimit(1)
+                      }
+                  }
+                  .frame(maxWidth: .infinity)
+                  .padding(.horizontal, screenWidth * 0.05) // ✅ إضافة مسافة من الجوانب
+
+
                       
                       HStack(spacing: 0) {
                                  // First half with red background
@@ -416,7 +407,7 @@ struct studentInfo :View {
               //Text("\(orderNumber)")
               Circle()
                   .fill(primaryColor)
-                  .frame(width: screenWidth * 0.065)
+                  .frame(width: uiDevicePhone ? screenWidth * 0.065 : screenWidth * 0.05)
                   .overlay( Text("\(orderNumber)")
                     .foregroundColor(.white))
                 
