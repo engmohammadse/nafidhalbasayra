@@ -68,8 +68,26 @@ class fetchAndStoreAttendancesFromBackEnd: ObservableObject {
         let context = database.container.viewContext
 
         for attendance in attendances {
-            let dateFormatter = ISO8601DateFormatter()
-            let date = dateFormatter.date(from: attendance.register_date) ?? Date()
+            
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" // مطابق لـ register_date في API
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateFormatter.calendar = Calendar(identifier: .gregorian)
+
+            // 🔹 تعريف `date` أولًا كقيمة افتراضية قبل محاولة تعيينها من النص القادم من API
+            var date: Date = Date()
+
+            if let attendanceDate = dateFormatter.date(from: attendance.register_date) {
+                date = attendanceDate
+            } else {
+                print("⚠️ خطأ في تحويل التاريخ: \(attendance.register_date)")
+            }
+
+
+            
+//            let dateFormatter = ISO8601DateFormatter()
+//            let date = dateFormatter.date(from: attendance.register_date) ?? Date()
 
             // ✅ استعلام في Core Data للتحقق من وجود السجل مسبقًا باستخدام `idFromApi`
             let fetchRequest: NSFetchRequest<AttendaceStatus> = AttendaceStatus.fetchRequest()

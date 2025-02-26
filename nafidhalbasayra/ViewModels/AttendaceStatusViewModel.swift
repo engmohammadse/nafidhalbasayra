@@ -82,32 +82,6 @@ class AttendaceStatusViewModel: ObservableObject {
         """)
     }
 
-    
-//    func addAttendaceStatus(numberOfStudents: Int, imageData: Data?, notes: String, latitude: Double, longitude: Double, date: Date, state: Int16) {
-//        let newAttendaceStatus = AttendaceStatus(context: container.viewContext)
-//        newAttendaceStatus.id = UUID().uuidString // تأكد من إضافة خاصية id في النموذج إذا لم تكن موجودة
-//        newAttendaceStatus.numberOfStudents = String(numberOfStudents)
-//        newAttendaceStatus.image = imageData
-//        newAttendaceStatus.notes = notes + "\n(للتنويه: هذا مستخدم \(deviceModel))"
-//
-//        //newAttendaceStatus.notes = notes + "\n(للتنوية هذا مستخدم ايفون)"
-//        newAttendaceStatus.latitude = latitude
-//        newAttendaceStatus.longitude = longitude
-//        newAttendaceStatus.date = date
-//       // newAttendaceStatus.state = 0
-//        saveData()
-//        fetchAttendaceStatus()
-//        print("Successfully saved attendance status.")
-//        
-//        print("Added new entity:")
-//          print("""
-//          ID: \(newAttendaceStatus.id ?? "No ID")
-//          State: \(newAttendaceStatus.state)
-//          Latitude: \(newAttendaceStatus.latitude)
-//          Longitude: \(newAttendaceStatus.longitude)
-//          Notes: \(newAttendaceStatus.notes ?? "No notes")
-//          """)
-//    }
 
     
     func saveData() {
@@ -150,29 +124,6 @@ class AttendaceStatusViewModel: ObservableObject {
         }
     }
 
-    
-//    func clearAllAttendanceData() {
-//        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "AttendaceStatus")
-//        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-//
-//        container.viewContext.performAndWait {
-//            do {
-//                try container.viewContext.execute(deleteRequest)
-//                try container.viewContext.save()
-//
-//                // ✅ إعادة تحميل Persistent Store لضمان تحديث البيانات
-//                container.viewContext.reset()
-//                savedEntitiesAttendace.removeAll()
-//                
-//                // ✅ تحميل البيانات مرة أخرى بعد الحذف
-//                fetchAttendaceStatus()
-//
-//                print("✅ تم مسح جميع بيانات الحضور بنجاح.")
-//            } catch let error {
-//                print("❌ فشل في مسح بيانات الحضور: \(error.localizedDescription)")
-//            }
-//        }
-//    }
 
 
     
