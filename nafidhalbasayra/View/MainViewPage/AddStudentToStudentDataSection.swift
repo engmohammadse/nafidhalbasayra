@@ -14,6 +14,8 @@ struct AddStudentToStudentDataSection: View {
     @State var selectedStudent: StudentInfo?
     @EnvironmentObject var teacherData: TeacherDataViewModel
     @State var updatedName: String = ""
+    @State private var isContentShifted: Bool = false
+
 
     @Environment(\.dismiss) var dismiss
     
@@ -48,6 +50,9 @@ struct AddStudentToStudentDataSection: View {
                gender != "اختر" 
         
     }
+    private var shiftAmount: CGFloat {
+          UIDevice.current.userInterfaceIdiom == .pad ? 400 : 230 // 🔹 تخصيص الارتفاع للأيباد والآيفون
+      }
     
     var body: some View {
         VStack {
@@ -57,9 +62,6 @@ struct AddStudentToStudentDataSection: View {
                 Text("اضافة طالب جديد")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.045 : screenWidth * 0.023 ))
                     .foregroundStyle(primaryColor)
-                   
-          
-         
             .cornerRadius(5)
             .offset(x: 0 ,y: screenHeight * 0.03)
 //            
@@ -67,22 +69,25 @@ struct AddStudentToStudentDataSection: View {
 //                .frame(height: screenHeight * 0.001)
             
             ScrollView {
-                VStack() {
+                VStack(spacing: 0) {
                     Spacer()
-                        .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.08  : screenHeight * 0.10)
+                        .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.08  : screenHeight * 0.03)
 
                     FormField(label: "الأسم الثلاثي", text: $name)
                     FormFieldNumber(label: "رقم الهاتف", text: $phoneNumber)
                     FormFieldNumber(label: "العمر", text: $age)
-                    DropdownField(label: "الجنس", selectedOption: $gender, options: genderList)
-                    DropdownField(label: "المرحلة", selectedOption: $level, options: levelList)
+                    DropdownField(label: "الجنس", selectedOption: $gender, options: genderList, isDropdownActive: $isContentShifted)
+                    DropdownField(label: "المرحلة", selectedOption: $level, options: levelList, isDropdownActive: $isContentShifted)
                     
-                    DropdownField(label: " المرحلة الدراسية", selectedOption: $academic_level, options: academic_levelList)
+                    DropdownField(label: " المرحلة الدراسية", selectedOption: $academic_level, options: academic_levelList, isDropdownActive: $isContentShifted)
                    
-                    DropdownField(label: "القياس", selectedOption: $size, options: sizes)
+                    DropdownField(label: "القياس", selectedOption: $size, options: sizes, isDropdownActive: $isContentShifted)
                 }
                 .padding(.horizontal, screenWidth * 0.09)
+                .offset(y: isContentShifted ? -shiftAmount : 0) // 🔹 تحريك جميع العناصر عند فتح أي قائمة
+
             }
+            .animation(.easeInOut, value: isContentShifted)
             .scrollIndicators(.hidden) // ✅ إخفاء شريط التمرير
 
    
@@ -161,11 +166,13 @@ struct AddStudentToStudentDataSection: View {
         .onTapGesture {
             hideKeyboardExplicitly()
         }
-//        .overlay {
-//            LogoIUserInfo()
-//                .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)
+
+//        .onAppear {
+//            self.addKeyboardObservers()
 //        }
-        
+//        .onDisappear {
+//            self.removeKeyboardObservers()
+//        }
         
         .overlay{
             ZStack{
@@ -183,9 +190,31 @@ struct AddStudentToStudentDataSection: View {
         }
         
         
+       
         
     }
+    
+    
+//    // Add keyboard observers
+//    private func addKeyboardObservers() {
+//        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
+//            self.keyboardHeight = 300 // Adjust this value according to the keyboard height
+//        }
+//        
+//        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+//            self.keyboardHeight = 0
+//        }
+//    }
+//    
+//    // Remove keyboard observers
+//    private func removeKeyboardObservers() {
+//        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+//    }
+    
 }
+
+
 
 
 // تعريف نوع التنبيه

@@ -71,7 +71,7 @@ struct NotificationChannelSection: View {
             
             ScrollView {
                 Spacer()
-                    .frame(height: screenHeight * 0.1)
+                    .frame(height: uiDevicePhone ? screenHeight * 0.1 : screenHeight * 0.2)
                 
                 ForEach(notificationVM.notifications) { notification in
                     MessageView(

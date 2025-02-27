@@ -11,7 +11,7 @@ struct EditStudentAtStudentDataSection: View {
     @EnvironmentObject var vmStudent: StudentViewModel
     @EnvironmentObject var teacherData: TeacherDataViewModel
     var student: StudentInfo // استلام الطالب المحدد
-
+    @State private var isContentShifted: Bool = false
     @Environment(\.dismiss) var dismiss
 
     @State private var name: String
@@ -66,6 +66,10 @@ struct EditStudentAtStudentDataSection: View {
         _gender = State(initialValue: student.gender ?? "اختر")
         _academic_level = State(initialValue: student.academic_level ?? "اختر")
     }
+    
+    private var shiftAmount: CGFloat {
+          UIDevice.current.userInterfaceIdiom == .pad ? 400 : 230 // 🔹 تخصيص الارتفاع للأيباد والآيفون
+      }
 
     var body: some View {
         VStack {
@@ -74,24 +78,27 @@ struct EditStudentAtStudentDataSection: View {
                 .foregroundStyle(primaryColor)
                 .offset(x: 0, y: screenHeight * 0.07)
 
-            Spacer().frame(height: screenHeight * 0.07)
+           // Spacer().frame(height: screenHeight * 0.07)
 
             ScrollView {
-                VStack(spacing: 16) {
-                    Spacer().frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.05 : screenHeight * 0.10)
+                VStack(spacing: 0) {
+                    Spacer()
+                        .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.05 : screenHeight * 0.04)
 
                     FormField(label: "الأسم الثلاثي", text: $name)
                     FormFieldNumber(label: "رقم الهاتف", text: $phoneNumber)
                     FormFieldNumber(label: "العمر", text: $age)
-                    DropdownField(label: "الجنس", selectedOption: $gender, options: genderList)
-                    DropdownField(label: "المرحلة", selectedOption: $level, options: levelList)
+                    DropdownField(label: "الجنس", selectedOption: $gender, options: genderList, isDropdownActive: $isContentShifted)
+                    DropdownField(label: "المرحلة", selectedOption: $level, options: levelList, isDropdownActive: $isContentShifted)
                     
-                    DropdownField(label: " المرحلة الدراسية", selectedOption: $academic_level, options: academic_levelList)
+                    DropdownField(label: " المرحلة الدراسية", selectedOption: $academic_level, options: academic_levelList, isDropdownActive: $isContentShifted)
                    
-                    DropdownField(label: "القياس", selectedOption: $size, options: sizes)
+                    DropdownField(label: "القياس", selectedOption: $size, options: sizes, isDropdownActive: $isContentShifted)
                 }
                 .padding(.horizontal, screenWidth * 0.09)
+                .offset(y: isContentShifted ? -shiftAmount : 0)
             }
+            .animation(.easeInOut, value: isContentShifted)
 
             // زر الحفظ
             
@@ -155,7 +162,7 @@ struct EditStudentAtStudentDataSection: View {
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
                     .foregroundStyle(.white)
                     .frame(width: screenWidth * 0.85)
-                    .frame(height: screenHeight * 0.05)
+                    .frame(height: screenHeight * 0.04)
                     .background(Color(red: 27/255, green: 62/255, blue: 94/255))
                     .cornerRadius(5)
             }

@@ -93,7 +93,7 @@ struct LogoIUserInfo: View {
                         Image(uiImage: image)
                             .resizable()
                             .scaledToFit()
-                            .frame(maxWidth: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.1 : screenWidth * 0.2) : screenWidth * 0.2)
+                            .frame(maxWidth: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.1 : screenWidth * 0.07) : screenWidth * 0.1)
                             .clipShape(Circle())
                             
                     } else {
@@ -115,7 +115,7 @@ struct LogoIUserInfo: View {
                 Text(UserDefaults.standard.string(forKey: "username") ?? "لا يوجد مستخدم")
                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                     .foregroundStyle(Color.white)
-                    .padding(.horizontal, geoW * 0.05)
+                    .padding(.horizontal, screenWidth * 0.05)
                     .background(Color(UIColor(red: 27 / 255, green: 62 / 255, blue: 93 / 255, alpha: 1.0)))
                     .cornerRadius(5)
                     .padding(.horizontal, screenWidth * 0.005)
@@ -126,7 +126,7 @@ struct LogoIUserInfo: View {
                     .resizable()
                     .renderingMode(.template)
                     .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: uiDevicePhone ? screenWidth * 0.5 : screenWidth * 0.4)
+                    .frame(maxWidth: uiDevicePhone ? screenWidth * 0.5 : screenWidth * 0.3)
                     .foregroundColor(Color(UIColor(red: 27 / 255, green: 62 / 255, blue: 93 / 255, alpha: 1.0)))
                     .padding(.bottom, 10)
             }
@@ -141,7 +141,7 @@ struct LogoIUserInfo: View {
                     Color(red: 236/255, green: 242/255, blue: 245/255)
                         .frame(height: screenHeight * 0.3) // ✅ زيادة الخلفية فقط
                 }
-                    .offset(y: uiDevicePhone ? screenHeight * -0.135 : screenHeight * -0.1)
+                    .offset(y: uiDevicePhone ? screenHeight * -0.135 : screenHeight * -0.12)
             )
 
 

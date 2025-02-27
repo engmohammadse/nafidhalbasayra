@@ -152,7 +152,7 @@ struct LectureView: View {
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
                     .foregroundColor(primaryColor)
                     .fontWeight(.bold)
-                    .padding(.horizontal, 10)
+                    .padding(.horizontal, 8)
                     .frame(minWidth: 80)
                     .background(buttonAccentColor)
                     .cornerRadius(10)
@@ -162,9 +162,11 @@ struct LectureView: View {
             Spacer(minLength: 10)
             
             Text("الدليل التوضيحي للمحاضرة #\(number)")
-                .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
+                .font(.custom("BahijTheSansArabic-Plain", size: uiDevicePhone ? screenWidth * 0.0385 : screenWidth * 0.023))
                 .foregroundColor(primaryColor)
                 .multilineTextAlignment(.trailing)
+                .minimumScaleFactor(0.7)
+            
             
             Spacer()
         }

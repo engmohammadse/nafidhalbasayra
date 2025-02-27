@@ -17,7 +17,7 @@ struct FormField: View {
     var body: some View {
         
         
-        VStack( alignment: .trailing,  spacing: 5) {
+        VStack( alignment: .trailing,  spacing: 0) {
             if UIDevice.current.userInterfaceIdiom == .phone {
                 Text(label)
                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
@@ -68,7 +68,7 @@ struct FormFieldNumber: View {
     var isPhoneNumber: Bool = false
 
     var body: some View {
-        VStack(alignment: .trailing, spacing: 5) {
+        VStack(alignment: .trailing, spacing: 0) {
             if UIDevice.current.userInterfaceIdiom == .phone {
                 Text(label)
                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
@@ -132,11 +132,12 @@ struct DropdownField: View {
     @Binding var selectedOption: String
     var options: [String]
     @State private var showDropdown: Bool = false
+    @Binding var isDropdownActive: Bool
 
     var body: some View {
         
         //alignment: .trailing,
-        VStack(spacing: 5) {
+        VStack(spacing: 0) {
             
             
             if UIDevice.current.userInterfaceIdiom == .phone {
@@ -165,7 +166,14 @@ struct DropdownField: View {
                            Color.clear
                                .contentShape(Rectangle()) // يجعل الطبقة قابلة للنقر
                                .onTapGesture {
-                                   showDropdown.toggle()
+                                   
+                                   withAnimation {
+                                         showDropdown.toggle()
+                                         hideKeyboardExplicitly()
+                                         isDropdownActive = showDropdown
+                                         }
+                                   
+                                   
                                }
                        )
 
@@ -192,7 +200,11 @@ struct DropdownField: View {
                                     .cornerRadius(5)
                                     .onTapGesture {
                                         selectedOption = option
-                                        showDropdown = false
+                                        
+                                        withAnimation {
+                                            showDropdown = false
+                                            isDropdownActive = false 
+                                         }
                                     }
                             }
                         }
