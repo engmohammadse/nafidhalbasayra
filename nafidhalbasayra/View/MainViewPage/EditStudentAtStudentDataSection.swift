@@ -26,7 +26,7 @@ struct EditStudentAtStudentDataSection: View {
     @State private var messageOfError = ""
     @State private var alertInternetMessage = ""
     
-    
+
     @State private var levelList = ["أولى", "ثانية", "ثالثة"]
 
     @State private var academic_levelList =  [
@@ -68,20 +68,25 @@ struct EditStudentAtStudentDataSection: View {
     }
     
     private var shiftAmount: CGFloat {
-          UIDevice.current.userInterfaceIdiom == .pad ? 400 : 230 // 🔹 تخصيص الارتفاع للأيباد والآيفون
+          UIDevice.current.userInterfaceIdiom == .pad ? 250 : 230 // 🔹 تخصيص الارتفاع للأيباد والآيفون
       }
 
     var body: some View {
-        VStack {
-            Text("تعديل بيانات الطالب")
-                .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.045 : screenWidth * 0.023))
-                .foregroundStyle(primaryColor)
-                .offset(x: 0, y: screenHeight * 0.07)
+        VStack (spacing: 12) {
+            
+            if !isContentShifted {
+                Text("تعديل بيانات الطالب")
+                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.045 : screenWidth * 0.023))
+                    .foregroundStyle(primaryColor)
+                    .offset(x: 0, y: screenHeight * 0.04)
 
+            }
+            
+           
            // Spacer().frame(height: screenHeight * 0.07)
 
             ScrollView {
-                VStack(spacing: 0) {
+                VStack(spacing: 12) {
                     Spacer()
                         .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.05 : screenHeight * 0.04)
 
@@ -217,10 +222,10 @@ struct EditStudentAtStudentDataSection: View {
         .padding(.bottom)
         .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
         .navigationBarBackButtonHidden(true)
-        .overlay {
-            LogoIUserInfo()
-                .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)
-        }
+//        .overlay {
+//            LogoIUserInfo()
+//                .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)
+//        }
         .overlay {
             ZStack {
                 Button(action: {

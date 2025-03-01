@@ -51,27 +51,28 @@ struct AddStudentToStudentDataSection: View {
         
     }
     private var shiftAmount: CGFloat {
-          UIDevice.current.userInterfaceIdiom == .pad ? 400 : 230 // 🔹 تخصيص الارتفاع للأيباد والآيفون
+          UIDevice.current.userInterfaceIdiom == .pad ? 250 : 230 // 🔹 تخصيص الارتفاع للأيباد والآيفون
       }
     
     var body: some View {
-        VStack {
+        VStack (spacing: 0) {
             
             
-                
+            if !isContentShifted {
                 Text("اضافة طالب جديد")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.045 : screenWidth * 0.023 ))
                     .foregroundStyle(primaryColor)
-            .cornerRadius(5)
-            .offset(x: 0 ,y: screenHeight * 0.03)
+                    .cornerRadius(5)
+                    .offset(x: 0, y: screenHeight * 0.04)
+            }
 //            
 //            Spacer()
 //                .frame(height: screenHeight * 0.001)
             
             ScrollView {
-                VStack(spacing: 0) {
+                VStack(spacing: 12) {
                     Spacer()
-                        .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.08  : screenHeight * 0.03)
+                        .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.05  : screenHeight * 0.04)
 
                     FormField(label: "الأسم الثلاثي", text: $name)
                     FormFieldNumber(label: "رقم الهاتف", text: $phoneNumber)
@@ -133,7 +134,7 @@ struct AddStudentToStudentDataSection: View {
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                     .foregroundStyle(.white)
                     .frame(width: screenWidth * 0.85)
-                    .frame(height: screenHeight * 0.05)
+                    .frame(height: screenHeight * 0.04)
                     .background(Color(red: 27/255, green: 62/255, blue: 94/255))
                     .cornerRadius(5)
             }

@@ -5,7 +5,7 @@
 //  Created by muhammad on 17/10/2024.
 //
 
-import SwiftUI
+
 
 import SwiftUI
 
@@ -17,7 +17,7 @@ struct FormField: View {
     var body: some View {
         
         
-        VStack( alignment: .trailing,  spacing: 0) {
+        VStack( alignment: .trailing,  spacing: 3) {
             if UIDevice.current.userInterfaceIdiom == .phone {
                 Text(label)
                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
@@ -37,7 +37,7 @@ struct FormField: View {
                 
             } else {
                 
-                VStack {
+                VStack (spacing: 8) {
                     Text(label)
                         .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                         .foregroundStyle(primaryColor)
@@ -93,7 +93,7 @@ struct FormFieldNumber: View {
                     }
             } else {
                 
-                VStack {
+                VStack (spacing: 8) {
                     Text(label)
                         .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
                         .foregroundStyle(primaryColor)
@@ -133,11 +133,12 @@ struct DropdownField: View {
     var options: [String]
     @State private var showDropdown: Bool = false
     @Binding var isDropdownActive: Bool
+    
 
     var body: some View {
         
         //alignment: .trailing,
-        VStack(spacing: 0) {
+        VStack(spacing: 8) {
             
             
             if UIDevice.current.userInterfaceIdiom == .phone {
@@ -166,14 +167,11 @@ struct DropdownField: View {
                            Color.clear
                                .contentShape(Rectangle()) // يجعل الطبقة قابلة للنقر
                                .onTapGesture {
-                                   
+                                   hideKeyboardExplicitly()
                                    withAnimation {
                                          showDropdown.toggle()
-                                         hideKeyboardExplicitly()
                                          isDropdownActive = showDropdown
                                          }
-                                   
-                                   
                                }
                        )
 
@@ -184,6 +182,9 @@ struct DropdownField: View {
                             .frame(maxWidth: screenWidth * 0.03)
                             .offset(x: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * -0.35 : screenWidth * -0.25)
                     }
+                
+               
+                    
 
                 // قائمة الخيارات
                 if showDropdown {
@@ -217,7 +218,7 @@ struct DropdownField: View {
                 }
                 
             } else {
-                VStack{
+                VStack (spacing: 16) {
                     // عنوان الحقل
                     Text(label)
                         .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
@@ -240,9 +241,13 @@ struct DropdownField: View {
                         .overlay(
                                Color.clear
                                    .contentShape(Rectangle()) // يجعل الطبقة قابلة للنقر
-                                   .onTapGesture {
-                                       showDropdown.toggle()
-                                   }
+                                .onTapGesture {
+                                    hideKeyboardExplicitly()
+                                    withAnimation {
+                                          showDropdown.toggle()
+                                          isDropdownActive = showDropdown
+                                          }
+                                }
                            )
 
                         .overlay {
@@ -256,7 +261,7 @@ struct DropdownField: View {
                     // قائمة الخيارات
                     if showDropdown {
                         ScrollView {
-                            VStack(spacing: 8) {
+                            VStack(spacing: 16) {
                                 ForEach(options, id: \.self) { option in
                                     Text(option)
                                         .multilineTextAlignment(.trailing)
@@ -268,7 +273,11 @@ struct DropdownField: View {
                                         .cornerRadius(5)
                                         .onTapGesture {
                                             selectedOption = option
-                                            showDropdown = false
+                                            
+                                            withAnimation {
+                                                showDropdown = false
+                                                isDropdownActive = false
+                                             }
                                         }
                                 }
                             }
