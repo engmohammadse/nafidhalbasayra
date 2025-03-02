@@ -76,7 +76,7 @@ struct AddStudentToStudentDataSection: View {
 
                     FormField(label: "الأسم الثلاثي", text: $name)
                     FormFieldNumber(label: "رقم الهاتف", text: $phoneNumber)
-                    FormFieldNumber(label: "العمر", text: $age)
+                    FormFieldAge(label: "العمر", text: $age)
                     DropdownField(label: "الجنس", selectedOption: $gender, options: genderList, isDropdownActive: $isContentShifted)
                     DropdownField(label: "المرحلة", selectedOption: $level, options: levelList, isDropdownActive: $isContentShifted)
                     

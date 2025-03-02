@@ -78,7 +78,9 @@ struct FormFieldNumber: View {
 
 
                 TextField("", text: $text)
-                    .keyboardType(.numberPad) // تحديد نوع لوحة المفاتيح للأرقام فقط
+                    .keyboardType(.asciiCapableNumberPad) // ✅ يجبر لوحة المفاتيح على الأرقام الإنجليزية فقط
+                    .textContentType(.oneTimeCode) // ✅ يساعد في تعطيل زر تغيير اللغة في بعض لوحات المفاتيح
+                    .disableAutocorrection(true) // ✅ يمنع التصحيح التلقائي ويقلل من احتمال تبديل اللغة
                     .foregroundStyle(primaryColor)
                     .frame(maxWidth: screenHeight * 0.4)
                     .frame(height: screenHeight * 0.05)
@@ -86,11 +88,16 @@ struct FormFieldNumber: View {
                     .padding(.horizontal)
                     .background(Color.white)
                     .cornerRadius(5)
+                   .onChange(of: text) { newValue in
+                       text = String(newValue.filter { char in
+                           char.isASCII && "0123456789".contains(char) // ✅ يقبل فقط الأرقام الإنجليزية ASCII
+                       }.prefix(11)) // ✅ تحويل Substring إلى String
+                   }
 
-                    // فلترة الإدخال ليكون أرقامًا فقط
-                    .onChange(of: text) { newValue in
-                        text = newValue.filter { "0123456789".contains($0) } // إبقاء الأرقام فقط
-                    }
+//                    // فلترة الإدخال ليكون أرقامًا فقط
+//                    .onChange(of: text) { newValue in
+//                        text = newValue.filter { "0123456789".contains($0) } // إبقاء الأرقام فقط
+//                    }
             } else {
                 
                 VStack (spacing: 8) {
@@ -102,19 +109,26 @@ struct FormFieldNumber: View {
                     
                     
                     TextField("", text: $text)
-                        .keyboardType(.numberPad) // تحديد نوع لوحة المفاتيح للأرقام فقط
+                        .keyboardType(.asciiCapableNumberPad) // ✅ يجبر لوحة المفاتيح على الأرقام الإنجليزية فقط
+                        .textContentType(.oneTimeCode) // ✅ يساعد في تعطيل زر تغيير اللغة في بعض لوحات المفاتيح
+                        .disableAutocorrection(true) // ✅ يمنع التصحيح التلقائي ويقلل من احتمال تبديل اللغة
                         .foregroundStyle(primaryColor)
+                        .keyboardType(.asciiCapableNumberPad) // ✅ يجبر لوحة المفاتيح على الأرقام الإنجليزية فقط
                     //                    .frame(maxWidth: screenHeight * 0.4)
                         .frame(height: screenHeight * 0.05)
                         .multilineTextAlignment(.trailing)
                         .padding(.horizontal)
                         .background(Color.white)
                         .cornerRadius(5)
-                    
-                    // فلترة الإدخال ليكون أرقامًا فقط
                         .onChange(of: text) { newValue in
-                            text = newValue.filter { "0123456789".contains($0) } // إبقاء الأرقام فقط
+                            text = String(newValue.filter { char in
+                                char.isASCII && "0123456789".contains(char) // ✅ يقبل فقط الأرقام الإنجليزية ASCII
+                            }.prefix(11)) // ✅ تحويل Substring إلى String
                         }
+                    // فلترة الإدخال ليكون أرقامًا فقط
+//                        .onChange(of: text) { newValue in
+//                            text = newValue.filter { "0123456789".contains($0) } // إبقاء الأرقام فقط
+//                        }
                 }
                 .padding(.horizontal, screenWidth * 0.1)
             }
@@ -299,7 +313,72 @@ struct DropdownField: View {
 }
 
 
+struct FormFieldAge: View {
+    var label: String
+    @Binding var text: String
+    var isPhoneNumber: Bool = false
 
+    var body: some View {
+        VStack(alignment: .trailing, spacing: 0) {
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                Text(label)
+                    .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+                    .foregroundStyle(primaryColor)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
+
+
+                TextField("", text: $text)
+                    .keyboardType(.asciiCapableNumberPad) // ✅ يجبر لوحة المفاتيح على الأرقام الإنجليزية فقط
+                    .textContentType(.oneTimeCode) // ✅ يساعد في تعطيل زر تغيير اللغة في بعض لوحات المفاتيح
+                    .disableAutocorrection(true) // ✅ يمنع التصحيح التلقائي ويقلل من احتمال تبديل اللغة
+                    .foregroundStyle(primaryColor)
+                    .frame(maxWidth: screenHeight * 0.4)
+                    .frame(height: screenHeight * 0.05)
+                    .multilineTextAlignment(.trailing)
+                    .padding(.horizontal)
+                    .background(Color.white)
+                    .cornerRadius(5)
+                    .onChange(of: text) { newValue in
+                           text = String(newValue.filter { "0123456789".contains($0) }.prefix(2)) // ✅ تحويل Substring إلى String
+                       }
+
+//                    // فلترة الإدخال ليكون أرقامًا فقط
+//                    .onChange(of: text) { newValue in
+//                        text = newValue.filter { "0123456789".contains($0) } // إبقاء الأرقام فقط
+//                    }
+            } else {
+                
+                VStack (spacing: 8) {
+                    Text(label)
+                        .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
+                        .foregroundStyle(primaryColor)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.05 : screenWidth * 0.05)
+                    
+                    
+                    TextField("", text: $text)
+                        .keyboardType(.asciiCapableNumberPad) // ✅ يجبر لوحة المفاتيح على الأرقام الإنجليزية فقط
+                        .textContentType(.oneTimeCode) // ✅ يساعد في تعطيل زر تغيير اللغة في بعض لوحات المفاتيح
+                        .disableAutocorrection(true) // ✅ يمنع التصحيح التلقائي ويقلل من احتمال تبديل اللغة
+                        .foregroundStyle(primaryColor)
+                        .frame(height: screenHeight * 0.05)
+                        .multilineTextAlignment(.trailing)
+                        .padding(.horizontal)
+                        .background(Color.white)
+                        .cornerRadius(5)
+                    
+                    // فلترة الإدخال ليكون أرقامًا فقط
+                        .onChange(of: text) { newValue in
+                               text = String(newValue.filter { "0123456789".contains($0) }.prefix(2)) // ✅ تحويل Substring إلى String
+                           }
+                }
+                .padding(.horizontal, screenWidth * 0.1)
+            }
+            
+        }
+    }
+}
 
 
 

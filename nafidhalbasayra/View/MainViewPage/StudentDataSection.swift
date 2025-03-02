@@ -116,7 +116,7 @@ struct StudentDataSection: View {
                
                 
             }) {
-                Text("ارسال البيانات الى السيرفر")
+                Text("ارسال الطلبة الغير مرسلين")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                     .foregroundStyle(.white)
                     .frame(width: screenWidth * 0.85)

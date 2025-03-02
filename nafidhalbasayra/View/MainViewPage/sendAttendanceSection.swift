@@ -209,8 +209,10 @@ struct sendAttendanceSection: View {
                     }
                     
                     TextField("أدخل رقم الطلبة الحاضرين في الجلسة. يجب ألا يكون العدد أكثر من الطلبة المسجلين لديك، وألا يزيد عن 35.", text: $numberOfStudents)
-                        .keyboardType(.asciiCapableNumberPad) // لوحة مفاتيح الأرقام باللغة الإنجليزية فقط
-                        .textInputAutocapitalization(.none) // لمنع الأحرف الكبيرة (اختياري)
+                        .keyboardType(.asciiCapableNumberPad) // ✅ يجبر لوحة المفاتيح على الأرقام الإنجليزية فقط
+                        .textContentType(.oneTimeCode) // ✅ يساعد في تعطيل زر تغيير اللغة في بعض لوحات المفاتيح
+                        .disableAutocorrection(true) // ✅ يمنع التصحيح التلقائي ويقلل من احتمال تبديل اللغة
+                        .foregroundStyle(primaryColor)
                         .frame(width: uiDevicePhone ? screenWidth * 0.63 : screenWidth * 0.5)
                         .frame(height: screenHeight * 0.04)
                         .multilineTextAlignment(.trailing)
@@ -218,8 +220,16 @@ struct sendAttendanceSection: View {
                         .background(Color.white)
                         .cornerRadius(5)
                         .onChange(of: numberOfStudents) { newValue in
-                            debounceValidation(newValue: newValue)
-                        }
+                              // 🔹 السماح بالأرقام فقط ومنع الأحرف الأخرى
+                              let filtered = newValue.filter { "0123456789".contains($0) }
+                              if filtered != newValue {
+                                  numberOfStudents = filtered // تحديث القيمة لحذف أي مدخلات غير رقمية
+                              }
+                              debounceValidation(newValue: numberOfStudents) // استدعاء الدالة بعد الفلترة
+                          }
+//                        .onChange(of: numberOfStudents) { newValue in
+//                            debounceValidation(newValue: newValue)
+//                        }
                     
                     
                     
