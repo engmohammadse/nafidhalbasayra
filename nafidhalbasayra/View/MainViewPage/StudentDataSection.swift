@@ -15,6 +15,8 @@ struct StudentDataSection: View {
     @StateObject var vmStudent = StudentViewModel.shared
     @EnvironmentObject var teacherData: TeacherDataViewModel
     @EnvironmentObject var vmAttendaceStatus : AttendaceStatusViewModel
+    @State private var showNoInternetToast = false
+
     
    
     
@@ -32,7 +34,9 @@ struct StudentDataSection: View {
             .offset(x: uiDevicePhone ? screenWidth * 0.25 : screenWidth * 0.31 ,y: screenHeight * 0.05)
             
             Spacer()
-                .frame(height: screenHeight * 0.06)
+                .frame(height: uiDevicePhone
+                       ? (screenWidth > 400 ?  screenHeight * 0.08 : screenHeight * 0.07)
+                       : screenHeight * 0.06)
             
             
             
@@ -61,17 +65,7 @@ struct StudentDataSection: View {
             
            
 
-            
-//            ScrollView {
-//                ForEach(Array(vmStudent.savedEntities.enumerated()), id: \.element) { index, entity in
-//                    studentInfo(vmStudent: vmStudent, name: entity.name ?? "لا يوجد اسم", age: entity.age ?? "no", phoneNumber: entity.phoneNumber ?? "no number",city: entity.city ?? " no c", level: entity.level ?? " no level",size: entity.size ?? " no size", student: entity, orderNumber: index + 1)
-//                    
-////                    studentInfo(vmStudent: vmStudent, name: entity.name ?? "لا يوجد اسم", age: entity.age ?? "no", phoneNumber: entity.phoneNumber ?? "no number", student: entity, orderNumber: index + 1)
-//                }
-//                
-//                
-//                
-//            }
+
             .frame(maxWidth: .infinity)
             
             
@@ -84,12 +78,76 @@ struct StudentDataSection: View {
                         .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
                         .foregroundStyle(.white)
                         .frame(width: screenWidth * 0.85)
-                        .frame(height: screenHeight * 0.05)
+                        .frame(height: screenHeight * 0.04)
                         .background(Color(red: 27/255, green: 62/255, blue: 94/255))
                         .cornerRadius(5)
                     
                 }
             //}
+            
+            
+            Button(action: {
+                
+                InternetChecker.isInternetAvailable { isAvailable in
+                    DispatchQueue.main.async {
+                        if isAvailable {
+                            
+                            Task {
+                                         // إرسال بيانات الطلاب
+                                  let studentUploader = StudentUploader(database: vmStudent)
+                                studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
+                                   }
+                        } else {
+                            
+                            withAnimation {
+                                 showNoInternetToast = true
+                                              }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                withAnimation {
+                                    showNoInternetToast = false
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                
+                
+               
+                
+            }) {
+                Text("ارسال البيانات الى السيرفر")
+                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+                    .foregroundStyle(.white)
+                    .frame(width: screenWidth * 0.85)
+                    .frame(height: screenHeight * 0.04)
+                    .background(Color(red: 27/255, green: 62/255, blue: 94/255))
+                    .cornerRadius(5)
+            }
+            .overlay(
+                       VStack {
+                           if showNoInternetToast {
+                               Text("⚠️ لا يوجد اتصال بالإنترنت")
+                                   .padding()
+                                   .background(Color.red.opacity(0.8))
+                                   .foregroundColor(.white)
+                                   .cornerRadius(10)
+                                   .transition(.opacity)
+                                   .onAppear {
+                                       withAnimation(.easeInOut(duration: 0.5)) {
+                                           showNoInternetToast = true
+                                       }
+                                   }
+                                   .onDisappear {
+                                       withAnimation(.easeInOut(duration: 0.5)) {
+                                           showNoInternetToast = false
+                                       }
+                                   }
+                           }
+                       }
+                       .padding(.bottom, 50),
+                       alignment: .bottom
+                   )
            
             
             
@@ -160,10 +218,22 @@ struct StudentDataSection: View {
     student2.setValue("إعدادي", forKey: "level")
     student2.setValue("صغير", forKey: "size")
     student2.setValue(2, forKey: "state")
+    
+    let student3 = StudentInfo(context: previewStudentViewModel.container.viewContext)
+    student2.setValue(UUID().uuidString, forKey: "studentID")
+    student2.setValue("فاطمة الزهراء محمد محمد", forKey: "name")
+    student2.setValue("12", forKey: "age")
+    student2.setValue("0923456789", forKey: "phoneNumber")
+    student2.setValue("بنغازي", forKey: "city")
+    student2.setValue("إعدادي", forKey: "level")
+    student2.setValue("صغير", forKey: "size")
+    student2.setValue(2, forKey: "state")
 
     // ✅ إضافة الطلاب إلى المصفوفة
     previewStudentViewModel.savedEntitiesStudent.append(student1)
     previewStudentViewModel.savedEntitiesStudent.append(student2)
+    previewStudentViewModel.savedEntitiesStudent.append(student3)
+
 
     return StudentDataSection()
         .environmentObject(TeacherDataViewModel()) // ✅ تمرير بيانات المعلم
@@ -212,7 +282,7 @@ struct studentInfo :View {
         
           VStack {
               Color.clear
-                  .frame(height: screenHeight * 0.05)
+                  .frame(height: uiDevicePhone ? screenHeight * 0.01 : screenHeight * 0.02)
               
               VStack {
                       
@@ -412,7 +482,7 @@ struct studentInfo :View {
                     .foregroundColor(.white))
                 
                   .frame(width: screenWidth * 0.06)
-                  .position(x: screenWidth * 0.42, y: screenHeight * 0.058) // تعديل الإحداثيات
+                  .position(x: screenWidth * 0.42, y: uiDevicePhone ?  screenHeight * 0.02 : screenHeight * 0.025) // تعديل الإحداثيات
 
           }
         

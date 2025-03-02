@@ -45,7 +45,8 @@ struct MainViewPage: View {
                           HStack(spacing: screenWidth * 0.04) {
                               VStackSection(imageName: "Group 24", text: "سجل الحضور", destination: HistoryAttendance()
                                 .environmentObject(teacherData)
-                                  .environmentObject(vmAttendaceStatus))
+                                  .environmentObject(vmAttendaceStatus)
+                              )
                               VStackSection(imageName: "Group 23", text: "بيانات الطلبة", destination: StudentDataSection()
                                 .environmentObject(teacherData)
                                   .environmentObject(vmAttendaceStatus))
@@ -118,13 +119,13 @@ struct MainViewPage: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 
                 
-                   let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
-                   attendanceUploader.sendPendingAttendanceData()
+//                   let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+//                   attendanceUploader.sendPendingAttendanceData()
                 
                 // إرسال بيانات الطلاب
-                let studentUploader = StudentUploader(database: studentViewModel)
-                studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
-                
+//                let studentUploader = StudentUploader(database: studentViewModel)
+//                studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
+//                
                 
                 Task {
                                    await attendanceFetcher.fetchAndStoreAttendances(teacherID: UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7")

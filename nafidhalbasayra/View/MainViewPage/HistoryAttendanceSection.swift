@@ -105,6 +105,9 @@ struct studentHistory: View {
     @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
     var entity: AttendaceStatus
     var orderNumber: Int
+    @State private var showNoInternetToast = false
+
+    
 
     var body: some View {
         VStack(spacing: 0) {
@@ -159,13 +162,47 @@ struct studentHistory: View {
                 // ✅ **زر إعادة الإرسال (مدمج داخل الكارت)**
                 if !repeatSend {
                     Button(action: {
-                        DispatchQueue.main.asyncAfter(deadline: .now()) {
-                            let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
-                            attendanceUploader.sendPendingAttendanceData()
+                        
+//                        DispatchQueue.main.asyncAfter(deadline: .now()) {
+//                            let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+//                            attendanceUploader.sendPendingAttendanceData()
+//                        }
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                            vmAttendaceStatus.fetchAttendaceStatus()
+//                        }
+                        
+                        InternetChecker.isInternetAvailable { isAvailable in
+                            DispatchQueue.main.async {
+                                if isAvailable {
+                                    
+                                    Task {
+                                        
+                                        let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+                                        attendanceUploader.sendPendingAttendanceData()
+                                        
+                                        repeatSendState = true
+                                        repeatSend = true
+                                        
+                                        vmAttendaceStatus.fetchAttendaceStatus()
+                                     
+                                           }
+                                } else {
+                                    
+                                    withAnimation {
+                                         showNoInternetToast = true
+                                                      }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        withAnimation {
+                                            showNoInternetToast = false
+                                        }
+                                    }
+                                }
+                            }
                         }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            vmAttendaceStatus.fetchAttendaceStatus()
-                        }
+                        
+                        
+                        
+                        
                     }) {
                         Text("إعادة الإرسال")
                             .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023))
@@ -175,6 +212,30 @@ struct studentHistory: View {
                     }
                     .background(primaryButtonColor)
                     .cornerRadius(2)
+                    .overlay(
+                               VStack {
+                                   if showNoInternetToast {
+                                       Text("⚠️ لا يوجد اتصال بالإنترنت")
+                                           .padding()
+                                           .background(Color.red.opacity(0.8))
+                                           .foregroundColor(.white)
+                                           .cornerRadius(10)
+                                           .transition(.opacity)
+                                           .onAppear {
+                                               withAnimation(.easeInOut(duration: 0.5)) {
+                                                   showNoInternetToast = true
+                                               }
+                                           }
+                                           .onDisappear {
+                                               withAnimation(.easeInOut(duration: 0.5)) {
+                                                   showNoInternetToast = false
+                                               }
+                                           }
+                                   }
+                               }
+                               .padding(.bottom, 50),
+                               alignment: .bottom
+                           )
                 }
             }
             .padding(.top, screenHeight * 0.015)

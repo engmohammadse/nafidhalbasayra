@@ -83,7 +83,12 @@ struct LogoIUserInfo: View {
         GeometryReader { geometry in
             let geoW = geometry.size.width
             
+            
+            
             HStack {
+                
+               
+                
                 // ⬇️ زر تسجيل الخروج ⬇️
                 Button(action: {
                     showLogoutConfirmation = true // عرض تأكيد تسجيل الخروج
@@ -131,7 +136,7 @@ struct LogoIUserInfo: View {
                     .padding(.bottom, 10)
             }
             .padding(.horizontal, screenWidth * 0.08)
-//            .padding(.bottom, screenHeight * 0.005)
+            .padding(.top, screenHeight * 0.006)
             .offset(y: uiDevicePhone ? -screenHeight * 0.01 : 0) // 🔼 رفع العنصر للأعلى قليلًا
             
 
