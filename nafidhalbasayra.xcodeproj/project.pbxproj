@@ -35,6 +35,7 @@
 		414AFBDC2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414AFBDB2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift */; };
 		414AFBDE2CC16D3A00D89B70 /* SubComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414AFBDD2CC16D3A00D89B70 /* SubComponent.swift */; };
 		415B4B432D676E4700A24A52 /* fetchAndStoreStudentsFromBackEnd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 415B4B422D676E4600A24A52 /* fetchAndStoreStudentsFromBackEnd.swift */; };
+		41648E652D75CBB90094693C /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41648E642D75CBB90094693C /* APIManager.swift */; };
 		416D8BE92CA4482500E2E6D8 /* const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416D8BE82CA4482500E2E6D8 /* const.swift */; };
 		416F71422D1AF64D009FF9EE /* TeacherDataFromApiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F71412D1AF64D009FF9EE /* TeacherDataFromApiViewModel.swift */; };
 		416FD1FF2D1856F700ED7DF8 /* MainParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416FD1FE2D1856F700ED7DF8 /* MainParentView.swift */; };
@@ -109,6 +110,7 @@
 		414AFBDB2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStudentToStudentDataSection.swift; sourceTree = "<group>"; };
 		414AFBDD2CC16D3A00D89B70 /* SubComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubComponent.swift; sourceTree = "<group>"; };
 		415B4B422D676E4600A24A52 /* fetchAndStoreStudentsFromBackEnd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fetchAndStoreStudentsFromBackEnd.swift; sourceTree = "<group>"; };
+		41648E642D75CBB90094693C /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		416D8BE82CA4482500E2E6D8 /* const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = const.swift; sourceTree = "<group>"; };
 		416F71412D1AF64D009FF9EE /* TeacherDataFromApiViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherDataFromApiViewModel.swift; sourceTree = "<group>"; };
 		416FD1FE2D1856F700ED7DF8 /* MainParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainParentView.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				413140332D4C15F100BECBAE /* NotificationViewModel.swift */,
 				410B923B2D60ED8C00FE9259 /* fetchAndStoreAttendancesFromBackEnd.swift */,
 				415B4B422D676E4600A24A52 /* fetchAndStoreStudentsFromBackEnd.swift */,
+				41648E642D75CBB90094693C /* APIManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -430,6 +433,7 @@
 				41FC5C4A2D4BE19E009477FF /* GuideService.swift in Sources */,
 				41D1DC502CB6A010004EB23D /* registerPage2.swift in Sources */,
 				41074C882CBE8F8400FA28AC /* LoginViewModel.swift in Sources */,
+				41648E652D75CBB90094693C /* APIManager.swift in Sources */,
 				41F34EF82CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift in Sources */,
 				41325AA72CA9B83D00664847 /* LoginPageWelcom.swift in Sources */,
 				416F71422D1AF64D009FF9EE /* TeacherDataFromApiViewModel.swift in Sources */,

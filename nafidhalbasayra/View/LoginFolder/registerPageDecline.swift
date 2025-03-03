@@ -9,9 +9,13 @@ import SwiftUI
 
 struct registerPageDecline: View {
     
-     
-    var rejectionReason = UserDefaults.standard.string(forKey: "rejectionReason") ?? "No details"
+    @State private var rejectionReason: String = "جارٍ جلب سبب الرفض..." // ✅ حالة مبدئية
+    
+
+//    var rejectionReason = UserDefaults.standard.string(forKey: "rejectionReason") ?? "No details"
     @EnvironmentObject var teacherData : TeacherDataViewModel
+    @EnvironmentObject var coreDataViewModel : CoreDataViewModel
+
 
     
     var body: some View {
@@ -44,6 +48,7 @@ struct registerPageDecline: View {
             
             NavigationLink( destination: RegisterInfoPage()
                 .environmentObject(teacherData)
+                //.environmentObject(coreDataViewModel)
             )
             {
                 Text("اعادة ادخال البيانات")
@@ -69,6 +74,10 @@ struct registerPageDecline: View {
                 .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.01 : screenHeight * 0.02)
         }
         .navigationBarBackButtonHidden(true)
+        .onAppear {
+                   let reason = UserDefaults.standard.string(forKey: "rejectionReason") ?? "لا يوجد تفاصيل للرفض"
+                   rejectionReason = reason
+               }
         }
 }
 

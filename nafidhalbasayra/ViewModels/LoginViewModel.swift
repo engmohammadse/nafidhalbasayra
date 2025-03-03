@@ -8,6 +8,16 @@
 import SwiftUI
 import Network
 
+
+
+enum PageType: Hashable {
+    case registerInfo
+    case waitProcess
+    case homePage
+    case rejectionIssue
+}
+
+
 class LoginViewModel: ObservableObject {
    // private var vmTeacherFromApi = TeacherDataFromApiViewModel() // تعريف محلي لـ TeacherDataFromApiViewModel
     
@@ -24,12 +34,7 @@ class LoginViewModel: ObservableObject {
     private var apiService = ApiService()
 
     // تعريف أنواع الصفحات بناءً على الحالة
-    enum PageType {
-        case registerInfo
-        case waitProcess
-        case homePage
-        case rejectionIssue
-    }
+   
 
     // دالة تسجيل الدخول
     func login() {
@@ -131,14 +136,20 @@ class LoginViewModel: ObservableObject {
         switch response.state {
         case 0:
             self.nextPage = .registerInfo
+            let loginState = 0
+            defaults.set(loginState, forKey: "loginState")
         case 1:
             self.nextPage = .waitProcess
+            let loginState = 1
+            defaults.set(loginState, forKey: "loginState")
         case 2:
             self.nextPage = .homePage
             let loginState = 2
             defaults.set(loginState, forKey: "loginState")
         case 3:
             self.nextPage = .rejectionIssue
+            let loginState = 3
+            defaults.set(loginState, forKey: "loginState")
         default:
             self.loginError = "حالة غير معروفة: \(response.state)"
             self.nextPage = nil

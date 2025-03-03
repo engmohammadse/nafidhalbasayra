@@ -14,7 +14,7 @@ struct RegisterInfoPage: View {
     @EnvironmentObject var teacherData: TeacherDataViewModel
     
     @EnvironmentObject var vmAttendaceStatus : AttendaceStatusViewModel
-    @EnvironmentObject var coreDataViewModel : CoreDataViewModel
+    //@EnvironmentObject var coreDataViewModel : CoreDataViewModel
     
     // الحالة الإضافية
     @State private var isButtonDisabled = true
@@ -183,8 +183,8 @@ struct RegisterInfoPage: View {
                             //.environmentObject(vmAttendaceStatus)
                     case .homePage:
                         MainViewPage()
-                            .environmentObject(vmAttendaceStatus)
-                            .environmentObject(coreDataViewModel)
+                           // .environmentObject(vmAttendaceStatus)
+                           // .environmentObject(coreDataViewModel)
                             .environmentObject(teacherData)
                             .preferredColorScheme(.light)
 

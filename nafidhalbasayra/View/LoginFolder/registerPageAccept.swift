@@ -46,7 +46,7 @@ struct registerPageAccept: View {
             NavigationLink(
                 destination: MainViewPage()
                     .environmentObject(teacherData)
-                    .environmentObject(vmAttendaceStatus)
+                   // .environmentObject(vmAttendaceStatus)
                 , // استبدل `NextView()` بالـ View الذي تريد الانتقال إليه
                 label: {
                     Text("بدء استخدام التطبيق")

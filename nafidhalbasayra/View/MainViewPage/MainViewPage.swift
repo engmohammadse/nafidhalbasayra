@@ -9,8 +9,14 @@ import SwiftUI
 
 struct MainViewPage: View {
     //@EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
+    
+   // @EnvironmentObject var coreDataViewModel: CoreDataViewModel
+    
+
+
+    @StateObject var vmAttendaceStatus = AttendaceStatusViewModel.shared
+
     @EnvironmentObject var teacherData: TeacherDataViewModel
-    @EnvironmentObject var vmAttendaceStatus : AttendaceStatusViewModel
     
     @StateObject var studentFetcher = fetchAndStoreStudentsFromBackEnd(database: StudentViewModel.shared)
     @StateObject var attendanceFetcher = fetchAndStoreAttendancesFromBackEnd(database: AttendaceStatusViewModel.shared)
@@ -167,7 +173,7 @@ struct MainViewPage: View {
 
 
 struct VStackSection<Destination: View>: View {
-    @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
+    //@EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
 
     let imageName: String
     let text: String
@@ -187,7 +193,10 @@ struct VStackSection<Destination: View>: View {
                 
                 
                 
-                NavigationLink(destination: destination.environmentObject(vmAttendaceStatus)) {
+                NavigationLink(destination: destination
+                    //.environmentObject(vmAttendaceStatus)
+                )
+                {
                     VStack{
                         
                         Image(imageName)
