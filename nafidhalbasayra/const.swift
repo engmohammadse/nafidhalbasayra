@@ -404,6 +404,124 @@ import UIKit
 
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
+    var sourceType: UIImagePickerController.SourceType = .camera
+    var uploadType: String // "Face_id" أو "back_id"
+    var onUploadComplete: ((Bool, UIImage?) -> Void)? // لمعالجة النتيجة بعد الرفع
+    @Environment(\.presentationMode) var presentationMode
+
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        picker.sourceType = sourceType
+        picker.modalPresentationStyle = .fullScreen
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        let parent: ImagePicker
+
+        init(_ parent: ImagePicker) {
+            self.parent = parent
+        }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let image = info[.originalImage] as? UIImage {
+                DispatchQueue.main.async {
+                    self.parent.selectedImage = image
+                    self.uploadImageToServer(image: image)
+                    self.parent.presentationMode.wrappedValue.dismiss()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.parent.presentationMode.wrappedValue.dismiss()
+                }
+            }
+        }
+
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            DispatchQueue.main.async {
+                self.parent.presentationMode.wrappedValue.dismiss()
+            }
+        }
+
+        private func uploadImageToServer(image: UIImage) {
+            let uploader = IDUploader()
+            
+            let config = URLSessionConfiguration.default
+            config.timeoutIntervalForRequest = 10  // ⏳ تحديد مهلة 10 ثوانٍ فقط
+            let session = URLSession(configuration: config)
+
+            uploader.uploadIDImage(image: image, for: parent.uploadType) { success, imageURL, responseType in
+                DispatchQueue.main.async {
+                    if success, let imageURL = imageURL, let url = URL(string: imageURL), responseType != nil {
+                        
+                        // ✅ التأكد من أن الصورة تتطابق مع نوعها
+                        if responseType != self.parent.uploadType {
+                            print("⚠️ خطأ: تم إرجاع نوع غير صحيح. المتوقع \(self.parent.uploadType)، ولكن تم استقبال \(responseType ?? "null")")
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                self.parent.onUploadComplete?(false, nil)
+                            }
+                            return
+                        }
+
+                        // ✅ تحميل الصورة عند النجاح فقط
+                        self.downloadImage(from: url)
+
+                    } else {
+                        print("⚠️ فشل التعرف على الصورة، تم إرجاع `null`.")
+
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            self.parent.onUploadComplete?(false, nil)
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+
+        private func downloadImage(from url: URL) {
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data, let downloadedImage = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self.parent.onUploadComplete?(true, downloadedImage)
+                        print("✅ تم تحميل الصورة وإرسال النجاح للمستخدم.")
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        print("⚠️ فشل تحميل الصورة من السيرفر.")
+                        self.parent.onUploadComplete?(false, nil)
+                    }
+                }
+            }.resume()
+        }
+
+
+    }
+}
+
+
+
+
+
+
+//old work without cut
+import SwiftUI
+import UIKit
+
+struct ImagePicker3: UIViewControllerRepresentable {
+    @Binding var selectedImage: UIImage?
     var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @Environment(\.presentationMode) var presentationMode
 
@@ -430,9 +548,9 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
 
     class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-        let parent: ImagePicker
+        let parent: ImagePicker3
 
-        init(_ parent: ImagePicker) {
+        init(_ parent: ImagePicker3) {
             self.parent = parent
         }
 
@@ -913,42 +1031,42 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
 // image pi
 
-import SwiftUI
-
-struct ImagePicker2: UIViewControllerRepresentable {
-    @Binding var imageData: Data?
-
-    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-        let parent: ImagePicker2
-
-        init(parent: ImagePicker2) {
-            self.parent = parent
-        }
-
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            if let image = info[.originalImage] as? UIImage {
-                parent.imageData = image.jpegData(compressionQuality: 1.0)
-            }
-            picker.dismiss(animated: true)
-        }
-
-        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            picker.dismiss(animated: true)
-        }
-    }
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(parent: self)
-    }
-
-    func makeUIViewController(context: Context) -> UIImagePickerController {
-        let picker = UIImagePickerController()
-        picker.delegate = context.coordinator
-        return picker
-    }
-
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
-}
+//import SwiftUI
+//
+//struct ImagePicker2: UIViewControllerRepresentable {
+//    @Binding var imageData: Data?
+//
+//    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+//        let parent: ImagePicker2
+//
+//        init(parent: ImagePicker2) {
+//            self.parent = parent
+//        }
+//
+//        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//            if let image = info[.originalImage] as? UIImage {
+//                parent.imageData = image.jpegData(compressionQuality: 1.0)
+//            }
+//            picker.dismiss(animated: true)
+//        }
+//
+//        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//            picker.dismiss(animated: true)
+//        }
+//    }
+//
+//    func makeCoordinator() -> Coordinator {
+//        Coordinator(parent: self)
+//    }
+//
+//    func makeUIViewController(context: Context) -> UIImagePickerController {
+//        let picker = UIImagePickerController()
+//        picker.delegate = context.coordinator
+//        return picker
+//    }
+//
+//    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+//}
 
 
 // end image pi

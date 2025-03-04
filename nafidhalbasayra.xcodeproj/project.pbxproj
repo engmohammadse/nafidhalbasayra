@@ -77,6 +77,7 @@
 		41FC5C4A2D4BE19E009477FF /* GuideService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FC5C492D4BE19E009477FF /* GuideService.swift */; };
 		41FC5C4C2D4BE8DF009477FF /* LectureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FC5C4B2D4BE8DF009477FF /* LectureViewModel.swift */; };
 		41FC8A412CFDD681001C6E49 /* cityGet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FC8A402CFDD681001C6E49 /* cityGet.swift */; };
+		41FE129A2D77138D00974B8A /* IDUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FE12992D77138D00974B8A /* IDUploader.swift */; };
 		526790C22CA93EC8006A9A89 /* AdaptiveTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526790C12CA93EC8006A9A89 /* AdaptiveTextFieldView.swift */; };
 /* End PBXBuildFile section */
 
@@ -152,6 +153,7 @@
 		41FC5C492D4BE19E009477FF /* GuideService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideService.swift; sourceTree = "<group>"; };
 		41FC5C4B2D4BE8DF009477FF /* LectureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureViewModel.swift; sourceTree = "<group>"; };
 		41FC8A402CFDD681001C6E49 /* cityGet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cityGet.swift; sourceTree = "<group>"; };
+		41FE12992D77138D00974B8A /* IDUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDUploader.swift; sourceTree = "<group>"; };
 		526790C12CA93EC8006A9A89 /* AdaptiveTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveTextFieldView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -186,6 +188,7 @@
 				410B923B2D60ED8C00FE9259 /* fetchAndStoreAttendancesFromBackEnd.swift */,
 				415B4B422D676E4600A24A52 /* fetchAndStoreStudentsFromBackEnd.swift */,
 				41648E642D75CBB90094693C /* APIManager.swift */,
+				41FE12992D77138D00974B8A /* IDUploader.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -455,6 +458,7 @@
 				416FD1FF2D1856F700ED7DF8 /* MainParentView.swift in Sources */,
 				41A552592CC5310A008D913D /* StudyPlanSection.swift in Sources */,
 				41FC5C4C2D4BE8DF009477FF /* LectureViewModel.swift in Sources */,
+				41FE129A2D77138D00974B8A /* IDUploader.swift in Sources */,
 				41FC8A412CFDD681001C6E49 /* cityGet.swift in Sources */,
 				418865712CBD296400E9097C /* sendAttendanceSection.swift in Sources */,
 				41F1DE6E2D19BE95008CDAE5 /* AttendanceUploader.swift in Sources */,

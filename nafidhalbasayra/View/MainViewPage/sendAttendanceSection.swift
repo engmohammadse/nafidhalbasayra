@@ -285,7 +285,7 @@ struct sendAttendanceSection: View {
                         
                         
                         .sheet(isPresented: $showImagePicker) {
-                            ImagePicker(selectedImage: $imageData, sourceType: .camera)
+                            ImagePicker3(selectedImage: $imageData, sourceType: .camera)
                         }
                         
                     }

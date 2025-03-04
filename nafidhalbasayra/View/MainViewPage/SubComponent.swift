@@ -139,7 +139,6 @@ struct FormFieldNumber: View {
 
 
 
-import SwiftUI
 
 struct DropdownField: View {
     var label: String
@@ -404,4 +403,64 @@ struct FormFieldAge: View {
         .environmentObject(TeacherDataViewModel())
 }
 
+
+
+
+import SwiftUI
+
+struct ToastView: View {
+    var title: String
+    var message: String
+    var backgroundColor: Color
+    var onDismiss: () -> Void
+
+    var body: some View {
+        VStack(spacing: 12) {
+            // ✅ أيقونة تعطي الطابع الرسمي للتنبيه
+            Image(systemName: title.contains("✅") ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
+                .font(.system(size: 40))
+                .foregroundColor(.white.opacity(0.9))
+                .padding(.top, 10)
+            
+            // ✅ عنوان التنبيه
+            Text(title)
+                .font(.system(size: 18, weight: .bold))
+                .foregroundColor(.white.opacity(0.95))
+            
+            // ✅ نص الرسالة
+            Text(message)
+                .font(.system(size: 16))
+                .foregroundColor(.white.opacity(0.8))
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 25)
+            
+            // ✅ زر الإغلاق بتصميم عصري
+            Button(action: {
+                onDismiss()
+            }) {
+                Text("تم")
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.white.opacity(0.2))
+                    .cornerRadius(10)
+            }
+            .padding(.bottom, 15)
+        }
+        .frame(width: 320)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(backgroundColor.opacity(0.9))
+                .shadow(color: .black.opacity(0.4), radius: 10, x: 0, y: 5)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.white.opacity(0.2), lineWidth: 1)
+        )
+        .padding()
+        .transition(.scale)
+        .animation(.spring(response: 0.4, dampingFraction: 0.6, blendDuration: 0.3))
+    }
+}
 

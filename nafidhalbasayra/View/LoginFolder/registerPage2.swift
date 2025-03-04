@@ -21,6 +21,17 @@ struct registerPage2: View {
     
     //@State private var goToWaitPage = false
     @State private var shouldNavigate: Bool = false
+    //
+//    @State private var showAlertUploadSuccess = false
+//    @State private var showAlertUploadFailure = false
+//    @State private var alertMessage = ""
+    //
+    
+    @State private var showToast = false
+    @State private var toastTitle = ""
+    @State private var toastMessage = ""
+    @State private var toastColor: Color = .red
+
 
 
     
@@ -183,7 +194,7 @@ struct registerPage2: View {
                                              .scaledToFit()
                                              .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.15  : screenWidth * 0.2) : screenWidth * 0.2)
                                      
-                                             .clipShape(Circle())
+                                            // .clipShape(Circle())
                                      }
                      
                                      else {
@@ -219,8 +230,32 @@ struct registerPage2: View {
                         .background((teacherData.frontfaceidentity != nil) ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                         .cornerRadius(5)
                         .sheet(isPresented: $showImagePickerFront) {
-                                   ImagePicker(selectedImage: $teacherData.frontfaceidentity, sourceType: .camera)
-                               }
+                            ImagePicker(selectedImage: $teacherData.frontfaceidentity, sourceType: .camera, uploadType: "Face_id") { success, image in
+                                Task {
+                                    await MainActor.run {
+                                        if success {
+                                            teacherData.frontfaceidentity = image
+                                            toastTitle = "✅ نجاح"
+                                            toastMessage = "تم رفع صورة الوجه الأمامي بنجاح!"
+                                            toastColor = Color.green
+                                        } else {
+                                            toastTitle = "⚠️ خطأ"
+                                            toastMessage = "فشل التعرف على الوجه الأمامي. يرجى إعادة المحاولة."
+                                            toastColor = Color.red
+                                        }
+                                        showToast = true
+                                    }
+                                }
+                            }
+                        }
+
+
+
+
+                    
+//                        .sheet(isPresented: $showImagePickerFront) {
+//                                   ImagePicker(selectedImage: $teacherData.frontfaceidentity, sourceType: .camera)
+//                               }
                     }
                     
                     
@@ -240,7 +275,7 @@ struct registerPage2: View {
                                              .scaledToFit()
                                              .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.15  : screenWidth * 0.2) : screenWidth * 0.2)
                                      
-                                             .clipShape(Circle())
+                                            // .clipShape(Circle())
                                      }
                      
                                      else {
@@ -298,9 +333,41 @@ struct registerPage2: View {
                         }
                         .background((teacherData.backfaceidentity != nil) ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                         .cornerRadius(5)
+                      
                         .sheet(isPresented: $showImagePickerBack) {
-                                   ImagePicker(selectedImage: $teacherData.backfaceidentity, sourceType: .camera)
-                               }
+                            ImagePicker(selectedImage: $teacherData.backfaceidentity, sourceType: .camera, uploadType: "back_id") { success, image in
+                                Task {
+                                    await MainActor.run {
+                                        if success {
+                                            teacherData.backfaceidentity = image
+                                            toastTitle = "✅ نجاح"
+                                            toastMessage = "تم رفع صورة الوجه الخلفي بنجاح!"
+                                            toastColor = Color.green
+                                        } else {
+                                            toastTitle = "⚠️ خطأ"
+                                            toastMessage = "فشل التعرف على الوجه الخلفي. يرجى إعادة المحاولة."
+                                            toastColor = Color.red
+                                        }
+                                        showToast = true
+                                    }
+                                }
+                            }
+                        }
+
+
+
+
+//                        .alert(isPresented: $showAlertUploadSuccess) {
+//                            Alert(title: Text("نجاح ✅"), message: Text(alertMessage), dismissButton: .default(Text("تم")))
+//                        }
+//                        .alert(isPresented: $showAlertUploadFailure) {
+//                            Alert(title: Text("خطأ ❌"), message: Text(alertMessage), dismissButton: .default(Text("حاول مرة أخرى")))
+//                        }
+
+
+//                        .sheet(isPresented: $showImagePickerBack) {
+//                                   ImagePicker(selectedImage: $teacherData.backfaceidentity, sourceType: .camera)
+//                               }
 
                     }
                     
@@ -373,51 +440,51 @@ struct registerPage2: View {
                 
                    
                     
-                    
-                    // طباعة
-                    Button(action: {
-                        let coreDataViewModel = CoreDataViewModel()
-                        coreDataViewModel.printStoredData()
-                        
-                        
-                        
-                        
-                    }) {
-                        
-                       
-                            
-                            VStack{
-                                Text("طباعة البيانات المخزنة")
-                                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025))
-                                    .frame(height: screenHeight * 0.04)
-                                    .foregroundColor(.white)
-                                    .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
-                            }
-                        
-                        
-                        
-                    
-                    }
-                    .background(Color.blue)
-                    .cornerRadius(5)
-                    
-                    
-        //
-                    
-                    
-                    // delete
-                    Button(action: {
-                        vmTeacher.deleteAllTeacherInfo()
-                    }) {
-                        Text("delete all data ")
-                            .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025))
-                            .frame(height: screenHeight * 0.04)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
-                    }
-                    .background(Color.blue)
-                    .cornerRadius(5)
-                    
+//                    
+//                    // طباعة
+//                    Button(action: {
+//                        let coreDataViewModel = CoreDataViewModel()
+//                        coreDataViewModel.printStoredData()
+//                        
+//                        
+//                        
+//                        
+//                    }) {
+//                        
+//                       
+//                            
+//                            VStack{
+//                                Text("طباعة البيانات المخزنة")
+//                                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025))
+//                                    .frame(height: screenHeight * 0.04)
+//                                    .foregroundColor(.white)
+//                                    .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
+//                            }
+//                        
+//                        
+//                        
+//                    
+//                    }
+//                    .background(Color.blue)
+//                    .cornerRadius(5)
+//                    
+//                    
+//        //
+//                    
+//                    
+//                    // delete
+//                    Button(action: {
+//                        vmTeacher.deleteAllTeacherInfo()
+//                    }) {
+//                        Text("delete all data ")
+//                            .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025))
+//                            .frame(height: screenHeight * 0.04)
+//                            .foregroundColor(.white)
+//                            .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
+//                    }
+//                    .background(Color.blue)
+//                    .cornerRadius(5)
+//                    
                     
                     
                     
@@ -467,19 +534,26 @@ struct registerPage2: View {
                            }
                 
                 
-    //            NavigationLink(
-    //                destination: registerPageWaitProcess().environmentObject(teacherData),
-    //                isActive: $goToWaitPage
-    //            ) {
-    //                EmptyView()
-    //            }
-    //           
-                     
-                
-                // التنقل باستخدام NavigationLink
-            
+                // ✅ Custom Toast Overlay
+                    if showToast {
+                        ToastView(title: toastTitle, message: toastMessage, backgroundColor: toastColor) {
+                            showToast = false
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.black.opacity(0.4)) // تأثير شفاف على الخلفية
+                        .edgesIgnoringSafeArea(.all)
+                        .transition(.opacity)
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                showToast = false
+                            }
+                        }
+                    }
+
                 
             }
+         
+
             .onChange(of: teacherData.isLoadingRP2) { newValue in
                 DispatchQueue.main.async {
                     print("isLoadingRP2 changed to: \(newValue)")
