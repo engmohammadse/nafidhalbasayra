@@ -33,7 +33,11 @@ struct registerPage2: View {
     @State private var toastColor: Color = .red
 
 
+    @State private var isUploadFaceId = false
+    @State private var isUploadBackId = false
 
+    @State private var isLoadingFaceId = false
+    @State private var isLoadingBackId = false
     
     @State private var image1 = false
     @State private var image2 = false
@@ -60,6 +64,8 @@ struct registerPage2: View {
         return profileImage.size.width > 0 && frontFaceImage.size.width > 0 && backFaceImage.size.width > 0
     }
 
+    @State private var showFullImage = false
+     @State private var selectedImage: UIImage? = nil
     
 
 
@@ -188,12 +194,17 @@ struct registerPage2: View {
                                 //
                                 //
                                 // عرض الصورة إذا كانت موجودة
-                                     if let imageF = teacherData.frontfaceidentity {
+                                if let imageF = teacherData.frontfaceidentity, isUploadFaceId == true {
                                          Image(uiImage: imageF)
                                              .resizable()
                                              .scaledToFit()
                                              .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.15  : screenWidth * 0.2) : screenWidth * 0.2)
-                                     
+                                             .rotationEffect(.degrees( isUploadFaceId == true ? 90 : 0  ))
+                                             .onTapGesture {
+                                                               selectedImage = imageF
+                                                               showFullImage = true
+                                                           }
+
                                             // .clipShape(Circle())
                                      }
                      
@@ -216,20 +227,36 @@ struct registerPage2: View {
                         }
                         
                         Button(action: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                isLoadingFaceId = true
+                            }
+                            InternetChecker.isInternetAvailable { isAvailable in
+                          
+                                    if isAvailable {
                             
-                            showImagePickerFront = true
+                                   showImagePickerFront = true
+                            
+                                    } else {
+                                        toastTitle = "لا يوجد انترنت"
+                                        toastMessage = "❌ يجب توفر الإنترنت لتنفيذ هذا الأمر."
+                                        toastColor = Color.red
+                                        showToast = true
+                                    }
+                            
+                       }
           
                         }) {
-                            Text((teacherData.frontfaceidentity != nil)  ?  "تم الرفع"
+                            Text((teacherData.frontfaceidentity != nil && isUploadFaceId == true )  ?  "تم الرفع"
                                  : "تحميل الصورة" )
                                 .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.025 ))
                                 .frame(height: screenHeight * 0.04)
                                 .foregroundColor(.white)
                                 .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
                         }
-                        .background((teacherData.frontfaceidentity != nil) ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
+                        .background(( isUploadFaceId == true ) ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                         .cornerRadius(5)
                         .sheet(isPresented: $showImagePickerFront) {
+                            
                             ImagePicker(selectedImage: $teacherData.frontfaceidentity, sourceType: .camera, uploadType: "Face_id") { success, image in
                                 Task {
                                     await MainActor.run {
@@ -238,10 +265,14 @@ struct registerPage2: View {
                                             toastTitle = "✅ نجاح"
                                             toastMessage = "تم رفع صورة الوجه الأمامي بنجاح!"
                                             toastColor = Color.green
+                                            isUploadFaceId = true
+                                            isLoadingFaceId = false
                                         } else {
                                             toastTitle = "⚠️ خطأ"
                                             toastMessage = "فشل التعرف على الوجه الأمامي. يرجى إعادة المحاولة."
                                             toastColor = Color.red
+                                            isUploadFaceId = false
+                                            isLoadingFaceId = false
                                         }
                                         showToast = true
                                     }
@@ -269,11 +300,16 @@ struct registerPage2: View {
                                 
                                 
                                 // عرض الصورة إذا كانت موجودة
-                                     if let imageB = teacherData.backfaceidentity {
+                                     if let imageB = teacherData.backfaceidentity,  isUploadBackId == true {
                                          Image(uiImage: imageB)
                                              .resizable()
                                              .scaledToFit()
                                              .frame(width: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.15  : screenWidth * 0.2) : screenWidth * 0.2)
+                                             .rotationEffect(.degrees( isUploadBackId == true ? 90 : 0 ))
+                                             .onTapGesture {
+                                                             selectedImage = imageB
+                                                            showFullImage = true
+                                                             }
                                      
                                             // .clipShape(Circle())
                                      }
@@ -321,17 +357,34 @@ struct registerPage2: View {
 
                         
                         Button(action: {
-                        showImagePickerBack = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3 ) {
+                                isLoadingBackId = true
+                            }
+                            InternetChecker.isInternetAvailable { isAvailable in
+                          
+                                    if isAvailable {
+                            
+                                        showImagePickerBack = true
+
+                                    } else {
+                                        toastTitle = "لا يوجد انترنت"
+                                        toastMessage = "❌ يجب توفر الإنترنت لتنفيذ هذا الأمر."
+                                        toastColor = Color.red
+                                        showToast = true
+                                    }
+                            
+                       }
                   
                         }) {
-                            Text((teacherData.backfaceidentity != nil)  ?   "تم الرفع"
+                
+                            Text((teacherData.backfaceidentity != nil && isUploadBackId == true)  ?   "تم الرفع"
                                  : "تحميل الصورة" )
                                 .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.025 ))
                                 .frame(height: screenHeight * 0.04)
                                 .foregroundColor(.white)
                                 .frame(maxWidth: uiDevicePhone ? screenWidth * 0.7 : screenWidth * 0.5)
                         }
-                        .background((teacherData.backfaceidentity != nil) ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
+                        .background(( isUploadBackId == true ) ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                         .cornerRadius(5)
                       
                         .sheet(isPresented: $showImagePickerBack) {
@@ -343,10 +396,15 @@ struct registerPage2: View {
                                             toastTitle = "✅ نجاح"
                                             toastMessage = "تم رفع صورة الوجه الخلفي بنجاح!"
                                             toastColor = Color.green
+                                            isUploadBackId = true
+                                            isLoadingBackId = false
                                         } else {
                                             toastTitle = "⚠️ خطأ"
                                             toastMessage = "فشل التعرف على الوجه الخلفي. يرجى إعادة المحاولة."
                                             toastColor = Color.red
+                                            isUploadBackId = false
+                                            isLoadingBackId = false
+
                                         }
                                         showToast = true
                                     }
@@ -355,14 +413,6 @@ struct registerPage2: View {
                         }
 
 
-
-
-//                        .alert(isPresented: $showAlertUploadSuccess) {
-//                            Alert(title: Text("نجاح ✅"), message: Text(alertMessage), dismissButton: .default(Text("تم")))
-//                        }
-//                        .alert(isPresented: $showAlertUploadFailure) {
-//                            Alert(title: Text("خطأ ❌"), message: Text(alertMessage), dismissButton: .default(Text("حاول مرة أخرى")))
-//                        }
 
 
 //                        .sheet(isPresented: $showImagePickerBack) {
@@ -552,7 +602,35 @@ struct registerPage2: View {
 
                 
             }
-         
+            .overlay {
+                if isLoadingBackId || isLoadingFaceId {
+                    ZStack {
+                        Color.black.opacity(0.5) // خلفية داكنة شفافة
+                            .ignoresSafeArea()
+
+                        VStack(spacing: 10) {
+                            if isLoadingBackId {
+                                ProgressView("جاري تحميل الخلفية...")
+                                    .progressViewStyle(CircularProgressViewStyle())
+                                    .foregroundColor(.white)
+                                    .padding()
+                            }
+                            
+                            if isLoadingFaceId {
+                                ProgressView("جاري تحميل الوجه...")
+                                    .progressViewStyle(CircularProgressViewStyle())
+                                    .foregroundColor(.white)
+                                    .padding()
+                            }
+                        }
+                        .frame(width: 200, height: 120)
+                        .background(Color.black.opacity(0.8))
+                        .cornerRadius(12)
+                        .shadow(radius: 10)
+                    }
+                }
+            }
+
 
             .onChange(of: teacherData.isLoadingRP2) { newValue in
                 DispatchQueue.main.async {
@@ -574,6 +652,23 @@ struct registerPage2: View {
             .navigationDestination(isPresented: $shouldNavigate) {
                 registerPageWaitProcess().environmentObject(teacherData)
                         }
+            .fullScreenCover(isPresented: $showFullImage) {
+                if let image = selectedImage {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            showFullImage = false // الإغلاق عند النقر على الصورة
+                        }
+                        .gesture(DragGesture().onEnded { value in
+                            if value.translation.height > 50 { // السحب لأسفل للإغلاق
+                                showFullImage = false
+                            }
+                        })
+                }
+            }
+
           
        // }
 
