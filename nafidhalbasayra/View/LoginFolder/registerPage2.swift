@@ -553,6 +553,10 @@ struct registerPage2: View {
                         
                         if isValidImages2 == true && teacherData.sendTeacherDataToBackEndState == 0 {
                             teacherData.isLoadingRP2 = true
+                            
+                            let defaults = UserDefaults.standard
+                            let loginState = 1
+                            defaults.set(loginState, forKey: "loginState")
                         }
                         
                         

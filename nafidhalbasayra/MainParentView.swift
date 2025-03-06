@@ -19,6 +19,8 @@ struct MainParentView: View {
         let loginState = UserDefaults.standard.integer(forKey: "loginState")
         NavigationStack {
             
+         
+            
             if loginState == 2 {
                 MainViewPage()
                     .preferredColorScheme(.light)
