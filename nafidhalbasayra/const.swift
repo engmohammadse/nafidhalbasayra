@@ -399,6 +399,8 @@ protocol CameraViewControllerDelegate {
 
 
 
+
+
 import SwiftUI
 import UIKit
 
@@ -406,7 +408,9 @@ struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
     var sourceType: UIImagePickerController.SourceType = .camera
     var uploadType: String // "Face_id" أو "back_id"
-    var onUploadComplete: ((Bool, UIImage?) -> Void)? // لمعالجة النتيجة بعد الرفع
+    var showToast: ((String?, Color?, Bool) -> Void)? // ✅ تحديث `ToastView`
+    var onUploadComplete: ((Bool, UIImage?) -> Void)? // ✅ استكمال الرفع
+
     @Environment(\.presentationMode) var presentationMode
 
     func makeUIViewController(context: Context) -> UIImagePickerController {
@@ -429,20 +433,46 @@ struct ImagePicker: UIViewControllerRepresentable {
         init(_ parent: ImagePicker) {
             self.parent = parent
         }
-
+        
+        
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             if let image = info[.originalImage] as? UIImage {
                 DispatchQueue.main.async {
+                    let imageType = self.parent.uploadType == "Face_id" ? "الوجه الأمامي" : "الوجه الخلفي"
                     self.parent.selectedImage = image
+                    self.parent.showToast?(
+                        "📤 جاري رفع \(imageType)...",
+                        Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255), // ✅ لون مخصص أثناء الرفع
+                        false
+                    )
                     self.uploadImageToServer(image: image)
                     self.parent.presentationMode.wrappedValue.dismiss()
                 }
             } else {
                 DispatchQueue.main.async {
+                    print("❌ لم يتم التقاط صورة، تم إغلاق الكاميرا بدون تحديد صورة.")
                     self.parent.presentationMode.wrappedValue.dismiss()
                 }
             }
         }
+
+
+//        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//            if let image = info[.originalImage] as? UIImage {
+//                DispatchQueue.main.async {
+//                    let imageType = self.parent.uploadType == "Face_id" ? "الوجه الأمامي" : "الوجه الخلفي"
+//                    self.parent.selectedImage = image
+//                    self.parent.showToast?("📤 جاري رفع \(imageType)...", Color.blue, false) // ✅ بدون زر "تم" أثناء الرفع
+//                    self.uploadImageToServer(image: image)
+//                    self.parent.presentationMode.wrappedValue.dismiss()
+//                }
+//            } else {
+//                DispatchQueue.main.async {
+//                    print("❌ لم يتم التقاط صورة، تم إغلاق الكاميرا بدون تحديد صورة.")
+//                    self.parent.presentationMode.wrappedValue.dismiss()
+//                }
+//            }
+//        }
 
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             DispatchQueue.main.async {
@@ -452,64 +482,275 @@ struct ImagePicker: UIViewControllerRepresentable {
 
         private func uploadImageToServer(image: UIImage) {
             let uploader = IDUploader()
-            
-            let config = URLSessionConfiguration.default
-            config.timeoutIntervalForRequest = 10  // ⏳ تحديد مهلة 10 ثوانٍ فقط
-            let session = URLSession(configuration: config)
 
             uploader.uploadIDImage(image: image, for: parent.uploadType) { success, imageURL, responseType in
                 DispatchQueue.main.async {
+                    let imageType = self.parent.uploadType == "Face_id" ? "الوجه الأمامي" : "الوجه الخلفي"
+
                     if success, let imageURL = imageURL, let url = URL(string: imageURL), responseType != nil {
-                        
-                        // ✅ التأكد من أن الصورة تتطابق مع نوعها
                         if responseType != self.parent.uploadType {
-                            print("⚠️ خطأ: تم إرجاع نوع غير صحيح. المتوقع \(self.parent.uploadType)، ولكن تم استقبال \(responseType ?? "null")")
                             
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                self.parent.onUploadComplete?(false, nil)
-                            }
+                            self.parent.showToast?("⚠️ خطأ في التعرف على \(imageType)!\nيرجى المحاولة مجددًا.", Color.red, true) // ✅ النص يظهر على سطرين
+
+                           // print("⚠️ خطأ: تم إرجاع نوع غير صحيح. المتوقع \(self.parent.uploadType)، ولكن تم استقبال \(responseType ?? "null")")
+//                            self.parent.showToast?("⚠️ خطأ في التعرف على \(imageType)!", Color.red, true) // ✅ رسالة مخصصة مع زر "تم"
                             return
                         }
 
-                        // ✅ تحميل الصورة عند النجاح فقط
                         self.downloadImage(from: url)
 
                     } else {
-                        print("⚠️ فشل التعرف على الصورة، تم إرجاع `null`.")
+                      //  print("⚠️ فشل التعرف على الصورة، تم إرجاع `null`.")
+                        self.parent.showToast?("❌ فشل التعرف على \(imageType).\nيرجى المحاولة مجددًا.", Color.red, true) // ✅ رسالة مخصصة من سطرين
 
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            self.parent.onUploadComplete?(false, nil)
-                        }
+//                        self.parent.showToast?("❌ فشل التعرف على \(imageType). يرجى المحاولة مجددًا.", Color.red, true) // ✅ رسالة مخصصة مع زر "تم"
                     }
                 }
             }
         }
 
-
-
-
-
-
-
         private func downloadImage(from url: URL) {
+            let imageType = self.parent.uploadType == "Face_id" ? "الوجه الأمامي" : "الوجه الخلفي"
+
             URLSession.shared.dataTask(with: url) { data, response, error in
                 if let data = data, let downloadedImage = UIImage(data: data) {
                     DispatchQueue.main.async {
                         self.parent.onUploadComplete?(true, downloadedImage)
-                        print("✅ تم تحميل الصورة وإرسال النجاح للمستخدم.")
+                        self.parent.showToast?("✅ تم رفع \(imageType) بنجاح!", Color.green, true) // ✅ رسالة مخصصة مع زر "تم"
                     }
                 } else {
                     DispatchQueue.main.async {
-                        print("⚠️ فشل تحميل الصورة من السيرفر.")
+                        print("⚠️ فشل تحميل \(imageType) من السيرفر.")
+                        self.parent.showToast?("❌ فشل تحميل \(imageType) من السيرفر.", Color.red, true) // ✅ رسالة مخصصة مع زر "تم"
                         self.parent.onUploadComplete?(false, nil)
                     }
                 }
             }.resume()
         }
-
-
     }
 }
+
+
+
+
+
+//work
+//import SwiftUI
+//import UIKit
+//
+//struct ImagePicker: UIViewControllerRepresentable {
+//    @Binding var selectedImage: UIImage?
+//    var sourceType: UIImagePickerController.SourceType = .camera
+//    var uploadType: String // "Face_id" أو "back_id"
+//    var showToast: ((String?, Color?, Bool) -> Void)? // ✅ دالة لتحديث `ToastView`
+//    var onUploadComplete: ((Bool, UIImage?) -> Void)? // ✅ دالة لاستكمال الرفع
+//
+//    @Environment(\.presentationMode) var presentationMode
+//
+//    func makeUIViewController(context: Context) -> UIImagePickerController {
+//        let picker = UIImagePickerController()
+//        picker.delegate = context.coordinator
+//        picker.sourceType = sourceType
+//        picker.modalPresentationStyle = .fullScreen
+//        return picker
+//    }
+//
+//    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+//
+//    func makeCoordinator() -> Coordinator {
+//        Coordinator(self)
+//    }
+//
+//    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+//        let parent: ImagePicker
+//
+//        init(_ parent: ImagePicker) {
+//            self.parent = parent
+//        }
+//
+//        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//            if let image = info[.originalImage] as? UIImage {
+//                DispatchQueue.main.async {
+//                    self.parent.selectedImage = image
+//                    self.parent.showToast?("📤 جاري رفع الصورة...", Color.blue, false) // ✅ بدون زر "تم"
+//                    self.uploadImageToServer(image: image)
+//                    self.parent.presentationMode.wrappedValue.dismiss()
+//                }
+//            } else {
+//                DispatchQueue.main.async {
+//                    print("❌ لم يتم التقاط صورة، تم إغلاق الكاميرا بدون تحديد صورة.")
+//                    self.parent.presentationMode.wrappedValue.dismiss()
+//                }
+//            }
+//        }
+//
+//        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//            DispatchQueue.main.async {
+//                self.parent.presentationMode.wrappedValue.dismiss()
+//            }
+//        }
+//
+//        private func uploadImageToServer(image: UIImage) {
+//            let uploader = IDUploader()
+//
+//            uploader.uploadIDImage(image: image, for: parent.uploadType) { success, imageURL, responseType in
+//                DispatchQueue.main.async {
+//                    if success, let imageURL = imageURL, let url = URL(string: imageURL), responseType != nil {
+//
+//                        if responseType != self.parent.uploadType {
+//                            print("⚠️ خطأ: تم إرجاع نوع غير صحيح. المتوقع \(self.parent.uploadType)، ولكن تم استقبال \(responseType ?? "null")")
+//                            self.parent.showToast?("⚠️ خطأ في التعرف على الصورة!", Color.red, true) // ✅ يظهر زر "تم"
+//                            return
+//                        }
+//
+//                        self.downloadImage(from: url)
+//
+//                    } else {
+//                        print("⚠️ فشل التعرف على الصورة، تم إرجاع `null`.")
+//                        self.parent.showToast?("❌ فشل التعرف على الصورة. يرجى المحاولة مجددًا.", Color.red, true) // ✅ يظهر زر "تم"
+//                    }
+//                }
+//            }
+//        }
+//
+//        private func downloadImage(from url: URL) {
+//            URLSession.shared.dataTask(with: url) { data, response, error in
+//                if let data = data, let downloadedImage = UIImage(data: data) {
+//                    DispatchQueue.main.async {
+//                        self.parent.onUploadComplete?(true, downloadedImage)
+//                        self.parent.showToast?("✅ تم رفع الصورة بنجاح!", Color.green, true) // ✅ يظهر زر "تم"
+//                    }
+//                } else {
+//                    DispatchQueue.main.async {
+//                        print("⚠️ فشل تحميل الصورة من السيرفر.")
+//                        self.parent.showToast?("❌ فشل تحميل الصورة من السيرفر.", Color.red, true) // ✅ يظهر زر "تم"
+//                        self.parent.onUploadComplete?(false, nil)
+//                    }
+//                }
+//            }.resume()
+//        }
+//    }
+//}
+
+
+
+
+
+
+// work without progress
+
+//import SwiftUI
+//import UIKit
+
+
+//struct ImagePicker: UIViewControllerRepresentable {
+//    @Binding var selectedImage: UIImage?
+//    var sourceType: UIImagePickerController.SourceType = .camera
+//    var uploadType: String // "Face_id" أو "back_id"
+//    var onUploadComplete: ((Bool, UIImage?) -> Void)? // لمعالجة النتيجة بعد الرفع
+//    @Environment(\.presentationMode) var presentationMode
+//
+//    func makeUIViewController(context: Context) -> UIImagePickerController {
+//        let picker = UIImagePickerController()
+//        picker.delegate = context.coordinator
+//        picker.sourceType = sourceType
+//        picker.modalPresentationStyle = .fullScreen
+//        return picker
+//    }
+//
+//    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+//
+//    func makeCoordinator() -> Coordinator {
+//        Coordinator(self)
+//    }
+//
+//    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+//        let parent: ImagePicker
+//
+//        init(_ parent: ImagePicker) {
+//            self.parent = parent
+//        }
+//
+//        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//            if let image = info[.originalImage] as? UIImage {
+//                DispatchQueue.main.async {
+//                    self.parent.selectedImage = image
+//                    self.uploadImageToServer(image: image)
+//                    self.parent.presentationMode.wrappedValue.dismiss()
+//                }
+//            } else {
+//                DispatchQueue.main.async {
+//                    self.parent.presentationMode.wrappedValue.dismiss()
+//                }
+//            }
+//        }
+//
+//        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//            DispatchQueue.main.async {
+//                self.parent.presentationMode.wrappedValue.dismiss()
+//            }
+//        }
+//
+//        private func uploadImageToServer(image: UIImage) {
+//            let uploader = IDUploader()
+//            
+//            let config = URLSessionConfiguration.default
+//            config.timeoutIntervalForRequest = 10  // ⏳ تحديد مهلة 10 ثوانٍ فقط
+//            let session = URLSession(configuration: config)
+//
+//            uploader.uploadIDImage(image: image, for: parent.uploadType) { success, imageURL, responseType in
+//                DispatchQueue.main.async {
+//                    if success, let imageURL = imageURL, let url = URL(string: imageURL), responseType != nil {
+//                        
+//                        // ✅ التأكد من أن الصورة تتطابق مع نوعها
+//                        if responseType != self.parent.uploadType {
+//                            print("⚠️ خطأ: تم إرجاع نوع غير صحيح. المتوقع \(self.parent.uploadType)، ولكن تم استقبال \(responseType ?? "null")")
+//                            
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                                self.parent.onUploadComplete?(false, nil)
+//                            }
+//                            return
+//                        }
+//
+//                        // ✅ تحميل الصورة عند النجاح فقط
+//                        self.downloadImage(from: url)
+//
+//                    } else {
+//                        print("⚠️ فشل التعرف على الصورة، تم إرجاع `null`.")
+//
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                            self.parent.onUploadComplete?(false, nil)
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//
+//
+//
+//
+//
+//
+//        private func downloadImage(from url: URL) {
+//            URLSession.shared.dataTask(with: url) { data, response, error in
+//                if let data = data, let downloadedImage = UIImage(data: data) {
+//                    DispatchQueue.main.async {
+//                        self.parent.onUploadComplete?(true, downloadedImage)
+//                        print("✅ تم تحميل الصورة وإرسال النجاح للمستخدم.")
+//                    }
+//                } else {
+//                    DispatchQueue.main.async {
+//                        print("⚠️ فشل تحميل الصورة من السيرفر.")
+//                        self.parent.onUploadComplete?(false, nil)
+//                    }
+//                }
+//            }.resume()
+//        }
+//
+//
+//    }
+//}
 
 
 

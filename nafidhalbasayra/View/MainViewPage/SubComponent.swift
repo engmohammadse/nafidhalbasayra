@@ -406,61 +406,167 @@ struct FormFieldAge: View {
 
 
 
-import SwiftUI
+
+
+
+
 
 struct ToastView: View {
     var title: String
     var message: String
     var backgroundColor: Color
-    var onDismiss: () -> Void
+    var isDismissable: Bool
+    var onDismiss: () -> Void // ✅ دالة يتم استدعاؤها عند الإغلاق
+
+    @State private var isVisible = false
 
     var body: some View {
-        VStack(spacing: 12) {
-            // ✅ أيقونة تعطي الطابع الرسمي للتنبيه
+        VStack(spacing: 14) {
             Image(systemName: title.contains("✅") ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
                 .font(.system(size: 40))
                 .foregroundColor(.white.opacity(0.9))
                 .padding(.top, 10)
-            
-            // ✅ عنوان التنبيه
+
             Text(title)
-                .font(.system(size: 18, weight: .bold))
+                .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.03))
                 .foregroundColor(.white.opacity(0.95))
-            
-            // ✅ نص الرسالة
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, alignment: .center)
+
             Text(message)
-                .font(.system(size: 16))
+                .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.032 : screenWidth * 0.03))
                 .foregroundColor(.white.opacity(0.8))
                 .multilineTextAlignment(.center)
-                .padding(.horizontal, 25)
-            
-            // ✅ زر الإغلاق بتصميم عصري
-            Button(action: {
-                onDismiss()
-            }) {
-                Text("تم")
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.white.opacity(0.2))
-                    .cornerRadius(10)
+                .padding(.horizontal, 20)
+                .frame(maxWidth: .infinity, alignment: .center)
+
+            if isDismissable { // ✅ يظهر زر "تم" فقط عند انتهاء العملية
+                Button(action: {
+                    withAnimation(.easeOut(duration: 0.3)) {
+                        isVisible = false
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        onDismiss()
+                    }
+                }) {
+                    Text("تم")
+                        .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.032 : screenWidth * 0.025))
+                        .foregroundColor(.white)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 30)
+                        .background(Color.white.opacity(0.15))
+                        .clipShape(Capsule()) // ✅ استخدام كابسولة لتكون الزوايا أكثر ترتيبًا
+                        .overlay(
+                            Capsule().stroke(Color.white.opacity(0.3), lineWidth: 1) // ✅ تحسين الإطار ليكون دقيقًا
+                        )
+                }
+                .padding(.bottom, 12)
             }
-            .padding(.bottom, 15)
         }
-        .frame(width: 320)
+        .frame(width: 300)
         .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(backgroundColor.opacity(0.9))
-                .shadow(color: .black.opacity(0.4), radius: 10, x: 0, y: 5)
+            RoundedRectangle(cornerRadius: 15)
+                .fill(backgroundColor.opacity(0.95))
+                .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(Color.white.opacity(0.2), lineWidth: 1)
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(Color.white.opacity(0.15), lineWidth: 1)
         )
         .padding()
-        .transition(.scale)
-        .animation(.spring(response: 0.4, dampingFraction: 0.6, blendDuration: 0.3))
+        .scaleEffect(isVisible ? 1 : 0.9)
+        .opacity(isVisible ? 1 : 0)
+        .onAppear {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.7, blendDuration: 0.3)) {
+                isVisible = true
+            }
+        }
     }
 }
+
+
+
+
+
+
+
+
+//struct ToastView: View {
+//    var title: String
+//    var message: String
+//    var backgroundColor: Color
+//    var isDismissable: Bool
+//    var onDismiss: () -> Void // ✅ دالة يتم استدعاؤها عند الإغلاق
+//
+//    @State private var isVisible = false
+//
+//    var body: some View {
+//        VStack(spacing: 12) {
+//            Image(systemName: title.contains("✅") ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
+//                .font(.system(size: 40))
+//                .foregroundColor(.white.opacity(0.9))
+//                .padding(.top, 10)
+//
+//            Text(title)
+//                .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025))
+//                .foregroundColor(.white.opacity(0.95))
+//                .multilineTextAlignment(.trailing) // ✅ دعم اللغة العربية من اليمين لليسار
+//                .frame(maxWidth: .infinity, alignment: .center) // ✅ محاذاة النص إلى اليمين
+//                
+//            Text(message)
+//                .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025))
+//                .foregroundColor(.white.opacity(0.8))
+//                .multilineTextAlignment(.trailing) // ✅ دعم اللغة العربية من اليمين لليسار
+//                .padding(.horizontal, 25)
+//                .frame(maxWidth: .infinity, alignment: .center) // ✅ محاذاة النص إلى اليمين
+//
+//
+//            if isDismissable { // ✅ يظهر زر "تم" فقط عند انتهاء العملية
+//                Button(action: {
+//                    withAnimation(.easeOut(duration: 0.3)) {
+//                        isVisible = false
+//                    }
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+//                        onDismiss() // ✅ تصفير القيم بعد الإغلاق
+//                    }
+//                }) {
+//                    Text("تم")
+//                        .font(.system(size: 16, weight: .bold))
+//                        .foregroundColor(.white)
+//                        .padding()
+//                        .frame(maxWidth: .infinity)
+//                        .background(Color.white.opacity(0.2))
+//                        .cornerRadius(10)
+//                }
+//                .padding(.bottom, 15)
+//            }
+//        }
+//        .frame(width: 320)
+//        .background(
+//            RoundedRectangle(cornerRadius: 20)
+//                .fill(backgroundColor.opacity(0.9))
+//                .shadow(color: .black.opacity(0.4), radius: 10, x: 0, y: 5)
+//        )
+//        .overlay(
+//            RoundedRectangle(cornerRadius: 20)
+//                .stroke(Color.white.opacity(0.2), lineWidth: 1)
+//        )
+//        .padding()
+//        .scaleEffect(isVisible ? 1 : 0.8)
+//        .opacity(isVisible ? 1 : 0)
+//        .onAppear {
+//            withAnimation(.spring(response: 0.4, dampingFraction: 0.6, blendDuration: 0.3)) {
+//                isVisible = true
+//            }
+//        }
+//    }
+//}
+
+
+
+
+
+
+
+
 

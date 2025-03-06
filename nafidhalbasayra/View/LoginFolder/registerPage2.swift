@@ -31,6 +31,7 @@ struct registerPage2: View {
     @State private var toastTitle = ""
     @State private var toastMessage = ""
     @State private var toastColor: Color = .red
+    @State private var isToastDismissable = false
 
 
     @State private var isUploadFaceId = false
@@ -55,14 +56,23 @@ struct registerPage2: View {
         return true
     }
     
+//    var isValidImages2: Bool {
+//        guard let profileImage = teacherData.profileimage,
+//              let frontFaceImage = teacherData.frontfaceidentity,
+//              let backFaceImage = teacherData.backfaceidentity else {
+//            return false
+//        }
+//        return profileImage.size.width > 0 && frontFaceImage.size.width > 0 && backFaceImage.size.width > 0
+//    }
+    
     var isValidImages2: Bool {
-        guard let profileImage = teacherData.profileimage,
-              let frontFaceImage = teacherData.frontfaceidentity,
-              let backFaceImage = teacherData.backfaceidentity else {
-            return false
-        }
-        return profileImage.size.width > 0 && frontFaceImage.size.width > 0 && backFaceImage.size.width > 0
+        return isUploadFaceId &&  // ✅ يجب أن تكون صورة الوجه الأمامي قد تم رفعها بنجاح
+               isUploadBackId &&  // ✅ يجب أن تكون صورة الوجه الخلفي قد تم رفعها بنجاح
+               teacherData.profileimage?.size.width ?? 0 > 0 &&
+               teacherData.frontfaceidentity?.size.width ?? 0 > 0 &&
+               teacherData.backfaceidentity?.size.width ?? 0 > 0
     }
+
 
     @State private var showFullImage = false
      @State private var selectedImage: UIImage? = nil
@@ -227,9 +237,12 @@ struct registerPage2: View {
                         }
                         
                         Button(action: {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                                isLoadingFaceId = true
-                            }
+                            
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//                                isLoadingFaceId = true
+//                            }
+//                            
+                            
                             InternetChecker.isInternetAvailable { isAvailable in
                           
                                     if isAvailable {
@@ -256,29 +269,70 @@ struct registerPage2: View {
                         .background(( isUploadFaceId == true ) ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                         .cornerRadius(5)
                         .sheet(isPresented: $showImagePickerFront) {
-                            
-                            ImagePicker(selectedImage: $teacherData.frontfaceidentity, sourceType: .camera, uploadType: "Face_id") { success, image in
+                            ImagePicker(
+                                selectedImage: $teacherData.frontfaceidentity,
+                                sourceType: .camera,
+                                uploadType: "Face_id",
+                                showToast: { message, color, isDismissable in // ✅ تمرير 3 متغيرات
+                                    if let message = message, let color = color {
+                                        toastTitle = message
+                                        toastColor = color
+                                        showToast = true
+                                        isToastDismissable = isDismissable // ✅ تحكم في ظهور زر "تم"
+                                    }
+                                }
+                            ) { success, image in
                                 Task {
                                     await MainActor.run {
-                                        if success {
-                                            teacherData.frontfaceidentity = image
+                                        if success, let validImage = image {
+                                            teacherData.frontfaceidentity = validImage
                                             toastTitle = "✅ نجاح"
                                             toastMessage = "تم رفع صورة الوجه الأمامي بنجاح!"
                                             toastColor = Color.green
                                             isUploadFaceId = true
                                             isLoadingFaceId = false
+                                            isToastDismissable = true // ✅ السماح بإغلاق `ToastView`
                                         } else {
                                             toastTitle = "⚠️ خطأ"
-                                            toastMessage = "فشل التعرف على الوجه الأمامي. يرجى إعادة المحاولة."
+                                            toastMessage = "فشل التعرف على الوجه الأمامي.\nيرجى إعادة المحاولة."
                                             toastColor = Color.red
                                             isUploadFaceId = false
                                             isLoadingFaceId = false
+                                            isToastDismissable = true // ✅ السماح بإغلاق `ToastView` عند الفشل
                                         }
                                         showToast = true
                                     }
                                 }
                             }
                         }
+
+
+
+
+//                        .sheet(isPresented: $showImagePickerFront) {
+//                            
+//                            ImagePicker(selectedImage: $teacherData.frontfaceidentity, sourceType: .camera, uploadType: "Face_id") { success, image in
+//                                Task {
+//                                    await MainActor.run {
+//                                        if success {
+//                                            teacherData.frontfaceidentity = image
+//                                            toastTitle = "✅ نجاح"
+//                                            toastMessage = "تم رفع صورة الوجه الأمامي بنجاح!"
+//                                            toastColor = Color.green
+//                                            isUploadFaceId = true
+//                                            isLoadingFaceId = false
+//                                        } else {
+//                                            toastTitle = "⚠️ خطأ"
+//                                            toastMessage = "فشل التعرف على الوجه الأمامي. يرجى إعادة المحاولة."
+//                                            toastColor = Color.red
+//                                            isUploadFaceId = false
+//                                            isLoadingFaceId = false
+//                                        }
+//                                        showToast = true
+//                                    }
+//                                }
+//                            }
+//                        }
 
 
 
@@ -357,9 +411,12 @@ struct registerPage2: View {
 
                         
                         Button(action: {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3 ) {
-                                isLoadingBackId = true
-                            }
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 3 ) {
+//                                isLoadingBackId = true
+//                            }
+                            
+                            
+                            
                             InternetChecker.isInternetAvailable { isAvailable in
                           
                                     if isAvailable {
@@ -386,31 +443,70 @@ struct registerPage2: View {
                         }
                         .background(( isUploadBackId == true ) ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                         .cornerRadius(5)
-                      
                         .sheet(isPresented: $showImagePickerBack) {
-                            ImagePicker(selectedImage: $teacherData.backfaceidentity, sourceType: .camera, uploadType: "back_id") { success, image in
+                            ImagePicker(
+                                selectedImage: $teacherData.backfaceidentity,
+                                sourceType: .camera,
+                                uploadType: "back_id",
+                                showToast: { message, color, isDismissable in // ✅ تمرير 3 متغيرات
+                                    if let message = message, let color = color {
+                                        toastTitle = message
+                                        toastColor = color
+                                        showToast = true
+                                        isToastDismissable = isDismissable // ✅ تحكم في ظهور زر "تم"
+                                    }
+                                }
+                            ) { success, image in
                                 Task {
                                     await MainActor.run {
-                                        if success {
-                                            teacherData.backfaceidentity = image
+                                        if success, let validImage = image {
+                                            teacherData.backfaceidentity = validImage
                                             toastTitle = "✅ نجاح"
                                             toastMessage = "تم رفع صورة الوجه الخلفي بنجاح!"
                                             toastColor = Color.green
                                             isUploadBackId = true
                                             isLoadingBackId = false
+                                            isToastDismissable = true // ✅ السماح بإغلاق `ToastView`
                                         } else {
                                             toastTitle = "⚠️ خطأ"
-                                            toastMessage = "فشل التعرف على الوجه الخلفي. يرجى إعادة المحاولة."
+                                            toastMessage = "فشل التعرف على الوجه الخلفي.\nيرجى إعادة المحاولة."
                                             toastColor = Color.red
                                             isUploadBackId = false
                                             isLoadingBackId = false
-
+                                            isToastDismissable = true // ✅ السماح بإغلاق `ToastView` عند الفشل
                                         }
                                         showToast = true
                                     }
                                 }
                             }
                         }
+
+
+                      
+//                        .sheet(isPresented: $showImagePickerBack) {
+//                            ImagePicker(selectedImage: $teacherData.backfaceidentity, sourceType: .camera, uploadType: "back_id") { success, image in
+//                                Task {
+//                                    await MainActor.run {
+//                                        if success {
+//                                            teacherData.backfaceidentity = image
+//                                            toastTitle = "✅ نجاح"
+//                                            toastMessage = "تم رفع صورة الوجه الخلفي بنجاح!"
+//                                            toastColor = Color.green
+//                                            isUploadBackId = true
+//                                            isLoadingBackId = false
+//                                        } else {
+//                                            toastTitle = "⚠️ خطأ"
+//                                            toastMessage = "فشل التعرف على الوجه الخلفي. يرجى إعادة المحاولة."
+//                                            toastColor = Color.red
+//                                            isUploadBackId = false
+//                                            isLoadingBackId = false
+//
+//                                        }
+//                                        showToast = true
+//                                    }
+//                                }
+//                            }
+//                        }
 
 
 
@@ -440,7 +536,7 @@ struct registerPage2: View {
                            
                            if isValidImages2 == false {
                                showAlertEmptyImages = true
-                              // print("❌ يجب تحميل جميع الصور قبل الإرسال.")
+                        
                                return
                            }
                            
@@ -564,12 +660,7 @@ struct registerPage2: View {
                 .alert("يجب تحميل صور ", isPresented: $showAlertEmptyImages, actions: {
                     Button("تم", role: .cancel) { }
             })
-                
-                
-                
-                
-                
-            
+
                            if teacherData.isLoadingRP2  {
                                VStack {
                                    ProgressView("جاري إرسال البيانات...")
@@ -585,51 +676,54 @@ struct registerPage2: View {
                 
                 
                 // ✅ Custom Toast Overlay
-                    if showToast {
-                        ToastView(title: toastTitle, message: toastMessage, backgroundColor: toastColor) {
-                            showToast = false
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.black.opacity(0.4)) // تأثير شفاف على الخلفية
-                        .edgesIgnoringSafeArea(.all)
-                        .transition(.opacity)
-                        .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                showToast = false
-                            }
-                        }
+                if showToast {
+                    ToastView(
+                        title: toastTitle,
+                        message: toastMessage,
+                        backgroundColor: toastColor,
+                        isDismissable: isToastDismissable
+                    ) {
+                        showToast = false
+                        toastTitle = ""  // ✅ تصفير العنوان بعد الإغلاق
+                        toastMessage = "" // ✅ تصفير الرسالة بعد الإغلاق
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.black.opacity(0.4)) // تأثير شفاف على الخلفية
+                    .edgesIgnoringSafeArea(.all)
+                    .transition(.opacity)
+                }
+
 
                 
             }
-            .overlay {
-                if isLoadingBackId || isLoadingFaceId {
-                    ZStack {
-                        Color.black.opacity(0.5) // خلفية داكنة شفافة
-                            .ignoresSafeArea()
-
-                        VStack(spacing: 10) {
-                            if isLoadingBackId {
-                                ProgressView("جاري تحميل الخلفية...")
-                                    .progressViewStyle(CircularProgressViewStyle())
-                                    .foregroundColor(.white)
-                                    .padding()
-                            }
-                            
-                            if isLoadingFaceId {
-                                ProgressView("جاري تحميل الوجه...")
-                                    .progressViewStyle(CircularProgressViewStyle())
-                                    .foregroundColor(.white)
-                                    .padding()
-                            }
-                        }
-                        .frame(width: 200, height: 120)
-                        .background(Color.black.opacity(0.8))
-                        .cornerRadius(12)
-                        .shadow(radius: 10)
-                    }
-                }
-            }
+//            .overlay {
+//                if isLoadingBackId || isLoadingFaceId {
+//                    ZStack {
+//                        Color.black.opacity(0.5) // خلفية داكنة شفافة
+//                            .ignoresSafeArea()
+//
+//                        VStack(spacing: 10) {
+//                            if isLoadingBackId {
+//                                ProgressView("جاري تحميل الخلفية...")
+//                                    .progressViewStyle(CircularProgressViewStyle())
+//                                    .foregroundColor(.white)
+//                                    .padding()
+//                            }
+//                            
+//                            if isLoadingFaceId {
+//                                ProgressView("جاري تحميل الوجه...")
+//                                    .progressViewStyle(CircularProgressViewStyle())
+//                                    .foregroundColor(.white)
+//                                    .padding()
+//                            }
+//                        }
+//                        .frame(width: 200, height: 120)
+//                        .background(Color.black.opacity(0.8))
+//                        .cornerRadius(12)
+//                        .shadow(radius: 10)
+//                    }
+//                }
+//            }
 
 
             .onChange(of: teacherData.isLoadingRP2) { newValue in
