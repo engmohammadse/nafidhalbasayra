@@ -42,7 +42,7 @@ struct AddStudentToStudentDataSection: View {
     
     var isFormValid: Bool {
         return !name.isEmpty &&
-               !phoneNumber.isEmpty &&
+               phoneNumber.count == 11 &&
                !age.isEmpty &&
                level != "اختر" &&
                size != "اختر" &&
@@ -103,28 +103,56 @@ struct AddStudentToStudentDataSection: View {
             Button(action: {
                 
                 
-                
-                if isFormValid {
-                       // إذا كانت جميع الحقول ممتلئة، احفظ البيانات
-                    vmStudent.addStudentInfo(name: name, phoneNumber: phoneNumber, age: age, level: level, size: size, gender: gender, academic_level: academic_level, state: 0, idFromApi: "")
-                       
-                       // إظهار تنبيه النجاح
-                       alertType = .success
-                       // إعادة تعيين الحقول بعد الحفظ
-                       name = ""
-                       phoneNumber = ""
-                       age = ""
-                       level = "اختر"
-                       size = "اختر"
-                       academic_level = "اختر"
-                    
-                                  
-                           } else {
-                               // عرض تنبيه الخطأ عند نقص البيانات
-                              alertType = .error
-                           }
+                if phoneNumber.count != 11 {
+                        alertType = .errorPhoneNumber // ✅ تنبيه خاص برقم الهاتف
+                    } else if isFormValid {
+                        // ✅ إذا كانت جميع الحقول صحيحة، احفظ البيانات
+                        vmStudent.addStudentInfo(
+                            name: name, phoneNumber: phoneNumber, age: age,
+                            level: level, size: size, gender: gender,
+                            academic_level: academic_level, state: 0, idFromApi: ""
+                        )
+                        
+                        alertType = .success // ✅ تنبيه النجاح
+                        // إعادة تعيين الحقول بعد الحفظ
+                        name = ""
+                        phoneNumber = ""
+                        age = ""
+                        level = "اختر"
+                        size = "اختر"
+                        academic_level = "اختر"
+                        
+                      
+                    } else {
+                        alertType = .error // ✅ تنبيه نقص البيانات
+                    }
+//                if isFormValid {
+//                       // إذا كانت جميع الحقول ممتلئة، احفظ البيانات
+//                    vmStudent.addStudentInfo(name: name, phoneNumber: phoneNumber, age: age, level: level, size: size, gender: gender, academic_level: academic_level, state: 0, idFromApi: "")
+//                       
+//                       // إظهار تنبيه النجاح
+//                       alertType = .success
+//                       // إعادة تعيين الحقول بعد الحفظ
+//                       name = ""
+//                       phoneNumber = ""
+//                       age = ""
+//                       level = "اختر"
+//                       size = "اختر"
+//                       academic_level = "اختر"
+//                    
+//                    
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                           dismiss()
+//                         }
+//                    
+//                                  
+//                           } else {
+//                               // عرض تنبيه الخطأ عند نقص البيانات
+//                              alertType = .error
+//                           }
                         
                 
+              
                 
 
                 
@@ -145,6 +173,10 @@ struct AddStudentToStudentDataSection: View {
                                    title: Text("تم الحفظ"),
                                    message: Text("تم حفظ بيانات الطالب بنجاح!"),
                                    dismissButton: .default(Text("موافق"))
+                                   {
+                                       dismiss()
+                                   }
+                                  
                                )
                            case .error:
                                return Alert(
@@ -152,8 +184,15 @@ struct AddStudentToStudentDataSection: View {
                                    message: Text("يرجى ملء جميع الحقول قبل الحفظ."),
                                    dismissButton: .default(Text("حسناً"))
                                )
+                           case .errorPhoneNumber:
+                                  return Alert(
+                                      title: Text("خطأ في رقم الهاتف"),
+                                      message: Text("يجب أن يتكون رقم الهاتف من 11 رقمًا."),
+                                      dismissButton: .default(Text("حسنًا"))
+                                  )
+                              }
                            }
-                       }
+                       
             
             
           
@@ -222,11 +261,13 @@ struct AddStudentToStudentDataSection: View {
 enum AlertType: Identifiable {
     case success
     case error
+    case errorPhoneNumber
     
     var id: Int {
         switch self {
         case .success: return 1
         case .error: return 2
+        case .errorPhoneNumber: return 3
         }
     }
 }

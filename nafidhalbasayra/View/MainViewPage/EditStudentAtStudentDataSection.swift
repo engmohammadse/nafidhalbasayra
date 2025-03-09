@@ -41,7 +41,7 @@ struct EditStudentAtStudentDataSection: View {
 
     var isFormValid: Bool {
         return !name.isEmpty &&
-               !phoneNumber.isEmpty &&
+               phoneNumber.count == 11 &&
                !age.isEmpty &&
                level != "اختر" &&
                size != "اختر" &&
@@ -109,55 +109,93 @@ struct EditStudentAtStudentDataSection: View {
             
             Button(action: {
                 
+                
+                
+                
                 InternetChecker.isInternetAvailable { isAvailable in
-                    
-                    if isAvailable {
-                        
-                        if isFormValid {
-                       
-                            // استدعاء دالة التحديث في API
-                            var updatedStudent = student
-                            updatedStudent.name = name
-                            updatedStudent.phoneNumber = phoneNumber
-                            updatedStudent.age = age
-                            updatedStudent.level = level
-                            updatedStudent.size = size
-                            updatedStudent.gender = gender
-                            updatedStudent.academic_level = academic_level
-                            
-                            
-                           
-                          
-                            
-                            StudentUpdater.updateStudent(student: updatedStudent) { success, statusCode, message in
-                                DispatchQueue.main.async {
-                                    if success {
-                                        // تحديث بيانات الطالب محليًا فقط إذا نجح التحديث في API
-                                        DispatchQueue.main.async {
-                                            vmStudent.updateStudentInfo(entity: student, with: name, with: phoneNumber, with: age, with: level, with: size, with: gender, with: academic_level)
-                                            
-                                            alertType2 = .success
-                                        }
-                                        
-                                    } else {
-                                        messageOfError = " \(statusCode) رمز الحالة\n  ❌ فشل التعديل: \(message ?? "خطأ غير معروف") "
-                                        alertType2 = .typeError
-                                    }
-                                }
-                            }
+                       if isAvailable {
+                           if phoneNumber.count != 11 {
+                               alertType2 = .errorPhoneNumber // ✅ تنبيه خاص برقم الهاتف
+                           } else if isFormValid {
+                               // ✅ إذا كانت جميع الحقول صحيحة، نفذ التعديل
+                               var updatedStudent = student
+                               updatedStudent.name = name
+                               updatedStudent.phoneNumber = phoneNumber
+                               updatedStudent.age = age
+                               updatedStudent.level = level
+                               updatedStudent.size = size
+                               updatedStudent.gender = gender
+                               updatedStudent.academic_level = academic_level
 
-                            
-                        } else {
-                            alertType2 = .error
-                            
-                        }
-                    }
-                    else {
-                        alertInternetMessage = "يجب توفر اتصال بالإنترنت لتنفيذ عملية التعديل."
-                        alertType2 = .internetError
-                    }
-                    
-                }
+                               StudentUpdater.updateStudent(student: updatedStudent) { success, statusCode, message in
+                                   DispatchQueue.main.async {
+                                       if success {
+                                           vmStudent.updateStudentInfo(entity: student, with: name, with: phoneNumber, with: age, with: level, with: size, with: gender, with: academic_level)
+                                           alertType2 = .success
+                                       } else {
+                                           messageOfError = " \(statusCode) رمز الحالة\n  ❌ فشل التعديل: \(message ?? "خطأ غير معروف") "
+                                           alertType2 = .typeError
+                                       }
+                                   }
+                               }
+                           } else {
+                               alertType2 = .error // ✅ تنبيه نقص البيانات
+                           }
+                       } else {
+                           alertInternetMessage = "يجب توفر اتصال بالإنترنت لتنفيذ عملية التعديل."
+                           alertType2 = .internetError
+                       }
+                   }
+                
+//                InternetChecker.isInternetAvailable { isAvailable in
+//                    
+//                    if isAvailable {
+//                        
+//                        if isFormValid {
+//                       
+//                            // استدعاء دالة التحديث في API
+//                            var updatedStudent = student
+//                            updatedStudent.name = name
+//                            updatedStudent.phoneNumber = phoneNumber
+//                            updatedStudent.age = age
+//                            updatedStudent.level = level
+//                            updatedStudent.size = size
+//                            updatedStudent.gender = gender
+//                            updatedStudent.academic_level = academic_level
+//                            
+//                            
+//                           
+//                          
+//                            
+//                            StudentUpdater.updateStudent(student: updatedStudent) { success, statusCode, message in
+//                                DispatchQueue.main.async {
+//                                    if success {
+//                                        // تحديث بيانات الطالب محليًا فقط إذا نجح التحديث في API
+//                                        DispatchQueue.main.async {
+//                                            vmStudent.updateStudentInfo(entity: student, with: name, with: phoneNumber, with: age, with: level, with: size, with: gender, with: academic_level)
+//                                            
+//                                            alertType2 = .success
+//                                        }
+//                                        
+//                                    } else {
+//                                        messageOfError = " \(statusCode) رمز الحالة\n  ❌ فشل التعديل: \(message ?? "خطأ غير معروف") "
+//                                        alertType2 = .typeError
+//                                    }
+//                                }
+//                            }
+//
+//                            
+//                        } else {
+//                            alertType2 = .error
+//                            
+//                        }
+//                    }
+//                    else {
+//                        alertInternetMessage = "يجب توفر اتصال بالإنترنت لتنفيذ عملية التعديل."
+//                        alertType2 = .internetError
+//                    }
+//                    
+//                }
                 
              
 
@@ -188,8 +226,7 @@ struct EditStudentAtStudentDataSection: View {
                                    title: Text("خطأ"),
                                    message: Text("يرجى ملء جميع الحقول قبل الحفظ."),
                                    dismissButton: .default(Text("حسناً")) {
-                                       
-                                       dismiss()
+                                     
 
                                    }
                                )
@@ -199,7 +236,7 @@ struct EditStudentAtStudentDataSection: View {
                                    message: Text("\(messageOfError)"),
                                    dismissButton: .default(Text("حسناً")) {
                                        
-                                       dismiss()
+                                     
 
                                    }
                                )
@@ -209,11 +246,18 @@ struct EditStudentAtStudentDataSection: View {
                                    message: Text("\(alertInternetMessage)"),
                                    dismissButton: .default(Text("حسناً")) {
                                        
-                                       dismiss()
+                                    
 
                                    }
                                )
-                           }
+                           case .errorPhoneNumber:
+                                  return Alert(
+                                      title: Text("خطأ في رقم الهاتف"),
+                                      message: Text("يجب أن يتكون رقم الهاتف من 11 رقمًا."),
+                                      dismissButton: .default(Text("حسنًا"))
+                                  )
+                              }
+                
                        }
             
             
@@ -250,6 +294,7 @@ enum AlertType2: Identifiable {
     case error
     case typeError
     case internetError
+    case errorPhoneNumber
     
     var id: Int {
         switch self {
@@ -257,6 +302,7 @@ enum AlertType2: Identifiable {
         case .error: return 2
         case .typeError: return 3
         case .internetError: return 4
+        case .errorPhoneNumber: return 5
         }
     }
 }
