@@ -422,7 +422,7 @@ struct ToastView: View {
 
     var body: some View {
         VStack(spacing: 14) {
-            Image(systemName: title.contains("✅") ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
+            Image(systemName: title.contains("✅") ? "checkmark.circle.fill" : "doc.text.magnifyingglass")
                 .font(.system(size: 40))
                 .foregroundColor(.white.opacity(0.9))
                 .padding(.top, 10)

@@ -490,18 +490,21 @@ struct ImagePicker: UIViewControllerRepresentable {
                     if success, let imageURL = imageURL, let url = URL(string: imageURL), responseType != nil {
                         if responseType != self.parent.uploadType {
                             
-                            self.parent.showToast?("⚠️ خطأ في التعرف على \(imageType)!\nيرجى المحاولة مجددًا.", Color.red, true) // ✅ النص يظهر على سطرين
+                            self.parent.showToast?(" خطأ في التعرف على \(imageType)!\nيرجى المحاولة مجددًا.", Color.orange.opacity(0.9), true) // ✅ النص يظهر على سطرين
 
                            // print("⚠️ خطأ: تم إرجاع نوع غير صحيح. المتوقع \(self.parent.uploadType)، ولكن تم استقبال \(responseType ?? "null")")
 //                            self.parent.showToast?("⚠️ خطأ في التعرف على \(imageType)!", Color.red, true) // ✅ رسالة مخصصة مع زر "تم"
                             return
                         }
+                        
+                        
+         
 
                         self.downloadImage(from: url)
 
                     } else {
                       //  print("⚠️ فشل التعرف على الصورة، تم إرجاع `null`.")
-                        self.parent.showToast?("❌ فشل التعرف على \(imageType).\nيرجى المحاولة مجددًا.", Color.red, true) // ✅ رسالة مخصصة من سطرين
+                        self.parent.showToast?("❌ فشل التعرف على \(imageType).\nيرجى المحاولة مجددًا.", Color.orange.opacity(0.9), true) // ✅ رسالة مخصصة من سطرين
 
 //                        self.parent.showToast?("❌ فشل التعرف على \(imageType). يرجى المحاولة مجددًا.", Color.red, true) // ✅ رسالة مخصصة مع زر "تم"
                     }
@@ -520,7 +523,7 @@ struct ImagePicker: UIViewControllerRepresentable {
                     }
                 } else {
                     DispatchQueue.main.async {
-                        print("⚠️ فشل تحميل \(imageType) من السيرفر.")
+                        print(" فشل تحميل \(imageType) من السيرفر.")
                         self.parent.showToast?("❌ فشل تحميل \(imageType) من السيرفر.", Color.red, true) // ✅ رسالة مخصصة مع زر "تم"
                         self.parent.onUploadComplete?(false, nil)
                     }

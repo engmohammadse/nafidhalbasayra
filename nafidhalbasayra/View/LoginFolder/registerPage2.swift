@@ -468,9 +468,9 @@ struct registerPage2: View {
                                             isLoadingBackId = false
                                             isToastDismissable = true // ✅ السماح بإغلاق `ToastView`
                                         } else {
-                                            toastTitle = "⚠️ خطأ"
+                                            toastTitle = "ℹ️ يرجى المحاولة مجددًا"
                                             toastMessage = "فشل التعرف على الوجه الخلفي.\nيرجى إعادة المحاولة."
-                                            toastColor = Color.red
+                                            toastColor = Color.orange.opacity(0.9)
                                             isUploadBackId = false
                                             isLoadingBackId = false
                                             isToastDismissable = true // ✅ السماح بإغلاق `ToastView` عند الفشل

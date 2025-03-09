@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 
 struct IDUploader {
-    let baseURL = "http://145.14.157.11:8000"
+    let baseURL = "http://198.244.227.48:8000"
+    
 
     func uploadIDImage(image: UIImage, for type: String, completion: @escaping (Bool, String?, String?) -> Void) {
         guard let url = URL(string: "\(baseURL)/predict-with-image/") else {
