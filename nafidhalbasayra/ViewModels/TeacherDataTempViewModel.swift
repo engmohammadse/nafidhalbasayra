@@ -62,11 +62,15 @@ class TeacherDataViewModel: ObservableObject {
     
     // Model RegisterPage
     
-    
+       @Published var showAlertCheckNumber: Bool = false
+      @Published var checkNumberRP: Bool = false
 
+    
     
     func checkFieldEmptyRP() -> Bool {
         var isValid = true
+        
+       
         
         if name.isEmpty {
             DispatchQueue.main.async {
@@ -117,9 +121,12 @@ class TeacherDataViewModel: ObservableObject {
             }
         }
         
-        if phonenumber.isEmpty {
+        if phonenumber.count != 11 {
             DispatchQueue.main.async {
                // self.showMosqunameEmpty = true
+                if self.checkNumberRP {
+                    self.showAlertCheckNumber = true
+                }
             }
             isValid = false
         } else {
@@ -146,6 +153,20 @@ class TeacherDataViewModel: ObservableObject {
     }
     
     @Published var showRegisterPageFieldsEmpty: Bool = false
+    
+    @Published var validationAlert: ValidationAlertType? = nil
+
+    enum ValidationAlertType: Identifiable {
+        case phoneNumberError
+        case emptyFields
+
+        var id: Int {
+            switch self {
+            case .phoneNumberError: return 1
+            case .emptyFields: return 2
+            }
+        }
+    }
     
     
     // end RP

@@ -485,11 +485,22 @@ struct PreviousNextButtonRegisterPage<Destination: View>: View {
                     
                     Button(action: {
                         
+                        // تحقق من رقم الهاتف أولاً
+                          if teacherData.phonenumber.count != 11 {
+                              teacherData.checkNumberRP = true
+                              teacherData.showRegisterPageFieldsEmpty = false // تأكد من عدم تفعيل التنبيه الآخر
+                              return // توقف هنا حتى لا يتم تنفيذ `checkFieldEmpty`
+                          }
+                          
+                          // تحقق من الحقول الفارغة إذا كان الرقم صحيحًا
+                          if !teacherData.checkFieldEmpty() {
+                              teacherData.showRegisterPageFieldsEmpty = true
+                              teacherData.checkNumberRP = false // تأكد من عدم تفعيل تنبيه الرقم
+                          }
+                        
+                       
                      
-                        if teacherData.checkFieldEmptyRP() == false {
-                            teacherData.showRegisterPageFieldsEmpty = true
-                        }
-                     
+                        
                             
                         
                         
@@ -505,6 +516,12 @@ struct PreviousNextButtonRegisterPage<Destination: View>: View {
                     .padding(.horizontal, geoW * 0.001)
                     .foregroundColor(.white)
                     .cornerRadius(10)
+                    .alert("يجب أن يحتوي رقم الهاتف على 11 رقمًا", isPresented: $teacherData.showAlertCheckNumber, actions: {
+                        Button("تم", role: .cancel) {
+                            teacherData.checkNumberRP = false
+                        }
+                    })
+
                     
                     
                     Image("Group 16")
