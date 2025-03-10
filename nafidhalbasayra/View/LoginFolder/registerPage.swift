@@ -144,9 +144,9 @@ struct registerPageTextField: View {
             
             Spacer().frame(height: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.025 : screenHeight * 0.10)
             
-            Button("Print Data") {
-              teacherData.printData() // استدعاء دالة الطباعة
-                }
+//            Button("Print Data") {
+//              teacherData.printData() // استدعاء دالة الطباعة
+//                }
             
             // Field: Name
             Text("الأسم الرباعي واللقب")
@@ -516,7 +516,7 @@ struct PreviousNextButtonRegisterPage<Destination: View>: View {
                     .padding(.horizontal, geoW * 0.001)
                     .foregroundColor(.white)
                     .cornerRadius(10)
-                    .alert("يجب أن يحتوي رقم الهاتف على 11 رقمًا", isPresented: $teacherData.showAlertCheckNumber, actions: {
+                    .alert("يجب أن يحتوي حقل رقم الهاتف على 11 رقمًا", isPresented: $teacherData.showAlertCheckNumber, actions: {
                         Button("تم", role: .cancel) {
                             teacherData.checkNumberRP = false
                         }

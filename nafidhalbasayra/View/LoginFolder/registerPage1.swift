@@ -28,9 +28,9 @@ struct registerPage1: View {
                 
                
                 
-                Button("Print Data") {
-                  teacherData.printData() // استدعاء دالة الطباعة
-                    }
+//                Button("Print Data") {
+//                  teacherData.printData() // استدعاء دالة الطباعة
+//                    }
 
                      
                    

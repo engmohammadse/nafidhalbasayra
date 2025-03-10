@@ -661,7 +661,7 @@ struct registerPage2: View {
                 }
               
                 
-                .alert("يجب تحميل صور ", isPresented: $showAlertEmptyImages, actions: {
+                .alert("يجب رفع الصورة الشخصية والوجه الأمامي للبطاقة الوطنية والوجه الخلفي", isPresented: $showAlertEmptyImages, actions: {
                     Button("تم", role: .cancel) { }
             })
 
