@@ -100,7 +100,10 @@ class LoginViewModel: ObservableObject {
          self.responseMessage = "تم بنجاح تسجيل الدخول، ID: \(response.id)"
         
   
-        
+        //  حفظ بيانات الأستاذ في Core Data
+        let coreDataVM = CoreDataViewModel.shared
+            coreDataVM.saveTeacherInfo(from: response)
+        //
         
         let defaults = UserDefaults.standard
         let teacherId = "\(response.id)"

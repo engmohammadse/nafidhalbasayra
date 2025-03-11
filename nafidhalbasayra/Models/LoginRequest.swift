@@ -25,6 +25,8 @@ struct LoginResponse: Codable {
 struct LoginData: Codable {
     let username: String? // ✅ أضف `username`
     let image_1: String? // ✅ أضف `image_1`
+    let image_2: String?
+    let image_3: String?
 
     let rejectionReason: String?
     let region_id: String?

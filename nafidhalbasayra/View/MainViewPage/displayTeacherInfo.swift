@@ -1,7 +1,9 @@
+
+
 import SwiftUI
 
 struct TeacherProfileView: View {
-    @StateObject var vmTeacher = CoreDataViewModel()
+    @StateObject var vmTeacher = CoreDataViewModel.shared
     @State private var showDeleteConfirmation = false
 
     var teacher: TeacherInfo? {
@@ -29,11 +31,11 @@ struct TeacherProfileView: View {
                             .foregroundColor(.gray)
                     }
 
-                    // ✅ معلومات الأستاذ
-                    Group {
+                    // ✅ معلومات الأستاذ مع تنسيق RTL
+                    VStack(alignment: .trailing, spacing: 10) {
                         InfoRow(title: "الاسم:", value: teacher.name ?? "غير معروف")
                         InfoRow(title: "تاريخ الميلاد:", value: teacher.birthDay?.formatted(date: .long, time: .omitted) ?? "غير مدخل")
-                        InfoRow(title: "رقم الهاتف:", value: "\(teacher.phonenumber)")
+                        InfoRow(title: "رقم الهاتف:", value: teacher.phonenumber)
                         InfoRow(title: "المحافظة:", value: teacher.province ?? "غير مدخلة")
                         InfoRow(title: "المدينة:", value: teacher.city ?? "غير مدخلة")
                         InfoRow(title: "اسم المسجد:", value: teacher.mosquname ?? "غير مدخل")
@@ -41,6 +43,8 @@ struct TeacherProfileView: View {
                         InfoRow(title: "الوظيفة الحالية:", value: teacher.currentWork ?? "غير مدخلة")
                         InfoRow(title: "هل قام بالتدريس:", value: teacher.didyoutaught ? "نعم" : "لا")
                     }
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .padding(.horizontal)
 
                     // ✅ عرض صور الهوية
                     HStack(spacing: 20) {
@@ -78,6 +82,7 @@ struct TeacherProfileView: View {
             }
             .padding()
             .navigationTitle("بيانات الأستاذ")
+            .environment(\.layoutDirection, .rightToLeft) // 🔹 تفعيل RTL في الواجهة
         }
         .onAppear {
             vmTeacher.fetchTeacherInfo()
@@ -85,23 +90,24 @@ struct TeacherProfileView: View {
     }
 }
 
-// ✅ مكون لإظهار كل معلومة في صف منظم
+// ✅ مكون لإظهار كل معلومة في صف مع محاذاة لليمين
 struct InfoRow: View {
     let title: String
-    let value: String
+    let value: String?
 
     var body: some View {
         HStack {
+            Spacer()
+            Text(value ?? "غير متوفر")
+                .foregroundColor(.black)
             Text(title)
                 .fontWeight(.bold)
                 .foregroundColor(.blue)
-            Spacer()
-            Text(value)
-                .foregroundColor(.black)
         }
         .padding(.horizontal)
     }
 }
+
 
 // ✅ مكون لعرض صور الهوية
 struct IDImageView: View {
@@ -127,6 +133,160 @@ struct IDImageView: View {
 #Preview {
     TeacherProfileView()
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//import SwiftUI
+//
+//struct TeacherProfileView: View {
+//    @StateObject var vmTeacher = CoreDataViewModel()
+//    @State private var showDeleteConfirmation = false
+//
+//    var teacher: TeacherInfo? {
+//        return vmTeacher.savedEntitiesTeacher.first
+//    }
+//
+//    var body: some View {
+//        NavigationView {
+//            VStack(spacing: 15) {
+//                if let teacher = teacher {
+//                    // ✅ صورة الأستاذ الشخصية
+//                    if let imageData = teacher.profileimage, let image = UIImage(data: imageData) {
+//                        Image(uiImage: image)
+//                            .resizable()
+//                            .scaledToFill()
+//                            .frame(width: 120, height: 120)
+//                            .clipShape(Circle())
+//                            .overlay(Circle().stroke(Color.blue, lineWidth: 2))
+//                            .padding()
+//                    } else {
+//                        Image(systemName: "person.circle.fill")
+//                            .resizable()
+//                            .scaledToFit()
+//                            .frame(width: 120, height: 120)
+//                            .foregroundColor(.gray)
+//                    }
+//
+//                    // ✅ معلومات الأستاذ
+//                    Group {
+//                        InfoRow(title: "الاسم:", value: teacher.name ?? "غير معروف")
+//                        InfoRow(title: "تاريخ الميلاد:", value: teacher.birthDay?.formatted(date: .long, time: .omitted) ?? "غير مدخل")
+//                        InfoRow(title: "رقم الهاتف:", value: "\(teacher.phonenumber)")
+//                        InfoRow(title: "المحافظة:", value: teacher.province ?? "غير مدخلة")
+//                        InfoRow(title: "المدينة:", value: teacher.city ?? "غير مدخلة")
+//                        InfoRow(title: "اسم المسجد:", value: teacher.mosquname ?? "غير مدخل")
+//                        InfoRow(title: "المستوى الأكاديمي:", value: teacher.academiclevel ?? "غير مدخل")
+//                        InfoRow(title: "الوظيفة الحالية:", value: teacher.currentWork ?? "غير مدخلة")
+//                        InfoRow(title: "هل قام بالتدريس:", value: teacher.didyoutaught ? "نعم" : "لا")
+//                    }
+//
+//                    // ✅ عرض صور الهوية
+//                    HStack(spacing: 20) {
+//                        if let frontData = teacher.frontfaceidentity, let frontImage = UIImage(data: frontData) {
+//                            IDImageView(image: frontImage, title: "الوجه الأمامي")
+//                        }
+//                        if let backData = teacher.backfaceidentity, let backImage = UIImage(data: backData) {
+//                            IDImageView(image: backImage, title: "الوجه الخلفي")
+//                        }
+//                    }
+//
+//                    // ✅ زر حذف البيانات
+//                    Button(action: {
+//                        showDeleteConfirmation = true
+//                    }) {
+//                        Text("مسح بيانات الأستاذ")
+//                            .frame(maxWidth: .infinity)
+//                            .padding()
+//                            .background(Color.red)
+//                            .foregroundColor(.white)
+//                            .cornerRadius(8)
+//                    }
+//                    .padding(.top)
+//                    .confirmationDialog("هل أنت متأكد من مسح جميع بيانات الأستاذ؟", isPresented: $showDeleteConfirmation, titleVisibility: .visible) {
+//                        Button("نعم، احذف", role: .destructive) {
+//                            vmTeacher.deleteAllTeacherInfo()
+//                        }
+//                        Button("إلغاء", role: .cancel) { }
+//                    }
+//                } else {
+//                    Text("لم يتم العثور على بيانات للأستاذ.")
+//                        .foregroundColor(.gray)
+//                        .padding()
+//                }
+//            }
+//            .padding()
+//            .navigationTitle("بيانات الأستاذ")
+//        }
+//        .onAppear {
+//            vmTeacher.fetchTeacherInfo()
+//        }
+//    }
+//}
+//
+//// ✅ مكون لإظهار كل معلومة في صف منظم
+//struct InfoRow: View {
+//    let title: String
+//    let value: String
+//
+//    var body: some View {
+//        HStack {
+//            Text(title)
+//                .fontWeight(.bold)
+//                .foregroundColor(.blue)
+//            Spacer()
+//            Text(value)
+//                .foregroundColor(.black)
+//        }
+//        .padding(.horizontal)
+//    }
+//}
+//
+//// ✅ مكون لعرض صور الهوية
+//struct IDImageView: View {
+//    let image: UIImage
+//    let title: String
+//
+//    var body: some View {
+//        VStack {
+//            Image(uiImage: image)
+//                .resizable()
+//                .scaledToFit()
+//                .frame(width: 100, height: 120)
+//                .cornerRadius(10)
+//                .shadow(radius: 5)
+//
+//            Text(title)
+//                .font(.caption)
+//                .foregroundColor(.gray)
+//        }
+//    }
+//}
+//
+//#Preview {
+//    TeacherProfileView()
+//}
 
 
 

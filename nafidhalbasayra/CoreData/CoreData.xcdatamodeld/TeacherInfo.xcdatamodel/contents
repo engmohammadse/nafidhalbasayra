@@ -40,7 +40,7 @@
         <attribute name="gender" optional="YES" attributeType="String"/>
         <attribute name="mosquname" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="phonenumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="phonenumber" optional="YES" attributeType="String"/>
         <attribute name="profileimage" optional="YES" attributeType="Binary"/>
         <attribute name="province" optional="YES" attributeType="String"/>
         <attribute name="teacherID" optional="YES" attributeType="String"/>

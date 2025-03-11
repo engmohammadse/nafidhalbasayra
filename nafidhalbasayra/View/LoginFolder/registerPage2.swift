@@ -10,7 +10,7 @@ import SwiftUI
 struct registerPage2: View {    
  
     @EnvironmentObject var teacherData: TeacherDataViewModel
-    @StateObject private var vmTeacher = CoreDataViewModel()
+    @StateObject private var vmTeacher = CoreDataViewModel.shared
     @Environment(\.dismiss) var dismiss
 //    @StateObject var coreDataViewModel = CoreDataViewModel() // temp
 

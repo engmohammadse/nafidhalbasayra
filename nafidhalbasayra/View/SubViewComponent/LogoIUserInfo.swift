@@ -9,7 +9,7 @@
 import SwiftUI
 
 class AppViewModel: ObservableObject {
-    // ✅ إنشاء Singleton
+    //  إنشاء Singleton
     
     @Environment(\.dismiss) var dismiss
 
@@ -17,20 +17,20 @@ class AppViewModel: ObservableObject {
     
     @Published var isLoggedIn: Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")
 
-    private init() {} // ✅ اجعل `init()` خاصًا لمنع إنشاء كائن جديد
+    private init() {} //  اجعل `init()` خاصًا لمنع إنشاء كائن جديد
 
     func logout() {
         let defaults = UserDefaults.standard
 
-        // ✅ مسح جميع بيانات المستخدم من UserDefaults
+        //  مسح جميع بيانات المستخدم من UserDefaults
         defaults.removeObject(forKey: "isLoggedIn")
         defaults.removeObject(forKey: "teacherId")
         defaults.removeObject(forKey: "rejectionReason")
         defaults.removeObject(forKey: "loginState")
         defaults.removeObject(forKey: "username")
-        defaults.removeObject(forKey: "profileImagePath") // ✅ إزالة مسار الصورة
+        defaults.removeObject(forKey: "profileImagePath") //  إزالة مسار الصورة
         
-        // ✅ مسح الصورة من FileManager
+        //  مسح الصورة من FileManager
         deleteProfileImage()
            
         defaults.synchronize()
@@ -38,21 +38,26 @@ class AppViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.isLoggedIn = false
 
-            // ✅ استخدام الـ Singleton لمسح البيانات **بدون إعادة تحميل Persistent Store**
+            //  استخدام الـ Singleton لمسح البيانات **بدون إعادة تحميل Persistent Store**
             AttendaceStatusViewModel.shared.clearAllAttendanceData()
             StudentViewModel.shared.clearAllStudentData()
+            
+            //  حذف جميع بيانات الأستاذ من CoreData
+            let coreDataViewModel = CoreDataViewModel.shared
+            coreDataViewModel.deleteAllTeacherInfo()
+            
 
-            // ✅ إعادة تعيين `rootViewController`
+            //  إعادة تعيين `rootViewController`
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                   let window = windowScene.windows.first else { return }
 
             let newRootView = NavigationStack {
                 RegisterInfoPage()
-                    .environmentObject(AppViewModel.shared) // ✅ الآن `shared` موجودة
+                    .environmentObject(AppViewModel.shared) //  الآن `shared` موجودة
                     .environmentObject(TeacherDataViewModel())
                     .environmentObject(AttendaceStatusViewModel.shared)
                     .environmentObject(StudentViewModel.shared)
-                    .environmentObject(CoreDataViewModel())
+                    .environmentObject(CoreDataViewModel.shared)
                     .preferredColorScheme(.light)
             }
 
@@ -71,7 +76,7 @@ struct LogoIUserInfo: View {
     
     @EnvironmentObject var teacherData: TeacherDataViewModel
     @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
-    @EnvironmentObject var studentViewModel: StudentViewModel  // ✅ إضافته هنا
+    @EnvironmentObject var studentViewModel: StudentViewModel  //  إضافته هنا
     @EnvironmentObject var appViewModel: AppViewModel  // إدارة تسجيل الخروج
     
     @State private var showLogoutConfirmation = false // تأكيد تسجيل الخروج
@@ -110,7 +115,7 @@ struct LogoIUserInfo: View {
                 }
                 .confirmationDialog("هل تريد تسجيل الخروج؟", isPresented: $showLogoutConfirmation, titleVisibility: .visible) {
                     Button("تسجيل الخروج", role: .destructive) {
-                        AppViewModel.shared.logout() // ✅ استخدم Singleton مباشرةً
+                        AppViewModel.shared.logout() //  استخدم Singleton مباشرةً
 
                     }
 
@@ -144,20 +149,20 @@ struct LogoIUserInfo: View {
             .background(
                 VStack {
                     Color(red: 236/255, green: 242/255, blue: 245/255)
-                        .frame(height: screenHeight * 0.3) // ✅ زيادة الخلفية فقط
+                        .frame(height: screenHeight * 0.3) //  زيادة الخلفية فقط
                 }
                     .offset(y: uiDevicePhone ? screenHeight * -0.135 : screenHeight * -0.12)
             )
 
 
             .onAppear {
-                           // ✅ الاستماع إلى الإشعار عند تحديث الصورة
+                           //  الاستماع إلى الإشعار عند تحديث الصورة
                            NotificationCenter.default.addObserver(forName: NSNotification.Name("ProfileImageUpdated"), object: nil, queue: .main) { _ in
                                self.profileImage = getSavedProfileImage() // 🔄 إعادة تحميل الصورة
                            }
                        }
                        .onDisappear {
-                           // ✅ إزالة المستمع لتوفير الموارد
+                           //  إزالة المستمع لتوفير الموارد
                            NotificationCenter.default.removeObserver(self, name: NSNotification.Name("ProfileImageUpdated"), object: nil)
                        }
         }
@@ -169,15 +174,15 @@ struct LogoIUserInfo: View {
 
 #Preview {
     let teacherData = TeacherDataViewModel()
-    let vmAttendaceStatus = AttendaceStatusViewModel.shared // ✅ استخدام الـ Singleton
+    let vmAttendaceStatus = AttendaceStatusViewModel.shared //  استخدام الـ Singleton
     let studentViewModel = StudentViewModel.shared
-    let appViewModel = AppViewModel.shared // ✅ استخدام Singleton
+    let appViewModel = AppViewModel.shared //  استخدام Singleton
 
     return LogoIUserInfo()
         .environmentObject(teacherData)
-        .environmentObject(vmAttendaceStatus) // ✅ استخدام الكائن المشترك
+        .environmentObject(vmAttendaceStatus) //  استخدام الكائن المشترك
         .environmentObject(studentViewModel)
-        .environmentObject(appViewModel) // ✅ استخدام نفس كائن AppViewModel
+        .environmentObject(appViewModel) //  استخدام نفس كائن AppViewModel
 }
 
 

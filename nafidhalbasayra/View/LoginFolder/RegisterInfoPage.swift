@@ -219,7 +219,7 @@ struct LoginPage1_Previews: PreviewProvider {
         RegisterInfoPage()
             .environmentObject(TeacherDataViewModel())
             .environmentObject(AttendaceStatusViewModel.shared)
-            .environmentObject(CoreDataViewModel())
+            .environmentObject(CoreDataViewModel.shared)
     }
 }
 
