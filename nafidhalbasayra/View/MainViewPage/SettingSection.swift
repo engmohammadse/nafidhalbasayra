@@ -44,6 +44,9 @@ struct SettingSection: View {
                                                 .background(Color(red: 27/255, green: 62/255, blue: 94/255))
                                                 .cornerRadius(5)
                                         }
+            
+            
+            
             Spacer().frame(height: screenHeight * 0.7)
 
                             

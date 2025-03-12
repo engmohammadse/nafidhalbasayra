@@ -230,34 +230,9 @@ struct VStackSection<Destination: View>: View {
 }
 
 
-//struct ButtonSetting: View {
-//    
-//    var body: some View {
-// 
-//        HStack{
-//            
-//            Button(action: {}){
-//                
-//                Text("الإعدادات")
-//                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.033  : screenWidth * 0.025))
-//                    .foregroundStyle(Color.black)
-//                
-//                Image("VectorSetting")
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fit)
-//                    .frame(width: uiDevicePhone ?  screenWidth * 0.05 : screenWidth * 0.04)
-//            }
-//        }
-//        .frame(width: uiDevicePhone ?  screenWidth * 0.63 : screenWidth * 0.56, height: screenHeight * 0.05)
-//        .background(Color.white)
-//        .cornerRadius(5)
-//        
-//    }
-//}
-
 struct ButtonSetting: View {
     var body: some View {
-        NavigationLink(destination: SettingSection(province: .constant(""))) {
+        NavigationLink(destination: TeacherProfileView()) {
             HStack {
                 Text("الإعدادات")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.033 : screenWidth * 0.025))
@@ -275,6 +250,28 @@ struct ButtonSetting: View {
         }
     }
 }
+
+
+//struct ButtonSetting: View {
+//    var body: some View {
+//        NavigationLink(destination: SettingSection(province: .constant(""))) {
+//            HStack {
+//                Text("الإعدادات")
+//                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.033 : screenWidth * 0.025))
+//                    .foregroundStyle(Color.black)
+//
+//                Image("VectorSetting")
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fit)
+//                    .frame(width: uiDevicePhone ? screenWidth * 0.05 : screenWidth * 0.04)
+//            }
+//            .frame(width: uiDevicePhone ? screenWidth * 0.63 : screenWidth * 0.56, height: screenHeight * 0.05)
+//            .background(Color.white)
+//            .cornerRadius(5)
+//            .contentShape(Rectangle()) //  يجعل المساحة الفارغة داخل HStack قابلة للنقر
+//        }
+//    }
+//}
 
 
 

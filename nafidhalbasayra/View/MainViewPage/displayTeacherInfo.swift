@@ -22,6 +22,7 @@ struct TeacherProfileView: View {
                     .frame(width: screenWidth * 0.8, height: screenHeight * 0.05)
                     .background(Color(red: 220 / 255, green: 225 / 255, blue: 230 / 255))
                     .cornerRadius(8)
+                    .padding(.top)
                    
                 
 

@@ -71,14 +71,15 @@ struct RegisterInfoPage: View {
                             let trimmedValue = newValue.replacingOccurrences(of: " ", with: "").lowercased()
                             
                             // امنع إعادة التعيين لو لم يتغير الحقل فعليًا:
-                            guard trimmedValue != newValue else { return }
+                           // guard trimmedValue != newValue else { return }
                             
                             // حدّث الحقول مرة واحدة فقط
                             viewModel.username   = trimmedValue
                             teacherData.userName = trimmedValue
                             
                             // تحقق من طول اسم المستخدم وكلمة المرور
-                            isButtonDisabled = trimmedValue.count < 5 || viewModel.password.count < 6
+                            checkLoginButtonState() //  تحديث الزر عند إدخال اسم المستخدم
+
                         }
                         .overlay(
                             RoundedRectangle(cornerRadius: 5)
@@ -105,16 +106,34 @@ struct RegisterInfoPage: View {
                             // Password Field
                             if isPasswordVisible {
                                 TextField("1234", text: $viewModel.password)
-                                    .keyboardType(.numberPad)
-                                    .multilineTextAlignment(.trailing)
-                                    .focused($isTextFieldFocused2)
+                                .keyboardType(.asciiCapableNumberPad) //  أرقام إنجليزية فقط
+                                .textContentType(.oneTimeCode) //  يخفي زر تغيير اللغة في بعض لوحات المفاتيح
+                                .disableAutocorrection(true) //  منع التصحيح التلقائي
+                                .autocapitalization(.none) //  منع تحويل الأحرف الكبيرة
+                                .multilineTextAlignment(.trailing)
+                                .focused($isTextFieldFocused2)
+                                .onChange(of: viewModel.password) { newValue in
+                                        viewModel.password = newValue.filter { "0123456789".contains($0) }
+                                        checkLoginButtonState() //  تحديث الزر عند إدخال اسم المستخدم
+
+                                                         }
+                                  
                             } else {
                                 SecureField("1234", text: $viewModel.password)
-                                    .keyboardType(.numberPad)
+                                    .keyboardType(.asciiCapableNumberPad) //  أرقام إنجليزية فقط
+                                    .textContentType(.oneTimeCode) //  يخفي زر تغيير اللغة في بعض لوحات المفاتيح
+                                    .disableAutocorrection(true) //  منع التصحيح التلقائي
+                                    .autocapitalization(.none) //  منع تحويل الأحرف الكبيرة
                                     .multilineTextAlignment(.trailing)
                                     .focused($isTextFieldFocused2)
+                                    .onChange(of: viewModel.password) { newValue in
+                                        viewModel.password = newValue.filter { "0123456789".contains($0) }
+                                        checkLoginButtonState() //  تحديث الزر عند إدخال اسم المستخدم
+
+                                                         }
                             }
                         }
+        
                         .overlay {
                             // Eye Button
                             Button(action: {
@@ -139,10 +158,7 @@ struct RegisterInfoPage: View {
                                 )
                         )
                         .frame(maxWidth: screenWidth * 0.8)
-                        .onChange(of: viewModel.password) { newValue in
-                            // تحقق من طول كلمة المرور
-                            isButtonDisabled = viewModel.username.count < 5 || newValue.count < 6
-                        }
+                       
                     }
                 }
                 
@@ -211,7 +227,17 @@ struct RegisterInfoPage: View {
         .navigationBarBackButtonHidden(true)
         .background(Color.clear)
         .hideKeyboard()
+
+     
     }
+    
+    //  تحديث زر تسجيل الدخول عند أي تعديل في المدخلات
+      private func checkLoginButtonState() {
+          DispatchQueue.main.async {
+              isButtonDisabled = viewModel.username.count < 5 || viewModel.password.count < 6
+          }
+      }
+ 
 }
 
 struct LoginPage1_Previews: PreviewProvider {
