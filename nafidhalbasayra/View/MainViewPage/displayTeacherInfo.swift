@@ -12,22 +12,22 @@ struct TeacherProfileView: View {
     }
 
     var body: some View {
-        NavigationView {
+        //NavigationStack {
             VStack(spacing: 15) {
              
-                // ✅ عنوان الصفحة
+                //  عنوان الصفحة
                 Text("الملف الشخصي للأستاذ")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
                     .foregroundColor(primaryColor)
                     .frame(width: screenWidth * 0.8, height: screenHeight * 0.05)
                     .background(Color(red: 220 / 255, green: 225 / 255, blue: 230 / 255))
                     .cornerRadius(8)
-                    .padding(.top)
+                    .padding(.top, screenHeight * 0.08)
                    
                 
 
                 if let teacher = teacher {
-                    // ✅ صورة الأستاذ الشخصية
+                    //  صورة الأستاذ الشخصية
                     if let imageData = teacher.profileimage, let image = UIImage(data: imageData) {
                         Image(uiImage: image)
                             .resizable()
@@ -36,7 +36,7 @@ struct TeacherProfileView: View {
                             .clipShape(Circle())
                             .overlay(Circle().stroke(primaryColor, lineWidth: 2))
                             .shadow(radius: 4)
-                            .padding(.top, uiDevicePhone ? screenHeight * 0.05 : screenHeight * 0.08)
+                            .padding(.top, uiDevicePhone ? screenHeight * 0.04 : screenHeight * 0.08)
                             .padding(.bottom, uiDevicePhone ? screenHeight * 0.05 : screenHeight * 0.08)
 
                     } else {
@@ -45,7 +45,7 @@ struct TeacherProfileView: View {
                             .scaledToFit()
                             .frame(width: 120, height: 120)
                             .foregroundColor(.gray)
-                            .padding(.top, uiDevicePhone ? screenHeight * 0.05 : screenHeight * 0.08)
+                            .padding(.top, uiDevicePhone ? screenHeight * 0.04 : screenHeight * 0.08)
                             .padding(.bottom, uiDevicePhone ? screenHeight * 0.05 : screenHeight * 0.08)
 
 
@@ -54,7 +54,7 @@ struct TeacherProfileView: View {
                     
                    
 
-                    // ✅ معلومات الأستاذ
+                    //  معلومات الأستاذ
                     VStack(alignment: .trailing, spacing: 10) {
                         InfoRow(title: "الاسم:", value: teacher.name ?? "غير معروف")
                         InfoRow(title: "تاريخ الميلاد:", value: teacher.birthDay?.formatted(date: .long, time: .omitted) ?? "غير مدخل")
@@ -67,7 +67,7 @@ struct TeacherProfileView: View {
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .padding(.horizontal)
 
-                    // ✅ عرض صور الهوية أفقيًا مع التأكد من توحيد الارتفاع
+                    //  عرض صور الهوية أفقيًا مع التأكد من توحيد الارتفاع
                     HStack(spacing: 15) {
                         if let frontData = teacher.frontfaceidentity, let frontImage = UIImage(data: frontData) {
                             IDImageView(image: frontImage, title: "الوجه الأمامي")
@@ -79,6 +79,7 @@ struct TeacherProfileView: View {
                     .frame(maxWidth: .infinity) // يضمن توسيع الـ HStack عبر الشاشة بالكامل
                     .padding(.horizontal)
                     .padding(.vertical)
+                    .padding(.bottom, uiDevicePhone ? screenHeight * 0.03 : screenHeight * 0.05)
 
 
                 } else {
@@ -87,8 +88,13 @@ struct TeacherProfileView: View {
                         .padding()
                 }
             }
-            //.navigationBarBackButtonHidden(true)
-            .padding()
+            .padding(.horizontal, screenWidth * 0.05)
+            .navigationSplitViewStyle(.automatic) //  يمنع ظهور الـ Sidebar في iPad
+            .navigationBarBackButtonHidden(true)
+            .onAppear {
+                vmTeacher.fetchTeacherInfo()
+            }
+            
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(backgroundColorPage)
             .environment(\.layoutDirection, .rightToLeft) // 🔹 تفعيل RTL
@@ -107,15 +113,12 @@ struct TeacherProfileView: View {
                 }
             }
             
-        }
-        .navigationBarBackButtonHidden(true)
-        .onAppear {
-            vmTeacher.fetchTeacherInfo()
-        }
+       // }
+      
     }
 }
 
-// ✅ مكون لإظهار المعلومات
+//  مكون لإظهار المعلومات
 struct InfoRow: View {
     let title: String
     let value: String?
@@ -136,14 +139,14 @@ struct InfoRow: View {
     }
 }
 
-// ✅ مكون لعرض صور الهوية مع توحيد الحجم وتدوير الصور العمودية
+//  مكون لعرض صور الهوية مع توحيد الحجم وتدوير الصور العمودية
 struct IDImageView: View {
     let image: UIImage
     let title: String
 
     var rotatedImage: UIImage {
         if image.size.height > image.size.width {
-            return image.rotated(by: 90) ?? image // ✅ تدوير 90 درجة إذا كانت الصورة عمودية
+            return image.rotated(by: 90) ?? image //  تدوير 90 درجة إذا كانت الصورة عمودية
         }
         return image
     }
@@ -153,19 +156,19 @@ struct IDImageView: View {
             Image(uiImage: rotatedImage)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 160, height: 120) // ✅ عرض الصورة أفقيًا دائمًا
+                .frame(width: uiDevicePhone ?  160 : 300, height: uiDevicePhone ?  120 : 240) //  عرض الصورة أفقيًا دائمًا
                 .cornerRadius(10)
                 .shadow(radius: 5)
 
             Text(title)
                 .font(.custom("BahijTheSansArabic-Bold", size: 14))
                 .foregroundColor(.gray)
-                .frame(maxWidth: .infinity, alignment: .center) // ✅ جعل النصوص في نفس المستوى
+                .frame(maxWidth: .infinity, alignment: .center) //  جعل النصوص في نفس المستوى
         }
     }
 }
 
-// ✅ امتداد لتدوير الصور
+//  امتداد لتدوير الصور
 import UIKit
 
 extension UIImage {
