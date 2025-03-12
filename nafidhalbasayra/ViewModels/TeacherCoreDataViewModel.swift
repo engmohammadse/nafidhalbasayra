@@ -23,9 +23,9 @@ class CoreDataViewModel: ObservableObject {
     private init() {
         container = NSPersistentContainer(name: "CoreData")
         container.loadPersistentStores { _, error in
-            if let error = error {
-               // print("ERROR LOADING CORE DATA. \(error)")
-            }
+//            if let error = error {
+//               // print("ERROR LOADING CORE DATA. \(error)")
+//            }
         }
         fetchTeacherInfo()
     }
@@ -37,7 +37,8 @@ class CoreDataViewModel: ObservableObject {
         let request = NSFetchRequest<TeacherInfo>(entityName: "TeacherInfo")
         do {
             savedEntitiesTeacher = try container.viewContext.fetch(request)
-        } catch let error {
+        } 
+        catch let error {
             //print("Error Fetching. \(error)")
         }
     }

@@ -5,6 +5,11 @@
 //  Created by muhammad on 10/10/2024.
 //
 
+
+
+
+
+
 import SwiftUI
 
 struct registerPageDecline: View {
@@ -15,6 +20,7 @@ struct registerPageDecline: View {
 //    var rejectionReason = UserDefaults.standard.string(forKey: "rejectionReason") ?? "No details"
     @EnvironmentObject var teacherData : TeacherDataViewModel
     @EnvironmentObject var coreDataViewModel : CoreDataViewModel
+    @State private var selectedDestination: String? = nil // متغير للتحكم بالانتقال
 
 
     
@@ -43,14 +49,18 @@ struct registerPageDecline: View {
             
             Spacer()
                 .frame(height: screenHeight * 0.03)
-            
-            
-            
+
             NavigationLink( destination: RegisterInfoPage()
                 .environmentObject(teacherData)
+                .onAppear{
+                    clearUserData()
+                }
                 //.environmentObject(coreDataViewModel)
             )
             {
+                
+                
+                
                 Text("اعادة ادخال البيانات")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.02))
                     .frame(height: screenHeight * 0.04)
@@ -61,7 +71,7 @@ struct registerPageDecline: View {
                       .cornerRadius(5)
             
             
-//            
+            
             
              
         }
@@ -79,6 +89,30 @@ struct registerPageDecline: View {
                    rejectionReason = reason
                }
         }
+    
+    
+    
+    
+    private func clearUserData() {
+           let defaults = UserDefaults.standard
+           defaults.removeObject(forKey: "isLoggedIn")
+           defaults.removeObject(forKey: "teacherId")
+           defaults.removeObject(forKey: "rejectionReason")
+           defaults.removeObject(forKey: "loginState")
+           defaults.removeObject(forKey: "username")
+           defaults.removeObject(forKey: "profileImagePath") // إزالة مسار الصورة
+
+           // حذف الصورة من FileManager
+           deleteProfileImage()
+
+           // استخدام الـ Singleton لمسح البيانات **بدون إعادة تحميل Persistent Store**
+           AttendaceStatusViewModel.shared.clearAllAttendanceData()
+           StudentViewModel.shared.clearAllStudentData()
+           
+           // حذف جميع بيانات الأستاذ من CoreData
+           let coreDataViewModel = CoreDataViewModel.shared
+           coreDataViewModel.deleteAllTeacherInfo()
+       }
 }
 
 #Preview {

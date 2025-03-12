@@ -146,6 +146,16 @@ class SyncTeacherDataPostApi {
                        viewModel.isLoadingRP2 = false
                        if httpResponse.statusCode == 200 {
                            viewModel.sendTeacherDataToBackEndState = 1
+                           
+                           //  **تنزيل الصورة الجديدة بعد نجاح الإرسال**
+                       if let data = data,
+                          let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                          let imageUrl = json["image_1"] as? String {
+                           
+                           let fullImageUrl = "http://198.244.227.48:8082\(imageUrl)"
+                           downloadAndSaveImage(imageUrl: fullImageUrl)
+                           //
+                         }
                        } else {
                            viewModel.sendTeacherDataToBackEndState = 2
                        }
