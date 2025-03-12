@@ -255,7 +255,6 @@ struct VStackSection<Destination: View>: View {
 //    }
 //}
 
-
 struct ButtonSetting: View {
     var body: some View {
         NavigationLink(destination: SettingSection(province: .constant(""))) {
@@ -269,12 +268,14 @@ struct ButtonSetting: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: uiDevicePhone ? screenWidth * 0.05 : screenWidth * 0.04)
             }
+            .frame(width: uiDevicePhone ? screenWidth * 0.63 : screenWidth * 0.56, height: screenHeight * 0.05)
+            .background(Color.white)
+            .cornerRadius(5)
+            .contentShape(Rectangle()) //  يجعل المساحة الفارغة داخل HStack قابلة للنقر
         }
-        .frame(width: uiDevicePhone ? screenWidth * 0.63 : screenWidth * 0.56, height: screenHeight * 0.05)
-        .background(Color.white)
-        .cornerRadius(5)
     }
 }
+
 
 
 

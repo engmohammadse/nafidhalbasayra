@@ -18,35 +18,39 @@ struct SettingSection: View {
     
     var body: some View {
         VStack {
-            ScrollView {
-                Spacer().frame(height: screenHeight * 0.13)
+          //  ScrollView {
+//                Spacer().frame(height: screenHeight * 0.13)
 
-                HStack {
-                    Spacer().frame(width: screenWidth * 0.5)
-                    Text("تغيير لغة التطبيق")
-                        .foregroundStyle(.black)
-                        .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
-                }
-
-                VStack(spacing: 0) {
-                    Weeks3(languageChoose: $selectedLanguage) // تمرير اللغة المختارة
-                }
+//                HStack {
+//                    Spacer().frame(width: screenWidth * 0.5)
+//                    Text("تغيير لغة التطبيق")
+//                        .foregroundStyle(.black)
+//                        .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
+//                }
+//
+//                VStack(spacing: 0) {
+//                    Weeks3(languageChoose: $selectedLanguage) // تمرير اللغة المختارة
+//                }
                 
                 
                 
                             // 🔹 زر للانتقال إلى صفحة بيانات الأستاذ
                                         NavigationLink(destination: TeacherProfileView()) {
                                             Text("عرض بيانات الأستاذ")
-                                                .padding()
-                                                .background(Color.blue)
-                                                .foregroundColor(.white)
-                                                .cornerRadius(8)
+                                                .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+                                                .foregroundStyle(.white)
+                                                .frame(width: screenWidth * 0.85)
+                                                .frame(height: screenHeight * 0.045)
+                                                .background(Color(red: 27/255, green: 62/255, blue: 94/255))
+                                                .cornerRadius(5)
                                         }
+            Spacer().frame(height: screenHeight * 0.7)
+
                             
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(backgroundColorPage)
+           // }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(backgroundColorPage)
         .overlay {
             LogoIUserInfo()
                 .offset(y: UIDevice.current.userInterfaceIdiom == .phone ? screenHeight * 0.0 : screenHeight * 0)
