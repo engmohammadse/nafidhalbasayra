@@ -12,6 +12,8 @@ struct MainParentView: View {
     @StateObject var teacherData = TeacherDataViewModel()
    // @StateObject var coreDataViewModel = CoreDataViewModel()
     @StateObject var studentViewModel = StudentViewModel.shared
+    @StateObject var studentFetcher = fetchAndStoreStudentsFromBackEnd(database: StudentViewModel.shared)
+    @StateObject var attendanceFetcher = fetchAndStoreAttendancesFromBackEnd(database: AttendaceStatusViewModel.shared)
 
     @Environment(\.scenePhase) private var scenePhase // 🔹 متابعة حالة التطبيق
 
@@ -26,14 +28,7 @@ struct MainParentView: View {
                     .preferredColorScheme(.light)
                     .environmentObject(teacherData)
                    // .environmentObject(coreDataViewModel)
-                    .onAppear {
-                        uploadData() // تحميل البيانات عند فتح الصفحة لأول مرة
-                    }
-                    .onChange(of: scenePhase) { newPhase in
-                        if newPhase == .active {
-                            uploadData() // تحميل البيانات عند إعادة فتح التطبيق من الخلفية
-                        }
-                    }
+                
             } else if loginState == 1 {
                 registerPageWaitProcess()
                     .preferredColorScheme(.light)
@@ -56,12 +51,26 @@ struct MainParentView: View {
                     .foregroundColor(.gray)
             }
         }
+        .onAppear {
+            uploadData() // تحميل البيانات عند فتح الصفحة لأول مرة
+        }
+        .onChange(of: scenePhase) { newPhase in
+            if newPhase == .active {
+                uploadData() // تحميل البيانات عند إعادة فتح التطبيق من الخلفية
+            }
+        }
     }
 
     // 🔹 دالة تحميل بيانات الحضور والطلاب
     func uploadData() {
-//        print("🔄 تحميل بيانات الحضور والطلاب...")
-//
+        Task {
+                           await attendanceFetcher.fetchAndStoreAttendances(teacherID: UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7")
+                       }
+        
+        Task {
+                   await studentFetcher.fetchAndStoreStudents(teacherID: UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7") // 🔹 جلب الطلاب عند إعادة فتح التطبيق
+               }
+        //
 //        let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
 //        attendanceUploader.sendPendingAttendanceData()
 //

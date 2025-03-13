@@ -31,7 +31,7 @@ struct StudentDataSection: View {
             }
             .background(.white)
             .cornerRadius(5)
-            .offset(x: uiDevicePhone ? screenWidth * 0.25 : screenWidth * 0.31 ,y: screenHeight * 0.05)
+            .offset(x: uiDevicePhone ? screenWidth * 0.25 : screenWidth * 0.31 ,y: screenHeight * 0.07)
             
             Spacer()
                 .frame(height: uiDevicePhone

@@ -328,55 +328,9 @@ struct sendAttendanceSection: View {
                         
                         
                         validateAndSendAttendance()
-                        //                            
-                        //                            if numberOfStudents.isEmpty || locationManager.location == nil || imageData == nil {
-                        //                                    // ❌ المدخلات غير مكتملة، إظهار التنبيه
-                        //                                    alertTitle = "خطأ في المدخلات"
-                        //                                    alertMessage = "يرجى التأكد من إدخال عدد الطلاب وتوفر الموقع والصورة الجماعية."
-                        //                                    showAlert = true
-                        //                                } else {
-                        //                                    // ✅ المدخلات صحيحة، حفظ البيانات
-                        //                                    if let numberOfStudentsInt = Int(numberOfStudents),
-                        //                                       let location = locationManager.location,
-                        //                                       let image = imageData,  // ✅ تأكد أن `imageData` ليست nil
-                        //                                       let imageDataCompressed = image.jpegData(compressionQuality: 0.5) { // ✅ تحويل `UIImage` إلى `Data`
-                        //                                        
-                        //                                        print("✅ Saving attendance status for \(numberOfStudentsInt) students at location: \(location.coordinate.latitude), \(location.coordinate.longitude).")
-                        //
-                        //                                        vmAttendaceStatus.addAttendaceStatus(
-                        //                                            numberOfStudents: numberOfStudentsInt,
-                        //                                            imageData: imageDataCompressed, // ✅ تم التحقق من أن الصورة ليست nil
-                        //                                            notes: notes,
-                        //                                            latitude: location.coordinate.latitude,
-                        //                                            longitude: location.coordinate.longitude,
-                        //                                            date: Date(), // ✅ تخزين التاريخ والوقت بصيغة النص
-                        //                                            state: 0
-                        //                                        )
-                        //
-                        //                                        // ✅ إظهار تنبيه النجاح
-                        //                                        alertTitle = "تم الحفظ"
-                        //                                        alertMessage = "تم حفظ موقف الحضور بنجاح!"
-                        //                                        showAlert = true
-                        //
-                        //                                        // ✅ إعادة تعيين الحقول بعد الحفظ
-                        //                                        numberOfStudents = ""
-                        //                                        imageData = nil // ✅ إعادة تعيين `UIImage` إلى `nil`
-                        //                                        notes = ""
-                        //                                    }
-                        //                                    
-                        //                                   
-                        //                                    
-                        //                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        //                                        
-                        //                                        dismiss()
-                        //                                    }
-                        //                                }
-                        
-                        
-                        //                            
-                        
-                        
-                        
+                      
+                      
+        
                         
                     }) {
                         Text("ارسال موقف الحضور")
@@ -513,11 +467,18 @@ struct sendAttendanceSection: View {
                 state: 0
             )
             
+            
             alertTitle = "تم الحفظ"
             alertMessage = "تم حفظ موقف الحضور بنجاح!"
             showAlert = true
             
-            // ✅ **إعادة تعيين القيم بعد الحفظ**
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+                attendanceUploader.sendPendingAttendanceData()
+            }
+            
+            //  **إعادة تعيين القيم بعد الحفظ**
             numberOfStudents = ""
             imageData = nil
             notes = ""

@@ -21,6 +21,9 @@ enum PageType: Hashable {
 class LoginViewModel: ObservableObject {
    // private var vmTeacherFromApi = TeacherDataFromApiViewModel() // تعريف محلي لـ TeacherDataFromApiViewModel
     
+    @StateObject var studentFetcher = fetchAndStoreStudentsFromBackEnd(database: StudentViewModel.shared)
+    @StateObject var attendanceFetcher = fetchAndStoreAttendancesFromBackEnd(database: AttendaceStatusViewModel.shared)
+    
     @Published var username = ""
     @Published var password = ""
     @Published var loginError: String?
@@ -149,6 +152,15 @@ class LoginViewModel: ObservableObject {
             self.nextPage = .homePage
             let loginState = 2
             defaults.set(loginState, forKey: "loginState")
+            
+            Task {
+                               await attendanceFetcher.fetchAndStoreAttendances(teacherID: UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7")
+                           }
+            
+            Task {
+                       await studentFetcher.fetchAndStoreStudents(teacherID: UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7") // 🔹 جلب الطلاب عند إعادة فتح التطبيق
+                   }
+            
         case 3:
             self.nextPage = .rejectionIssue
             let loginState = 3

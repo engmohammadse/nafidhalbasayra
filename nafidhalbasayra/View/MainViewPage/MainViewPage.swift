@@ -121,17 +121,16 @@ struct MainViewPage: View {
         .navigationBarBackButtonHidden(true)
         .onAppear {
             
+            // add hasUnsentData scheduleBackgroundUpload
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 
-                
-//                   let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
-//                   attendanceUploader.sendPendingAttendanceData()
-                
-                // إرسال بيانات الطلاب
-//                let studentUploader = StudentUploader(database: studentViewModel)
-//                studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
-//                
+
+                Task {
+                    // إرسال بيانات الطلاب
+                    let studentUploader = StudentUploader(database: studentViewModel)
+                    studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
+                }
                 
                 Task {
                                    await attendanceFetcher.fetchAndStoreAttendances(teacherID: UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7")
@@ -142,16 +141,14 @@ struct MainViewPage: View {
                        }
                 
                }
-
-//            let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
-//            attendanceUploader.sendPendingAttendanceData()
-
             
-        
+            Task {
+                let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+                attendanceUploader.sendPendingAttendanceData()
+            }
 
 
-
-                }
+    }
 
 
     }
@@ -237,11 +234,12 @@ struct ButtonSetting: View {
                 Text("الإعدادات")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.033 : screenWidth * 0.025))
                     .foregroundStyle(Color.black)
+                
 
                 Image("VectorSetting")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: uiDevicePhone ? screenWidth * 0.05 : screenWidth * 0.04)
+                    .frame(width: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.035)
             }
             .frame(width: uiDevicePhone ? screenWidth * 0.63 : screenWidth * 0.56, height: screenHeight * 0.05)
             .background(Color.white)

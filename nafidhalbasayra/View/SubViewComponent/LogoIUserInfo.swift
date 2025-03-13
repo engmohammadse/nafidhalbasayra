@@ -109,9 +109,8 @@ struct LogoIUserInfo: View {
                     } else {
                         Image("Group 63")
                             .resizable()
-                            .scaledToFit()
-                            .frame(maxWidth: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.1 : screenWidth * 0.07) : screenWidth * 0.1)
-                            .clipShape(Circle())
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxWidth: screenWidth * 0.07)
                     }
                 }
                 .confirmationDialog("هل تريد تسجيل الخروج؟", isPresented: $showLogoutConfirmation, titleVisibility: .visible) {
