@@ -35,16 +35,22 @@ struct registerPageWaitProcess: View {
                 
                 
 
-                VStack {
+               // VStack {
                     Text("تجري مراجعة بياناتك، يرجى الانتظار قد يستغرق الامر بضع ساعات سيصلك اشعار بمجرد انتهاء مراجعة بياناتك")
+                    
                         .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
-                        .multilineTextAlignment(.center)
-                        .lineLimit(UIDevice.current.userInterfaceIdiom == .pad ? 2 : nil) // 🔹 تحديد السطرين فقط للآيباد
-                                .frame(maxWidth: UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.8 : .infinity) // 🔹 تقليل عرض النص على الآيباد فقط
+                               .multilineTextAlignment(.center)
+                               // نفس عرض زر "فحص حالة القبول"
+                               .frame(width: screenWidth * 0.85)
+                               .frame(height: screenHeight * 0.1)
+                               // تسمح بالتوسّع عموديًا عند الحاجة لعدة أسطر
+                              // .fixedSize(horizontal: false, vertical: true)
+                               // يمكنك تحديد عدد الأسطر أو جعله مفتوحًا
+                        .lineLimit(UIDevice.current.userInterfaceIdiom == .pad ? 2 : nil)
                        
              
-                }
-                .padding()
+               // }
+                //.padding()
                 .background(Color(red: 17/255, green: 75/255, blue: 63/255).opacity(0.15))
                 .cornerRadius(5)
                 .overlay{
@@ -56,14 +62,14 @@ struct registerPageWaitProcess: View {
                             // ✅ عرض رسالة للمستخدم إذا كان هناك خطأ أو حالة قيد المراجعة
                             if let errorMessage = statusMessage {
                                 Text(errorMessage)
-                                    .font(.headline)
+                                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.032 : screenWidth * 0.02))
                                     .foregroundColor(.red)
                                     .padding()
                             }
                             
                         }
                     }
-                    .position(x: screenWidth * 0.45 ,y: screenHeight * -0.1)
+                    .position(x: uiDevicePhone ? screenWidth * 0.43 : screenWidth * 0.43 ,y: screenHeight * -0.1)
                 }
                 
 
@@ -71,6 +77,7 @@ struct registerPageWaitProcess: View {
 
                 // ✅ زر "فحص حالة القبول"
                 Button(action: checkAcceptanceStatus) {
+                    
                     HStack {
                      
                             Text("فحص حالة القبول")
@@ -92,7 +99,7 @@ struct registerPageWaitProcess: View {
               
             }
             .padding(UIScreen.main.bounds.width < 400 ? 16 : 0)
-            .padding()
+            .padding(.horizontal, screenWidth * 0.1)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(red: 236 / 255, green: 242 / 255, blue: 245 / 255))
 
