@@ -258,211 +258,100 @@ protocol CameraViewControllerDelegate {
 
 
 
-// work selfie camera
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// work with just border green
+//
 //import SwiftUI
 //import UIKit
-//import AVFoundation
-//import Vision
 //
-//struct SelfieCameraPicker: UIViewControllerRepresentable {
+//struct ImagePicker: UIViewControllerRepresentable {
 //    @Binding var selectedImage: UIImage?
+//    var sourceType: UIImagePickerController.SourceType = .camera
+//    var uploadType: String
+//    var showToast: ((String?, Color?, Bool) -> Void)?
+//    var onUploadComplete: ((Bool, UIImage?) -> Void)?
+//    
 //    @Environment(\.presentationMode) var presentationMode
-//
-//    func makeUIViewController(context: Context) -> CameraViewController {
-//        let viewController = CameraViewController()
-//        viewController.delegate = context.coordinator
-//        return viewController
+//    
+//    func makeUIViewController(context: Context) -> UIImagePickerController {
+//        let picker = UIImagePickerController()
+//        picker.delegate = context.coordinator
+//        picker.sourceType = sourceType
+//        picker.modalPresentationStyle = .fullScreen
+//        
+//        if sourceType == .camera {
+//            // لإنجاح أزرار النظام، اجعلها ظاهرة
+//            picker.showsCameraControls = true
+//            
+//            // أنشئ الـOverlay
+//            let overlayView = UIView(frame: UIScreen.main.bounds)
+//            overlayView.backgroundColor = .clear
+//            
+//            // اجعل الـOverlay لا يلتقط اللمسات
+//            overlayView.isUserInteractionEnabled = false
+//            
+//            // إطار بنفس نسبة 8.5:5.5. مثلاً 310×200
+//            let width: CGFloat = 310
+//            let height: CGFloat = 200
+//            let greenFrame = UIView(frame: CGRect(x: 0, y: 0, width: width, height: height))
+//            greenFrame.center = overlayView.center
+//            greenFrame.layer.borderWidth = 4
+//            greenFrame.layer.borderColor = UIColor.green.cgColor
+//            greenFrame.backgroundColor = .clear
+//            
+//            // كذلك نجعل الإطار نفسه لا يلتقط اللمسات
+//            greenFrame.isUserInteractionEnabled = false
+//            
+//            overlayView.addSubview(greenFrame)
+//            picker.cameraOverlayView = overlayView
+//        }
+//        
+//        return picker
 //    }
-//
-//    func updateUIViewController(_ uiViewController: CameraViewController, context: Context) {}
-//
+//    
+//    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {
+//        // لا شيء
+//    }
+//    
 //    func makeCoordinator() -> Coordinator {
 //        Coordinator(self)
 //    }
-//
-//    class Coordinator: NSObject, CameraViewControllerDelegate {
-//        let parent: SelfieCameraPicker
-//
-//        init(_ parent: SelfieCameraPicker) {
+//    
+//    // MARK: - Coordinator
+//    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+//        let parent: ImagePicker
+//        
+//        init(_ parent: ImagePicker) {
 //            self.parent = parent
 //        }
-//
-//        func didCapture(image: UIImage) {
-//            DispatchQueue.main.async {
-//                self.parent.selectedImage = image
-//                self.parent.presentationMode.wrappedValue.dismiss()
-//            }
-//        }
-//    }
-//}
-//
-//// MARK: - Camera ViewController
-//class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
-//    var captureSession: AVCaptureSession?
-//    var cameraOutput = AVCapturePhotoOutput()
-//    let faceDetectionRequest = VNDetectFaceRectanglesRequest()
-//    var delegate: CameraViewControllerDelegate?
-//    var isCapturing = false  // متغير لمنع التقاط صور متكررة
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        DispatchQueue.global(qos: .userInitiated).async {
-//            self.setupCamera()
-//        }
-//    }
-//
-//    func setupCamera() {
-//        let session = AVCaptureSession()
-//        session.sessionPreset = .photo
-//
-//        guard let frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
-//            print("❌ لا يمكن العثور على الكاميرا الأمامية")
-//            return
-//        }
-//
-//        do {
-//            let input = try AVCaptureDeviceInput(device: frontCamera)
-//            if session.canAddInput(input) {
-//                session.addInput(input)
-//            }
-//
-//            if session.canAddOutput(cameraOutput) {
-//                session.addOutput(cameraOutput)
-//            }
-//
-//            let videoOutput = AVCaptureVideoDataOutput()
-//            if session.canAddOutput(videoOutput) {
-//                session.addOutput(videoOutput)
-//                videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue.global(qos: .userInitiated))
-//            }
-//
-//            DispatchQueue.main.async {
-//                let previewLayer = AVCaptureVideoPreviewLayer(session: session)
-//                previewLayer.videoGravity = .resizeAspectFill
-//                previewLayer.frame = self.view.bounds
-//                self.view.layer.insertSublayer(previewLayer, at: 0)
-//            }
-//
-//            session.startRunning()
-//            self.captureSession = session
-//
-//        } catch {
-//            print("❌ خطأ في إعداد الكاميرا: \(error.localizedDescription)")
-//        }
-//    }
-//
-//    func capturePhoto() {
-//        guard !isCapturing else { return }  // منع التقاط صور متكررة
-//        isCapturing = true
-//
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {  // تأخير لمدة 3 ثواني قبل الالتقاط
-//            let settings = AVCapturePhotoSettings()
-//            self.cameraOutput.capturePhoto(with: settings, delegate: self)
-//        }
-//    }
-//
-//    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-//        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
-//
-//        let requestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
-//        do {
-//            try requestHandler.perform([faceDetectionRequest])
-//            if let results = faceDetectionRequest.results as? [VNFaceObservation], !results.isEmpty {
-//                capturePhoto()
-//            }
-//        } catch {
-//            print("❌ خطأ في تحليل الصورة: \(error.localizedDescription)")
-//        }
-//    }
-//}
-//
-//// MARK: - Photo Capture Delegate
-//extension CameraViewController: AVCapturePhotoCaptureDelegate {
-//    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-//        guard let imageData = photo.fileDataRepresentation(), let image = UIImage(data: imageData) else { return }
-//        delegate?.didCapture(image: image)
-//        dismiss(animated: true)
-//    }
-//}
-//
-//// MARK: - Delegate Protocol
-//protocol CameraViewControllerDelegate {
-//    func didCapture(image: UIImage)
-//}
-
-
-
-
-
-
-
-
-
-
-
-
-import SwiftUI
-import UIKit
-
-struct ImagePicker: UIViewControllerRepresentable {
-    @Binding var selectedImage: UIImage?
-    var sourceType: UIImagePickerController.SourceType = .camera
-    var uploadType: String // "Face_id" أو "back_id"
-    var showToast: ((String?, Color?, Bool) -> Void)? // ✅ تحديث `ToastView`
-    var onUploadComplete: ((Bool, UIImage?) -> Void)? // ✅ استكمال الرفع
-
-    @Environment(\.presentationMode) var presentationMode
-
-    func makeUIViewController(context: Context) -> UIImagePickerController {
-        let picker = UIImagePickerController()
-        picker.delegate = context.coordinator
-        picker.sourceType = sourceType
-        picker.modalPresentationStyle = .fullScreen
-        return picker
-    }
-
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-        let parent: ImagePicker
-
-        init(_ parent: ImagePicker) {
-            self.parent = parent
-        }
-        
-        
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            if let image = info[.originalImage] as? UIImage {
-                DispatchQueue.main.async {
-                    let imageType = self.parent.uploadType == "Face_id" ? "الوجه الأمامي" : "الوجه الخلفي"
-                    self.parent.selectedImage = image
-                    self.parent.showToast?(
-                        "📤 جاري رفع \(imageType)...",
-                        Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255), // ✅ لون مخصص أثناء الرفع
-                        false
-                    )
-                    self.uploadImageToServer(image: image)
-                    self.parent.presentationMode.wrappedValue.dismiss()
-                }
-            } else {
-                DispatchQueue.main.async {
-                    print("❌ لم يتم التقاط صورة، تم إغلاق الكاميرا بدون تحديد صورة.")
-                    self.parent.presentationMode.wrappedValue.dismiss()
-                }
-            }
-        }
-
-
-//        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//        
+//        func imagePickerController(
+//            _ picker: UIImagePickerController,
+//            didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+//        ) {
 //            if let image = info[.originalImage] as? UIImage {
 //                DispatchQueue.main.async {
 //                    let imageType = self.parent.uploadType == "Face_id" ? "الوجه الأمامي" : "الوجه الخلفي"
 //                    self.parent.selectedImage = image
-//                    self.parent.showToast?("📤 جاري رفع \(imageType)...", Color.blue, false) // ✅ بدون زر "تم" أثناء الرفع
+//                    self.parent.showToast?(
+//                        "📤 جاري رفع \(imageType)...",
+//                        Color(red: 27/255, green: 62/255, blue: 93/255),
+//                        false
+//                    )
 //                    self.uploadImageToServer(image: image)
 //                    self.parent.presentationMode.wrappedValue.dismiss()
 //                }
@@ -473,58 +362,221 @@ struct ImagePicker: UIViewControllerRepresentable {
 //                }
 //            }
 //        }
+//        
+//        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//            DispatchQueue.main.async {
+//                self.parent.presentationMode.wrappedValue.dismiss()
+//            }
+//        }
+//        
+//        private func uploadImageToServer(image: UIImage) {
+//            let uploader = IDUploader()
+//            
+//            uploader.uploadIDImage(image: image, for: parent.uploadType) { success, imageURL, responseType in
+//                DispatchQueue.main.async {
+//                    let imageType = self.parent.uploadType == "Face_id" ? "الوجه الأمامي" : "الوجه الخلفي"
+//                    
+//                    if success, let imageURL = imageURL, let url = URL(string: imageURL), responseType != nil {
+//                        if responseType != self.parent.uploadType {
+//                            self.parent.showToast?(
+//                                " خطأ في التعرف على \(imageType)!\nيرجى المحاولة مجددًا.",
+//                                Color.orange.opacity(0.9),
+//                                true
+//                            )
+//                            return
+//                        }
+//                        
+//                        self.downloadImage(from: url)
+//                        
+//                    } else {
+//                        self.parent.showToast?(
+//                            "❌ فشل التعرف على \(imageType).\nيرجى المحاولة مجددًا.",
+//                            Color.orange.opacity(0.9),
+//                            true
+//                        )
+//                    }
+//                }
+//            }
+//        }
+//        
+//        private func downloadImage(from url: URL) {
+//            let imageType = self.parent.uploadType == "Face_id" ? "الوجه الأمامي" : "الوجه الخلفي"
+//            
+//            URLSession.shared.dataTask(with: url) { data, response, error in
+//                if let data = data, let downloadedImage = UIImage(data: data) {
+//                    DispatchQueue.main.async {
+//                        self.parent.onUploadComplete?(true, downloadedImage)
+//                        self.parent.showToast?("✅ تم رفع \(imageType) بنجاح!", Color.green, true)
+//                    }
+//                } else {
+//                    DispatchQueue.main.async {
+//                        print(" فشل تحميل \(imageType) من السيرفر.")
+//                        self.parent.showToast?("❌ فشل تحميل \(imageType) من السيرفر.", Color.red, true)
+//                        self.parent.onUploadComplete?(false, nil)
+//                    }
+//                }
+//            }.resume()
+//        }
+//    }
+//}
 
+
+
+
+import SwiftUI
+import UIKit
+
+struct ImagePicker: UIViewControllerRepresentable {
+    @Binding var selectedImage: UIImage?
+    var sourceType: UIImagePickerController.SourceType = .camera
+    var uploadType: String
+    var showToast: ((String?, Color?, Bool) -> Void)?
+    var onUploadComplete: ((Bool, UIImage?) -> Void)?
+    
+    @Environment(\.presentationMode) var presentationMode
+    
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        picker.sourceType = sourceType
+        picker.modalPresentationStyle = .fullScreen
+        
+        if sourceType == .camera {
+            picker.showsCameraControls = true
+            
+            // إنشاء Overlay
+            let overlayView = UIView(frame: UIScreen.main.bounds)
+            overlayView.backgroundColor = .clear
+            overlayView.isUserInteractionEnabled = false
+            
+            // 1) حساب الأبعاد نسبيًا
+            let screenBounds = UIScreen.main.bounds
+            let minSide = min(screenBounds.width, screenBounds.height)
+            let scaleFactor: CGFloat = 0.7
+            let frameWidth = minSide * scaleFactor
+            let ratio: CGFloat = 5.5 / 8.5  // الارتفاع/العرض
+            let frameHeight = frameWidth * ratio
+            
+            let greenFrame = UIView(frame: CGRect(x: 0, y: 0, width: frameWidth, height: frameHeight))
+            greenFrame.center = overlayView.center
+            greenFrame.layer.borderWidth = 4
+            greenFrame.layer.borderColor = UIColor.green.cgColor
+            greenFrame.backgroundColor = .clear
+            greenFrame.isUserInteractionEnabled = false
+            overlayView.addSubview(greenFrame)
+            
+            // 2) التسمية فوق الإطار
+            let label = UILabel()
+            label.text = "ضع الهوية داخل الإطار والتقط الصورة"
+            label.font = UIFont.boldSystemFont(ofSize: 16)
+            label.textColor = .white
+            label.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            label.textAlignment = .center
+            label.numberOfLines = 2
+            label.isUserInteractionEnabled = false
+            
+            let labelHeight = frameHeight * 0.15
+            let labelY = greenFrame.frame.minY - labelHeight - 10
+            label.frame = CGRect(x: greenFrame.frame.minX,
+                                 y: labelY,
+                                 width: greenFrame.frame.width,
+                                 height: labelHeight)
+            
+            overlayView.addSubview(label)
+            
+            picker.cameraOverlayView = overlayView
+        }
+        
+        return picker
+    }
+    
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {
+        // لا شيء
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    // MARK: - Coordinator
+    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        let parent: ImagePicker
+        
+        init(_ parent: ImagePicker) {
+            self.parent = parent
+        }
+        
+        func imagePickerController(
+            _ picker: UIImagePickerController,
+            didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+        ) {
+            if let image = info[.originalImage] as? UIImage {
+                DispatchQueue.main.async {
+                    let imageType = self.parent.uploadType == "Face_id" ? "الوجه الأمامي" : "الوجه الخلفي"
+                    self.parent.selectedImage = image
+                    self.parent.showToast?(
+                        "📤 جاري رفع \(imageType)...",
+                        Color(red: 27/255, green: 62/255, blue: 93/255),
+                        false
+                    )
+                    self.uploadImageToServer(image: image)
+                    self.parent.presentationMode.wrappedValue.dismiss()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    print("❌ لم يتم التقاط صورة.")
+                    self.parent.presentationMode.wrappedValue.dismiss()
+                }
+            }
+        }
+        
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             DispatchQueue.main.async {
                 self.parent.presentationMode.wrappedValue.dismiss()
             }
         }
-
+        
         private func uploadImageToServer(image: UIImage) {
             let uploader = IDUploader()
-
+            
             uploader.uploadIDImage(image: image, for: parent.uploadType) { success, imageURL, responseType in
                 DispatchQueue.main.async {
-                    let imageType = self.parent.uploadType == "Face_id" ? "الوجه الأمامي" : "الوجه الخلفي"
-
+                    let imageType = (self.parent.uploadType == "Face_id") ? "الوجه الأمامي" : "الوجه الخلفي"
+                    
                     if success, let imageURL = imageURL, let url = URL(string: imageURL), responseType != nil {
                         if responseType != self.parent.uploadType {
-                            
-                            self.parent.showToast?(" خطأ في التعرف على \(imageType)!\nيرجى المحاولة مجددًا.", Color.orange.opacity(0.9), true) // ✅ النص يظهر على سطرين
-
-                           // print("⚠️ خطأ: تم إرجاع نوع غير صحيح. المتوقع \(self.parent.uploadType)، ولكن تم استقبال \(responseType ?? "null")")
-//                            self.parent.showToast?("⚠️ خطأ في التعرف على \(imageType)!", Color.red, true) // ✅ رسالة مخصصة مع زر "تم"
+                            self.parent.showToast?(
+                                " خطأ في التعرف على \(imageType)!\nيرجى المحاولة مجددًا.",
+                                Color.orange.opacity(0.9),
+                                true
+                            )
                             return
                         }
-                        
-                        
-         
-
                         self.downloadImage(from: url)
-
                     } else {
-                      //  print("⚠️ فشل التعرف على الصورة، تم إرجاع `null`.")
-                        self.parent.showToast?("❌ فشل التعرف على \(imageType).\nيرجى المحاولة مجددًا.", Color.orange.opacity(0.9), true) // ✅ رسالة مخصصة من سطرين
-
-//                        self.parent.showToast?("❌ فشل التعرف على \(imageType). يرجى المحاولة مجددًا.", Color.red, true) // ✅ رسالة مخصصة مع زر "تم"
+                        self.parent.showToast?(
+                            "❌ فشل التعرف على \(imageType).\nيرجى المحاولة مجددًا.",
+                            Color.orange.opacity(0.9),
+                            true
+                        )
                     }
                 }
             }
         }
-
+        
         private func downloadImage(from url: URL) {
-            let imageType = self.parent.uploadType == "Face_id" ? "الوجه الأمامي" : "الوجه الخلفي"
-
+            let imageType = (self.parent.uploadType == "Face_id") ? "الوجه الأمامي" : "الوجه الخلفي"
+            
             URLSession.shared.dataTask(with: url) { data, response, error in
                 if let data = data, let downloadedImage = UIImage(data: data) {
                     DispatchQueue.main.async {
                         self.parent.onUploadComplete?(true, downloadedImage)
-                        self.parent.showToast?("✅ تم رفع \(imageType) بنجاح!", Color.green, true) // ✅ رسالة مخصصة مع زر "تم"
+                        self.parent.showToast?("✅ تم رفع \(imageType) بنجاح!", Color.green, true)
                     }
                 } else {
                     DispatchQueue.main.async {
-                        print(" فشل تحميل \(imageType) من السيرفر.")
-                        self.parent.showToast?("❌ فشل تحميل \(imageType) من السيرفر.", Color.red, true) // ✅ رسالة مخصصة مع زر "تم"
+                        print("فشل تحميل \(imageType) من السيرفر.")
+                        self.parent.showToast?("❌ فشل تحميل \(imageType) من السيرفر.", Color.red, true)
                         self.parent.onUploadComplete?(false, nil)
                     }
                 }
@@ -532,6 +584,304 @@ struct ImagePicker: UIViewControllerRepresentable {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+// work with border with text
+//import SwiftUI
+//import UIKit
+//
+//struct ImagePicker: UIViewControllerRepresentable {
+//    @Binding var selectedImage: UIImage?
+//    var sourceType: UIImagePickerController.SourceType = .camera
+//    var uploadType: String
+//    var showToast: ((String?, Color?, Bool) -> Void)?
+//    var onUploadComplete: ((Bool, UIImage?) -> Void)?
+//    
+//    @Environment(\.presentationMode) var presentationMode
+//    
+//    func makeUIViewController(context: Context) -> UIImagePickerController {
+//        let picker = UIImagePickerController()
+//        picker.delegate = context.coordinator
+//        picker.sourceType = sourceType
+//        picker.modalPresentationStyle = .fullScreen
+//        
+//        if sourceType == .camera {
+//            picker.showsCameraControls = true
+//            
+//            // Overlay رئيسي بشفافية 0% (لا يلتقط اللمسات)
+//            let overlayView = UIView(frame: UIScreen.main.bounds)
+//            overlayView.backgroundColor = .clear
+//            overlayView.isUserInteractionEnabled = false
+//            
+//            // *** 1) أنشئ إطارًا أخضر بنسبة 8.5 : 5.5 ***
+//            let width: CGFloat = 310
+//            let height: CGFloat = 200
+//            let greenFrame = UIView(frame: CGRect(x: 0, y: 0, width: width, height: height))
+//            greenFrame.center = overlayView.center
+//            greenFrame.layer.borderWidth = 4
+//            greenFrame.layer.borderColor = UIColor.green.cgColor
+//            greenFrame.backgroundColor = .clear
+//            greenFrame.isUserInteractionEnabled = false
+//            overlayView.addSubview(greenFrame)
+//            
+//            // *** 2) أضف تسمية (UILabel) فوق الإطار الأخضر ***
+//            let label = UILabel()
+//            label.text = "ضع الهوية داخل الإطار والتقط الصورة"
+//            label.font = UIFont.boldSystemFont(ofSize: 16)
+//            label.textColor = .white
+//            label.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+//            label.textAlignment = .center
+//            label.numberOfLines = 2
+//            label.isUserInteractionEnabled = false // لكي لا يعطل أزرار النظام
+//            
+//            // حجم التسمية مثلًا: بعرض الإطار الأخضر، وارتفاع 40 نقطة
+//            let labelHeight: CGFloat = 40
+//            let labelY = greenFrame.frame.minY - labelHeight - 10 // اجعله أعلى الإطار بـ 10 نقاط
+//            label.frame = CGRect(x: greenFrame.frame.minX,
+//                                 y: labelY,
+//                                 width: greenFrame.frame.width,
+//                                 height: labelHeight)
+//            
+//            overlayView.addSubview(label)
+//            
+//            // *** 3) ربط الـoverlay بالكاميرا ***
+//            picker.cameraOverlayView = overlayView
+//        }
+//        
+//        return picker
+//    }
+//    
+//    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {
+//        // لا شيء
+//    }
+//    
+//    func makeCoordinator() -> Coordinator {
+//        Coordinator(self)
+//    }
+//    
+//    // MARK: - Coordinator
+//    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+//        let parent: ImagePicker
+//        
+//        init(_ parent: ImagePicker) {
+//            self.parent = parent
+//        }
+//        
+//        func imagePickerController(
+//            _ picker: UIImagePickerController,
+//            didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+//        ) {
+//            if let image = info[.originalImage] as? UIImage {
+//                DispatchQueue.main.async {
+//                    let imageType = self.parent.uploadType == "Face_id" ? "الوجه الأمامي" : "الوجه الخلفي"
+//                    self.parent.selectedImage = image
+//                    self.parent.showToast?(
+//                        "📤 جاري رفع \(imageType)...",
+//                        Color(red: 27/255, green: 62/255, blue: 93/255),
+//                        false
+//                    )
+//                    self.uploadImageToServer(image: image)
+//                    self.parent.presentationMode.wrappedValue.dismiss()
+//                }
+//            } else {
+//                DispatchQueue.main.async {
+//                    print("❌ لم يتم التقاط صورة، تم إغلاق الكاميرا بدون تحديد صورة.")
+//                    self.parent.presentationMode.wrappedValue.dismiss()
+//                }
+//            }
+//        }
+//        
+//        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//            DispatchQueue.main.async {
+//                self.parent.presentationMode.wrappedValue.dismiss()
+//            }
+//        }
+//        
+//        private func uploadImageToServer(image: UIImage) {
+//            let uploader = IDUploader()
+//            
+//            uploader.uploadIDImage(image: image, for: parent.uploadType) { success, imageURL, responseType in
+//                DispatchQueue.main.async {
+//                    let imageType = (self.parent.uploadType == "Face_id") ? "الوجه الأمامي" : "الوجه الخلفي"
+//                    
+//                    if success, let imageURL = imageURL, let url = URL(string: imageURL), responseType != nil {
+//                        if responseType != self.parent.uploadType {
+//                            self.parent.showToast?(
+//                                " خطأ في التعرف على \(imageType)!\nيرجى المحاولة مجددًا.",
+//                                Color.orange.opacity(0.9),
+//                                true
+//                            )
+//                            return
+//                        }
+//                        self.downloadImage(from: url)
+//                    } else {
+//                        self.parent.showToast?(
+//                            "❌ فشل التعرف على \(imageType).\nيرجى المحاولة مجددًا.",
+//                            Color.orange.opacity(0.9),
+//                            true
+//                        )
+//                    }
+//                }
+//            }
+//        }
+//        
+//        private func downloadImage(from url: URL) {
+//            let imageType = (self.parent.uploadType == "Face_id") ? "الوجه الأمامي" : "الوجه الخلفي"
+//            
+//            URLSession.shared.dataTask(with: url) { data, response, error in
+//                if let data = data, let downloadedImage = UIImage(data: data) {
+//                    DispatchQueue.main.async {
+//                        self.parent.onUploadComplete?(true, downloadedImage)
+//                        self.parent.showToast?("✅ تم رفع \(imageType) بنجاح!", Color.green, true)
+//                    }
+//                } else {
+//                    DispatchQueue.main.async {
+//                        print(" فشل تحميل \(imageType) من السيرفر.")
+//                        self.parent.showToast?("❌ فشل تحميل \(imageType) من السيرفر.", Color.red, true)
+//                        self.parent.onUploadComplete?(false, nil)
+//                    }
+//                }
+//            }.resume()
+//        }
+//    }
+//}
+
+
+
+
+
+
+
+
+
+
+
+// work without green border
+//
+//import SwiftUI
+//import UIKit
+//
+//struct ImagePicker: UIViewControllerRepresentable {
+//    @Binding var selectedImage: UIImage?
+//    var sourceType: UIImagePickerController.SourceType = .camera
+//    var uploadType: String // "Face_id" أو "back_id"
+//    var showToast: ((String?, Color?, Bool) -> Void)? //  تحديث `ToastView`
+//    var onUploadComplete: ((Bool, UIImage?) -> Void)? //  استكمال الرفع
+//
+//    @Environment(\.presentationMode) var presentationMode
+//
+//    func makeUIViewController(context: Context) -> UIImagePickerController {
+//        let picker = UIImagePickerController()
+//        picker.delegate = context.coordinator
+//        picker.sourceType = sourceType
+//        picker.modalPresentationStyle = .fullScreen
+//        return picker
+//    }
+//
+//    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+//
+//    func makeCoordinator() -> Coordinator {
+//        Coordinator(self)
+//    }
+//
+//    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+//        let parent: ImagePicker
+//
+//        init(_ parent: ImagePicker) {
+//            self.parent = parent
+//        }
+//        
+//        
+//        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//            if let image = info[.originalImage] as? UIImage {
+//                DispatchQueue.main.async {
+//                    let imageType = self.parent.uploadType == "Face_id" ? "الوجه الأمامي" : "الوجه الخلفي"
+//                    self.parent.selectedImage = image
+//                    self.parent.showToast?(
+//                        "📤 جاري رفع \(imageType)...",
+//                        Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255), // ✅ لون مخصص أثناء الرفع
+//                        false
+//                    )
+//                    self.uploadImageToServer(image: image)
+//                    self.parent.presentationMode.wrappedValue.dismiss()
+//                }
+//            } else {
+//                DispatchQueue.main.async {
+//                    print("❌ لم يتم التقاط صورة، تم إغلاق الكاميرا بدون تحديد صورة.")
+//                    self.parent.presentationMode.wrappedValue.dismiss()
+//                }
+//            }
+//        }
+//
+//
+//
+//        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//            DispatchQueue.main.async {
+//                self.parent.presentationMode.wrappedValue.dismiss()
+//            }
+//        }
+//
+//        private func uploadImageToServer(image: UIImage) {
+//            let uploader = IDUploader()
+//
+//            uploader.uploadIDImage(image: image, for: parent.uploadType) { success, imageURL, responseType in
+//                DispatchQueue.main.async {
+//                    let imageType = self.parent.uploadType == "Face_id" ? "الوجه الأمامي" : "الوجه الخلفي"
+//
+//                    if success, let imageURL = imageURL, let url = URL(string: imageURL), responseType != nil {
+//                        if responseType != self.parent.uploadType {
+//                            
+//                            self.parent.showToast?(" خطأ في التعرف على \(imageType)!\nيرجى المحاولة مجددًا.", Color.orange.opacity(0.9), true) // ✅ النص يظهر على سطرين
+//
+//                           // print("⚠️ خطأ: تم إرجاع نوع غير صحيح. المتوقع \(self.parent.uploadType)، ولكن تم استقبال \(responseType ?? "null")")
+////                            self.parent.showToast?("⚠️ خطأ في التعرف على \(imageType)!", Color.red, true) // ✅ رسالة مخصصة مع زر "تم"
+//                            return
+//                        }
+//                        
+//                        
+//         
+//
+//                        self.downloadImage(from: url)
+//
+//                    } else {
+//                      //  print("⚠️ فشل التعرف على الصورة، تم إرجاع `null`.")
+//                        self.parent.showToast?("❌ فشل التعرف على \(imageType).\nيرجى المحاولة مجددًا.", Color.orange.opacity(0.9), true) // ✅ رسالة مخصصة من سطرين
+//
+////                        self.parent.showToast?("❌ فشل التعرف على \(imageType). يرجى المحاولة مجددًا.", Color.red, true) // ✅ رسالة مخصصة مع زر "تم"
+//                    }
+//                }
+//            }
+//        }
+//
+//        private func downloadImage(from url: URL) {
+//            let imageType = self.parent.uploadType == "Face_id" ? "الوجه الأمامي" : "الوجه الخلفي"
+//
+//            URLSession.shared.dataTask(with: url) { data, response, error in
+//                if let data = data, let downloadedImage = UIImage(data: data) {
+//                    DispatchQueue.main.async {
+//                        self.parent.onUploadComplete?(true, downloadedImage)
+//                        self.parent.showToast?("✅ تم رفع \(imageType) بنجاح!", Color.green, true) // ✅ رسالة مخصصة مع زر "تم"
+//                    }
+//                } else {
+//                    DispatchQueue.main.async {
+//                        print(" فشل تحميل \(imageType) من السيرفر.")
+//                        self.parent.showToast?("❌ فشل تحميل \(imageType) من السيرفر.", Color.red, true) // ✅ رسالة مخصصة مع زر "تم"
+//                        self.parent.onUploadComplete?(false, nil)
+//                    }
+//                }
+//            }.resume()
+//        }
+//    }
+//}
 
 
 
