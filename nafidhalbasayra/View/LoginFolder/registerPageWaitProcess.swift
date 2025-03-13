@@ -12,15 +12,15 @@ import SwiftUI
 struct registerPageWaitProcess: View {
     @State private var isCheckingStatus = false
     @State private var statusMessage: String? = nil
-    @State private var currentPage: AppNavigation? = nil // ✅ المتغير لتحديد الصفحة الحالية
+    @State private var currentPage: AppNavigation? = nil //  المتغير لتحديد الصفحة الحالية
 
     var body: some View {
         if currentPage == .home {
-            registerPageAccept() // ✅ الانتقال إلى الصفحة الرئيسية
+            registerPageAccept() //  الانتقال إلى الصفحة الرئيسية
         } else if currentPage == .rejection {
-            registerPageDecline() // ✅ الانتقال إلى صفحة الرفض
+            registerPageDecline() //  الانتقال إلى صفحة الرفض
         } else {
-            // ✅ صفحة الانتظار الأصلية
+            //  صفحة الانتظار الأصلية
             VStack {
                 Spacer()
                     .frame(height: screenHeight * 0.05)
@@ -115,9 +115,15 @@ struct registerPageWaitProcess: View {
                 switch result {
                 case .success(let state):
                     if state == 2 {
-                        currentPage = .home // ✅ الانتقال إلى الصفحة الرئيسية
+                        currentPage = .home //  الانتقال إلى الصفحة الرئيسية
+                        let defaults = UserDefaults.standard
+                        let loginState = 2
+                        defaults.set(loginState, forKey: "loginState")
                     } else if state == 3 {
-                        currentPage = .rejection // ✅ الانتقال إلى صفحة الرفض
+                        currentPage = .rejection //  الانتقال إلى صفحة الرفض
+                        let defaults = UserDefaults.standard
+                        let loginState = 0
+                        defaults.set(loginState, forKey: "loginState")
                     } else {
                         statusMessage = "⏳ لا تزال بياناتك قيد المراجعة."
                     }
@@ -129,7 +135,7 @@ struct registerPageWaitProcess: View {
     }
 }
 
-// ✅ تعريف `AppNavigation`
+//  تعريف `AppNavigation`
 enum AppNavigation: Hashable {
     case home
     case wait
