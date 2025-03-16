@@ -35,11 +35,16 @@ struct MainParentView: View {
                     .environmentObject(teacherData)
                   //  .environmentObject(coreDataViewModel)
             } else if loginState == 0 {
+                
                 RegisterInfoPage()
                    // .environmentObject(coreDataViewModel)
                     .preferredColorScheme(.light)
                     .environmentObject(teacherData)
                    // .environmentObject(coreDataViewModel)
+                    .onAppear {
+                                UserDefaults.standard.removeObject(forKey: "imageDownloadError")
+                            }
+                
             } else if loginState == 3 {
                 registerPageDecline()
                   //  .environmentObject(coreDataViewModel)
@@ -53,6 +58,7 @@ struct MainParentView: View {
         }
         .onAppear {
             uploadData() // تحميل البيانات عند فتح الصفحة لأول مرة
+          
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {

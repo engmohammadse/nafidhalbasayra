@@ -5,6 +5,7 @@ import SwiftUI
 struct TeacherProfileView: View {
     @StateObject var vmTeacher = CoreDataViewModel.shared
     @State private var showDeleteConfirmation = false
+    @State private var profileImage: UIImage? = getSavedProfileImage()
     @Environment(\.dismiss) var dismiss
 
     var teacher: TeacherInfo? {
@@ -28,7 +29,21 @@ struct TeacherProfileView: View {
 
                 if let teacher = teacher {
                     //  صورة الأستاذ الشخصية
-                    if let imageData = teacher.profileimage, let image = UIImage(data: imageData) {
+                    
+                    if let image = profileImage {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 120, height: 120)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(primaryColor, lineWidth: 2))
+                            .shadow(radius: 4)
+                            .padding(.top, uiDevicePhone ? screenHeight * 0.04 : screenHeight * 0.08)
+                            .padding(.bottom, uiDevicePhone ? screenHeight * 0.05 : screenHeight * 0.08)
+                        
+                        
+                        
+                    }  else if let imageData = teacher.profileimage, let image = UIImage(data: imageData) {
                         Image(uiImage: image)
                             .resizable()
                             .scaledToFill()

@@ -90,18 +90,12 @@ class LoginViewModel: ObservableObject {
         self.loginError = nil
         self.responseMessage = "تم بنجاح تسجيل الدخول، ID: \(response.id)"
         
-        // حفظ بيانات الأستاذ في Core Data
-        let coreDataVM = CoreDataViewModel.shared
-        coreDataVM.saveTeacherInfo(from: response)
+        
         
         let defaults = UserDefaults.standard
-        let teacherId = "\(response.id)"
-        defaults.set(teacherId, forKey: "teacherId")
         defaults.set(response.data?.rejectionReason, forKey: "rejectionReason")
-        if let username = response.data?.username {
-            defaults.set(username, forKey: "username")
-            print("✅ تم حفظ اسم المستخدم في UserDefaults: \(username)")
-        }
+        
+      
         
         // تحديد الصفحة بناءً على حالة الاستجابة
         switch response.state {
@@ -121,36 +115,63 @@ class LoginViewModel: ObservableObject {
             // في حالة 2، ننتظر تحميل البيانات والصور بالكامل
             let group = DispatchGroup()
             
-            // تحميل الصورة إن وُجدت
-            if let imageUrl = response.data?.image_1 {
-                group.enter()
+            // حفظ بيانات الأستاذ في Core Data
+            let coreDataVM = CoreDataViewModel.shared
+            coreDataVM.saveTeacherInfo(from: response)
+            
+          
+            let teacherId = "\(response.id)"
+            defaults.set(teacherId, forKey: "teacherId")
+            
+            if let username = response.data?.username {
+                defaults.set(username, forKey: "username")
+               // print("✅ تم حفظ اسم المستخدم في UserDefaults: \(username)")
+            }
+            
+            // تحميل الصورة إن وُجدت، وفي حال تحميلها بنجاح يبدأ بعدها جلب بيانات الحضور والطلاب
+            if let imageUrl = response.data?.image_1, !imageUrl.isEmpty  {
+                group.enter()  // بدء مهمة تحميل الصورة
                 let fullImageUrl = "http://198.244.227.48:8082\(imageUrl)"
-                downloadAndSaveImage(imageUrl: fullImageUrl) {
-                    group.leave()
+                downloadAndSaveImage(imageUrl: fullImageUrl, group: group) { success in                    // داخل الـ closure الخاص بتحميل الصورة
+                    
+                    if success {
+                        // بدء جلب بيانات الحضور
+                        group.enter()
+                        Task {
+                            await self.attendanceFetcher.fetchAndStoreAttendances(teacherID: defaults.string(forKey: "teacherId") ?? teacherId)
+                            group.leave()
+                        }
+                        
+                        // بدء جلب بيانات الطلاب
+                        group.enter()
+                        Task {
+                            await self.studentFetcher.fetchAndStoreStudents(teacherID: defaults.string(forKey: "teacherId") ?? teacherId)
+                            group.leave()
+                        }
+                        // سيتم استدعاء هذا الـ notify بعد انتهاء جميع المهام (تحميل الصورة وجلب الحضور والطلاب)
+                        group.notify(queue: .main) {
+                            defaults.set(2, forKey: "loginState")
+                            self.isLoading = false
+                            self.navigateToNextPage = true
+                          }
+                        
+                        group.leave() // إنهاء مهمة تحميل الصورة الخارجية
+                        
+                    } else {
+                        
+                        self.isLoading = false
+                        self.navigateToNextPage = false
+                        group.leave()
+                        
+                    }
+                    
+                  
                 }
+                   
             }
+
             
-            // جلب بيانات الحضور
-            group.enter()
-            Task {
-                await self.attendanceFetcher.fetchAndStoreAttendances(teacherID: defaults.string(forKey: "teacherId") ?? teacherId)
-                group.leave()
-            }
-            
-            // جلب بيانات الطلاب
-            group.enter()
-            Task {
-                await self.studentFetcher.fetchAndStoreStudents(teacherID: defaults.string(forKey: "teacherId") ?? teacherId)
-                group.leave()
-            }
-            
-            // عند انتهاء جميع العمليات
-            group.notify(queue: .main) {
-                defaults.set(2, forKey: "loginState")
-                self.isLoading = false
-                self.navigateToNextPage = true
-                
-            }
+          
         case 3:
             self.nextPage = .rejectionIssue
             defaults.set(3, forKey: "loginState")
@@ -178,23 +199,75 @@ class LoginViewModel: ObservableObject {
 }
 
 // دالة تحميل الصورة مع Completion handler (تظل تعمل حتى في حالة بطء الاتصال)
-func downloadAndSaveImage(imageUrl: String, completion: @escaping () -> Void) {
+
+func downloadAndSaveImage(imageUrl: String, group: DispatchGroup, completion: @escaping (Bool) -> Void) {
+    group.enter()
     guard let url = URL(string: imageUrl) else {
-        completion()
+        group.leave()
+        completion(false)
         return
     }
-    let task = URLSession.shared.dataTask(with: url) { data, _, _ in
-        defer { completion() }
-        guard let data = data, let image = UIImage(data: data) else { return }
-        if let savedPath = saveImageToFileManager(image: image) {
-            UserDefaults.standard.set(savedPath, forKey: "profileImagePath")
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: NSNotification.Name("ProfileImageUpdated"), object: nil)
+    let task = URLSession.shared.dataTask(with: url) { data, _, error in
+        defer { group.leave() }
+        if let data = data, let image = UIImage(data: data) {
+            if let savedPath = saveImageToFileManager(image: image) {
+                UserDefaults.standard.set(savedPath, forKey: "profileImagePath")
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: NSNotification.Name("ProfileImageUpdated"), object: nil)
+                }
             }
+            completion(true)
+        } else {
+            // محاولة استخراج رسالة الخطأ من بيانات الاستجابة
+            let serverError: String
+            if let data = data,
+               let errorDict = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+               let message = errorDict["message"] as? String {
+                serverError = message
+            } else {
+                serverError = error?.localizedDescription ?? "خطأ غير معروف"
+            }
+            let combinedError = "حدث خطأ أثناء تحميل بيانات الاستاذ من السيرفر\n\(serverError)"
+            UserDefaults.standard.set(combinedError, forKey: "imageDownloadError")
+            print("❌ فشل تحميل الصورة: \(combinedError)")
+            completion(false)
         }
     }
     task.resume()
 }
+
+
+//func downloadAndSaveImage(imageUrl: String, group: DispatchGroup, completion: @escaping (Bool) -> Void) {
+//    group.enter()
+//    guard let url = URL(string: imageUrl) else {
+//        group.leave()
+//        completion(false)
+//        return
+//    }
+//    let task = URLSession.shared.dataTask(with: url) { data, _, error in
+//        defer { group.leave() }
+//        if let data = data, let image = UIImage(data: data) {
+//            if let savedPath = saveImageToFileManager(image: image) {
+//                UserDefaults.standard.set(savedPath, forKey: "profileImagePath")
+//                DispatchQueue.main.async {
+//                    NotificationCenter.default.post(name: NSNotification.Name("ProfileImageUpdated"), object: nil)
+//                }
+//            }
+//            completion(true)
+//        } else {
+//            // الحصول على رسالة الخطأ من السيرفر أو رسالة افتراضية
+//            let serverError = error?.localizedDescription ?? "خطأ غير معروف"
+//            let combinedError = "حدث خطأ أثناء تحميل بيانات الاستاذ من السيرفر\n\(serverError)"
+//            UserDefaults.standard.set(combinedError, forKey: "imageDownloadError")
+//           // print("❌ فشل تحميل الصورة: \(combinedError)")
+//            completion(false)
+//        }
+//    }
+//    task.resume()
+//}
+
+
+
 
 func saveImageToFileManager(image: UIImage) -> String? {
     let fileManager = FileManager.default

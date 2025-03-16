@@ -227,6 +227,9 @@ struct RegisterInfoPage: View {
         .navigationBarBackButtonHidden(true)
         .background(Color.clear)
         .hideKeyboard()
+        .onDisappear {
+                    UserDefaults.standard.removeObject(forKey: "imageDownloadError")
+                }
 
      
     }

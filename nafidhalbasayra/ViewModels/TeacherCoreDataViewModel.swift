@@ -71,20 +71,52 @@ class CoreDataViewModel: ObservableObject {
     
     
     
-    func deleteAllTeacherInfo() {
-           let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TeacherInfo")
-           let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-           
-           do {
-               try container.viewContext.execute(batchDeleteRequest)
-               try container.viewContext.save()
-               fetchTeacherInfo()
-               print("All records in TeacherInfo have been deleted.")
-           } catch let error {
-               print("Error deleting all records in TeacherInfo: \(error)")
-           }
-       }
     
+    
+    
+    func deleteAllTeacherInfo() {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TeacherInfo")
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        // الحصول على الـ objectIDs للكائنات المحذوفة
+        batchDeleteRequest.resultType = .resultTypeObjectIDs
+        
+        do {
+            let result = try container.viewContext.execute(batchDeleteRequest) as? NSBatchDeleteResult
+            if let objectIDs = result?.result as? [NSManagedObjectID] {
+                // دمج التغييرات في الـ context لتحديث الكاش وإزالة الكائنات المحذوفة
+                let changes = [NSDeletedObjectsKey: objectIDs]
+                NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [container.viewContext])
+            }
+            // إعادة تعيين الـ context لتفريغ الكائنات القديمة
+            container.viewContext.reset()
+            fetchTeacherInfo()
+           // print("All records in TeacherInfo have been deleted.")
+        } catch _ {
+           // print("Error deleting all records in TeacherInfo: \(error)")
+        }
+    }
+
+//    func deleteAllTeacherInfo() {
+//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TeacherInfo")
+//        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+//        batchDeleteRequest.resultType = .resultTypeObjectIDs
+//        
+//        do {
+//            let result = try container.viewContext.execute(batchDeleteRequest) as? NSBatchDeleteResult
+//            if let objectIDs = result?.result as? [NSManagedObjectID] {
+//                // دمج التغييرات لتحديث الـ context
+//                let changes = [NSDeletedObjectsKey: objectIDs]
+//                NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [container.viewContext])
+//            }
+//            // تحديث البيانات
+//            fetchTeacherInfo()
+//            print("All records in TeacherInfo have been deleted.")
+//        } catch let error {
+//            print("Error deleting all records in TeacherInfo: \(error)")
+//        }
+//    }
+
+
     
     
 
