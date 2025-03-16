@@ -153,7 +153,9 @@ class SyncTeacherDataPostApi {
                           let imageUrl = json["image_1"] as? String {
                            
                            let fullImageUrl = "http://198.244.227.48:8082\(imageUrl)"
-                           downloadAndSaveImage(imageUrl: fullImageUrl)
+                           downloadAndSaveImage(imageUrl: fullImageUrl) {
+                               
+                           }
                            //
                          }
                        } else {
