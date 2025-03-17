@@ -173,28 +173,7 @@ class TeacherDataViewModel: ObservableObject {
     
     @Published var sendTeacherDataToBackEndState: Int = 0
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // RP1
-    //
-    
-//    func checkCityIdFromApi() -> Bool {
-//        if !globalCityIdFromApi.isEmpty {
-//            mustChooseCityAlertRP1 = false
-//            return false
-//        } else {
-//            mustChooseCityAlertRP1 = true
-//            return true
-//        }
-//    }
+ 
     
 
     @Published var isGoRP1: Bool = false
@@ -285,7 +264,7 @@ class TeacherDataViewModel: ObservableObject {
         // RP2
     
     @Published var isLoadingRP2 = false
-
+    @Published  var showToastِErrorRP2 = false
     
     
     

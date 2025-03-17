@@ -95,7 +95,14 @@ class LoginViewModel: ObservableObject {
         let defaults = UserDefaults.standard
         defaults.set(response.data?.rejectionReason, forKey: "rejectionReason")
         
-      
+        let teacherId = "\(response.id)"
+        defaults.set(teacherId, forKey: "teacherId")
+        
+        if let username = response.data?.username {
+            defaults.set(username, forKey: "username")
+           // print("✅ تم حفظ اسم المستخدم في UserDefaults: \(username)")
+        }
+        
         
         // تحديد الصفحة بناءً على حالة الاستجابة
         switch response.state {
@@ -120,13 +127,8 @@ class LoginViewModel: ObservableObject {
             coreDataVM.saveTeacherInfo(from: response)
             
           
-            let teacherId = "\(response.id)"
-            defaults.set(teacherId, forKey: "teacherId")
-            
-            if let username = response.data?.username {
-                defaults.set(username, forKey: "username")
-               // print("✅ تم حفظ اسم المستخدم في UserDefaults: \(username)")
-            }
+          
+          
             
             // تحميل الصورة إن وُجدت، وفي حال تحميلها بنجاح يبدأ بعدها جلب بيانات الحضور والطلاب
             if let imageUrl = response.data?.image_1, !imageUrl.isEmpty  {

@@ -28,16 +28,13 @@ class SyncTeacherDataPostApi {
                   return
               }
 
-//              // التأكيد على أن الصور موجودة
-//              print("Profile Image عند الإرسال: \(profileImage != nil ? "موجودة" : "غير موجودة")")
-//              print("Front Face Image عند الإرسال: \(frontFaceImage != nil ? "موجودة" : "غير موجودة")")
-//              print("Back Face Image عند الإرسال: \(backFaceImage != nil ? "موجودة" : "غير موجودة")")
-//
-//        
+
 
         // URL
 //    http://192.168.15.160:8082/teachers/register-teacher
 //    http://198.244.227.48:8082/teachers/register-teacher
+        
+        
         guard let url = URL(string: "http://198.244.227.48:8082/teachers/register-teacher") else {
             print("❌ Invalid URL")
             return
@@ -59,6 +56,7 @@ class SyncTeacherDataPostApi {
 
         // إضافة الحقول النصية
         let parameters: [String: String] = [
+
             "teacher_id": teacherId, //"6745c9453e5fc4b217eef1ae",
             "region_id": viewModel.regionIdfromApi,
             "governorate_id": viewModel.cityIdfromApi,
@@ -89,16 +87,27 @@ class SyncTeacherDataPostApi {
             ("image_2", frontFaceImage, "front-face-image.jpg"),
             ("image_3", backFaceImage, "back-face-image.jpg")
         ]
-
+        
+        
         for (name, image, fileName) in images {
-            guard let imageData = image.jpegData(compressionQuality: 0.8) else { continue }
+            var compressionQuality: CGFloat = 0.6
+            var imageData = image.jpegData(compressionQuality: compressionQuality)
+            
+            // التحقق من حجم الصورة وضغطها حتى تصبح أقل من 900KB
+            while let data = imageData, data.count > 900_000, compressionQuality > 0.3 {
+                compressionQuality -= 0.1
+                imageData = image.jpegData(compressionQuality: compressionQuality)
+            }
+
+            guard let finalImageData = imageData else { continue }
 
             body.append("--\(boundary)\r\n".data(using: .utf8)!)
             body.append("Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
             body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
-            body.append(imageData)
+            body.append(finalImageData)
             body.append("\r\n".data(using: .utf8)!)
         }
+
 
 
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
@@ -108,34 +117,52 @@ class SyncTeacherDataPostApi {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             
           
+           
+            
             if let error = error {
-                print("❌ Failed to send data: \(error.localizedDescription)")
+               // print("❌ Failed to send data: \(error.localizedDescription)")
+               
                 return
             }
 
             if let httpResponse = response as? HTTPURLResponse {
-                print("🟡 HTTP Status Code: \(httpResponse.statusCode)")
+               // print("🟡 HTTP Status Code: \(httpResponse.statusCode)")
                 if let data = data, let responseBody = String(data: data, encoding: .utf8) {
-                    print("🟡 Response Body: \(responseBody)")
+                  //  print("🟡 Response Body: \(responseBody)")
                 }
+                
+                
+                
+                if let data = data {
+                         // محاولة تحليل الـ response body واستخراج رسالة الخطأ
+                         do {
+                             // محاولة تحويل البيانات إلى JSON
+                             if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                                let message = jsonResponse["message"] as? String {
+                                 // تخزين رسالة الخطأ في UserDefaults
+                                 UserDefaults.standard.set(message, forKey: "serverErrorMessage")
+                               //  print("⚠️ Error Message from server: \(message)")
+                             }
+                         } catch {
+                            // print("❌ Failed to parse response body: \(error.localizedDescription)")
+                         }
+                     }
+                
 
-                if httpResponse.statusCode == 200 {
-                    print("✅ Data sent successfully for teacher: \(viewModel.name)")
-//                    DispatchQueue.main.async {
-//                        viewModel.isLoadingRP2 = false
-//                        viewModel.sendTeacherDataToBackEndState = 1 // أو أي حالة تريد تعيينها
-//                    }
-
+                if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
+                    //print("✅ Data sent successfully for teacher: \(viewModel.name)")
+               
+                    let defaults = UserDefaults.standard
+                   // let loginState = 1
+                    defaults.set(httpResponse.statusCode, forKey: "loginState")
+                    
+                    UserDefaults.standard.removeObject(forKey: "serverErrorMessage")
                    
                     
                 } else {
-                    print("❌ Failed to send data. Status code: \(httpResponse.statusCode)")
-//                    DispatchQueue.main.async {
-//                        viewModel.isLoadingRP2 = false
-//                        viewModel.sendTeacherDataToBackEndState = 2 // أو أي حالة تريد تعيينها
-//                    }
-
-
+                  //  print("❌ Failed to send data. Status code: \(httpResponse.statusCode)")
+                    //UserDefaults.standard.set(error?.localizedDescription, forKey: "serverErrorMessage")
+                   
 
                 }
                 
@@ -143,8 +170,10 @@ class SyncTeacherDataPostApi {
                 
                 
                 DispatchQueue.main.async {
-                       viewModel.isLoadingRP2 = false
-                       if httpResponse.statusCode == 200 {
+                       
+                       if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
+                           
+                           viewModel.isLoadingRP2 = false
                            viewModel.sendTeacherDataToBackEndState = 1
                            
                            //  **تنزيل الصورة الجديدة بعد نجاح الإرسال**
@@ -160,6 +189,9 @@ class SyncTeacherDataPostApi {
 //                         }
                        } else {
                            viewModel.sendTeacherDataToBackEndState = 2
+
+                           viewModel.isLoadingRP2 = false
+                           viewModel.showToastِErrorRP2 = true
                        }
                    }
                 
