@@ -128,7 +128,7 @@ class SyncTeacherDataPostApi {
             if let httpResponse = response as? HTTPURLResponse {
                // print("🟡 HTTP Status Code: \(httpResponse.statusCode)")
                 if let data = data, let responseBody = String(data: data, encoding: .utf8) {
-                  //  print("🟡 Response Body: \(responseBody)")
+//                    print("🟡 Response Body: \(responseBody)")
                 }
                 
                 
@@ -141,6 +141,8 @@ class SyncTeacherDataPostApi {
                                 let message = jsonResponse["message"] as? String {
                                  // تخزين رسالة الخطأ في UserDefaults
                                  UserDefaults.standard.set(message, forKey: "serverErrorMessage")
+                                 
+                             
                                //  print("⚠️ Error Message from server: \(message)")
                              }
                          } catch {
@@ -150,12 +152,18 @@ class SyncTeacherDataPostApi {
                 
 
                 if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
-                    //print("✅ Data sent successfully for teacher: \(viewModel.name)")
+//                    print("✅ Data sent successfully for teacher: \(viewModel.name)")
                
                     let defaults = UserDefaults.standard
-                   // let loginState = 1
-                    defaults.set(httpResponse.statusCode, forKey: "loginState")
+                    let loginState = 1
+                    defaults.set(loginState, forKey: "loginState")
+                    defaults.synchronize()
                     
+                    // التحقق فورًا بعد التخزين
+//                    let retrievedState = defaults.integer(forKey: "loginState")
+//                    print("🔍 Retrieved loginState: \(retrievedState)")  // يجب أن يطبع 1
+
+       
                     UserDefaults.standard.removeObject(forKey: "serverErrorMessage")
                    
                     
