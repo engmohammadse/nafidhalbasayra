@@ -11,6 +11,7 @@ struct TeacherProfileView: View {
     var teacher: TeacherInfo? {
         return vmTeacher.savedEntitiesTeacher.first
     }
+    
 
     var body: some View {
         //NavigationStack {

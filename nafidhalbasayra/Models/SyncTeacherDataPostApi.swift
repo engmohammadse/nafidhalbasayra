@@ -184,17 +184,24 @@ class SyncTeacherDataPostApi {
                            viewModel.isLoadingRP2 = false
                            viewModel.sendTeacherDataToBackEndState = 1
                            
-                           //  **تنزيل الصورة الجديدة بعد نجاح الإرسال**
-//                       if let data = data,
-//                          let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-//                          let imageUrl = json["image_1"] as? String {
-//                           
-//                           let fullImageUrl = "http://198.244.227.48:8082\(imageUrl)"
-//                           downloadAndSaveImage(imageUrl: fullImageUrl) {
-//                               
-//                           }
-//                           //
-//                         }
+                          //   **تنزيل الصورة الجديدة بعد نجاح الإرسال**
+                           if let data = data,
+                              let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                              let imageUrl = json["image_1"] as? String {
+                               
+                               let fullImageUrl = "http://198.244.227.48:8082\(imageUrl)"
+                               
+                               downloadAndSaveImage(imageUrl: fullImageUrl) { imageData in
+                                   if let imageData = imageData {
+                                       print("✅ تم تحميل الصورة بنجاح وحجمها: \(imageData.count) بايت")
+                                   } else {
+                                       print("❌ فشل تحميل الصورة")
+                                   }
+                               }
+                           }
+
+
+                           
                        } else {
                            viewModel.sendTeacherDataToBackEndState = 2
 

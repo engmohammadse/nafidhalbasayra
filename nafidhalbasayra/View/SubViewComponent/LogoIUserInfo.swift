@@ -82,7 +82,12 @@ struct LogoIUserInfo: View {
     @State private var showLogoutConfirmation = false // تأكيد تسجيل الخروج
     
     @State private var profileImage: UIImage? = getSavedProfileImage()
+    @StateObject var vmTeacher = CoreDataViewModel.shared
 
+    var teacher: TeacherInfo? {
+        return vmTeacher.savedEntitiesTeacher.first
+    }
+    
     
     var body: some View {
         GeometryReader { geometry in
@@ -99,7 +104,20 @@ struct LogoIUserInfo: View {
                     showLogoutConfirmation = true // عرض تأكيد تسجيل الخروج
                 }) {
                     
-                    if let image = profileImage {
+                    
+                    if let teacher = teacher {
+                        //  صورة الأستاذ الشخصية
+                        
+                        if let imageData = teacher.profileimage, let image = UIImage(data: imageData) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: screenWidth > 400 ? (uiDevicePhone ? screenWidth * 0.1 : screenWidth * 0.07) : screenWidth * 0.1)
+                                .clipShape(Circle())
+                        }
+                    }
+                    
+                   else if let image = profileImage {
                         Image(uiImage: image)
                             .resizable()
                             .scaledToFit()
