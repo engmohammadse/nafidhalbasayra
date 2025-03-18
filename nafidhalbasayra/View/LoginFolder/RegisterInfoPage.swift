@@ -50,6 +50,9 @@ struct RegisterInfoPage: View {
                 // المنطق الخاص بالدخول
                 LoginStatusView(viewModel: viewModel)
                 
+                
+                
+                
                 Spacer()
                     .frame(height: screenHeight * 0.01)
                 
@@ -81,6 +84,7 @@ struct RegisterInfoPage: View {
                             checkLoginButtonState() //  تحديث الزر عند إدخال اسم المستخدم
 
                         }
+                        .disabled(viewModel.isLoading)
                         .overlay(
                             RoundedRectangle(cornerRadius: 5)
                                 .stroke(
@@ -117,6 +121,7 @@ struct RegisterInfoPage: View {
                                         checkLoginButtonState() //  تحديث الزر عند إدخال اسم المستخدم
 
                                                          }
+                                .disabled(viewModel.isLoading)
                                   
                             } else {
                                 SecureField("1234", text: $viewModel.password)
@@ -131,6 +136,7 @@ struct RegisterInfoPage: View {
                                         checkLoginButtonState() //  تحديث الزر عند إدخال اسم المستخدم
 
                                                          }
+                                    .disabled(viewModel.isLoading)
                             }
                         }
         
@@ -181,8 +187,8 @@ struct RegisterInfoPage: View {
                             ? Color.black
                             : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
                 .cornerRadius(5)
-                .disabled(isButtonDisabled)
-                .opacity(isButtonDisabled ? 0.5 : 1.0)
+                .disabled(viewModel.isLoading)
+                .opacity(viewModel.isLoading ? 0.5 : 1.0)
                 .navigationDestination(isPresented: $viewModel.navigateToNextPage) {
                     switch viewModel.nextPage {
                     case .registerInfo:
@@ -203,6 +209,7 @@ struct RegisterInfoPage: View {
                            // .environmentObject(coreDataViewModel)
                             .environmentObject(teacherData)
                             .preferredColorScheme(.light)
+
 
                     case .rejectionIssue:
                         registerPageDecline()

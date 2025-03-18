@@ -132,13 +132,7 @@ struct MainViewPage: View {
                     studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
                 }
                 
-                Task {
-                                   await attendanceFetcher.fetchAndStoreAttendances(teacherID: UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7")
-                               }
-                
-                Task {
-                           await studentFetcher.fetchAndStoreStudents(teacherID: UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7") // 🔹 جلب الطلاب عند إعادة فتح التطبيق
-                       }
+              
                 
                }
             

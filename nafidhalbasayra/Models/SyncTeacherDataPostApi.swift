@@ -200,8 +200,8 @@ class SyncTeacherDataPostApi {
                                }
                            }
 
-
-                           
+//                           //
+//                         }
                        } else {
                            viewModel.sendTeacherDataToBackEndState = 2
 

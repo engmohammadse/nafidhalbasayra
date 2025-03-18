@@ -222,6 +222,9 @@ struct registerPageTextField: View {
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
             
             TextField("", text: $teacherData.phonenumber)
+                .keyboardType(.asciiCapableNumberPad) //  يجبر لوحة المفاتيح على الأرقام الإنجليزية فقط
+                .textContentType(.oneTimeCode) //  يساعد في تعطيل زر تغيير اللغة في بعض لوحات المفاتيح
+                .disableAutocorrection(true) //  يمنع التصحيح التلقائي ويقلل من احتمال تبديل اللغة
                 .keyboardType(.numberPad)
                 .onChange(of: teacherData.phonenumber) { newValue in
                     let filtered = newValue.filter { $0.isNumber }
@@ -290,6 +293,9 @@ struct registerPageTextField: View {
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? screenWidth * 0.2 : screenWidth * 0.05)
             
             TextField("", text: $teacherData.citynumber)
+                .keyboardType(.asciiCapableNumberPad) //  يجبر لوحة المفاتيح على الأرقام الإنجليزية فقط
+                .textContentType(.oneTimeCode) //  يساعد في تعطيل زر تغيير اللغة في بعض لوحات المفاتيح
+                .disableAutocorrection(true) //  يمنع التصحيح التلقائي ويقلل من احتمال تبديل اللغة
                 .keyboardType(.numberPad)
                 .onChange(of: teacherData.citynumber) { newValue in
                         // السماح فقط بالأرقام الإنجليزية من 0 إلى 9

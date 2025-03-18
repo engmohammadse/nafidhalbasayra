@@ -78,9 +78,9 @@ struct FormFieldNumber: View {
 
 
                 TextField("", text: $text)
-                    .keyboardType(.asciiCapableNumberPad) // ✅ يجبر لوحة المفاتيح على الأرقام الإنجليزية فقط
-                    .textContentType(.oneTimeCode) // ✅ يساعد في تعطيل زر تغيير اللغة في بعض لوحات المفاتيح
-                    .disableAutocorrection(true) // ✅ يمنع التصحيح التلقائي ويقلل من احتمال تبديل اللغة
+                    .keyboardType(.asciiCapableNumberPad) //  يجبر لوحة المفاتيح على الأرقام الإنجليزية فقط
+                    .textContentType(.oneTimeCode) //  يساعد في تعطيل زر تغيير اللغة في بعض لوحات المفاتيح
+                    .disableAutocorrection(true) //  يمنع التصحيح التلقائي ويقلل من احتمال تبديل اللغة
                     .foregroundStyle(primaryColor)
                     .frame(maxWidth: screenHeight * 0.4)
                     .frame(height: screenHeight * 0.05)

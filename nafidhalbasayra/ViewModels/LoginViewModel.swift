@@ -90,7 +90,7 @@ class LoginViewModel: ObservableObject {
         self.loginError = nil
         self.responseMessage = "تم بنجاح تسجيل الدخول، ID: \(response.id)"
         
-        
+
         
         let defaults = UserDefaults.standard
         defaults.set(response.data?.rejectionReason, forKey: "rejectionReason")
@@ -152,9 +152,14 @@ class LoginViewModel: ObservableObject {
                         }
                         // سيتم استدعاء هذا الـ notify بعد انتهاء جميع المهام (تحميل الصورة وجلب الحضور والطلاب)
                         group.notify(queue: .main) {
-                            defaults.set(2, forKey: "loginState")
                             self.isLoading = false
-                            self.navigateToNextPage = true
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                defaults.set(2, forKey: "loginState")
+                                self.navigateToNextPage = true
+                            }
+   
+                                 
                           }
                         
                         group.leave() // إنهاء مهمة تحميل الصورة الخارجية
@@ -183,9 +188,10 @@ class LoginViewModel: ObservableObject {
             self.loginError = "حالة غير معروفة: \(response.state)"
             self.nextPage = nil
             self.isLoading = false
+            defaults.set(0, forKey: "loginState")
         }
         
-        print("✅ تم تخزين معرف الأستاذ في قاعدة البيانات.")
+      //  print("✅ تم تخزين معرف الأستاذ في قاعدة البيانات.")
     }
     
     // التعامل مع تسجيل الدخول الفاشل

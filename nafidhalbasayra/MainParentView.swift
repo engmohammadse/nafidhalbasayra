@@ -6,85 +6,57 @@
 //
 
 
+
 import SwiftUI
 
 struct MainParentView: View {
     @StateObject var teacherData = TeacherDataViewModel()
-   // @StateObject var coreDataViewModel = CoreDataViewModel()
     @StateObject var studentViewModel = StudentViewModel.shared
     @StateObject var studentFetcher = fetchAndStoreStudentsFromBackEnd(database: StudentViewModel.shared)
     @StateObject var attendanceFetcher = fetchAndStoreAttendancesFromBackEnd(database: AttendaceStatusViewModel.shared)
 
-    @Environment(\.scenePhase) private var scenePhase // 🔹 متابعة حالة التطبيق
+
+    @State private var loginState: Int = 0 // تخزين الحالة في متغير @State
+
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
-        let loginState = UserDefaults.standard.integer(forKey: "loginState")
+        
         NavigationStack {
-            
-         
-            
-            if loginState == 2 {
+            switch loginState {
+            case 2:
                 MainViewPage()
                     .preferredColorScheme(.light)
                     .environmentObject(teacherData)
-                   // .environmentObject(coreDataViewModel)
-                
-            } else if loginState == 1 {
+            case 1:
                 registerPageWaitProcess()
                     .preferredColorScheme(.light)
                     .environmentObject(teacherData)
-                  //  .environmentObject(coreDataViewModel)
-            } else if loginState == 0 {
-                
+            case 0:
                 RegisterInfoPage()
-                   // .environmentObject(coreDataViewModel)
                     .preferredColorScheme(.light)
                     .environmentObject(teacherData)
-                   // .environmentObject(coreDataViewModel)
                     .onAppear {
-                                UserDefaults.standard.removeObject(forKey: "imageDownloadError")
-                            }
-                
-            } else if loginState == 3 {
+                        UserDefaults.standard.removeObject(forKey: "imageDownloadError")
+                    }
+            case 3:
                 registerPageDecline()
-                  //  .environmentObject(coreDataViewModel)
                     .preferredColorScheme(.light)
                     .environmentObject(teacherData)
-            } else {
-                Text("جارٍ تحميل البيانات...") // ✅ شاشة مؤقتة في حال لم يتم تعيين loginState بعد
+            default:
+                Text("جارٍ تحميل البيانات...")
                     .font(.headline)
                     .foregroundColor(.gray)
             }
         }
         .onAppear {
-            uploadData() // تحميل البيانات عند فتح الصفحة لأول مرة
-          
-        }
-        .onChange(of: scenePhase) { newPhase in
-            if newPhase == .active {
-                uploadData() // تحميل البيانات عند إعادة فتح التطبيق من الخلفية
-            }
-        }
+                 // قراءة قيمة loginState عند ظهور الـ View
+                 self.loginState = UserDefaults.standard.integer(forKey: "loginState")
+             }
+       
     }
 
-    // 🔹 دالة تحميل بيانات الحضور والطلاب
-    func uploadData() {
-        Task {
-                           await attendanceFetcher.fetchAndStoreAttendances(teacherID: UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7")
-                       }
-        
-        Task {
-                   await studentFetcher.fetchAndStoreStudents(teacherID: UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7") // 🔹 جلب الطلاب عند إعادة فتح التطبيق
-               }
-        //
-//        let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
-//        attendanceUploader.sendPendingAttendanceData()
-//
-//        let studentUploader = StudentUploader(database: studentViewModel)
-//        studentUploader.sendPendingStudentData()
-//
-//        print("✅ تم تحميل البيانات بنجاح!")
-    }
+ 
 }
 
 
@@ -92,9 +64,100 @@ struct MainParentView: View {
 
 
 
-#Preview {
-    MainParentView()
-}
+
+
+
+
+
+
+
+//import SwiftUI
+//
+//struct MainParentView: View {
+//    @StateObject var teacherData = TeacherDataViewModel()
+//   // @StateObject var coreDataViewModel = CoreDataViewModel()
+//    @StateObject var studentViewModel = StudentViewModel.shared
+//    @StateObject var studentFetcher = fetchAndStoreStudentsFromBackEnd(database: StudentViewModel.shared)
+//    @StateObject var attendanceFetcher = fetchAndStoreAttendancesFromBackEnd(database: AttendaceStatusViewModel.shared)
+//
+//    @Environment(\.scenePhase) private var scenePhase // 🔹 متابعة حالة التطبيق
+//
+//    var body: some View {
+//        let loginState = UserDefaults.standard.integer(forKey: "loginState")
+//        NavigationStack {
+//            
+//         
+//            
+//            if loginState == 2 {
+//                MainViewPage()
+//                    .preferredColorScheme(.light)
+//                    .environmentObject(teacherData)
+//                   // .environmentObject(coreDataViewModel)
+//                
+//                
+//            } else if loginState == 1 {
+//                registerPageWaitProcess()
+//                    .preferredColorScheme(.light)
+//                    .environmentObject(teacherData)
+//                  //  .environmentObject(coreDataViewModel)
+//            } else if loginState == 0 {
+//                
+//                RegisterInfoPage()
+//                   // .environmentObject(coreDataViewModel)
+//                    .preferredColorScheme(.light)
+//                    .environmentObject(teacherData)
+//                   // .environmentObject(coreDataViewModel)
+//                    .onAppear {
+//                                UserDefaults.standard.removeObject(forKey: "imageDownloadError")
+//                            }
+//                
+//            } else if loginState == 3 {
+//                registerPageDecline()
+//                  //  .environmentObject(coreDataViewModel)
+//                    .preferredColorScheme(.light)
+//                    .environmentObject(teacherData)
+//            } else {
+//                Text("جارٍ تحميل البيانات...") // ✅ شاشة مؤقتة في حال لم يتم تعيين loginState بعد
+//                    .font(.headline)
+//                    .foregroundColor(.gray)
+//            }
+//        }
+//       
+//        .onChange(of: scenePhase) { newPhase in
+//            if newPhase == .active {
+//                uploadData() // تحميل البيانات عند إعادة فتح التطبيق من الخلفية
+//            }
+//        }
+//    }
+//
+//    // 🔹 دالة تحميل بيانات الحضور والطلاب
+//    func uploadData() {
+//        Task {
+//                           await attendanceFetcher.fetchAndStoreAttendances(teacherID: UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7")
+//                       }
+//        
+//        Task {
+//                   await studentFetcher.fetchAndStoreStudents(teacherID: UserDefaults.standard.string(forKey: "teacherId") ?? "670a9990a8cd200cf7b0e8c7") // 🔹 جلب الطلاب عند إعادة فتح التطبيق
+//               }
+//        //
+////        let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+////        attendanceUploader.sendPendingAttendanceData()
+////
+////        let studentUploader = StudentUploader(database: studentViewModel)
+////        studentUploader.sendPendingStudentData()
+////
+////        print("✅ تم تحميل البيانات بنجاح!")
+//    }
+//}
+//
+//
+//
+//
+//
+//
+//#Preview {
+//    MainParentView()
+//}
 
 
 

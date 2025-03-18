@@ -21,7 +21,9 @@ class AppViewModel: ObservableObject {
 
     func logout() {
         let defaults = UserDefaults.standard
-
+        
+        
+            
         //  مسح جميع بيانات المستخدم من UserDefaults
         defaults.removeObject(forKey: "isLoggedIn")
         defaults.removeObject(forKey: "teacherId")
