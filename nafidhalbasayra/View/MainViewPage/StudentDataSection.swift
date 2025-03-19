@@ -17,8 +17,8 @@ struct StudentDataSection: View {
     @EnvironmentObject var vmAttendaceStatus : AttendaceStatusViewModel
     @State private var showNoInternetToast = false
 
-    
-   
+    @State private var showDeleteToast = false  // إضافة حالة التبيه للحذف
+
     
     var body: some View {
        
@@ -54,20 +54,34 @@ struct StudentDataSection: View {
                         student: entity,
                         orderNumber: index + 1,
                         onEdit: { selectedStudent = entity }, // تعيين الطالب المحدد
-                        state: Int(entity.state)
+                        state: Int(entity.state),
+                        onDelete: {
+                            
+                            // عرض Toast بعد الحذف
+                            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                                withAnimation {
+                                    self.showDeleteToast = true
+                                }
+                            }
+
+                            // إخفاء الـ Toast بعد 2 ثانية
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                withAnimation {
+                                    self.showDeleteToast = false
+                                }
+                            }
+                        }
+                        
                     )
                     
                 }
                 
             }
-            .scrollIndicators(.hidden) // ✅ إخفاء شريط التمرير
-
-            
-           
-
-
+            .scrollIndicators(.hidden) //  إخفاء شريط التمرير
             .frame(maxWidth: .infinity)
             
+        
+
             
             //Button(action: {}){
                 NavigationLink(destination: AddStudentToStudentDataSection( )
@@ -144,8 +158,21 @@ struct StudentDataSection: View {
                                        }
                                    }
                            }
+                           
+                           // إضافة التبيه عند الحذف بنجاح
+                           if showDeleteToast {
+                               Text("✅ تم الحذف بنجاح")
+                                   .padding()
+                                   .background(Color.green.opacity(0.8))
+                                   .foregroundColor(.white)
+                                   .cornerRadius(10)
+                                   .transition(.opacity)
+                                   .frame(maxWidth: .infinity)
+                                   .padding(.bottom, 50)
+                               
+                           }
                        }
-                       .padding(.bottom, 50),
+                       .padding(.bottom, 100),
                        alignment: .bottom
                    )
            
@@ -265,6 +292,7 @@ struct studentInfo :View {
     
     @State private var showInternetAlert = false
     @State private var alertInternetMessage = ""
+    @State private var showDeleteToast = false
     
     
     var name: String
@@ -277,6 +305,7 @@ struct studentInfo :View {
     var orderNumber: Int
     var onEdit: () -> Void
     var state: Int
+    var onDelete: () -> Void
     
    
     
@@ -344,87 +373,54 @@ struct studentInfo :View {
                                      Button(action: {
                                          
                                          alertTitle = "تأكيد الحذف"
-                                           alertMessage = "هل أنت متأكد أنك تريد حذف هذا الطالب؟"
+                                         alertMessage = "هل أنت متأكد أنك تريد حذف الطالب \n\(student.name ?? "بدون اسم")؟"
                                            isDeleteConfirmation = true
                                            showAlert = true
-                                         
-//                                         InternetChecker.isInternetAvailable { isAvailable in
-//                                             DispatchQueue.main.async {
-//                                                 if isAvailable {
-//                                                     // التحقق من وجود idFromApi
-//                                                     if let idFromApi = student.idFromApi {
-//                                                         // استدعاء دالة الحذف من API
-//                                                         StudentDeleter.deleteStudent(withId: idFromApi) { success, statusCode, errorMessage in
-//                                                             DispatchQueue.main.async {
-//                                                                 if success {
-//                                                                     
-//                                                                     // عرض التنبيه أولاً
-//                                                                     alertInternetMessage = "✅ تم حذف الطالب من الخادم بنجاح."
-//                                                                     showInternetAlert = true
-//                                                                     print("idFromApi was delete: \(idFromApi)")
-////                                                                     // حذف الطالب محليًا بعد عرض التنبيه
-//                                                                         if let index = vmStudent.savedEntitiesStudent.firstIndex(of: student) {
-//                                                                             vmStudent.deleteStudentInfo(indexSet: IndexSet(integer: index))
-//                                                                         }
-////                                                                     
-////                                                                     
-////                                                                     print("✅ تم حذف الطالب من الخادم بنجاح.")
-//
-//                                                                 } else {
-//                                                                     print("❌ فشل حذف الطالب من الخادم. رمز الخطأ: \(statusCode), الرسالة: \(errorMessage ?? "لا توجد رسالة")")
-//                                                                     // عرض رسالة خطأ
-//                                                                     alertInternetMessage = "فشل الحذف من الخادم: \(errorMessage ?? "خطأ غير معروف")"
-//                                                                     showInternetAlert = true
-//                                                                 }
-//                                                             }
-//                                                         }
-//                                                     } else {
-//                                                         print("❌ لا يحتوي الطالب على معرف idFromApi صالح.")
-//                                                         alertInternetMessage = "لا يمكن حذف الطالب لأن المعرف غير صالح."
-//                                                         showInternetAlert = true
-//                                                     }
-//                                                 } else {
-//                                                     print("❌ لا يوجد اتصال بالإنترنت.")
-//                                                     alertInternetMessage = "يجب توفر اتصال بالإنترنت لتنفيذ عملية الحذف."
-//                                                     showInternetAlert = true
-//                                                 }
-//                                             }
-//                                         }
-
-                                        
+   
                                      }) {
                                          Text("حذف بيانات الطالب")
                                              .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023))
                                              .foregroundColor(Color(red: 123/255, green: 42/255, blue: 42/255))
                                              .padding(.all, screenWidth * 0.02)
                                      }
-//                                     .alert(isPresented: $showInternetAlert) {
+//                                     .alert(isPresented: $showAlert) {
 //                                         Alert(
-//                                             title: Text("حالة الإنترنت"),
-//                                             message: Text(alertInternetMessage),
-//                                             dismissButton: .default(Text("حسنًا")) {
-//                                                 // إجراء إضافي بعد إغلاق التنبيه إذا لزم الأمر
-//                                             }
+//                                             title: Text(alertTitle),
+//                                             message: Text(alertMessage),
+//                                             dismissButton: .default(Text("حسنًا"))
 //                                         )
 //                                     }
+//                                     .confirmationDialog("هل أنت متأكد أنك تريد حذف الطالب؟", isPresented: $isDeleteConfirmation, titleVisibility: .visible) {
+//                                         Button("نعم", role: .destructive) {
+//                                             deleteStudent() // تنفيذ عملية الحذف بعد التأكيد
+//                                         }
+//                                         Button("إلغاء", role: .cancel) {}
+//                                     }
+
                                      .alert(isPresented: $showAlert) {
                                          if isDeleteConfirmation {
+                                             // إذا كانت حالة التأكيد على الحذف
                                              return Alert(
-                                                title: Text(alertTitle),
-                                                message: Text(alertMessage),
-                                                primaryButton: .destructive(Text("نعم")) {
-                                                    deleteStudent() // تنفيذ عملية الحذف بعد التأكيد
-                                                },
-                                                secondaryButton: .cancel(Text("إلغاء"))
+                                                 title: Text(alertTitle),
+                                                 message: Text(alertMessage),
+                                                 primaryButton: .destructive(Text("نعم")) {
+                                                     // تنفيذ عملية الحذف بعد التأكيد
+                                                     deleteStudent()
+                   
+                                                 },
+                                                 secondaryButton: .cancel(Text("إلغاء"))
                                              )
                                          } else {
+                                             // إذا كانت حالة التنبيه العام
                                              return Alert(
-                                                title: Text(alertTitle),
-                                                message: Text(alertMessage),
-                                                dismissButton: .default(Text("حسنًا"))
+                                                 title: Text(alertTitle),
+                                                 message: Text(alertMessage),
+                                                 dismissButton: .default(Text("حسنًا"))
                                              )
                                          }
                                      }
+
+
 
 
                                      
@@ -471,12 +467,7 @@ struct studentInfo :View {
                                              Text("تعديل البيانات")
                                                 
                                                 .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023)) .foregroundColor(Color(red: 24/255, green: 82/255, blue: 100/255)) .padding(.all, screenWidth * 0.02) }
-                                         
-                                         
-                                         
-                                         
-                                         
-                                         
+    
                                      }
                                      
                                  }
@@ -521,8 +512,22 @@ struct studentInfo :View {
     
     
     
-    // 🛑 تنفيذ عملية الحذف بعد تأكيد المستخدم
+    //  تنفيذ عملية الحذف بعد تأكيد المستخدم
     func deleteStudent() {
+ 
+        
+        // إذا كانت حالة الطالب تساوي 0، احذفه مباشرةً محليًا دون التحقق من الإنترنت
+          if student.state == 0 {
+              if let index = vmStudent.savedEntitiesStudent.firstIndex(of: student) {
+                  vmStudent.deleteStudentInfo(indexSet: IndexSet(integer: index))
+              }
+
+              onDelete()
+              
+              return
+          }
+ 
+        // إذا لم تكن الحالة 0، تحقق من الإنترنت وحاول حذفه من السيرفر
         InternetChecker.isInternetAvailable { isAvailable in
             DispatchQueue.main.async {
                 if isAvailable {
@@ -530,13 +535,14 @@ struct studentInfo :View {
                         StudentDeleter.deleteStudent(withId: idFromApi) { success, statusCode, errorMessage in
                             DispatchQueue.main.async {
                                 if success {
-                                    alertTitle = "✅ نجاح"
-                                    alertMessage = "تم حذف الطالب من الخادم بنجاح."
+//                                    alertTitle = "✅ نجاح"
+//                                    alertMessage = "تم حذف الطالب من الخادم بنجاح."
                                     
                                     // حذف الطالب محليًا بعد التأكيد
                                     if let index = vmStudent.savedEntitiesStudent.firstIndex(of: student) {
                                         vmStudent.deleteStudentInfo(indexSet: IndexSet(integer: index))
                                     }
+                                    onDelete()
                                     
                                 } else {
                                     alertTitle = "❌ فشل الحذف"
@@ -545,6 +551,8 @@ struct studentInfo :View {
                                 
                                 isDeleteConfirmation = false
                                 showAlert = true
+
+                                
                             }
                         }
                     } else {
@@ -555,13 +563,16 @@ struct studentInfo :View {
                     }
                 } else {
                     alertTitle = "⚠️ لا يوجد إنترنت"
-                    alertMessage = "يجب توفر اتصال بالإنترنت لتنفيذ عملية الحذف."
+                    alertMessage = "يجب توفر اتصال بالإنترنت لتنفيذ عملية الحذف، لأن البيانات مخزنة على الخادم."
                     isDeleteConfirmation = false
                     showAlert = true
                 }
             }
         }
     }
+    
+    
+    
 
     
 }
