@@ -24,8 +24,21 @@ import SwiftUI
 class NotificationViewModel: ObservableObject {
     @Published var notifications: [NotificationModel] = []
     
+    
+    
     func fetchNotifications() {
-        guard let url = URL(string: "http://198.244.227.48:8082/messages/get/") else { return }
+        
+        // Declare the key as a string
+            let governorateKey = "governorate_id"
+            
+            // Retrieve the value from UserDefaults
+            guard let governorate_id = UserDefaults.standard.string(forKey: governorateKey) else {
+                //print("Error: governorate_id not found in UserDefaults")
+                return
+            }
+        
+
+        guard let url = URL(string: "http://198.244.227.48:8082/messages/governorate/\(governorate_id)") else { return }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {

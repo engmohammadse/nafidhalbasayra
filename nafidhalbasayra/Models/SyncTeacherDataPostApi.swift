@@ -159,6 +159,10 @@ class SyncTeacherDataPostApi {
                     defaults.set(loginState, forKey: "loginState")
                     defaults.synchronize()
                     
+                    defaults.set(viewModel.cityIdfromApi, forKey: "governorate_id")
+                    
+                
+                    
                     // التحقق فورًا بعد التخزين
 //                    let retrievedState = defaults.integer(forKey: "loginState")
 //                    print("🔍 Retrieved loginState: \(retrievedState)")  // يجب أن يطبع 1
@@ -189,15 +193,15 @@ class SyncTeacherDataPostApi {
                               let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
                               let imageUrl = json["image_1"] as? String {
                                
-                               let fullImageUrl = "http://198.244.227.48:8082\(imageUrl)"
-                               
-                               downloadAndSaveImage(imageUrl: fullImageUrl) { imageData in
-                                   if let imageData = imageData {
-                                       print("✅ تم تحميل الصورة بنجاح وحجمها: \(imageData.count) بايت")
-                                   } else {
-                                       print("❌ فشل تحميل الصورة")
-                                   }
-                               }
+//                               let fullImageUrl = "http://198.244.227.48:8082\(imageUrl)"
+//                               
+//                               downloadAndSaveImage(imageUrl: fullImageUrl) { imageData in
+//                                   if let imageData = imageData {
+//                                       print("✅ تم تحميل الصورة بنجاح وحجمها: \(imageData.count) بايت")
+//                                   } else {
+//                                       print("❌ فشل تحميل الصورة")
+//                                   }
+//                               }
                            }
 
 //                           //

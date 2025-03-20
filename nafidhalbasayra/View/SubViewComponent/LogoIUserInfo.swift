@@ -31,7 +31,7 @@ class AppViewModel: ObservableObject {
         defaults.removeObject(forKey: "loginState")
         defaults.removeObject(forKey: "username")
         defaults.removeObject(forKey: "profileImagePath") //  إزالة مسار الصورة
-        
+        defaults.removeObject(forKey: "governorate_id")
         //  مسح الصورة من FileManager
         deleteProfileImage()
            

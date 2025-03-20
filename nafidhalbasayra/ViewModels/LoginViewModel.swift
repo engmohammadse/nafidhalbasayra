@@ -103,6 +103,7 @@ class LoginViewModel: ObservableObject {
            // print("✅ تم حفظ اسم المستخدم في UserDefaults: \(username)")
         }
         
+        defaults.removeObject(forKey: "governorate_id")
         
         // تحديد الصفحة بناءً على حالة الاستجابة
         switch response.state {
@@ -156,7 +157,14 @@ class LoginViewModel: ObservableObject {
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 defaults.set(2, forKey: "loginState")
+                                
+                                defaults.set(response.data?.governorate_id, forKey: "governorate_id")
+                                
+                                
+                                
                                 self.navigateToNextPage = true
+                                
+                                
                             }
    
                                  
@@ -168,6 +176,8 @@ class LoginViewModel: ObservableObject {
                         
                         self.isLoading = false
                         self.navigateToNextPage = false
+                        
+                        
                         group.leave()
                         
                     }
