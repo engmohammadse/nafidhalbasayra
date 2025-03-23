@@ -28,7 +28,9 @@ class StudentUploader {
             }
         }
     }
-
+    
+    
+    
     func sendPendingStudentData() {
         // التأكد من عدم وجود عملية إرسال جارية
         guard !isSendingData else {
@@ -53,31 +55,95 @@ class StudentUploader {
                 return
             }
 
-            for student in unsentStudents {
-                student.isSending = true // تعيين الطالب كقيد الإرسال
-                sendStudentData(student: student) { success, statusCode, errorMessage in
-                    DispatchQueue.main.async {
-                        student.isSending = false // إعادة تعيين حالة الإرسال عند انتهاء العملية
-
-                        if success {
-                            self.database.updateStudentState(entity: student, newState: 1) // تحديث الحالة
-                            print("✅ تم تحديث حالة الطالب \(student.name ?? "بدون اسم") إلى مرسل.")
-                        } else {
-                            print("❌ فشل إرسال بيانات الطالب \(student.name ?? "بدون اسم"). رمز الخطأ: \(statusCode), الرسالة: \(errorMessage ?? "لا توجد رسالة")")
-                        }
-
-                        // تحديث Core Data بعد كل عملية
-                        self.database.saveStudentData()
-                    }
-                }
-            }
+            // إرسال بيانات الطلاب واحدًا تلو الآخر باستخدام recursion أو looping مع completion handler
+            sendNextStudent(unsentStudents: unsentStudents, index: 0)
         } catch {
             print("❌ خطأ أثناء جلب البيانات: \(error.localizedDescription)")
+            isSendingData = false
+        }
+    }
+
+    private func sendNextStudent(unsentStudents: [StudentInfo], index: Int) {
+        guard index < unsentStudents.count else {
+            // إذا تم إرسال جميع البيانات
+            print("✅ تم إرسال بيانات جميع الطلاب.")
+            isSendingData = false
+            return
         }
 
-        // تعيين isSendingData إلى false بعد الانتهاء
-        isSendingData = false
+        let student = unsentStudents[index]
+        student.isSending = true // تعيين الطالب كقيد الإرسال
+        sendStudentData(student: student) { success, statusCode, errorMessage in
+            DispatchQueue.main.async {
+                student.isSending = false // إعادة تعيين حالة الإرسال عند انتهاء العملية
+
+                if success {
+                    self.database.updateStudentState(entity: student, newState: 1) // تحديث الحالة
+                    print("✅ تم تحديث حالة الطالب \(student.name ?? "بدون اسم") إلى مرسل.")
+                } else {
+                    print("❌ فشل إرسال بيانات الطالب \(student.name ?? "بدون اسم"). رمز الخطأ: \(statusCode), الرسالة: \(errorMessage ?? "لا توجد رسالة")")
+                }
+
+                // تحديث Core Data بعد كل عملية
+                self.database.saveStudentData()
+
+                // الانتقال إلى إرسال بيانات الطالب التالي بعد الانتهاء من إرسال بيانات الطالب الحالي
+                self.sendNextStudent(unsentStudents: unsentStudents, index: index + 1)
+            }
+        }
     }
+
+    
+
+//    func sendPendingStudentData() {
+//        // التأكد من عدم وجود عملية إرسال جارية
+//        guard !isSendingData else {
+//            print("⚠️ عملية إرسال بيانات جارية بالفعل.")
+//            return
+//        }
+//
+//        // تعيين isSendingData لمنع التكرار
+//        isSendingData = true
+//
+//        let fetchRequest: NSFetchRequest<StudentInfo> = StudentInfo.fetchRequest()
+//        fetchRequest.predicate = NSPredicate(format: "state == 0 AND isSending == false")
+//
+//        do {
+//            // جلب الطلاب غير المرسل بياناتهم باستخدام context
+//            let unsentStudents = try database.container.viewContext.fetch(fetchRequest)
+//            print("📤 عدد الطلاب غير المرسل بياناتهم: \(unsentStudents.count)")
+//
+//            guard !unsentStudents.isEmpty else {
+//                print("⚠️ لا توجد بيانات غير مرسلة.")
+//                isSendingData = false
+//                return
+//            }
+//
+//            for student in unsentStudents {
+//                student.isSending = true // تعيين الطالب كقيد الإرسال
+//                sendStudentData(student: student) { success, statusCode, errorMessage in
+//                    DispatchQueue.main.async {
+//                        student.isSending = false // إعادة تعيين حالة الإرسال عند انتهاء العملية
+//
+//                        if success {
+//                            self.database.updateStudentState(entity: student, newState: 1) // تحديث الحالة
+//                            print("✅ تم تحديث حالة الطالب \(student.name ?? "بدون اسم") إلى مرسل.")
+//                        } else {
+//                            print("❌ فشل إرسال بيانات الطالب \(student.name ?? "بدون اسم"). رمز الخطأ: \(statusCode), الرسالة: \(errorMessage ?? "لا توجد رسالة")")
+//                        }
+//
+//                        // تحديث Core Data بعد كل عملية
+//                        self.database.saveStudentData()
+//                    }
+//                }
+//            }
+//        } catch {
+//            print("❌ خطأ أثناء جلب البيانات: \(error.localizedDescription)")
+//        }
+//
+//        // تعيين isSendingData إلى false بعد الانتهاء
+//        isSendingData = false
+//    }
 
     private func sendStudentData(student: StudentInfo, completion: @escaping (Bool, Int, String?) -> Void) {
         guard let url = URL(string: "http://198.244.227.48:8082/students/register") else {

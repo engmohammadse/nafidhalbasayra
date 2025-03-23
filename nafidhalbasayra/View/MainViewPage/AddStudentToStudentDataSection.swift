@@ -38,7 +38,7 @@ struct AddStudentToStudentDataSection: View {
         "خامس ابتدائي", "سادس ابتدائي", "أول متوسط", "ثاني متوسط", "ثالث متوسط"]
 
     @State private var sizes = ["صغير ", "متوسط ", "كبير "]
-    @State private var genderList =  ["ذكر","أنثى"]
+    @State private var genderList =  ["ذكر","انثى"]
     
     var isFormValid: Bool {
         return !name.isEmpty &&
