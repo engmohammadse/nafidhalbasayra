@@ -32,6 +32,8 @@
 		413E4B962CA1C78400B1EEC5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 413E4B952CA1C78400B1EEC5 /* Preview Assets.xcassets */; };
 		413E4BA32CA1C83100B1EEC5 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413E4BA22CA1C83100B1EEC5 /* SplashScreenView.swift */; };
 		41414E2B2CB1B31A0070C380 /* testNavigationStackPop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41414E2A2CB1B31A0070C380 /* testNavigationStackPop.swift */; };
+		41489AFF2D9010DF00160F1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41489AFE2D9010DF00160F1F /* AppDelegate.swift */; };
+		41489B022D90298100160F1F /* TokenCreateApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41489B012D90298100160F1F /* TokenCreateApi.swift */; };
 		414AFBDC2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414AFBDB2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift */; };
 		414AFBDE2CC16D3A00D89B70 /* SubComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414AFBDD2CC16D3A00D89B70 /* SubComponent.swift */; };
 		415B4B432D676E4700A24A52 /* fetchAndStoreStudentsFromBackEnd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 415B4B422D676E4600A24A52 /* fetchAndStoreStudentsFromBackEnd.swift */; };
@@ -108,6 +110,9 @@
 		413E4B952CA1C78400B1EEC5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		413E4BA22CA1C83100B1EEC5 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		41414E2A2CB1B31A0070C380 /* testNavigationStackPop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testNavigationStackPop.swift; sourceTree = "<group>"; };
+		41489AFE2D9010DF00160F1F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		41489B002D90144E00160F1F /* nafidhalbasayra.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = nafidhalbasayra.entitlements; sourceTree = "<group>"; };
+		41489B012D90298100160F1F /* TokenCreateApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCreateApi.swift; sourceTree = "<group>"; };
 		414AFBDB2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStudentToStudentDataSection.swift; sourceTree = "<group>"; };
 		414AFBDD2CC16D3A00D89B70 /* SubComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubComponent.swift; sourceTree = "<group>"; };
 		415B4B422D676E4600A24A52 /* fetchAndStoreStudentsFromBackEnd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fetchAndStoreStudentsFromBackEnd.swift; sourceTree = "<group>"; };
@@ -176,6 +181,7 @@
 				41F1DE6D2D19BE95008CDAE5 /* AttendanceUploader.swift */,
 				4114B10B2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift */,
 				41F34EF72CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift */,
+				41489B012D90298100160F1F /* TokenCreateApi.swift */,
 				412D80C22D04772800382D8A /* ModelRegisterPage1.swift */,
 				41DA9E6A2D05DB9E0014F05E /* ProvinceSpecificGet.swift */,
 				418238FD2D457AE8001F82EA /* StudentUploader.swift */,
@@ -226,12 +232,14 @@
 		413E4B8D2CA1C78200B1EEC5 /* nafidhalbasayra */ = {
 			isa = PBXGroup;
 			children = (
+				41489B002D90144E00160F1F /* nafidhalbasayra.entitlements */,
 				41B8A8232CC67B9C002F614C /* CoreData */,
 				41E9C6D02CC3C82E00FE122F /* ThemsAndColors */,
 				41074C862CBE8F6A00FA28AC /* ViewModels */,
 				41074C832CBE8ED700FA28AC /* Models */,
 				41BD62CB2CA2FF2D00529765 /* Fonts */,
 				413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */,
+				41489AFE2D9010DF00160F1F /* AppDelegate.swift */,
 				416FD1FE2D1856F700ED7DF8 /* MainParentView.swift */,
 				413E4BA12CA1C81300B1EEC5 /* View */,
 				413E4B922CA1C78400B1EEC5 /* Assets.xcassets */,
@@ -451,6 +459,7 @@
 				4114B10C2CE4E12400C6D9E2 /* LogicHistoryAttendanceUpdateState.swift in Sources */,
 				410B923C2D60ED8C00FE9259 /* fetchAndStoreAttendancesFromBackEnd.swift in Sources */,
 				413E4B912CA1C78200B1EEC5 /* TeacherCoreDataViewModel.swift in Sources */,
+				41489B022D90298100160F1F /* TokenCreateApi.swift in Sources */,
 				415B4B432D676E4700A24A52 /* fetchAndStoreStudentsFromBackEnd.swift in Sources */,
 				41E19E792CAD714100CA2256 /* PreviousNextBotton.swift in Sources */,
 				41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */,
@@ -460,6 +469,7 @@
 				41FC5C4C2D4BE8DF009477FF /* LectureViewModel.swift in Sources */,
 				41FE129A2D77138D00974B8A /* IDUploader.swift in Sources */,
 				41FC8A412CFDD681001C6E49 /* cityGet.swift in Sources */,
+				41489AFF2D9010DF00160F1F /* AppDelegate.swift in Sources */,
 				418865712CBD296400E9097C /* sendAttendanceSection.swift in Sources */,
 				41F1DE6E2D19BE95008CDAE5 /* AttendanceUploader.swift in Sources */,
 				418E94B92CB7FDD000ACFEEA /* registerPageAccept.swift in Sources */,
@@ -613,6 +623,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = nafidhalbasayra/nafidhalbasayra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"nafidhalbasayra/Preview Content\"";
@@ -632,7 +643,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.alkafeelquran.nafidhalbasayra.nafidhalbasayra;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alkafeelquran.nafidhalbasayra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -645,6 +656,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = nafidhalbasayra/nafidhalbasayra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"nafidhalbasayra/Preview Content\"";
@@ -664,7 +676,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.alkafeelquran.nafidhalbasayra.nafidhalbasayra;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alkafeelquran.nafidhalbasayra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

@@ -138,6 +138,7 @@ class LoginViewModel: ObservableObject {
                 downloadAndSaveImage(imageUrl: fullImageUrl, group: group) { success in                    // داخل الـ closure الخاص بتحميل الصورة
                     
                     if success {
+
                         // بدء جلب بيانات الحضور
                         group.enter()
                         Task {
@@ -151,6 +152,9 @@ class LoginViewModel: ObservableObject {
                             await self.studentFetcher.fetchAndStoreStudents(teacherID: defaults.string(forKey: "teacherId") ?? teacherId)
                             group.leave()
                         }
+                        
+                        defaults.set(response.data?.governorate_id, forKey: "governorate_id")
+                        
                         // سيتم استدعاء هذا الـ notify بعد انتهاء جميع المهام (تحميل الصورة وجلب الحضور والطلاب)
                         group.notify(queue: .main) {
                             self.isLoading = false
@@ -158,11 +162,21 @@ class LoginViewModel: ObservableObject {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 defaults.set(2, forKey: "loginState")
                                 
-                                defaults.set(response.data?.governorate_id, forKey: "governorate_id")
-                                
-                                
-                                
+                              
                                 self.navigateToNextPage = true
+                                
+                                // القيم التي سيتم إرسالها
+                                let teacherId = UserDefaults.standard.string(forKey: "teacherId") ?? ""
+                                let token = UserDefaults.standard.string(forKey: "deviceToken") ?? ""
+                                let governorateId = UserDefaults.standard.string(forKey: "governorate_id") ?? ""
+                                let type = 1
+                                
+                                // إرسال البيانات
+                                group.enter()
+                                Task {
+                                       await TokenCreateApi.shared.createToken(teacherId: teacherId, token: token, governorateId: governorateId, type: type)
+                                       group.leave()
+                                   }
                                 
                                 
                             }

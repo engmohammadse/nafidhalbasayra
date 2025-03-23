@@ -53,6 +53,10 @@ class SyncTeacherDataPostApi {
         let dateFormatter = DateFormatter()
           dateFormatter.dateFormat = "yyyy-MM-dd" // تحويل التاريخ إلى الصيغة المطلوبة
           let dateString = dateFormatter.string(from: viewModel.birthDay ?? Date())
+        
+        // قراءة deviceToken من UserDefaults
+        let deviceToken = UserDefaults.standard.string(forKey: "deviceToken") ?? ""
+
 
         // إضافة الحقول النصية
         let parameters: [String: String] = [
@@ -67,6 +71,8 @@ class SyncTeacherDataPostApi {
             "mosque_name": viewModel.mosquname,
             "degree": viewModel.academiclevel,
             "gender": viewModel.gender,
+            "type": String(1),
+            "deviceToken":deviceToken
             //"previous_teacher": viewModel.didyoutaught == true ? "true" : "false"
         ]
         
