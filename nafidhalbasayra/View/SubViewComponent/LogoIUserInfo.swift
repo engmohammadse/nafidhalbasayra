@@ -32,9 +32,17 @@ class AppViewModel: ObservableObject {
         defaults.removeObject(forKey: "username")
         defaults.removeObject(forKey: "profileImagePath") //  إزالة مسار الصورة
         defaults.removeObject(forKey: "governorate_id")
+        defaults.removeObject(forKey: "deviceToken")
         //  مسح الصورة من FileManager
         deleteProfileImage()
-           
+        
+        
+        // إلغاء التوكن الخاص بالجهاز من UserDefaults
+            // إلغاء التسجيل من APNs
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+                appDelegate.unregisterFromPushNotifications()
+            }
+
         defaults.synchronize()
 
         DispatchQueue.main.async {
