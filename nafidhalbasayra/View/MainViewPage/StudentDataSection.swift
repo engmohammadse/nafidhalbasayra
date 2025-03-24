@@ -437,9 +437,9 @@ struct studentInfo :View {
                               Text(" \(state == 1 ? "مرسل" : "غير مرسل")")
                                   .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.035 : screenWidth * 0.023))
                                   .padding(.all, screenWidth * 0.02)
-                                  .foregroundColor(.white) // ✅ لون مختلف حسب الحالة
+                                  .foregroundColor(state == 1 ? .white : .black) // ✅ لون مختلف حسب الحالة
                           }
-                          .background(Color.green)
+                          .background(state == 1 ? Color.green : Color.orange)
                           
                           //
                           
