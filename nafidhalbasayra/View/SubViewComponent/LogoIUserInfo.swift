@@ -15,11 +15,58 @@ class AppViewModel: ObservableObject {
 
     static let shared = AppViewModel()
     
+
+    private init() {
+        checkAndUpdateNotificationStatus()
+
+    } //  اجعل `init()` خاصًا لمنع إنشاء كائن جديد
+
+    
     @Published var isLoggedIn: Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")
+       @Published var loginState: Int = UserDefaults.standard.integer(forKey: "loginState") {
+           didSet {
+               UserDefaults.standard.set(loginState, forKey: "loginState")
+               checkAndUpdateNotificationStatus()
+           }
+       }
 
-    private init() {} //  اجعل `init()` خاصًا لمنع إنشاء كائن جديد
+    
+    func checkAndUpdateNotificationStatus() {
+           let shouldEnableNotifications = (loginState == 1 || loginState == 2)
+           UserDefaults.standard.set(shouldEnableNotifications, forKey: "isNotificationsEnabled")
 
+           if shouldEnableNotifications {
+               registerForPushNotifications()
+           } else {
+               disablePushNotifications()
+           }
+       }
+    
+    
+    
+    func registerForPushNotifications() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            if granted {
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
+        }
+    }
+
+    func disablePushNotifications() {
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        UIApplication.shared.applicationIconBadgeNumber = 0
+    }
+
+    
+    
+    
     func logout() {
+        
+       
+
         let defaults = UserDefaults.standard
         
         
@@ -32,7 +79,8 @@ class AppViewModel: ObservableObject {
         defaults.removeObject(forKey: "username")
         defaults.removeObject(forKey: "profileImagePath") //  إزالة مسار الصورة
         defaults.removeObject(forKey: "governorate_id")
-        defaults.removeObject(forKey: "deviceToken")
+        defaults.synchronize()
+       // defaults.removeObject(forKey: "deviceToken")
         //  مسح الصورة من FileManager
         deleteProfileImage()
         
@@ -43,10 +91,11 @@ class AppViewModel: ObservableObject {
                 appDelegate.unregisterFromPushNotifications()
             }
 
-        defaults.synchronize()
-
+  
         DispatchQueue.main.async {
             self.isLoggedIn = false
+            self.loginState = 0 // تعيين loginState إلى 0 لمنع الإشعارات
+
 
             //  استخدام الـ Singleton لمسح البيانات **بدون إعادة تحميل Persistent Store**
             AttendaceStatusViewModel.shared.clearAllAttendanceData()

@@ -52,6 +52,7 @@ struct MainParentView: View {
         .onAppear {
                  // قراءة قيمة loginState عند ظهور الـ View
                  self.loginState = UserDefaults.standard.integer(forKey: "loginState")
+                AppViewModel.shared.loginState = self.loginState
              }
        
     }
