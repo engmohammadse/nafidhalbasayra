@@ -121,6 +121,7 @@ struct detailsRegisterPage1: View {
                     showDropdownCity.toggle()
                     
                     dataFetcher.fetchData()
+                    teacherData.province = ""
                     
                     if dataFetcher.governorates.isEmpty {
                         showProgressLoding = true
@@ -145,7 +146,7 @@ struct detailsRegisterPage1: View {
                 text: $teacherData.province,
                 onTap: {
                     
-                    showProgressLodingProvince = true
+                   
                     dataFetcherProvine.fetchData()
                     
                     if globalCityIdFromApi == nil {
@@ -155,6 +156,9 @@ struct detailsRegisterPage1: View {
                     if  globalCityIdFromApi != nil {
                         dataFetcherProvine.fetchData()
                         showDropdownProvince.toggle()
+                        
+                        showProgressLodingProvince = true
+                        
                         if dataFetcherProvine.province.isEmpty {
                            
                             dataFetcherProvine.fetchData()
