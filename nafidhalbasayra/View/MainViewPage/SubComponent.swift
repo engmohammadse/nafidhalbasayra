@@ -17,7 +17,7 @@ struct FormField: View {
     var body: some View {
         
         
-        VStack( alignment: .trailing,  spacing: 3) {
+        VStack( alignment: .trailing,  spacing: 8) {
             if UIDevice.current.userInterfaceIdiom == .phone {
                 Text(label)
                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
@@ -68,7 +68,7 @@ struct FormFieldNumber: View {
     var isPhoneNumber: Bool = false
 
     var body: some View {
-        VStack(alignment: .trailing, spacing: 0) {
+        VStack(alignment: .trailing, spacing: 8) {
             if UIDevice.current.userInterfaceIdiom == .phone {
                 Text(label)
                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
@@ -318,7 +318,7 @@ struct FormFieldAge: View {
     var isPhoneNumber: Bool = false
 
     var body: some View {
-        VStack(alignment: .trailing, spacing: 0) {
+        VStack(alignment: .trailing, spacing: 8) {
             if UIDevice.current.userInterfaceIdiom == .phone {
                 Text(label)
                     .font(.custom("BahijTheSansArabic-Bold", size: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.032 : screenWidth * 0.02))
