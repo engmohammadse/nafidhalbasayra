@@ -9,6 +9,12 @@ import Foundation
 import UIKit
 
 
+var screenWidth = UIScreen.main.bounds.width
+var screenHeight = UIScreen.main.bounds.height
+
+
+var uiDevicePhone = UIDevice.current.userInterfaceIdiom == .phone
+
 
 
 extension Date {
