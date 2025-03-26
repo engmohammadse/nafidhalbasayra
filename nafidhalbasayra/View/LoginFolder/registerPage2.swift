@@ -476,10 +476,10 @@ struct registerPage2: View {
                            SyncTeacherDataPostApi.shared.sendTeacherDataFromViewModel(viewModel: teacherData)
                           // print("✅ تم إرسال البيانات.")
                         
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 30) {
-                            print("teacherData.isLoadingRP2 after 30 seconds: \(teacherData.isLoadingRP2)")
-                        }
+//                        
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 30) {
+//                            print("teacherData.isLoadingRP2 after 30 seconds: \(teacherData.isLoadingRP2)")
+//                        }
 
                         
                         //&& teacherData.sendTeacherDataToBackEndState == 0
@@ -597,10 +597,10 @@ struct registerPage2: View {
 
             .onChange(of: teacherData.isLoadingRP2) { newValue in
                 DispatchQueue.main.async {
-                    print("isLoadingRP2 changed to: \(newValue)")
+                 //   print("isLoadingRP2 changed to: \(newValue)")
                     if teacherData.isLoadingRP2 == false {
                         // إيقاف ProgressView أو أي إجراء آخر
-                        print("ProgressView should stop now.")
+                       // print("ProgressView should stop now.")
                         
                         if teacherData.showToastِErrorRP2 == true {
                             showToast = true
@@ -680,10 +680,10 @@ struct registerPage2: View {
     }
 }
 
-#Preview {
-    registerPage2()
-        .environmentObject(TeacherDataViewModel())
-}
+//#Preview {
+//    registerPage2()
+//        .environmentObject(TeacherDataViewModel())
+//}
 
 
 

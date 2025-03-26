@@ -25,8 +25,8 @@ class StudentViewModel: ObservableObject {
     private init() { // ✅ جعل الـ initializer خاصًا لمنع إنشاء نسخ جديدة
         container = NSPersistentContainer(name: "CoreData")
         container.loadPersistentStores { _, error in
-            if let error = error {
-                print("ERROR LOADING CORE DATA. \(error)")
+            if error != nil {
+               // print("ERROR LOADING CORE DATA. \(error)")
             }
         }
         fetchStudentInfo()
@@ -40,8 +40,8 @@ class StudentViewModel: ObservableObject {
         let request = NSFetchRequest<StudentInfo>(entityName: "StudentInfo")
         do {
             savedEntitiesStudent = try container.viewContext.fetch(request)
-        } catch let error {
-            print("Error Fetching. \(error)")
+        } catch _ {
+           // print("Error Fetching. \(error)")
         }
     }
     
@@ -114,9 +114,9 @@ class StudentViewModel: ObservableObject {
         do {
             try container.viewContext.save() // حفظ التغييرات
             fetchStudentInfo() // تحديث البيانات بعد الحذف
-            print("حذف البيانات لطالب: \(entity.name ?? "لا يوجد اسم")")
+            //print("حذف البيانات لطالب: \(entity.name ?? "لا يوجد اسم")")
         } catch {
-            print("خطأ أثناء الحذف: \(error)")
+           // print("خطأ أثناء الحذف: \(error)")
         }
     }
 
@@ -130,8 +130,8 @@ class StudentViewModel: ObservableObject {
         do {
             try container.viewContext.save()
             fetchStudentInfo()
-        } catch let error {
-            print("Error saving. \(error)")
+        } catch _ {
+          //  print("Error saving. \(error)")
         }
     }
     
@@ -148,31 +148,13 @@ class StudentViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.savedEntitiesStudent.removeAll()
             }
-            print("✅ تم مسح جميع بيانات الطلاب من CoreData.")
-        } catch let error {
-            print("❌ فشل في مسح بيانات الطلاب: \(error.localizedDescription)")
+            //print("✅ تم مسح جميع بيانات الطلاب من CoreData.")
+        } catch _ {
+           // print("❌ فشل في مسح بيانات الطلاب: \(error.localizedDescription)")
         }
     }
 
     
-    
-    
-//    func clearAllStudentData() {
-//        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "StudentInfo")
-//        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-//
-//        do {
-//            try container.viewContext.execute(deleteRequest)
-//            try container.viewContext.save()
-//            DispatchQueue.main.async {
-//                self.savedEntitiesStudent.removeAll() // تحديث القائمة لتفريغ البيانات
-//            }
-//            print("✅ تم مسح جميع بيانات الطلاب من CoreData.")
-//        } catch let error {
-//            print("❌ فشل في مسح بيانات الطلاب: \(error.localizedDescription)")
-//        }
-//    }
-
     
     
 }
@@ -180,68 +162,3 @@ class StudentViewModel: ObservableObject {
 
 
 
-
-
-
-// view ui
-//
-//struct StudentView: View {
-//    @StateObject var vmStudent = StudentViewModel()
-//    @State var textFieldText: String = ""
-//    @State var selectedStudent: StudentInfo?
-//    @State var updatedName: String = ""
-//
-//    var body: some View {
-//        NavigationView {
-//            VStack {
-//                TextField("Add name of teacher", text: $textFieldText)
-//                    .font(.headline)
-//                    .frame(height: 55)
-//                    .background(Color.gray.opacity(0.2))
-//                    .cornerRadius(5)
-//                    .padding()
-//
-//                Button(action: {
-//                    
-//                    
-//                    guard !textFieldText.isEmpty else { return }
-//                   // vmStudent.addStudentName(text: textFieldText)
-//                    textFieldText = ""
-//                    
-//                    
-//                }, label: {
-//                    Text("Add Student")
-//                })
-//
-//                List {
-//                    ForEach(vmStudent.savedEntities) { entity in
-//                        HStack {
-//                            if selectedStudent == entity {
-//                                TextField("Update name", text: $updatedName, onCommit: {
-//                                    vmStudent.updateStudentInfo(entity: entity, with: updatedName)
-//                                    selectedStudent = nil
-//                                })
-//                                .textFieldStyle(RoundedBorderTextFieldStyle())
-//                            }
-//                            
-//                            else {
-//                                Text(entity.name ?? "no name")
-//                                    .onTapGesture {
-//                                        selectedStudent = entity
-//                                        updatedName = entity.name ?? ""
-//                                    }
-//                            }
-//                        }
-//                    }
-//                    .onDelete(perform: vmStudent.deleteStudentInfo)
-//                }
-//            }
-//            .navigationTitle("Student")
-//        }
-//    }
-//}
-//
-//#Preview {
-//    StudentView()
-//}
-//

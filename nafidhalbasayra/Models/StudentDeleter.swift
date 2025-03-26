@@ -11,13 +11,13 @@ import Foundation
 class StudentDeleter {
     static func deleteStudent(withId idFromApi: String?, completion: @escaping (Bool, Int, String?) -> Void) {
         guard let id = idFromApi, !id.isEmpty else {
-            print("❌ لا يمكن حذف الطالب لأنه لا يحتوي على `idFromApi` صالح.")
+         //   print("❌ لا يمكن حذف الطالب لأنه لا يحتوي على `idFromApi` صالح.")
             completion(false, -1, "idFromApi غير صالح.")
             return
         }
 
         guard let url = URL(string: "http://198.244.227.48:8082/students/to-delete/\(id)") else {
-            print("❌ رابط غير صالح.")
+        //    print("❌ رابط غير صالح.")
             completion(false, -1, "رابط غير صالح.")
             return
         }
@@ -28,23 +28,23 @@ class StudentDeleter {
 
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                print("❌ خطأ أثناء طلب الحذف: \(error.localizedDescription)")
+             //   print("❌ خطأ أثناء طلب الحذف: \(error.localizedDescription)")
                 completion(false, -1, error.localizedDescription)
                 return
             }
 
             guard let httpResponse = response as? HTTPURLResponse else {
-                print("❌ استجابة غير صالحة.")
+             //   print("❌ استجابة غير صالحة.")
                 completion(false, -1, "استجابة غير صالحة.")
                 return
             }
 
             if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
-                print("✅ تم حذف الطالب بنجاح.")
+             //   print("✅ تم حذف الطالب بنجاح.")
                 completion(true, httpResponse.statusCode, nil)
             } else {
                 let serverMessage = String(data: data ?? Data(), encoding: .utf8) ?? "لا توجد رسالة"
-                print("❌ فشل الحذف. رمز الحالة: \(httpResponse.statusCode), الرسالة: \(serverMessage)")
+              //  print("❌ فشل الحذف. رمز الحالة: \(httpResponse.statusCode), الرسالة: \(serverMessage)")
                 completion(false, httpResponse.statusCode, serverMessage)
             }
         }.resume()

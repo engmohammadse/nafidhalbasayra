@@ -132,22 +132,7 @@ class ApiService {
         }
     }
 
-//    // دالة لمعالجة الاستجابة الناجحة
-//    private func handleSuccessfulLoginResponse(data: Data?, completion: @escaping (Result<LoginResponse, Error>) -> Void) {
-//        guard let data = data else {
-//            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "لا توجد بيانات تم إرجاعها"])))
-//            return
-//        }
-//
-//        do {
-//            let decodedResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
-//            completion(.success(decodedResponse))
-//            
-//        } catch let decodingError {
-//            completion(.failure(decodingError))
-//        }
-//    }
-    
+
     
     private func handleSuccessfulLoginResponse(data: Data?, completion: @escaping (Result<LoginResponse, Error>) -> Void) {
         guard let data = data else {

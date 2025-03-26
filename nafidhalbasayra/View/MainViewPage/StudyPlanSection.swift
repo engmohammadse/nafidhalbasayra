@@ -152,10 +152,10 @@ struct Weeks: View {
 
 
 
-#Preview {
-    StudyPlanSection()
-        .environmentObject(TeacherDataViewModel())
-}
+//#Preview {
+//    StudyPlanSection()
+//        .environmentObject(TeacherDataViewModel())
+//}
 
 
 

@@ -100,10 +100,10 @@ struct registerPage: View {
 
 }
 
-#Preview {
-    registerPage().environmentObject(TeacherDataViewModel())
-}
-    
+//#Preview {
+//    registerPage().environmentObject(TeacherDataViewModel())
+//}
+//    
 
 
 
@@ -164,7 +164,7 @@ struct registerPageTextField: View {
                 .cornerRadius(5)
                 .onChange(of: teacherData.name) { newValue in
                     teacherData.name = newValue //update name temp save
-                    print("Updated name: \(newValue)")
+                   // print("Updated name: \(newValue)")
                 }
             
             Spacer().frame(maxHeight: screenHeight * 0.01)

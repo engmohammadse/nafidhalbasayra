@@ -276,33 +276,33 @@ class TeacherDataViewModel: ObservableObject {
     
     
     // دالة لطباعة البيانات
-        func printData() {
-            print("Name: \(name)")
-            print("Birth Date: \(String(describing: birthDay))")
-            print("Phone Number: \(phonenumber)")
-            print("Province: \(province)")
-            print("City: \(city)")
-            print("City Number: \(citynumber)")
-            print("Did you taught: \(String(describing: didyoutaught))")
-            print("Mosque Name: \(mosquname)")
-            print("Academic Level: \(academiclevel)")
-            print("Current Work: \(currentWork)")
-            
-            
-            print("cityIdfromApi: \(cityIdfromApi)")
-//            print("localIdCity: \(localIdCity)")
-            print("cityCodefromApi: \(String(describing: cityCodefromApi))")
-            print("checkFieldEmpty: \(checkFieldEmpty())")
-            print("checkFieldEmptyRP: \(checkFieldEmptyRP())")
-            
-//            print("checkCityIdFromApi:\(String(describing: checkCityIdFromApi))")
-           // print("mustChooseCityAlertRP1:\(mustChooseCityAlertRP1)")
-            
-            
-            
-        
-
-        }
+//        func printData() {
+//            print("Name: \(name)")
+//            print("Birth Date: \(String(describing: birthDay))")
+//            print("Phone Number: \(phonenumber)")
+//            print("Province: \(province)")
+//            print("City: \(city)")
+//            print("City Number: \(citynumber)")
+//            print("Did you taught: \(String(describing: didyoutaught))")
+//            print("Mosque Name: \(mosquname)")
+//            print("Academic Level: \(academiclevel)")
+//            print("Current Work: \(currentWork)")
+//            
+//            
+//            print("cityIdfromApi: \(cityIdfromApi)")
+////            print("localIdCity: \(localIdCity)")
+//            print("cityCodefromApi: \(String(describing: cityCodefromApi))")
+//            print("checkFieldEmpty: \(checkFieldEmpty())")
+//            print("checkFieldEmptyRP: \(checkFieldEmptyRP())")
+//            
+////            print("checkCityIdFromApi:\(String(describing: checkCityIdFromApi))")
+//           // print("mustChooseCityAlertRP1:\(mustChooseCityAlertRP1)")
+//            
+//            
+//            
+//        
+//
+//        }
 }
 
 

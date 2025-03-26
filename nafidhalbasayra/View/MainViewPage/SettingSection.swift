@@ -18,20 +18,7 @@ struct SettingSection: View {
     
     var body: some View {
         VStack {
-          //  ScrollView {
-//                Spacer().frame(height: screenHeight * 0.13)
 
-//                HStack {
-//                    Spacer().frame(width: screenWidth * 0.5)
-//                    Text("تغيير لغة التطبيق")
-//                        .foregroundStyle(.black)
-//                        .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
-//                }
-//
-//                VStack(spacing: 0) {
-//                    Weeks3(languageChoose: $selectedLanguage) // تمرير اللغة المختارة
-//                }
-                
                 
                 
                             // 🔹 زر للانتقال إلى صفحة بيانات الأستاذ
@@ -75,12 +62,12 @@ struct SettingSection: View {
     }
 }
 
-struct SettingSection_Previews: PreviewProvider {
-    static var previews: some View {
-        @State var province = ""
-        SettingSection(province: $province)
-    }
-}
+//struct SettingSection_Previews: PreviewProvider {
+//    static var previews: some View {
+//        @State var province = ""
+//        SettingSection(province: $province)
+//    }
+//}
 
 struct Weeks3: View {
     @State private var isWeek1Expanded = false

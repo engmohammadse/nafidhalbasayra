@@ -131,7 +131,7 @@ struct LoginPageWelcom: View {
     }
 }
 
-#Preview {
-    LoginPageWelcom()
-        .environmentObject(TeacherDataViewModel())
-}
+//#Preview {
+//    LoginPageWelcom()
+//        .environmentObject(TeacherDataViewModel())
+//}

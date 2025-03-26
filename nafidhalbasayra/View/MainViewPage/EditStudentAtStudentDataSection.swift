@@ -146,57 +146,7 @@ struct EditStudentAtStudentDataSection: View {
                            alertType2 = .internetError
                        }
                    }
-                
-//                InternetChecker.isInternetAvailable { isAvailable in
-//                    
-//                    if isAvailable {
-//                        
-//                        if isFormValid {
-//                       
-//                            // استدعاء دالة التحديث في API
-//                            var updatedStudent = student
-//                            updatedStudent.name = name
-//                            updatedStudent.phoneNumber = phoneNumber
-//                            updatedStudent.age = age
-//                            updatedStudent.level = level
-//                            updatedStudent.size = size
-//                            updatedStudent.gender = gender
-//                            updatedStudent.academic_level = academic_level
-//                            
-//                            
-//                           
-//                          
-//                            
-//                            StudentUpdater.updateStudent(student: updatedStudent) { success, statusCode, message in
-//                                DispatchQueue.main.async {
-//                                    if success {
-//                                        // تحديث بيانات الطالب محليًا فقط إذا نجح التحديث في API
-//                                        DispatchQueue.main.async {
-//                                            vmStudent.updateStudentInfo(entity: student, with: name, with: phoneNumber, with: age, with: level, with: size, with: gender, with: academic_level)
-//                                            
-//                                            alertType2 = .success
-//                                        }
-//                                        
-//                                    } else {
-//                                        messageOfError = " \(statusCode) رمز الحالة\n  ❌ فشل التعديل: \(message ?? "خطأ غير معروف") "
-//                                        alertType2 = .typeError
-//                                    }
-//                                }
-//                            }
-//
-//                            
-//                        } else {
-//                            alertType2 = .error
-//                            
-//                        }
-//                    }
-//                    else {
-//                        alertInternetMessage = "يجب توفر اتصال بالإنترنت لتنفيذ عملية التعديل."
-//                        alertType2 = .internetError
-//                    }
-//                    
-//                }
-                
+             
              
 
               
@@ -310,6 +260,6 @@ enum AlertType2: Identifiable {
 
 
 
-#Preview {
-    EditStudentAtStudentDataSection(student: StudentInfo(), teacherData: TeacherDataViewModel())
-}
+//#Preview {
+//    EditStudentAtStudentDataSection(student: StudentInfo(), teacherData: TeacherDataViewModel())
+//}

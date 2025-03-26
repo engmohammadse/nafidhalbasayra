@@ -10,13 +10,13 @@ import Foundation
 class StudentUpdater {
     static func updateStudent(student: StudentInfo, completion: @escaping (Bool, Int, String?) -> Void) {
         guard let studentId = student.idFromApi, !studentId.isEmpty else {
-            print("❌ لا يمكن تحديث الطالب لأنه لا يحتوي على idFromApi صالح.")
+           // print("❌ لا يمكن تحديث الطالب لأنه لا يحتوي على idFromApi صالح.")
             completion(false, -1, "المعرف غير صالح.")
             return
         }
 
         guard let url = URL(string: "http://198.244.227.48:8082/students/edit") else {
-            print("❌ رابط API غير صالح.")
+          //  print("❌ رابط API غير صالح.")
             completion(false, -1, "رابط API غير صالح.")
             return
         }
@@ -41,7 +41,7 @@ class StudentUpdater {
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: studentData, options: [])
         } catch {
-            print("❌ خطأ أثناء تحويل البيانات إلى JSON: \(error.localizedDescription)")
+         //   print("❌ خطأ أثناء تحويل البيانات إلى JSON: \(error.localizedDescription)")
             completion(false, -1, error.localizedDescription)
             return
         }
@@ -49,23 +49,23 @@ class StudentUpdater {
         // إرسال الطلب
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                print("❌ خطأ أثناء إرسال البيانات: \(error.localizedDescription)")
+               // print("❌ خطأ أثناء إرسال البيانات: \(error.localizedDescription)")
                 completion(false, -1, error.localizedDescription)
                 return
             }
 
             guard let httpResponse = response as? HTTPURLResponse else {
-                print("❌ استجابة غير صالحة.")
+             //   print("❌ استجابة غير صالحة.")
                 completion(false, -1, "استجابة غير صالحة.")
                 return
             }
 
             if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
-                print("✅ تم تحديث بيانات الطالب بنجاح.")
+              //  print("✅ تم تحديث بيانات الطالب بنجاح.")
                 completion(true, httpResponse.statusCode, nil)
             } else {
                 let serverMessage = String(data: data ?? Data(), encoding: .utf8) ?? "لا توجد رسالة"
-                print("❌ فشل التعديل. رمز الحالة: \(httpResponse.statusCode), الرسالة: \(serverMessage)")
+              //  print("❌ فشل التعديل. رمز الحالة: \(httpResponse.statusCode), الرسالة: \(serverMessage)")
                 completion(false, httpResponse.statusCode, serverMessage)
             }
         }.resume()

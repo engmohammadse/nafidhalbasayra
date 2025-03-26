@@ -212,60 +212,56 @@ struct StudentDataSection: View {
     }
 }
 
+
+
 //#Preview {
-//    StudentDataSection()
-//        .environmentObject(TeacherDataViewModel())
-//        .environmentObject(StudentViewModel.shared)
+//    // ✅ إنشاء نسخة من `StudentViewModel.shared`
+//    let previewStudentViewModel = StudentViewModel.shared
+//
+//    // ✅ إزالة أي بيانات قديمة
+//    previewStudentViewModel.savedEntitiesStudent.removeAll()
+//
+//    // ✅ إنشاء بيانات وهمية
+//    let student1 = StudentInfo(context: previewStudentViewModel.container.viewContext)
+//    student1.setValue(UUID().uuidString, forKey: "studentID")
+//    student1.setValue("أحمد محمد محمد", forKey: "name")
+//    student1.setValue("14", forKey: "age")
+//    student1.setValue("0912345678", forKey: "phoneNumber")
+//    student1.setValue("طرابلس", forKey: "city")
+//    student1.setValue("إعدادي", forKey: "level")
+//    student1.setValue("متوسط", forKey: "size")
+//    student1.setValue(1, forKey: "state")
+//
+//    let student2 = StudentInfo(context: previewStudentViewModel.container.viewContext)
+//    student2.setValue(UUID().uuidString, forKey: "studentID")
+//    student2.setValue("فاطمة الزهراء محمد محمد", forKey: "name")
+//    student2.setValue("12", forKey: "age")
+//    student2.setValue("0923456789", forKey: "phoneNumber")
+//    student2.setValue("بنغازي", forKey: "city")
+//    student2.setValue("إعدادي", forKey: "level")
+//    student2.setValue("صغير", forKey: "size")
+//    student2.setValue(2, forKey: "state")
+//    
+//    let student3 = StudentInfo(context: previewStudentViewModel.container.viewContext)
+//    student2.setValue(UUID().uuidString, forKey: "studentID")
+//    student2.setValue("فاطمة الزهراء محمد محمد", forKey: "name")
+//    student2.setValue("12", forKey: "age")
+//    student2.setValue("0923456789", forKey: "phoneNumber")
+//    student2.setValue("بنغازي", forKey: "city")
+//    student2.setValue("إعدادي", forKey: "level")
+//    student2.setValue("صغير", forKey: "size")
+//    student2.setValue(2, forKey: "state")
+//
+//    // ✅ إضافة الطلاب إلى المصفوفة
+//    previewStudentViewModel.savedEntitiesStudent.append(student1)
+//    previewStudentViewModel.savedEntitiesStudent.append(student2)
+//    previewStudentViewModel.savedEntitiesStudent.append(student3)
+//
+//
+//    return StudentDataSection()
+//        .environmentObject(TeacherDataViewModel()) // ✅ تمرير بيانات المعلم
+//        .environmentObject(previewStudentViewModel) // ✅ تمرير بيانات الطلاب
 //}
-
-#Preview {
-    // ✅ إنشاء نسخة من `StudentViewModel.shared`
-    let previewStudentViewModel = StudentViewModel.shared
-
-    // ✅ إزالة أي بيانات قديمة
-    previewStudentViewModel.savedEntitiesStudent.removeAll()
-
-    // ✅ إنشاء بيانات وهمية
-    let student1 = StudentInfo(context: previewStudentViewModel.container.viewContext)
-    student1.setValue(UUID().uuidString, forKey: "studentID")
-    student1.setValue("أحمد محمد محمد", forKey: "name")
-    student1.setValue("14", forKey: "age")
-    student1.setValue("0912345678", forKey: "phoneNumber")
-    student1.setValue("طرابلس", forKey: "city")
-    student1.setValue("إعدادي", forKey: "level")
-    student1.setValue("متوسط", forKey: "size")
-    student1.setValue(1, forKey: "state")
-
-    let student2 = StudentInfo(context: previewStudentViewModel.container.viewContext)
-    student2.setValue(UUID().uuidString, forKey: "studentID")
-    student2.setValue("فاطمة الزهراء محمد محمد", forKey: "name")
-    student2.setValue("12", forKey: "age")
-    student2.setValue("0923456789", forKey: "phoneNumber")
-    student2.setValue("بنغازي", forKey: "city")
-    student2.setValue("إعدادي", forKey: "level")
-    student2.setValue("صغير", forKey: "size")
-    student2.setValue(2, forKey: "state")
-    
-    let student3 = StudentInfo(context: previewStudentViewModel.container.viewContext)
-    student2.setValue(UUID().uuidString, forKey: "studentID")
-    student2.setValue("فاطمة الزهراء محمد محمد", forKey: "name")
-    student2.setValue("12", forKey: "age")
-    student2.setValue("0923456789", forKey: "phoneNumber")
-    student2.setValue("بنغازي", forKey: "city")
-    student2.setValue("إعدادي", forKey: "level")
-    student2.setValue("صغير", forKey: "size")
-    student2.setValue(2, forKey: "state")
-
-    // ✅ إضافة الطلاب إلى المصفوفة
-    previewStudentViewModel.savedEntitiesStudent.append(student1)
-    previewStudentViewModel.savedEntitiesStudent.append(student2)
-    previewStudentViewModel.savedEntitiesStudent.append(student3)
-
-
-    return StudentDataSection()
-        .environmentObject(TeacherDataViewModel()) // ✅ تمرير بيانات المعلم
-        .environmentObject(previewStudentViewModel) // ✅ تمرير بيانات الطلاب
-}
 
 
 

@@ -60,19 +60,7 @@ struct registerPageAccept: View {
             .cornerRadius(5)
 
             
-//            Button(action: {
-//                
-//            }){
-//                Text("بدء استخدام التطبيق")
-//                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ?  screenWidth * 0.03 : screenWidth * 0.02))
-//                    .frame(height: screenHeight * 0.04)
-//                    .foregroundColor(.white)
-//                    .frame(maxWidth: UIDevice.current.userInterfaceIdiom == .phone ? screenWidth * 0.8 : screenWidth * 0.8)
-//            }
-//            .background(isPressed ? Color.black : Color(red: 27 / 255, green: 62 / 255, blue: 93 / 255))
-//            .cornerRadius(5)
-            
-             
+       
         }
         .onAppear {
             
@@ -96,8 +84,8 @@ struct registerPageAccept: View {
         
 }
 
-#Preview {
-    registerPageAccept()
-        .environmentObject(TeacherDataViewModel())
-}
-
+//#Preview {
+//    registerPageAccept()
+//        .environmentObject(TeacherDataViewModel())
+//}
+//

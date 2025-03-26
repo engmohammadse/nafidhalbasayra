@@ -66,10 +66,10 @@ class GuideViewModel: ObservableObject {
                         self.guides = decodedGuides
                     }
                 } catch {
-                    print("❌ خطأ في فك التشفير: \(error.localizedDescription)")
+                   // print("❌ خطأ في فك التشفير: \(error.localizedDescription)")
                 }
-            } else if let error = error {
-                print("❌ خطأ في جلب البيانات: \(error.localizedDescription)")
+            } else if error != nil {
+               // print("❌ خطأ في جلب البيانات: \(error.localizedDescription)")
             }
         }.resume()
     }

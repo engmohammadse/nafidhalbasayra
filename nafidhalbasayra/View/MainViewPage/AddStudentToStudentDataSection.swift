@@ -126,33 +126,7 @@ struct AddStudentToStudentDataSection: View {
                     } else {
                         alertType = .error // ✅ تنبيه نقص البيانات
                     }
-//                if isFormValid {
-//                       // إذا كانت جميع الحقول ممتلئة، احفظ البيانات
-//                    vmStudent.addStudentInfo(name: name, phoneNumber: phoneNumber, age: age, level: level, size: size, gender: gender, academic_level: academic_level, state: 0, idFromApi: "")
-//                       
-//                       // إظهار تنبيه النجاح
-//                       alertType = .success
-//                       // إعادة تعيين الحقول بعد الحفظ
-//                       name = ""
-//                       phoneNumber = ""
-//                       age = ""
-//                       level = "اختر"
-//                       size = "اختر"
-//                       academic_level = "اختر"
-//                    
-//                    
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                           dismiss()
-//                         }
-//                    
-//                                  
-//                           } else {
-//                               // عرض تنبيه الخطأ عند نقص البيانات
-//                              alertType = .error
-//                           }
-                        
-                
-              
+//
                 
 
                 
@@ -235,23 +209,7 @@ struct AddStudentToStudentDataSection: View {
     }
     
     
-//    // Add keyboard observers
-//    private func addKeyboardObservers() {
-//        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
-//            self.keyboardHeight = 300 // Adjust this value according to the keyboard height
-//        }
-//        
-//        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
-//            self.keyboardHeight = 0
-//        }
-//    }
-//    
-//    // Remove keyboard observers
-//    private func removeKeyboardObservers() {
-//        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-//        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-//    }
-    
+
 }
 
 
@@ -274,7 +232,7 @@ enum AlertType: Identifiable {
 
 
 
-#Preview {
-    AddStudentToStudentDataSection( )
-        .environmentObject(TeacherDataViewModel())
-}
+//#Preview {
+//    AddStudentToStudentDataSection( )
+//        .environmentObject(TeacherDataViewModel())
+//}

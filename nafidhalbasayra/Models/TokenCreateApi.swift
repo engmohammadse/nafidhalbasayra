@@ -16,7 +16,7 @@ class TokenCreateApi {
     func createToken(teacherId: String, token: String, governorateId: String, type: Int) async {
         // URL
         guard let url = URL(string: "http://198.244.227.48:8082/token/create") else {
-            print("❌ Invalid URL")
+          //  print("❌ Invalid URL")
             return
         }
         
@@ -38,7 +38,7 @@ class TokenCreateApi {
             let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])
             request.httpBody = jsonData
         } catch {
-            print("❌ Failed to convert parameters to JSON: \(error.localizedDescription)")
+           // print("❌ Failed to convert parameters to JSON: \(error.localizedDescription)")
             return
         }
 
@@ -47,33 +47,33 @@ class TokenCreateApi {
             let (data, response) = try await URLSession.shared.data(for: request)
             
             if let httpResponse = response as? HTTPURLResponse {
-                print("🟡 HTTP Status Code: \(httpResponse.statusCode)")
+               // print("🟡 HTTP Status Code: \(httpResponse.statusCode)")
                 
                 // هنا نقوم مباشرة بمعالجة الـ data لأنه لن يكون nil
                 do {
                     // محاولة تحويل البيانات المستلمة إلى JSON
                     if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                         // طباعة الاستجابة
-                        print("🟡 Response Body: \(jsonResponse)")
+                      //  print("🟡 Response Body: \(jsonResponse)")
                         
                         // إذا كانت الاستجابة تحتوي على رسالة معينة
                         if let message = jsonResponse["message"] as? String {
-                            print("⚠️ Server Message: \(message)")
+                          //  print("⚠️ Server Message: \(message)")
                         }
                     }
                 } catch {
-                    print("❌ Failed to parse response body: \(error.localizedDescription)")
+                  //  print("❌ Failed to parse response body: \(error.localizedDescription)")
                 }
                 
                 // تحقق من حالة الاستجابة
                 if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
-                    print("✅ Data sent successfully")
+                   // print("✅ Data sent successfully")
                 } else {
-                    print("❌ Failed to send data. Status code: \(httpResponse.statusCode)")
+                 //   print("❌ Failed to send data. Status code: \(httpResponse.statusCode)")
                 }
             }
         } catch {
-            print("❌ Failed to send data: \(error.localizedDescription)")
+           // print("❌ Failed to send data: \(error.localizedDescription)")
         }
     }
 }

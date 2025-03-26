@@ -63,6 +63,6 @@ struct HadeethSection: View {
     }
 }
 
-#Preview {
-    HadeethSection()
-}
+//#Preview {
+//    HadeethSection()
+//}

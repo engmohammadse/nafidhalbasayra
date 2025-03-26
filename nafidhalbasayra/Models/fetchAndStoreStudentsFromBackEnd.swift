@@ -32,7 +32,7 @@ class fetchAndStoreStudentsFromBackEnd: ObservableObject {
     func fetchAndStoreStudents(teacherID: String) async {
         let urlString = "http://198.244.227.48:8082/students/get-all/\(teacherID)"
         guard let url = URL(string: urlString) else {
-            print("❌ رابط غير صالح")
+            //print("❌ رابط غير صالح")
             return
         }
 
@@ -40,15 +40,15 @@ class fetchAndStoreStudentsFromBackEnd: ObservableObject {
             let (data, _) = try await URLSession.shared.data(from: url)
             
             // ✅ طباعة البيانات المسترجعة من الـ API
-            print("✅ تم جلب بيانات الطلاب بنجاح من الـ API")
+          //  print("✅ تم جلب بيانات الطلاب بنجاح من الـ API")
             let decodedData = try JSONDecoder().decode([Student].self, from: data)
-            print("📚 عدد الطلاب المسترجع: \(decodedData.count)")
+           // print("📚 عدد الطلاب المسترجع: \(decodedData.count)")
 
             DispatchQueue.main.async {
                 self.storeStudentsInDatabase(decodedData)
             }
         } catch {
-            print("❌ فشل في جلب بيانات الطلاب: \(error.localizedDescription)")
+           // print("❌ فشل في جلب بيانات الطلاب: \(error.localizedDescription)")
         }
     }
 
@@ -56,14 +56,14 @@ class fetchAndStoreStudentsFromBackEnd: ObservableObject {
         for student in students {
             // ✅ تجاهل الطلاب الذين لديهم `to_delete = true`
             guard !student.to_delete else {
-                print("🚫 تجاهل الطالب: \(student.name) لأنه محذوف.")
+               // print("🚫 تجاهل الطالب: \(student.name) لأنه محذوف.")
                 continue
             }
 
             // ✅ التحقق مما إذا كان الطالب موجودًا بالفعل في CoreData
             if let existingStudent = database.savedEntitiesStudent.first(where: { $0.idFromApi == student._id }) {
                 // ✅ تحديث البيانات بدلًا من إضافة الطالب مرة أخرى
-                print("🔄 تحديث بيانات الطالب: \(student.name)")
+               // print("🔄 تحديث بيانات الطالب: \(student.name)")
                 database.updateStudentInfo(
                     entity: existingStudent,
                     with: student.name,
@@ -78,7 +78,7 @@ class fetchAndStoreStudentsFromBackEnd: ObservableObject {
 
             } else {
                 // ✅ إضافة الطالب إذا لم يكن موجودًا
-                print("📝 إضافة طالب جديد: \(student.name) إلى CoreData")
+               // print("📝 إضافة طالب جديد: \(student.name) إلى CoreData")
                 database.addStudentInfo(
                     name: student.name,
                     phoneNumber: student.phone_number,

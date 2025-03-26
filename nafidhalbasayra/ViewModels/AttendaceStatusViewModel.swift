@@ -20,8 +20,8 @@ class AttendaceStatusViewModel: ObservableObject {
     private init() {
         container = NSPersistentContainer(name: "CoreData")
         container.loadPersistentStores { _, error in
-            if let error = error {
-                print("ERROR LOADING CORE DATالA. \(error)")
+            if error != nil {
+//                print("ERROR LOADING CORE DATالA. \(error)")
             }
         }
         fetchAttendaceStatus()
@@ -31,19 +31,19 @@ class AttendaceStatusViewModel: ObservableObject {
         let request = NSFetchRequest<AttendaceStatus>(entityName: "AttendaceStatus")
         do {
             savedEntitiesAttendace = try container.viewContext.fetch(request)
-            print("✅ Successfully fetched \(savedEntitiesAttendace.count) entities.")
-            for entity in savedEntitiesAttendace {
-                print("""
-                Entity:
-                ID: \(entity.id ?? "No ID")
-                State: \(entity.state)
-                Latitude: \(entity.latitude)
-                Longitude: \(entity.longitude)
-                Notes: \(entity.notes ?? "No notes")
-                """)
-            }
-        } catch let error {
-            print("❌ Error Fetching AttendaceStatus: \(error.localizedDescription)")
+//            print("✅ Successfully fetched \(savedEntitiesAttendace.count) entities.")
+           // for entity in savedEntitiesAttendace {
+//                print("""
+//                Entity:
+//                ID: \(entity.id ?? "No ID")
+//                State: \(entity.state)
+//                Latitude: \(entity.latitude)
+//                Longitude: \(entity.longitude)
+//                Notes: \(entity.notes ?? "No notes")
+//                """)
+          //  }
+        } catch _ {
+//            print("❌ Error Fetching AttendaceStatus: \(error.localizedDescription)")
         }
     }
 
@@ -72,14 +72,14 @@ class AttendaceStatusViewModel: ObservableObject {
         saveData()
         fetchAttendaceStatus()
         
-        print("✅ Successfully saved attendance status.")
-        print("""
-        ID: \(newAttendaceStatus.id ?? "No ID")
-        State: \(newAttendaceStatus.state) ✅
-        Latitude: \(newAttendaceStatus.latitude)
-        Longitude: \(newAttendaceStatus.longitude)
-        Notes: \(newAttendaceStatus.notes ?? "No notes")
-        """)
+//        print("✅ Successfully saved attendance status.")
+//        print("""
+//        ID: \(newAttendaceStatus.id ?? "No ID")
+//        State: \(newAttendaceStatus.state) ✅
+//        Latitude: \(newAttendaceStatus.latitude)
+//        Longitude: \(newAttendaceStatus.longitude)
+//        Notes: \(newAttendaceStatus.notes ?? "No notes")
+//        """)
     }
 
 
@@ -90,8 +90,8 @@ class AttendaceStatusViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.fetchAttendaceStatus() // 🛑 تحديث البيانات بعد كل عملية حفظ
             }
-        } catch let error {
-            print("❌ Error saving data: \(error)")
+        } catch _ {
+           // print("❌ Error saving data: \(error)")
         }
     }
 
@@ -102,7 +102,7 @@ class AttendaceStatusViewModel: ObservableObject {
             entity.state = 0
         }
         saveData()
-        print("✅ All states reset to 0.")
+       // print("✅ All states reset to 0.")
     }
     
     
@@ -118,9 +118,9 @@ class AttendaceStatusViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.savedEntitiesAttendace.removeAll()
             }
-            print("✅ تم مسح جميع بيانات الحضور بنجاح.")
-        } catch let error {
-            print("❌ فشل في مسح بيانات الحضور: \(error.localizedDescription)")
+           // print("✅ تم مسح جميع بيانات الحضور بنجاح.")
+        } catch _ {
+            //print("❌ فشل في مسح بيانات الحضور: \(error.localizedDescription)")
         }
     }
 

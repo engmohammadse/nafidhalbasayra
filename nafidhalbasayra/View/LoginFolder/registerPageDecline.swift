@@ -115,7 +115,7 @@ struct registerPageDecline: View {
        }
 }
 
-#Preview {
-    registerPageDecline()
-        .environmentObject(TeacherDataViewModel())
-}
+//#Preview {
+//    registerPageDecline()
+//        .environmentObject(TeacherDataViewModel())
+//}

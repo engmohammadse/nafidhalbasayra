@@ -148,18 +148,11 @@ struct MainViewPage: View {
     }
 }
 
-#Preview {
-    MainViewPage()
-        .environmentObject(AttendaceStatusViewModel.shared)
-        .environmentObject(TeacherDataViewModel())
-}
-
-//
-//.frame(maxWidth: .infinity, maxHeight: .infinity)
-//.background(Color(red: 236/255, green: 242/255, blue: 245/255))
-
-
-//.background(Color(red: 236/255, green: 242/255, blue: 245/255))
+//#Preview {
+//    MainViewPage()
+//        .environmentObject(AttendaceStatusViewModel.shared)
+//        .environmentObject(TeacherDataViewModel())
+//}
 
 
 

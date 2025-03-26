@@ -207,9 +207,9 @@ extension UIImage {
     }
 }
 
-#Preview {
-    TeacherProfileView()
-}
+//#Preview {
+//    TeacherProfileView()
+//}
 
 
 

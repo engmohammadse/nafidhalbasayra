@@ -64,14 +64,14 @@ struct SafariView: UIViewControllerRepresentable {
 }
 
 
-#Preview {
-    HStack{
-        socialMediaButton(url: "https://www.alkafeelquran.com", image: "Group 36")
-        socialMediaButton(url: "https://www.alkafeelquran.com", image: "Group 39")
-        socialMediaButton(url: "https://www.alkafeelquran.com", image: "Group 40")
-        socialMediaButton(url: "https://www.alkafeelquran.com", image: "globe-solid")
-        
-    }
-    .frame(width: 200 ,height: 200 )
-    .background(Color.cyan)
-}
+//#Preview {
+//    HStack{
+//        socialMediaButton(url: "https://www.alkafeelquran.com", image: "Group 36")
+//        socialMediaButton(url: "https://www.alkafeelquran.com", image: "Group 39")
+//        socialMediaButton(url: "https://www.alkafeelquran.com", image: "Group 40")
+//        socialMediaButton(url: "https://www.alkafeelquran.com", image: "globe-solid")
+//        
+//    }
+//    .frame(width: 200 ,height: 200 )
+//    .background(Color.cyan)
+//}

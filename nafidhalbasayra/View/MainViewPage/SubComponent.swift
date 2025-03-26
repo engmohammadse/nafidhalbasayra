@@ -390,19 +390,13 @@ struct FormFieldAge: View {
 
 
 
+
 //
 //#Preview {
-//    DropdownField
+//    AddStudentToStudentDataSection( )
+//        .environmentObject(TeacherDataViewModel())
 //}
-
-
-
-
-#Preview {
-    AddStudentToStudentDataSection( )
-        .environmentObject(TeacherDataViewModel())
-}
-
+//
 
 
 

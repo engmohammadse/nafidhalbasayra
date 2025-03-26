@@ -28,10 +28,6 @@ struct registerPage1: View {
                 
                
                 
-//                Button("Print Data") {
-//                  teacherData.printData() // استدعاء دالة الطباعة
-//                    }
-
                      
                    
             }
@@ -72,11 +68,11 @@ struct registerPage1: View {
 }
 
 
-#Preview {
-    registerPage1()
-        .environmentObject(TeacherDataViewModel())
-
-}
+//#Preview {
+//    registerPage1()
+//        .environmentObject(TeacherDataViewModel())
+//
+//}
 
 
 
