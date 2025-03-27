@@ -78,10 +78,49 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         
       //  print("❌ تم إلغاء التسجيل من الإشعارات")
     }
+    
+    // أضف هذه الدالة لتقييد الاتجاهات ↓
+      func application(
+          _ application: UIApplication,
+          supportedInterfaceOrientationsFor window: UIWindow?
+      ) -> UIInterfaceOrientationMask {
+          return .portrait // التطبيق يعمل بالوضع العمودي فقط
+      }
+    
+    
 }
 
 
 
+
+//// في المشهد الذي تريد السماح بالدوران فيه:
+//struct VideoPlayerView: View {
+//    var body: some View {
+//        // ...
+//    }
+//    // أضف هذه الدالة ↓
+//    func shouldAllowRotation() -> some View {
+//        self.onAppear {
+//            AppDelegate.orientationLock = .allButUpsideDown
+//        }
+//        .onDisappear {
+//            AppDelegate.orientationLock = .portrait
+//        }
+//    }
+//}
+//
+//// في AppDelegate:
+//class AppDelegate: NSObject, UIApplicationDelegate {
+//    static var orientationLock = UIInterfaceOrientationMask.portrait
+//    
+//    func application(
+//        _ application: UIApplication,
+//        supportedInterfaceOrientationsFor window: UIWindow?
+//    ) -> UIInterfaceOrientationMask {
+//        return AppDelegate.orientationLock
+//    }
+//}
+//
 
 
 

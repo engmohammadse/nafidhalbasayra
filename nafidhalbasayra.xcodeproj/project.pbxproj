@@ -65,6 +65,7 @@
 		41E9C6D22CC3C85000FE122F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D12CC3C85000FE122F /* Colors.swift */; };
 		41E9C6D42CC3CC0600FE122F /* UserManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D32CC3CC0600FE122F /* UserManual.swift */; };
 		41E9C6D62CC41A0100FE122F /* HistoryAttendanceSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D52CC41A0100FE122F /* HistoryAttendanceSection.swift */; };
+		41EB2EC42D9572AD0098C50B /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41EB2EC32D9572AD0098C50B /* UIViewController.swift */; };
 		41F1DE6E2D19BE95008CDAE5 /* AttendanceUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F1DE6D2D19BE95008CDAE5 /* AttendanceUploader.swift */; };
 		41F34EF82CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F34EF72CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift */; };
 		41F9D0B62CAAE4C600BD7853 /* registerPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9D0B52CAAE4C500BD7853 /* registerPage.swift */; };
@@ -137,6 +138,7 @@
 		41E9C6D12CC3C85000FE122F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		41E9C6D32CC3CC0600FE122F /* UserManual.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManual.swift; sourceTree = "<group>"; };
 		41E9C6D52CC41A0100FE122F /* HistoryAttendanceSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryAttendanceSection.swift; sourceTree = "<group>"; };
+		41EB2EC32D9572AD0098C50B /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		41F1DE6D2D19BE95008CDAE5 /* AttendanceUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceUploader.swift; sourceTree = "<group>"; };
 		41F34EF72CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncTeacherDataPostApi.swift; sourceTree = "<group>"; };
 		41F9D0B52CAAE4C500BD7853 /* registerPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPage.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				41074C832CBE8ED700FA28AC /* Models */,
 				41BD62CB2CA2FF2D00529765 /* Fonts */,
 				413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */,
+				41EB2EC32D9572AD0098C50B /* UIViewController.swift */,
 				41489AFE2D9010DF00160F1F /* AppDelegate.swift */,
 				416FD1FE2D1856F700ED7DF8 /* MainParentView.swift */,
 				416D8BE82CA4482500E2E6D8 /* const.swift */,
@@ -408,6 +411,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41EB2EC42D9572AD0098C50B /* UIViewController.swift in Sources */,
 				41D1DC522CB6EDF7004EB23D /* registerPageWaitProcess.swift in Sources */,
 				41074C852CBE8EFB00FA28AC /* LoginRequest.swift in Sources */,
 				411C82482D4A232C008C1AA8 /* StudentUpdater.swift in Sources */,
@@ -604,11 +608,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = nafidhalbasayra/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "نافذ البصيرة";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "\"التطبيق يحتاج إذن الكاميرا للتصوير\"";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"نحتاج إلى الوصول إلى موقعك لتحسين تجربة استخدام التطبيق وتوفير ميزات قائمة على الموقع.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -637,11 +642,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = nafidhalbasayra/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "نافذ البصيرة";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "\"التطبيق يحتاج إذن الكاميرا للتصوير\"";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"نحتاج إلى الوصول إلى موقعك لتحسين تجربة استخدام التطبيق وتوفير ميزات قائمة على الموقع.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

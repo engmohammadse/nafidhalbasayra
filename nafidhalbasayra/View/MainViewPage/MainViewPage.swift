@@ -218,7 +218,7 @@ struct ButtonSetting: View {
     var body: some View {
         NavigationLink(destination: TeacherProfileView()) {
             HStack {
-                Text("الإعدادات")
+                Text("الملف الشخصي")
                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.033 : screenWidth * 0.025))
                     .foregroundStyle(Color.black)
                 
