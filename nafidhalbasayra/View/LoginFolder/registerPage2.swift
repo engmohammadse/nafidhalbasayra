@@ -367,7 +367,7 @@ struct registerPage2: View {
                                     
                                 }
                                 
-                                Text("يرجى رفع صورة سيلفي\n واضحة يظهر فيها الوجه\n كاملا")
+                                Text("يرجى تحميل صور الوجه \nالخلفي للبطاقة الموحدة\n الخاصة بك")
                                     .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.03 : screenWidth * 0.025 ))
                                 .multilineTextAlignment(.trailing)
                             }

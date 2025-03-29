@@ -19,11 +19,6 @@
 		<string>Amiri-Bold.ttf</string>
 		<string>BahijTheSansArabic-Plain.ttf</string>
 	</array>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>external-accessory</string>
-		<string>remote-notification</string>
-	</array>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIImageName</key>
