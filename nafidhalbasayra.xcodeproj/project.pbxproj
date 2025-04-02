@@ -601,7 +601,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = nafidhalbasayra/nafidhalbasayra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 2.1;
 				DEVELOPMENT_ASSET_PATHS = "\"nafidhalbasayra/Preview Content\"";
 				DEVELOPMENT_TEAM = 4MGZ7TP56A;
 				ENABLE_PREVIEWS = YES;
@@ -609,8 +609,8 @@
 				INFOPLIST_FILE = nafidhalbasayra/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "نافذ البصيرة";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
-				INFOPLIST_KEY_NSCameraUsageDescription = "\"التطبيق يحتاج إذن الكاميرا للتصوير\"";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"نحتاج إلى الوصول إلى موقعك لتحسين تجربة استخدام التطبيق وتوفير ميزات قائمة على الموقع.\"";
+				INFOPLIST_KEY_NSCameraUsageDescription = "للسماح بالتحقق من هويتك عبر رفع صورة هويتك الرسمية للأغراض الإدارية، يرجى السماح بالوصول إلى الكاميرا.\nTo verify your identity by uploading your official ID for administrative purposes, please allow access to the Camera.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "للتحقق من موقعك الحالي لضمان دقة السجلات وللأغراض الإدارية من قبل إدارة العتبة، يرجى السماح بالوصول إلى موقعك أثناء استخدام التطبيق.\nTo verify your current location for accurate record-keeping and administrative purposes by the Shrine administration, please allow access to your location while using the app.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft";
@@ -619,7 +619,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.alkafeelquran.nafidhalbasayra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -635,7 +635,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = nafidhalbasayra/nafidhalbasayra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 2.1;
 				DEVELOPMENT_ASSET_PATHS = "\"nafidhalbasayra/Preview Content\"";
 				DEVELOPMENT_TEAM = 4MGZ7TP56A;
 				ENABLE_PREVIEWS = YES;
@@ -643,8 +643,8 @@
 				INFOPLIST_FILE = nafidhalbasayra/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "نافذ البصيرة";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
-				INFOPLIST_KEY_NSCameraUsageDescription = "\"التطبيق يحتاج إذن الكاميرا للتصوير\"";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"نحتاج إلى الوصول إلى موقعك لتحسين تجربة استخدام التطبيق وتوفير ميزات قائمة على الموقع.\"";
+				INFOPLIST_KEY_NSCameraUsageDescription = "للسماح بالتحقق من هويتك عبر رفع صورة هويتك الرسمية للأغراض الإدارية، يرجى السماح بالوصول إلى الكاميرا.\nTo verify your identity by uploading your official ID for administrative purposes, please allow access to the Camera.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "للتحقق من موقعك الحالي لضمان دقة السجلات وللأغراض الإدارية من قبل إدارة العتبة، يرجى السماح بالوصول إلى موقعك أثناء استخدام التطبيق.\nTo verify your current location for accurate record-keeping and administrative purposes by the Shrine administration, please allow access to your location while using the app.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft";
@@ -653,7 +653,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.alkafeelquran.nafidhalbasayra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
