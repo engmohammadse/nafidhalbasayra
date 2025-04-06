@@ -7,6 +7,9 @@ struct TeacherProfileView: View {
     @State private var showDeleteConfirmation = false
     @State private var profileImage: UIImage? = getSavedProfileImage()
     @Environment(\.dismiss) var dismiss
+    @State private var isDataLoaded = false
+    
+  
 
     var teacher: TeacherInfo? {
         return vmTeacher.savedEntitiesTeacher.first
@@ -15,92 +18,98 @@ struct TeacherProfileView: View {
 
     var body: some View {
         //NavigationStack {
-            VStack(spacing: 15) {
+            LazyVStack(spacing: 15) {
              
-                //  عنوان الصفحة
-                Text("الملف الشخصي للأستاذ")
-                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
-                    .foregroundColor(primaryColor)
-                    .frame(width: screenWidth * 0.8, height: screenHeight * 0.05)
-                    .background(Color(red: 220 / 255, green: 225 / 255, blue: 230 / 255))
-                    .cornerRadius(8)
-                    .padding(.top, screenHeight * 0.08)
-                   
+
+                Spacer()
+                    .frame(height: screenHeight * 0.1)
                 
-
-                if let teacher = teacher {
-                    //  صورة الأستاذ الشخصية
+                if isDataLoaded {
                     
-                    if let image = profileImage {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 120, height: 120)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(primaryColor, lineWidth: 2))
-                            .shadow(radius: 4)
-                            .padding(.top, uiDevicePhone ? screenHeight * 0.04 : screenHeight * 0.08)
-                            .padding(.bottom, uiDevicePhone ? screenHeight * 0.05 : screenHeight * 0.08)
+                    if let teacher = teacher {
+                        //  صورة الأستاذ الشخصية
+                        
+                        if let image = profileImage {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: uiDevicePhone ? 120 : 200 , height: uiDevicePhone ? 120 : 200)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(primaryColor, lineWidth: 2))
+                                .shadow(radius: 4)
+                                .padding(.top, uiDevicePhone ? screenHeight * 0.04 : screenHeight * 0.08)
+                                .padding(.bottom, uiDevicePhone ? screenHeight * 0.05 : screenHeight * 0.08)
+                            
+                            
+                            
+                        }  else if let imageData = teacher.profileimage, let image = UIImage(data: imageData) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: uiDevicePhone ? 120 : 200 , height: uiDevicePhone ? 120 : 200)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(primaryColor, lineWidth: 2))
+                                .shadow(radius: 4)
+                                .padding(.top, uiDevicePhone ? screenHeight * 0.04 : screenHeight * 0.08)
+                                .padding(.bottom, uiDevicePhone ? screenHeight * 0.05 : screenHeight * 0.08)
+                            
+                        } else {
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 120, height: 120)
+                                .foregroundColor(.gray)
+                                .padding(.top, uiDevicePhone ? screenHeight * 0.04 : screenHeight * 0.08)
+                                .padding(.bottom, uiDevicePhone ? screenHeight * 0.05 : screenHeight * 0.08)
+                            
+                            
+                        }
                         
                         
                         
-                    }  else if let imageData = teacher.profileimage, let image = UIImage(data: imageData) {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 120, height: 120)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(primaryColor, lineWidth: 2))
-                            .shadow(radius: 4)
-                            .padding(.top, uiDevicePhone ? screenHeight * 0.04 : screenHeight * 0.08)
-                            .padding(.bottom, uiDevicePhone ? screenHeight * 0.05 : screenHeight * 0.08)
-
+                        
+                        //  معلومات الأستاذ
+                        VStack(alignment: .trailing, spacing: 10) {
+                            InfoRow(title: "الاسم:", value: teacher.name ?? "غير معروف")
+                            InfoRow(title: "تاريخ الميلاد:", value: teacher.birthDay?.formatted(date: .long, time: .omitted) ?? "غير مدخل")
+                            InfoRow(title: "رقم الهاتف:", value: teacher.phonenumber)
+                            InfoRow(title: "اسم المسجد:", value: teacher.mosquname ?? "غير مدخل")
+                            InfoRow(title: "المستوى الأكاديمي:", value: teacher.academiclevel ?? "غير مدخل")
+                            InfoRow(title: "الوظيفة الحالية:", value: teacher.currentWork ?? "غير مدخلة")
+                            InfoRow(title: "هل قام بالتدريس:", value: teacher.didyoutaught ? "نعم" : "لا")
+                        }
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .padding(.horizontal, uiDevicePhone ?  8 : screenWidth * 0.10)
+                        
+                        //  عرض صور الهوية أفقيًا مع التأكد من توحيد الارتفاع
+                        HStack() {
+                            if let frontData = teacher.frontfaceidentity, let frontImage = UIImage(data: frontData) {
+                                IDImageView(image: frontImage, title: "الوجه الأمامي")
+                            }
+                            
+                            Spacer()
+                            
+                            if let backData = teacher.backfaceidentity, let backImage = UIImage(data: backData) {
+                                IDImageView(image: backImage, title: "الوجه الخلفي")
+                            }
+                        }
+                        .frame(maxWidth: .infinity) // يضمن توسيع الـ HStack عبر الشاشة بالكامل
+                        .padding(.horizontal)
+                        .padding(.vertical)
+                        .padding(.bottom, uiDevicePhone ? screenHeight * 0.03 : screenHeight * 0.05)
+                        
+                        
                     } else {
-                        Image(systemName: "person.circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 120, height: 120)
+                        Text("لم يتم العثور على بيانات للأستاذ.")
                             .foregroundColor(.gray)
-                            .padding(.top, uiDevicePhone ? screenHeight * 0.04 : screenHeight * 0.08)
-                            .padding(.bottom, uiDevicePhone ? screenHeight * 0.05 : screenHeight * 0.08)
-
-
+                            .padding()
                     }
                     
-                    
-                   
-
-                    //  معلومات الأستاذ
-                    VStack(alignment: .trailing, spacing: 10) {
-                        InfoRow(title: "الاسم:", value: teacher.name ?? "غير معروف")
-                        InfoRow(title: "تاريخ الميلاد:", value: teacher.birthDay?.formatted(date: .long, time: .omitted) ?? "غير مدخل")
-                        InfoRow(title: "رقم الهاتف:", value: teacher.phonenumber)
-                        InfoRow(title: "اسم المسجد:", value: teacher.mosquname ?? "غير مدخل")
-                        InfoRow(title: "المستوى الأكاديمي:", value: teacher.academiclevel ?? "غير مدخل")
-                        InfoRow(title: "الوظيفة الحالية:", value: teacher.currentWork ?? "غير مدخلة")
-                        InfoRow(title: "هل قام بالتدريس:", value: teacher.didyoutaught ? "نعم" : "لا")
-                    }
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                    .padding(.horizontal)
-
-                    //  عرض صور الهوية أفقيًا مع التأكد من توحيد الارتفاع
-                    HStack(spacing: 15) {
-                        if let frontData = teacher.frontfaceidentity, let frontImage = UIImage(data: frontData) {
-                            IDImageView(image: frontImage, title: "الوجه الأمامي")
-                        }
-                        if let backData = teacher.backfaceidentity, let backImage = UIImage(data: backData) {
-                            IDImageView(image: backImage, title: "الوجه الخلفي")
-                        }
-                    }
-                    .frame(maxWidth: .infinity) // يضمن توسيع الـ HStack عبر الشاشة بالكامل
-                    .padding(.horizontal)
-                    .padding(.vertical)
-                    .padding(.bottom, uiDevicePhone ? screenHeight * 0.03 : screenHeight * 0.05)
-
-
                 } else {
-                    Text("لم يتم العثور على بيانات للأستاذ.")
-                        .foregroundColor(.gray)
+                    // يمكن عرض مؤشر تحميل أو شيء آخر إذا لم يتم تحميل البيانات بعد
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .scaleEffect(2)
                         .padding()
                 }
             }
@@ -108,7 +117,12 @@ struct TeacherProfileView: View {
             .navigationSplitViewStyle(.automatic) //  يمنع ظهور الـ Sidebar في iPad
             .navigationBarBackButtonHidden(true)
             .onAppear {
-                vmTeacher.fetchTeacherInfo()
+               // vmTeacher.fetchTeacherInfo()
+                
+                // تأجيل تحميل البيانات
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        self.isDataLoaded = true // تحديد أن البيانات تم تحميلها
+                    }
             }
             
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -127,6 +141,18 @@ struct TeacherProfileView: View {
                     }
                     .offset(x: uiDevicePhone ? screenWidth * 0.46 : screenWidth * 0.47, y: screenHeight * -0.03)
                 }
+            }
+        
+            .overlay{
+                //  عنوان الصفحة
+                Text("الملف الشخصي للأستاذ")
+                    .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023))
+                    .foregroundColor(primaryColor)
+                    .frame(width: screenWidth * 0.8, height: screenHeight * 0.05)
+                    .background(Color(red: 220 / 255, green: 225 / 255, blue: 230 / 255))
+                    .cornerRadius(8)
+                   // .padding(.top, screenHeight * 0.08)
+                    .offset(y: uiDevicePhone ? -screenHeight * 0.4 : -screenHeight * 0.4)
             }
             
        // }
@@ -172,7 +198,7 @@ struct IDImageView: View {
             Image(uiImage: rotatedImage)
                 .resizable()
                 .scaledToFit()
-                .frame(width: uiDevicePhone ?  160 : 300, height: uiDevicePhone ?  120 : 240) //  عرض الصورة أفقيًا دائمًا
+                .frame(width: uiDevicePhone ?  160 : 250, height: uiDevicePhone ?  120 : 220) //  عرض الصورة أفقيًا دائمًا
                 .cornerRadius(10)
                 .shadow(radius: 5)
 
