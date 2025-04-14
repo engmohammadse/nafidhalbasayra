@@ -33,6 +33,7 @@
 		41489B022D90298100160F1F /* TokenCreateApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41489B012D90298100160F1F /* TokenCreateApi.swift */; };
 		414AFBDC2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414AFBDB2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift */; };
 		414AFBDE2CC16D3A00D89B70 /* SubComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414AFBDD2CC16D3A00D89B70 /* SubComponent.swift */; };
+		414C14DC2DAD234F00A973AF /* TeacherStateResetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414C14DB2DAD234500A973AF /* TeacherStateResetter.swift */; };
 		415B4B432D676E4700A24A52 /* fetchAndStoreStudentsFromBackEnd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 415B4B422D676E4600A24A52 /* fetchAndStoreStudentsFromBackEnd.swift */; };
 		41648E652D75CBB90094693C /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41648E642D75CBB90094693C /* APIManager.swift */; };
 		416D8BE92CA4482500E2E6D8 /* const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416D8BE82CA4482500E2E6D8 /* const.swift */; };
@@ -106,6 +107,7 @@
 		41489B012D90298100160F1F /* TokenCreateApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCreateApi.swift; sourceTree = "<group>"; };
 		414AFBDB2CC148AC00D89B70 /* AddStudentToStudentDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStudentToStudentDataSection.swift; sourceTree = "<group>"; };
 		414AFBDD2CC16D3A00D89B70 /* SubComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubComponent.swift; sourceTree = "<group>"; };
+		414C14DB2DAD234500A973AF /* TeacherStateResetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherStateResetter.swift; sourceTree = "<group>"; };
 		415B4B422D676E4600A24A52 /* fetchAndStoreStudentsFromBackEnd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fetchAndStoreStudentsFromBackEnd.swift; sourceTree = "<group>"; };
 		41648E642D75CBB90094693C /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		416D8BE82CA4482500E2E6D8 /* const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = const.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				41074C842CBE8EFB00FA28AC /* LoginRequest.swift */,
+				414C14DB2DAD234500A973AF /* TeacherStateResetter.swift */,
 				41FC8A402CFDD681001C6E49 /* cityGet.swift */,
 				41F1DE6D2D19BE95008CDAE5 /* AttendanceUploader.swift */,
 				41F34EF72CF89CA20096C9F9 /* SyncTeacherDataPostApi.swift */,
@@ -416,6 +419,7 @@
 				41074C852CBE8EFB00FA28AC /* LoginRequest.swift in Sources */,
 				411C82482D4A232C008C1AA8 /* StudentUpdater.swift in Sources */,
 				41CD8CE12CF75D360095A82D /* displayTeacherInfo.swift in Sources */,
+				414C14DC2DAD234F00A973AF /* TeacherStateResetter.swift in Sources */,
 				41D818272D149153007B8581 /* LoginStatusView.swift in Sources */,
 				410AFBEF2CDBF11900501834 /* EditStudentAtStudentDataSection.swift in Sources */,
 				41BD62C82CA2E69400529765 /* RegisterInfoPage.swift in Sources */,
