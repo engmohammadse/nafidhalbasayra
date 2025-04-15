@@ -92,7 +92,7 @@ class AppViewModel: ObservableObject {
             }
 
   
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [self] in
             self.isLoggedIn = false
             self.loginState = 0 // تعيين loginState إلى 0 لمنع الإشعارات
 
@@ -104,6 +104,12 @@ class AppViewModel: ObservableObject {
             //  حذف جميع بيانات الأستاذ من CoreData
             let coreDataViewModel = CoreDataViewModel.shared
             coreDataViewModel.deleteAllTeacherInfo()
+            
+            
+            
+            let coreDataNotificationVM = CoreDataNotificationViewModel.shared
+            coreDataNotificationVM.deleteAllNotifications()
+
             
 
             //  إعادة تعيين `rootViewController`

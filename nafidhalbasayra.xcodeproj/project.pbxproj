@@ -36,6 +36,7 @@
 		414C14DC2DAD234F00A973AF /* TeacherStateResetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414C14DB2DAD234500A973AF /* TeacherStateResetter.swift */; };
 		415B4B432D676E4700A24A52 /* fetchAndStoreStudentsFromBackEnd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 415B4B422D676E4600A24A52 /* fetchAndStoreStudentsFromBackEnd.swift */; };
 		41648E652D75CBB90094693C /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41648E642D75CBB90094693C /* APIManager.swift */; };
+		4167AC462DAE8D3F003661B8 /* CoreDataNotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4167AC452DAE8D35003661B8 /* CoreDataNotificationViewModel.swift */; };
 		416D8BE92CA4482500E2E6D8 /* const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416D8BE82CA4482500E2E6D8 /* const.swift */; };
 		416FD1FF2D1856F700ED7DF8 /* MainParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416FD1FE2D1856F700ED7DF8 /* MainParentView.swift */; };
 		418238FE2D457AE8001F82EA /* StudentUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418238FD2D457AE8001F82EA /* StudentUploader.swift */; };
@@ -110,6 +111,7 @@
 		414C14DB2DAD234500A973AF /* TeacherStateResetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherStateResetter.swift; sourceTree = "<group>"; };
 		415B4B422D676E4600A24A52 /* fetchAndStoreStudentsFromBackEnd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fetchAndStoreStudentsFromBackEnd.swift; sourceTree = "<group>"; };
 		41648E642D75CBB90094693C /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		4167AC452DAE8D35003661B8 /* CoreDataNotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataNotificationViewModel.swift; sourceTree = "<group>"; };
 		416D8BE82CA4482500E2E6D8 /* const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = const.swift; sourceTree = "<group>"; };
 		416FD1FE2D1856F700ED7DF8 /* MainParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainParentView.swift; sourceTree = "<group>"; };
 		418238FD2D457AE8001F82EA /* StudentUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentUploader.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 			children = (
 				4124DC602CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift */,
 				413E4B902CA1C78200B1EEC5 /* TeacherCoreDataViewModel.swift */,
+				4167AC452DAE8D35003661B8 /* CoreDataNotificationViewModel.swift */,
 				410A52242CD3A66C00DE375B /* StudentViewModel.swift */,
 				41074C872CBE8F8400FA28AC /* LoginViewModel.swift */,
 				419ACE5A2CC816C4000D4433 /* TeacherDataTempViewModel.swift */,
@@ -434,6 +437,7 @@
 				419ACE5B2CC816C4000D4433 /* TeacherDataTempViewModel.swift in Sources */,
 				418E94BE2CB82D3100ACFEEA /* MainViewPage.swift in Sources */,
 				412D3DCE2D48C2B1006CDAF1 /* InternetChecker.swift in Sources */,
+				4167AC462DAE8D3F003661B8 /* CoreDataNotificationViewModel.swift in Sources */,
 				411CA47E2CBBF33A0094A94B /* socialMediaSection.swift in Sources */,
 				412D3DD02D48D0D2006CDAF1 /* StudentDeleter.swift in Sources */,
 				41E9C6D62CC41A0100FE122F /* HistoryAttendanceSection.swift in Sources */,
