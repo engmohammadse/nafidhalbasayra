@@ -17,16 +17,13 @@ class CoreDataViewModel: ObservableObject {
 
     
     
-    let container: NSPersistentContainer
+//    let container: NSPersistentContainer
+    private let coreDataManager = CoreDataManager.shared
+
     @Published var savedEntitiesTeacher: [TeacherInfo] = []
 
     private init() {
-        container = NSPersistentContainer(name: "CoreData")
-        container.loadPersistentStores { _, error in
-//            if let error = error {
-//               // print("ERROR LOADING CORE DATA. \(error)")
-//            }
-        }
+
         fetchTeacherInfo()
     }
     
@@ -36,8 +33,8 @@ class CoreDataViewModel: ObservableObject {
     func fetchTeacherInfo() {
         let request = NSFetchRequest<TeacherInfo>(entityName: "TeacherInfo")
         do {
-            savedEntitiesTeacher = try container.viewContext.fetch(request)
-        } 
+            savedEntitiesTeacher = try coreDataManager.viewContext.fetch(request)
+        }
         catch _ {
             //print("Error Fetching. \(error)")
         }
@@ -52,7 +49,7 @@ class CoreDataViewModel: ObservableObject {
     
 
     func addTeacherInfo(text: String) {
-        let newTeacherInfo = TeacherInfo(context: container.viewContext)
+        let newTeacherInfo = TeacherInfo(context: coreDataManager.viewContext)
         newTeacherInfo.name = text
         saveTeacherData()
     }
@@ -65,7 +62,7 @@ class CoreDataViewModel: ObservableObject {
     func deleteTeacherInfo(indexSet: IndexSet) {
         guard let index = indexSet.first else { return }
         let entity = savedEntitiesTeacher[index]
-        container.viewContext.delete(entity)
+        coreDataManager.viewContext.delete(entity)
         saveTeacherData()
     }
     
@@ -81,14 +78,14 @@ class CoreDataViewModel: ObservableObject {
         batchDeleteRequest.resultType = .resultTypeObjectIDs
         
         do {
-            let result = try container.viewContext.execute(batchDeleteRequest) as? NSBatchDeleteResult
+            let result = try coreDataManager.viewContext.execute(batchDeleteRequest) as? NSBatchDeleteResult
             if let objectIDs = result?.result as? [NSManagedObjectID] {
                 // دمج التغييرات في الـ context لتحديث الكاش وإزالة الكائنات المحذوفة
                 let changes = [NSDeletedObjectsKey: objectIDs]
-                NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [container.viewContext])
+                NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [coreDataManager.viewContext])
             }
             // إعادة تعيين الـ context لتفريغ الكائنات القديمة
-            container.viewContext.reset()
+            coreDataManager.viewContext.reset()
             fetchTeacherInfo()
            // print("All records in TeacherInfo have been deleted.")
         } catch _ {
@@ -96,25 +93,6 @@ class CoreDataViewModel: ObservableObject {
         }
     }
 
-//    func deleteAllTeacherInfo() {
-//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TeacherInfo")
-//        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-//        batchDeleteRequest.resultType = .resultTypeObjectIDs
-//        
-//        do {
-//            let result = try container.viewContext.execute(batchDeleteRequest) as? NSBatchDeleteResult
-//            if let objectIDs = result?.result as? [NSManagedObjectID] {
-//                // دمج التغييرات لتحديث الـ context
-//                let changes = [NSDeletedObjectsKey: objectIDs]
-//                NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [container.viewContext])
-//            }
-//            // تحديث البيانات
-//            fetchTeacherInfo()
-//            print("All records in TeacherInfo have been deleted.")
-//        } catch let error {
-//            print("Error deleting all records in TeacherInfo: \(error)")
-//        }
-//    }
 
 
     
@@ -122,7 +100,7 @@ class CoreDataViewModel: ObservableObject {
 
     func saveTeacherData() {
         do {
-            try container.viewContext.save()
+            try coreDataManager.viewContext.save()
             fetchTeacherInfo()
         } 
         
@@ -136,7 +114,7 @@ class CoreDataViewModel: ObservableObject {
     
     func addTeacherInfoToCoreData(from teacherData: TeacherDataViewModel, with faceImage: Data?, with frontId: Data?, with backId: Data?) {
         // Create a new entity in Core Data
-        let newTeacherInfo = TeacherInfo(context: container.viewContext)
+        let newTeacherInfo = TeacherInfo(context: coreDataManager.viewContext)
         
         // Map values from TeacherDataViewModel to TeacherInfo entity
         newTeacherInfo.name = teacherData.name
@@ -212,7 +190,8 @@ extension CoreDataViewModel {
     
     /// دالة لحفظ بيانات الأستاذ فقط إذا كانت حقيقية
     func saveTeacherInfo(from response: LoginResponse) {
-        let context = container.viewContext
+//        let context = container.viewContext
+        let context = coreDataManager.viewContext
 
         // ✅ التأكد من وجود بيانات في `LoginResponse`
         guard let teacherData = response.data else {
@@ -319,7 +298,7 @@ func downloadAndSaveImage(imageUrl: String, completion: @escaping (Data?) -> Voi
     }
 
     let task = URLSession.shared.dataTask(with: url) { data, _, error in
-        if let error = error {
+        if error != nil {
            // print("❌ فشل تحميل الصورة: \(error.localizedDescription)")
             completion(nil)
             return

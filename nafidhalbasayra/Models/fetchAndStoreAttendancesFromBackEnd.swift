@@ -29,7 +29,8 @@ struct Attendance: Codable {
 
 class fetchAndStoreAttendancesFromBackEnd: ObservableObject {
     private let database: AttendaceStatusViewModel
-    
+    private let coreDataManager = CoreDataManager.shared
+
     init(database: AttendaceStatusViewModel) {
         self.database = database
     }
@@ -65,7 +66,11 @@ class fetchAndStoreAttendancesFromBackEnd: ObservableObject {
     
     
     private func storeAttendancesInDatabase(_ attendances: [Attendance]) {
-        let context = database.container.viewContext
+        
+//        let context = database.container.viewContext
+
+        let context = coreDataManager.viewContext
+
 
         for attendance in attendances {
             

@@ -19,16 +19,13 @@ class StudentViewModel: ObservableObject {
     static let shared = StudentViewModel() // ✅ Singleton لتجنب تحميل النموذج أكثر من مرة
 
     
-    let container: NSPersistentContainer
+//    let container: NSPersistentContainer
+    private let coreDataManager = CoreDataManager.shared
+
     @Published var savedEntitiesStudent: [StudentInfo] = []
 
     private init() { // ✅ جعل الـ initializer خاصًا لمنع إنشاء نسخ جديدة
-        container = NSPersistentContainer(name: "CoreData")
-        container.loadPersistentStores { _, error in
-            if error != nil {
-               // print("ERROR LOADING CORE DATA. \(error)")
-            }
-        }
+
         fetchStudentInfo()
     }
     
@@ -39,25 +36,17 @@ class StudentViewModel: ObservableObject {
     func fetchStudentInfo() {
         let request = NSFetchRequest<StudentInfo>(entityName: "StudentInfo")
         do {
-            savedEntitiesStudent = try container.viewContext.fetch(request)
+            savedEntitiesStudent = try coreDataManager.viewContext.fetch(request)
         } catch _ {
            // print("Error Fetching. \(error)")
         }
     }
     
     
-    
 
     
-    
-    
-    
-    
-    
-    
-    
     func addStudentInfo(name: String, phoneNumber: String, age: String, level: String, size: String, gender: String, academic_level: String, state:Int16, idFromApi: String ) {
-        let newStudentInfo = StudentInfo(context: container.viewContext)
+        let newStudentInfo = StudentInfo(context: coreDataManager.viewContext)
         
         newStudentInfo.studentID = UUID().uuidString // توليد المعرف تلقائيًا
         newStudentInfo.name = name
@@ -109,10 +98,10 @@ class StudentViewModel: ObservableObject {
     func deleteStudentInfo(indexSet: IndexSet) {
         guard let index = indexSet.first else { return }
         let entity = savedEntitiesStudent[index]
-        container.viewContext.delete(entity)
+        coreDataManager.viewContext.delete(entity)
         
         do {
-            try container.viewContext.save() // حفظ التغييرات
+            try coreDataManager.viewContext.save() // حفظ التغييرات
             fetchStudentInfo() // تحديث البيانات بعد الحذف
             //print("حذف البيانات لطالب: \(entity.name ?? "لا يوجد اسم")")
         } catch {
@@ -128,7 +117,7 @@ class StudentViewModel: ObservableObject {
 
     func saveStudentData() {
         do {
-            try container.viewContext.save()
+            try coreDataManager.viewContext.save()
             fetchStudentInfo()
         } catch _ {
           //  print("Error saving. \(error)")
@@ -143,8 +132,8 @@ class StudentViewModel: ObservableObject {
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
 
         do {
-            try container.viewContext.execute(deleteRequest)
-            try container.viewContext.save()
+            try coreDataManager.viewContext.execute(deleteRequest)
+            try coreDataManager.viewContext.save()
             DispatchQueue.main.async {
                 self.savedEntitiesStudent.removeAll()
             }
@@ -153,10 +142,7 @@ class StudentViewModel: ObservableObject {
            // print("❌ فشل في مسح بيانات الطلاب: \(error.localizedDescription)")
         }
     }
-
-    
-    
-    
+   
 }
 
 

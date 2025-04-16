@@ -5,31 +5,36 @@
 //  Created by muhammad on 15/04/2025.
 //
 
+
+
+
+
 import CoreData
 
 class CoreDataNotificationViewModel: ObservableObject {
     static let shared = CoreDataNotificationViewModel()
+    
+    private let coreDataManager = CoreDataManager.shared
 
-    let container: NSPersistentContainer
-    @Published var savedEntitiesNotification: [Notification] = []
+
+    @Published var savedEntitiesNotification: [AppNotification] = []
 
     private init() {
-        container = NSPersistentContainer(name: "CoreData")
-        container.loadPersistentStores { _, _ in }
+       
         fetchNotifications()
     }
 
     func fetchNotifications() {
-        let request = NSFetchRequest<Notification>(entityName: "Notification")
+        let request = NSFetchRequest<AppNotification>(entityName: "AppNotification")
         do {
-            savedEntitiesNotification = try container.viewContext.fetch(request)
+            savedEntitiesNotification = try coreDataManager.viewContext.fetch(request)
         } catch {
             // تجاهل الخطأ بصمت أو أضف معالجة لاحقًا إن احتجت
         }
     }
 
     func addNotification(from model: NotificationModel) {
-        let newNotification = Notification(context: container.viewContext)
+        let newNotification = AppNotification(context: coreDataManager.viewContext)
         newNotification.id = UUID()
         newNotification.title = model.title
         newNotification.body = model.body
@@ -41,12 +46,12 @@ class CoreDataNotificationViewModel: ObservableObject {
     }
 
     func deleteAllNotifications() {
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Notification")
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "AppNotification")
         let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
 
         do {
-            try container.viewContext.execute(batchDeleteRequest)
-            try container.viewContext.save()
+            try coreDataManager.viewContext.execute(batchDeleteRequest)
+            try coreDataManager.viewContext.save()
             savedEntitiesNotification.removeAll()
         } catch {
             // تجاهل الخطأ بصمت أو أضف معالجة لاحقًا إن احتجت
@@ -55,7 +60,7 @@ class CoreDataNotificationViewModel: ObservableObject {
 
     func saveContext() {
         do {
-            try container.viewContext.save()
+            try coreDataManager.viewContext.save()
             fetchNotifications()
         } catch {
             // تجاهل الخطأ بصمت أو أضف معالجة لاحقًا إن احتجت

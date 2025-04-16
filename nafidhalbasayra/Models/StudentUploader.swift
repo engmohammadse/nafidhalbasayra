@@ -14,6 +14,7 @@ class StudentUploader {
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "InternetMonitor")
     private var database: StudentViewModel
+    private let context = CoreDataManager.shared.viewContext
     private var isSendingData = false // Flag لمنع التكرار على مستوى العملية
 
     init(database: StudentViewModel) {
@@ -46,7 +47,7 @@ class StudentUploader {
 
         do {
             // جلب الطلاب غير المرسل بياناتهم باستخدام context
-            let unsentStudents = try database.container.viewContext.fetch(fetchRequest)
+            let unsentStudents = try context.fetch(fetchRequest)
           //  print("📤 عدد الطلاب غير المرسل بياناتهم: \(unsentStudents.count)")
 
             guard !unsentStudents.isEmpty else {
