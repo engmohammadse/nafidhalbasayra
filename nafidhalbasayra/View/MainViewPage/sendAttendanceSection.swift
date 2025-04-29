@@ -403,10 +403,10 @@ struct sendAttendanceSection: View {
     private func validateAndSendAttendance() {
         let registeredStudentsCount = studentViewModel.savedEntitiesStudent.count
         
-        if registeredStudentsCount < 15 {
+        if registeredStudentsCount < 1 {
             // ❌ منع الإرسال بالكامل إذا كان العدد المسجل أقل من 15
             alertTitle = "عدد غير كافٍ"
-            alertMessage = "يجب أن يكون لديك على الأقل 15 طالبًا مسجلًا لكي تستطيع إرسال الحضور."
+            alertMessage = "يجب أن يكون لديك على الأقل طالب واحد مسجل لكي تستطيع إرسال الحضور."
             showAlert = true
             return
         }
