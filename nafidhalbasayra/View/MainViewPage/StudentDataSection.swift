@@ -510,19 +510,25 @@ struct studentInfo :View {
     
     //  تنفيذ عملية الحذف بعد تأكيد المستخدم
     func deleteStudent() {
- 
+        
         
         // إذا كانت حالة الطالب تساوي 0، احذفه مباشرةً محليًا دون التحقق من الإنترنت
-          if student.state == 0 {
-              if let index = vmStudent.savedEntitiesStudent.firstIndex(of: student) {
-                  vmStudent.deleteStudentInfo(indexSet: IndexSet(integer: index))
-              }
-
-              onDelete()
-              
-              return
-          }
- 
+        if student.state == 0 {
+            if let index = vmStudent.savedEntitiesStudent.firstIndex(of: student) {
+                vmStudent.deleteStudentInfo(indexSet: IndexSet(integer: index))
+            }
+            
+            onDelete()
+            
+            return
+        }
+        
+        
+        
+        
+        
+        if student.state == 1 {
+        
         // إذا لم تكن الحالة 0، تحقق من الإنترنت وحاول حذفه من السيرفر
         InternetChecker.isInternetAvailable { isAvailable in
             DispatchQueue.main.async {
@@ -531,8 +537,8 @@ struct studentInfo :View {
                         StudentDeleter.deleteStudent(withId: idFromApi) { success, statusCode, errorMessage in
                             DispatchQueue.main.async {
                                 if success {
-//                                    alertTitle = "✅ نجاح"
-//                                    alertMessage = "تم حذف الطالب من الخادم بنجاح."
+                                    //                                    alertTitle = "✅ نجاح"
+                                    //                                    alertMessage = "تم حذف الطالب من الخادم بنجاح."
                                     
                                     // حذف الطالب محليًا بعد التأكيد
                                     if let index = vmStudent.savedEntitiesStudent.firstIndex(of: student) {
@@ -547,7 +553,7 @@ struct studentInfo :View {
                                 
                                 isDeleteConfirmation = false
                                 showAlert = true
-
+                                
                                 
                             }
                         }
@@ -564,6 +570,14 @@ struct studentInfo :View {
                     showAlert = true
                 }
             }
+        }
+        
+      }
+        else {
+            alertTitle = "⚠️ لا يوجد إنترنت"
+            alertMessage = "يجب توفر اتصال بالإنترنت لتنفيذ عملية الحذف، لأن البيانات مخزنة على الخادم."
+            isDeleteConfirmation = false
+            showAlert = true
         }
     }
     
