@@ -457,7 +457,7 @@ struct sendAttendanceSection: View {
             showAlert = true
             
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
                 attendanceUploader.sendPendingAttendanceData()
             }
@@ -467,7 +467,7 @@ struct sendAttendanceSection: View {
             imageData = nil
             notes = ""
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 dismiss()
             }
         }

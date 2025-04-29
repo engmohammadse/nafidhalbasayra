@@ -109,45 +109,67 @@ struct EditStudentAtStudentDataSection: View {
             
             Button(action: {
                 
+              
+                    
                 
-                
-                
-                InternetChecker.isInternetAvailable { isAvailable in
-                       if isAvailable {
-                           if phoneNumber.count != 11 {
-                               alertType2 = .errorPhoneNumber // ✅ تنبيه خاص برقم الهاتف
-                           } else if isFormValid {
-                               // ✅ إذا كانت جميع الحقول صحيحة، نفذ التعديل
-                               var updatedStudent = student
-                               updatedStudent.name = name
-                               updatedStudent.phoneNumber = phoneNumber
-                               updatedStudent.age = age
-                               updatedStudent.level = level
-                               updatedStudent.size = size
-                               updatedStudent.gender = gender
-                               updatedStudent.academic_level = academic_level
-
-                               StudentUpdater.updateStudent(student: updatedStudent) { success, statusCode, message in
-                                   DispatchQueue.main.async {
-                                       if success {
-                                           vmStudent.updateStudentInfo(entity: student, with: name, with: phoneNumber, with: age, with: level, with: size, with: gender, with: academic_level)
-                                           alertType2 = .success
-                                       } else {
-                                           messageOfError = " \(statusCode) رمز الحالة\n  ❌ فشل التعديل: \(message ?? "خطأ غير معروف") "
-                                           alertType2 = .typeError
-                                       }
-                                   }
-                               }
-                           } else {
-                               alertType2 = .error // ✅ تنبيه نقص البيانات
-                           }
-                       } else {
-                           alertInternetMessage = "يجب توفر اتصال بالإنترنت لتنفيذ عملية التعديل."
-                           alertType2 = .internetError
-                       }
-                   }
-             
-             
+                if student.state == 0 && isFormValid == true {
+                    // تعديل محلي فقط
+                    if isFormValid {
+                        vmStudent.updateStudentInfo(
+                            entity: student,
+                            with: name,
+                            with: phoneNumber,
+                            with: age,
+                            with: level,
+                            with: size,
+                            with: gender,
+                            with: academic_level
+                        )
+                        alertType2 = .success
+                    } else {
+                        alertType2 = .error
+                     
+                    }
+                    
+                } else {
+                    
+                    
+                    InternetChecker.isInternetAvailable { isAvailable in
+                        if isAvailable {
+                            if phoneNumber.count != 11 {
+                                alertType2 = .errorPhoneNumber // ✅ تنبيه خاص برقم الهاتف
+                            } else if isFormValid {
+                                // ✅ إذا كانت جميع الحقول صحيحة، نفذ التعديل
+                                var updatedStudent = student
+                                updatedStudent.name = name
+                                updatedStudent.phoneNumber = phoneNumber
+                                updatedStudent.age = age
+                                updatedStudent.level = level
+                                updatedStudent.size = size
+                                updatedStudent.gender = gender
+                                updatedStudent.academic_level = academic_level
+                                
+                                StudentUpdater.updateStudent(student: updatedStudent) { success, statusCode, message in
+                                    DispatchQueue.main.async {
+                                        if success {
+                                            vmStudent.updateStudentInfo(entity: student, with: name, with: phoneNumber, with: age, with: level, with: size, with: gender, with: academic_level)
+                                            alertType2 = .success
+                                        } else {
+                                            messageOfError = " \(statusCode) رمز الحالة\n  ❌ فشل التعديل: \(message ?? "خطأ غير معروف") "
+                                            alertType2 = .typeError
+                                        }
+                                    }
+                                }
+                            } else {
+                                alertType2 = .error // ✅ تنبيه نقص البيانات
+                            }
+                        } else {
+                            alertInternetMessage = "يجب توفر اتصال بالإنترنت لتنفيذ عملية التعديل."
+                            alertType2 = .internetError
+                        }
+                    }
+                    
+                }
 
               
             }) {

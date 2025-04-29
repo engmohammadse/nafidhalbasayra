@@ -119,30 +119,31 @@ struct MainViewPage: View {
        }
         .environmentObject(teacherData) // إضافة الكائن إلى البيئة
         .navigationBarBackButtonHidden(true)
-        .onAppear {
-            
-            // add hasUnsentData scheduleBackgroundUpload
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                
-
-                Task {
-                    // إرسال بيانات الطلاب
-                    let studentUploader = StudentUploader(database: studentViewModel)
-                    studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
-                }
-                
-              
-                
-               }
-            
-            Task {
-                let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
-                attendanceUploader.sendPendingAttendanceData()
-            }
-
-
-    }
+//        .onAppear {
+//            
+//            // add hasUnsentData scheduleBackgroundUpload
+//            
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                
+//
+//                Task {
+//                    // إرسال بيانات الطلاب
+//                    let studentUploader = StudentUploader(database: studentViewModel)
+//                    studentUploader.sendPendingStudentData() // استدعاء الدالة لإرسال بيانات الطلاب
+//                }
+//                
+//              
+//                
+//                
+//               }
+//            
+//            Task {
+//                let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+//                attendanceUploader.sendPendingAttendanceData()
+//            }
+//
+//
+//    }
 
 
     }
