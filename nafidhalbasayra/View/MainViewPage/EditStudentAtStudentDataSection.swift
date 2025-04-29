@@ -112,7 +112,7 @@ struct EditStudentAtStudentDataSection: View {
               
                     
                 
-                if student.state == 0 && isFormValid == true {
+                if student.state == 0 {
                     // تعديل محلي فقط
                     if isFormValid {
                         vmStudent.updateStudentInfo(
