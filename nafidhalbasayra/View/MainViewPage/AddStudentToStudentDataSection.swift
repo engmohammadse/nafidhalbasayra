@@ -45,7 +45,7 @@ struct AddStudentToStudentDataSection: View {
                phoneNumber.count == 11 &&
                !age.isEmpty &&
                level != "اختر" &&
-               size != "اختر" &&
+               //size != "اختر" &&
                academic_level != "اختر" &&
                gender != "اختر" 
         
@@ -82,7 +82,7 @@ struct AddStudentToStudentDataSection: View {
                     
                     DropdownField(label: "المرحلة الدراسية", selectedOption: $academic_level, options: academic_levelList, isDropdownActive: $isContentShifted)
                    
-                    DropdownField(label: "القياس", selectedOption: $size, options: sizes, isDropdownActive: $isContentShifted)
+                    //DropdownField(label: "القياس", selectedOption: $size, options: sizes, isDropdownActive: $isContentShifted)
                 }
                 .padding(.horizontal, screenWidth * 0.09)
                 .offset(y: isContentShifted ? -shiftAmount : 0) // 🔹 تحريك جميع العناصر عند فتح أي قائمة

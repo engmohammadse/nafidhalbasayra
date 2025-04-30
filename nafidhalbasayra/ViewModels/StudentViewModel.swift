@@ -54,7 +54,9 @@ class StudentViewModel: ObservableObject {
         newStudentInfo.age = age
 //        newStudentInfo.city = city
         newStudentInfo.level = level
-        newStudentInfo.size = size
+  //      newStudentInfo.size = size
+        newStudentInfo.size = "صغير"
+
         newStudentInfo.state = state
         newStudentInfo.isSending = false
         newStudentInfo.gender = gender
@@ -85,7 +87,8 @@ class StudentViewModel: ObservableObject {
         entity.age = newAge
 //        entity.city = newCity
         entity.level = newLevel
-        entity.size = newSize
+        //entity.size = newSize
+        entity.size = "صغير"
         entity.gender = newGender
         entity.academic_level = newAcademic_level
         saveStudentData()

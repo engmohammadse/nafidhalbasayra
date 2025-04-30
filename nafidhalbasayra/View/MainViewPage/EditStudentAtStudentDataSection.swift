@@ -44,7 +44,7 @@ struct EditStudentAtStudentDataSection: View {
                phoneNumber.count == 11 &&
                !age.isEmpty &&
                level != "اختر" &&
-               size != "اختر" &&
+              // size != "اختر" &&
                academic_level != "اختر" &&
                gender != "اختر"
     }
@@ -98,7 +98,7 @@ struct EditStudentAtStudentDataSection: View {
                     
                     DropdownField(label: " المرحلة الدراسية", selectedOption: $academic_level, options: academic_levelList, isDropdownActive: $isContentShifted)
                    
-                    DropdownField(label: "القياس", selectedOption: $size, options: sizes, isDropdownActive: $isContentShifted)
+                   // DropdownField(label: "القياس", selectedOption: $size, options: sizes, isDropdownActive: $isContentShifted)
                 }
                 .padding(.horizontal, screenWidth * 0.09)
                 .offset(y: isContentShifted ? -shiftAmount : 0)
@@ -121,7 +121,8 @@ struct EditStudentAtStudentDataSection: View {
                             with: phoneNumber,
                             with: age,
                             with: level,
-                            with: size,
+                           // with: size,
+                            with: "صغير",
                             with: gender,
                             with: academic_level
                         )
@@ -145,7 +146,8 @@ struct EditStudentAtStudentDataSection: View {
                                 updatedStudent.phoneNumber = phoneNumber
                                 updatedStudent.age = age
                                 updatedStudent.level = level
-                                updatedStudent.size = size
+                                //updatedStudent.size = size
+                                updatedStudent.size = "صغير"
                                 updatedStudent.gender = gender
                                 updatedStudent.academic_level = academic_level
                                 
