@@ -34,7 +34,7 @@ struct sendAttendanceSection: View {
     @EnvironmentObject var vmAttendaceStatus: AttendaceStatusViewModel
     @EnvironmentObject var teacherData: TeacherDataViewModel
     @EnvironmentObject var studentViewModel: StudentViewModel // ✅ الوصول إلى بيانات الطلاب
-    var maxStudentsAllowed = 35 // الحد الأقصى المسموح به للطلاب
+    var maxStudentsAllowed = 60 // الحد الأقصى المسموح به للطلاب
     
     
     @State private var debounceTask: DispatchWorkItem?
@@ -375,7 +375,7 @@ struct sendAttendanceSection: View {
         if let enteredNumber = Int(newValue) {
             let registeredStudentsCount = studentViewModel.savedEntitiesStudent.count
             
-            if registeredStudentsCount < 15 {
+            if registeredStudentsCount < 1 {
                 // ❌ لا يمكن الإرسال لأن العدد أقل من 15
                 numberOfStudents = ""
                 alertTitle = "عدد غير كافٍ"
@@ -387,7 +387,7 @@ struct sendAttendanceSection: View {
                 alertTitle = "عدد أكبر من المسجل"
                 alertMessage = "لديك \(registeredStudentsCount) طالبًا مسجلًا، لا يمكنك تسجيل عدد أكبر من ذلك."
                 showAlert = true
-            } else if enteredNumber > 35 {
+            } else if enteredNumber > 60 {
                 // ❌ لا يمكن إدخال أكثر من 35 في جميع الحالات
                 numberOfStudents = "35"
                 alertTitle = "عدد زائد"
@@ -420,10 +420,10 @@ struct sendAttendanceSection: View {
         }
         
         if let numberOfStudentsInt = Int(numberOfStudents) {
-            if numberOfStudentsInt > 35 {
+            if numberOfStudentsInt > 60 {
                 // ❌ عدد الطلاب أكثر من 35 غير مسموح
                 alertTitle = "عدد زائد"
-                alertMessage = "لا يمكنك تسجيل أكثر من 35 طالبًا."
+                alertMessage = "لا يمكنك تسجيل أكثر من 60 طالبًا."
                 showAlert = true
                 return
             } else if numberOfStudentsInt > registeredStudentsCount {
