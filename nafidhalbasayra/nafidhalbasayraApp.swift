@@ -17,7 +17,10 @@ struct nafidhalbasayraApp: App {
 
     
     var body: some Scene {
+        
         WindowGroup {
+            PortraitLockedView {
+                
             if showSplash {
                 SplashScreenView()
                     .onAppear {
@@ -29,14 +32,14 @@ struct nafidhalbasayraApp: App {
             } else {
                 MainParentView() // هنا يتم إنشاء الـ ViewModels لأول مرة بعد السبلاتش
                     .environmentObject(appViewModel)
-
                 
-//                ContentViewCity()
                 
-                   
+                //                ContentViewCity()
+                
+                
             }
         }
-        
+    }
     }
 }
 

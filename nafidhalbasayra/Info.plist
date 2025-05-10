@@ -7,10 +7,6 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>This app requires access to the local network to communicate with the server.</string>
-
 	<key>UIAppFonts</key>
 	<array>
 		<string>BahijTheSansArabic-Bold.ttf</string>
@@ -19,26 +15,10 @@
 		<string>Amiri-Bold.ttf</string>
 		<string>BahijTheSansArabic-Plain.ttf</string>
 	</array>
-
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIImageName</key>
 		<string>//login page-1</string>
 	</dict>
-
-	<!-- إعدادات عامة لجميع الأجهزة -->
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-	</array>
-
-	<!-- إعدادات خاصة لـ iPad -->
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
 </dict>
 </plist>

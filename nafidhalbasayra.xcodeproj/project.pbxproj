@@ -65,6 +65,7 @@
 		41D818272D149153007B8581 /* LoginStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D818262D149153007B8581 /* LoginStatusView.swift */; };
 		41DA9E6B2D05DB9E0014F05E /* ProvinceSpecificGet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41DA9E6A2D05DB9E0014F05E /* ProvinceSpecificGet.swift */; };
 		41E19E792CAD714100CA2256 /* PreviousNextBotton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E19E782CAD714100CA2256 /* PreviousNextBotton.swift */; };
+		41E912BA2DCF9E0900E59268 /* PortraitLockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E912B92DCF9DE600E59268 /* PortraitLockedView.swift */; };
 		41E9C6D22CC3C85000FE122F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D12CC3C85000FE122F /* Colors.swift */; };
 		41E9C6D42CC3CC0600FE122F /* UserManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D32CC3CC0600FE122F /* UserManual.swift */; };
 		41E9C6D62CC41A0100FE122F /* HistoryAttendanceSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E9C6D52CC41A0100FE122F /* HistoryAttendanceSection.swift */; };
@@ -141,6 +142,7 @@
 		41D818262D149153007B8581 /* LoginStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStatusView.swift; sourceTree = "<group>"; };
 		41DA9E6A2D05DB9E0014F05E /* ProvinceSpecificGet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvinceSpecificGet.swift; sourceTree = "<group>"; };
 		41E19E782CAD714100CA2256 /* PreviousNextBotton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviousNextBotton.swift; sourceTree = "<group>"; };
+		41E912B92DCF9DE600E59268 /* PortraitLockedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortraitLockedView.swift; sourceTree = "<group>"; };
 		41E9C6D12CC3C85000FE122F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		41E9C6D32CC3CC0600FE122F /* UserManual.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManual.swift; sourceTree = "<group>"; };
 		41E9C6D52CC41A0100FE122F /* HistoryAttendanceSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryAttendanceSection.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				41BD62CB2CA2FF2D00529765 /* Fonts */,
 				413E4B8E2CA1C78200B1EEC5 /* nafidhalbasayraApp.swift */,
 				41EB2EC32D9572AD0098C50B /* UIViewController.swift */,
+				41E912B92DCF9DE600E59268 /* PortraitLockedView.swift */,
 				41489AFE2D9010DF00160F1F /* AppDelegate.swift */,
 				416FD1FE2D1856F700ED7DF8 /* MainParentView.swift */,
 				416D8BE82CA4482500E2E6D8 /* const.swift */,
@@ -255,9 +258,9 @@
 		413E4BA12CA1C81300B1EEC5 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				41F9D0B72CAB035A00BD7853 /* SubViewComponent */,
 				418E94BC2CB82CEE00ACFEEA /* MainViewPage */,
 				41BD62C62CA2E4AF00529765 /* LoginFolder */,
+				41F9D0B72CAB035A00BD7853 /* SubViewComponent */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -466,6 +469,7 @@
 				4167AC482DAEB224003661B8 /* CoreDataManager.swift in Sources */,
 				4110976A2CB5427C0004C9E4 /* registerPage1.swift in Sources */,
 				4124DC612CDD4C4A0083E5F9 /* AttendaceStatusViewModel.swift in Sources */,
+				41E912BA2DCF9E0900E59268 /* PortraitLockedView.swift in Sources */,
 				41E9C6D42CC3CC0600FE122F /* UserManual.swift in Sources */,
 				416D8BE92CA4482500E2E6D8 /* const.swift in Sources */,
 				41B8A8262CC67CB1002F614C /* CoreData.xcdatamodeld in Sources */,
