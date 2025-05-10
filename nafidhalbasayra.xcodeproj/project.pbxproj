@@ -622,6 +622,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "نافذ البصيرة";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSCameraUsageDescription = "للسماح بالتحقق من هويتك عبر رفع صورة هويتك الرسمية للأغراض الإدارية، يرجى السماح بالوصول إلى الكاميرا.\nTo verify your identity by uploading your official ID for administrative purposes, please allow access to the Camera.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "This app requires access to the local network to communicate with the server.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "للتحقق من موقعك الحالي لضمان دقة السجلات وللأغراض الإدارية من قبل إدارة العتبة، يرجى السماح بالوصول إلى موقعك أثناء استخدام التطبيق.\nTo verify your current location for accurate record-keeping and administrative purposes by the Shrine administration, please allow access to your location while using the app.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -656,6 +657,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "نافذ البصيرة";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSCameraUsageDescription = "للسماح بالتحقق من هويتك عبر رفع صورة هويتك الرسمية للأغراض الإدارية، يرجى السماح بالوصول إلى الكاميرا.\nTo verify your identity by uploading your official ID for administrative purposes, please allow access to the Camera.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "This app requires access to the local network to communicate with the server.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "للتحقق من موقعك الحالي لضمان دقة السجلات وللأغراض الإدارية من قبل إدارة العتبة، يرجى السماح بالوصول إلى موقعك أثناء استخدام التطبيق.\nTo verify your current location for accurate record-keeping and administrative purposes by the Shrine administration, please allow access to your location while using the app.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
