@@ -79,7 +79,7 @@ func hideKeyboardExplicitly() {
 }
 
 
-    
+ // سلفي
 
 
 
@@ -95,6 +95,7 @@ struct SelfieCameraPicker: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> CameraViewController {
         let viewController = CameraViewController()
         viewController.delegate = context.coordinator
+        viewController.modalPresentationStyle = .fullScreen
         return viewController
     }
 
@@ -126,11 +127,21 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var cameraOutput = AVCapturePhotoOutput()
     let faceDetectionRequest = VNDetectFaceRectanglesRequest()
     var delegate: CameraViewControllerDelegate?
-    var isCapturing = false // متغير لمنع التقاط صور متكررة
-
+    var videoPreviewLayer: AVCaptureVideoPreviewLayer?
+    
     // عناصر واجهة المستخدم
-    let overlayView = UIView()
+    let blackOverlayView = UIView()
+    let transparentOvalPath = CAShapeLayer()
+    let ovalBorderView = UIView()
+    let captureButton = UIButton()
+    let buttonBorderView = UIView()
     let messageLabel = UILabel()
+    
+    // متغير لحفظ حالة اكتشاف الوجه
+    var isFaceDetected = false
+    
+    // إطار البيضاوي للتحقق
+    var ovalFrame: CGRect = .zero
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -139,25 +150,144 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             self.setupCamera()
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    override var prefersHomeIndicatorAutoHidden: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
 
-    // إعداد واجهة المستخدم وإضافة التنبية الأخضر
+    // إعداد واجهة المستخدم
     func setupUI() {
-        overlayView.frame = view.bounds
-        overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        overlayView.isHidden = true
-        view.addSubview(overlayView)
-
-        // تعديل موضع التنبيه ليكون في الأعلى
-        let safeAreaTop = view.safeAreaInsets.top + 20
-        messageLabel.frame = CGRect(x: 20, y: safeAreaTop, width: view.bounds.width - 40, height: 60)
+        view.backgroundColor = .black
+        
+        // تحديد إطار البيضاوي
+        ovalFrame = CGRect(
+            x: (view.bounds.width - 250) / 2,
+            y: (view.bounds.height - 350) / 2,
+            width: 250,
+            height: 350
+        )
+        
+        // إضافة الخلفية السوداء شبه الشفافة
+        blackOverlayView.frame = view.bounds
+        blackOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        view.addSubview(blackOverlayView)
+        
+        // إنشاء مساحة شفافة بيضاوية في الوسط
+        let path = UIBezierPath(rect: view.bounds)
+        let ovalPath = UIBezierPath(ovalIn: ovalFrame)
+        path.append(ovalPath)
+        path.usesEvenOddFillRule = true
+        
+        transparentOvalPath.path = path.cgPath
+        transparentOvalPath.fillRule = .evenOdd
+        transparentOvalPath.fillColor = UIColor.black.withAlphaComponent(0.85).cgColor
+        blackOverlayView.layer.mask = transparentOvalPath
+        
+        // إضافة إطار بيضاوي
+        ovalBorderView.frame = ovalFrame
+        ovalBorderView.backgroundColor = .clear
+        ovalBorderView.layer.borderWidth = 3
+        ovalBorderView.layer.borderColor = UIColor.red.cgColor
+        ovalBorderView.layer.cornerRadius = ovalFrame.width / 2
+        
+        // رسم شكل بيضاوي للإطار
+        let borderPath = UIBezierPath(ovalIn: ovalBorderView.bounds)
+        let borderLayer = CAShapeLayer()
+        borderLayer.path = borderPath.cgPath
+        borderLayer.fillColor = UIColor.clear.cgColor
+        borderLayer.strokeColor = UIColor.red.cgColor
+        borderLayer.lineWidth = 3
+        ovalBorderView.layer.addSublayer(borderLayer)
+        view.addSubview(ovalBorderView)
+        
+        // إعداد زر الالتقاط
+        let buttonSize: CGFloat = 80
+        let borderSize: CGFloat = buttonSize + 10
+        
+        // تعديل موضع الزر ليكون أعلى
+        let buttonY = view.bounds.height - 180  // زيادة المسافة من الأسفل
+        
+        // إطار الزر الملون
+        buttonBorderView.frame = CGRect(
+            x: (view.bounds.width - borderSize) / 2,
+            y: buttonY - 5,  // تعديل موضع الإطار
+            width: borderSize,
+            height: borderSize
+        )
+        buttonBorderView.backgroundColor = .clear
+        buttonBorderView.layer.cornerRadius = borderSize / 2
+        buttonBorderView.layer.borderWidth = 3
+        buttonBorderView.layer.borderColor = UIColor.red.withAlphaComponent(0.3).cgColor
+        view.addSubview(buttonBorderView)
+        
+        // زر الالتقاط الرئيسي
+        captureButton.frame = CGRect(
+            x: (view.bounds.width - buttonSize) / 2,
+            y: buttonY,
+            width: buttonSize,
+            height: buttonSize
+        )
+        
+        // الدائرة الخارجية البيضاء الكبيرة
+        captureButton.backgroundColor = .white
+        captureButton.layer.cornerRadius = buttonSize / 2
+        captureButton.layer.shadowColor = UIColor.black.cgColor
+        captureButton.layer.shadowOpacity = 0.4
+        captureButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        captureButton.layer.shadowRadius = 6
+        
+        // الحلقة الخارجية البيضاء الرفيعة
+        let outerRing = UIView(frame: CGRect(x: 3, y: 3, width: buttonSize - 6, height: buttonSize - 6))
+        outerRing.backgroundColor = .clear
+        outerRing.layer.cornerRadius = (buttonSize - 6) / 2
+        outerRing.layer.borderWidth = 3
+        outerRing.layer.borderColor = UIColor.white.withAlphaComponent(0.9).cgColor
+        outerRing.isUserInteractionEnabled = false
+        captureButton.addSubview(outerRing)
+        
+        // الدائرة الداخلية البيضاء
+        let innerCircle = UIView(frame: CGRect(x: 20, y: 20, width: 40, height: 40))
+        innerCircle.backgroundColor = .white
+        innerCircle.layer.cornerRadius = 20
+        innerCircle.isUserInteractionEnabled = false
+        captureButton.addSubview(innerCircle)
+        
+        // إضافة تأثير اللمس
+        captureButton.addTarget(self, action: #selector(captureButtonDown), for: .touchDown)
+        captureButton.addTarget(self, action: #selector(captureButtonUp), for: [.touchUpInside, .touchUpOutside, .touchCancel])
+        captureButton.addTarget(self, action: #selector(captureButtonTapped), for: .touchUpInside)
+        
+        captureButton.isEnabled = false
+        captureButton.alpha = 0.5
+        
+        view.addSubview(captureButton)
+        
+        // إعداد نص التنبيه
+        messageLabel.frame = CGRect(
+            x: 20,
+            y: 100,
+            width: view.bounds.width - 40,
+            height: 60
+        )
         messageLabel.textAlignment = .center
         messageLabel.font = UIFont.boldSystemFont(ofSize: 18)
         messageLabel.textColor = .white
         messageLabel.numberOfLines = 2
-        messageLabel.layer.cornerRadius = 10
-        messageLabel.layer.masksToBounds = true
-        messageLabel.backgroundColor = UIColor.green
-        messageLabel.isHidden = true
+        messageLabel.backgroundColor = .clear
+        messageLabel.text = "جاري البحث عن وجه..."
         view.addSubview(messageLabel)
     }
 
@@ -166,7 +296,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         session.sessionPreset = .photo
 
         guard let frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
-          //  print("❌ لا يمكن العثور على الكاميرا الأمامية")
             return
         }
 
@@ -190,6 +319,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 let previewLayer = AVCaptureVideoPreviewLayer(session: session)
                 previewLayer.videoGravity = .resizeAspectFill
                 previewLayer.frame = self.view.bounds
+                self.videoPreviewLayer = previewLayer
                 self.view.layer.insertSublayer(previewLayer, at: 0)
             }
 
@@ -197,29 +327,134 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             self.captureSession = session
 
         } catch {
-           // print("❌ خطأ في إعداد الكاميرا: \(error.localizedDescription)")
+            print("❌ خطأ في إعداد الكاميرا: \(error.localizedDescription)")
         }
     }
 
-    func capturePhoto() {
-        guard !isCapturing else { return }  // منع التقاط صور متكررة
-        isCapturing = true
+    // دالة للتحقق من أن الوجه داخل الإطار البيضاوي
+    func isFaceInsideOval(face: VNFaceObservation) -> Bool {
+        guard let previewLayer = videoPreviewLayer else { return false }
+        
+        // تحويل إحداثيات الوجه من نظام Vision إلى نظام الواجهة
+        let faceRect = VNImageRectForNormalizedRect(
+            face.boundingBox,
+            Int(previewLayer.frame.width),
+            Int(previewLayer.frame.height)
+        )
+        
+        // تعديل إحداثيات الوجه لتتوافق مع نظام iOS
+        let convertedRect = CGRect(
+            x: faceRect.minX,
+            y: previewLayer.frame.height - faceRect.maxY,
+            width: faceRect.width,
+            height: faceRect.height
+        )
+        
+        // حساب مركز الوجه
+        let faceCenterX = convertedRect.midX
+        let faceCenterY = convertedRect.midY
+        
+        // حساب مركز وأبعاد البيضاوي
+        let ovalCenterX = ovalFrame.midX
+        let ovalCenterY = ovalFrame.midY
+        let ovalRadiusX = ovalFrame.width / 2
+        let ovalRadiusY = ovalFrame.height / 2
+        
+        // معادلة البيضاوي لفحص إذا كان مركز الوجه داخل البيضاوي
+        let normalizedX = (faceCenterX - ovalCenterX) / ovalRadiusX
+        let normalizedY = (faceCenterY - ovalCenterY) / ovalRadiusY
+        let result = (normalizedX * normalizedX) + (normalizedY * normalizedY)
+        
+        // التحقق من أن معظم الوجه داخل البيضاوي
+        let faceInOval = result <= 0.8 // استخدام 0.8 بدلاً من 1.0 للتسامح مع الحواف
+        
+        return faceInOval
+    }
 
+    // تحديث حالة اكتشاف الوجه
+    func updateFaceDetectionState(faceDetected: Bool) {
         DispatchQueue.main.async {
-            self.messageLabel.text = "تم التعرف على الوجه، سيتم التقاط الصورة، لا تتحرك"
-            self.messageLabel.isHidden = false
-            self.overlayView.isHidden = false
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {  // تأخير لمدة 3 ثوانٍ قبل الالتقاط
-            let settings = AVCapturePhotoSettings()
-            self.cameraOutput.capturePhoto(with: settings, delegate: self)
-
-            DispatchQueue.main.async {
-                self.messageLabel.isHidden = true
-                self.overlayView.isHidden = true
+            self.isFaceDetected = faceDetected
+            
+            // تحديث لون الإطار
+            if faceDetected {
+                // إطار أخضر للوجه
+                self.ovalBorderView.layer.borderColor = UIColor.green.cgColor
+                if let borderLayer = self.ovalBorderView.layer.sublayers?.first as? CAShapeLayer {
+                    borderLayer.strokeColor = UIColor.green.cgColor
+                }
+                
+                // إطار أخضر للزر
+                UIView.animate(withDuration: 0.3) {
+                    self.buttonBorderView.layer.borderColor = UIColor.green.cgColor
+                    self.buttonBorderView.layer.borderWidth = 4
+                }
+                
+                self.messageLabel.text = "ضع وجهك داخل الإطار ثم اضغط زر الالتقاط"
+                self.captureButton.isEnabled = true
+                
+                // تأثير نبض للزر عند التفعيل
+                UIView.animate(withDuration: 0.4, delay: 0, options: [.allowUserInteraction], animations: {
+                    self.captureButton.alpha = 1.0
+                    self.captureButton.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+                }) { _ in
+                    UIView.animate(withDuration: 0.2) {
+                        self.captureButton.transform = .identity
+                    }
+                }
+            } else {
+                // إطار أحمر للوجه
+                self.ovalBorderView.layer.borderColor = UIColor.red.cgColor
+                if let borderLayer = self.ovalBorderView.layer.sublayers?.first as? CAShapeLayer {
+                    borderLayer.strokeColor = UIColor.red.cgColor
+                }
+                
+                // إطار أحمر خفيف للزر
+                UIView.animate(withDuration: 0.3) {
+                    self.buttonBorderView.layer.borderColor = UIColor.red.withAlphaComponent(0.3).cgColor
+                    self.buttonBorderView.layer.borderWidth = 3
+                }
+                
+                self.messageLabel.text = "جاري البحث عن وجه..."
+                self.captureButton.isEnabled = false
+                self.captureButton.alpha = 0.5
+                self.captureButton.transform = .identity
             }
         }
+    }
+
+    @objc func captureButtonDown() {
+        guard isFaceDetected else { return }
+        
+        UIView.animate(withDuration: 0.1, animations: {
+            self.captureButton.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+            self.captureButton.alpha = 0.9
+        })
+    }
+    
+    @objc func captureButtonUp() {
+        guard isFaceDetected else { return }
+        
+        UIView.animate(withDuration: 0.1, animations: {
+            self.captureButton.transform = .identity
+            self.captureButton.alpha = 1.0
+        })
+    }
+    
+    @objc func captureButtonTapped() {
+        guard isFaceDetected else { return }
+        
+        // تأثير التقاط
+        UIView.animate(withDuration: 0.1, animations: {
+            self.captureButton.alpha = 0.5
+        }) { _ in
+            UIView.animate(withDuration: 0.1) {
+                self.captureButton.alpha = 1.0
+            }
+        }
+        
+        let settings = AVCapturePhotoSettings()
+        self.cameraOutput.capturePhoto(with: settings, delegate: self)
     }
 
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
@@ -228,14 +463,23 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let requestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
         do {
             try requestHandler.perform([faceDetectionRequest])
-           
-            if let results = faceDetectionRequest.results, !results.isEmpty {
-             //   if let results = faceDetectionRequest.results as? [VNFaceObservation], !results.isEmpty {
-
-                capturePhoto()
+            
+            if let results = faceDetectionRequest.results as? [VNFaceObservation], !results.isEmpty {
+                // فحص إذا كان أي وجه داخل الإطار البيضاوي
+                var faceFoundInOval = false
+                for face in results {
+                    if isFaceInsideOval(face: face) {
+                        faceFoundInOval = true
+                        break
+                    }
+                }
+                updateFaceDetectionState(faceDetected: faceFoundInOval)
+            } else {
+                // لا يوجد وجه
+                updateFaceDetectionState(faceDetected: false)
             }
         } catch {
-           // print("❌ خطأ في تحليل الصورة: \(error.localizedDescription)")
+            print("❌ خطأ في تحليل الصورة: \(error.localizedDescription)")
         }
     }
 }
@@ -245,7 +489,7 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let imageData = photo.fileDataRepresentation(), let image = UIImage(data: imageData) else { return }
         delegate?.didCapture(image: image)
-        dismiss(animated: true)
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -255,7 +499,179 @@ protocol CameraViewControllerDelegate {
 }
 
 
+//import SwiftUI
+//import UIKit
+//import AVFoundation
+//import Vision
+//
+//struct SelfieCameraPicker: UIViewControllerRepresentable {
+//    @Binding var selectedImage: UIImage?
+//    @Environment(\.presentationMode) var presentationMode
+//
+//    func makeUIViewController(context: Context) -> CameraViewController {
+//        let viewController = CameraViewController()
+//        viewController.delegate = context.coordinator
+//        return viewController
+//    }
+//
+//    func updateUIViewController(_ uiViewController: CameraViewController, context: Context) {}
+//
+//    func makeCoordinator() -> Coordinator {
+//        Coordinator(self)
+//    }
+//
+//    class Coordinator: NSObject, CameraViewControllerDelegate {
+//        let parent: SelfieCameraPicker
+//
+//        init(_ parent: SelfieCameraPicker) {
+//            self.parent = parent
+//        }
+//
+//        func didCapture(image: UIImage) {
+//            DispatchQueue.main.async {
+//                self.parent.selectedImage = image
+//                self.parent.presentationMode.wrappedValue.dismiss()
+//            }
+//        }
+//    }
+//}
+//
+//// MARK: - Camera ViewController
+//class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+//    var captureSession: AVCaptureSession?
+//    var cameraOutput = AVCapturePhotoOutput()
+//    let faceDetectionRequest = VNDetectFaceRectanglesRequest()
+//    var delegate: CameraViewControllerDelegate?
+//    var isCapturing = false // متغير لمنع التقاط صور متكررة
+//
+//    // عناصر واجهة المستخدم
+//    let overlayView = UIView()
+//    let messageLabel = UILabel()
+//
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        setupUI()
+//        DispatchQueue.global(qos: .userInitiated).async {
+//            self.setupCamera()
+//        }
+//    }
+//
+//    // إعداد واجهة المستخدم وإضافة التنبية الأخضر
+//    func setupUI() {
+//        overlayView.frame = view.bounds
+//        overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+//        overlayView.isHidden = true
+//        view.addSubview(overlayView)
+//
+//        // تعديل موضع التنبيه ليكون في الأعلى
+//        let safeAreaTop = view.safeAreaInsets.top + 20
+//        messageLabel.frame = CGRect(x: 20, y: safeAreaTop, width: view.bounds.width - 40, height: 60)
+//        messageLabel.textAlignment = .center
+//        messageLabel.font = UIFont.boldSystemFont(ofSize: 18)
+//        messageLabel.textColor = .white
+//        messageLabel.numberOfLines = 2
+//        messageLabel.layer.cornerRadius = 10
+//        messageLabel.layer.masksToBounds = true
+//        messageLabel.backgroundColor = UIColor.green
+//        messageLabel.isHidden = true
+//        view.addSubview(messageLabel)
+//    }
+//
+//    func setupCamera() {
+//        let session = AVCaptureSession()
+//        session.sessionPreset = .photo
+//
+//        guard let frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
+//          //  print("❌ لا يمكن العثور على الكاميرا الأمامية")
+//            return
+//        }
+//
+//        do {
+//            let input = try AVCaptureDeviceInput(device: frontCamera)
+//            if session.canAddInput(input) {
+//                session.addInput(input)
+//            }
+//
+//            if session.canAddOutput(cameraOutput) {
+//                session.addOutput(cameraOutput)
+//            }
+//
+//            let videoOutput = AVCaptureVideoDataOutput()
+//            if session.canAddOutput(videoOutput) {
+//                session.addOutput(videoOutput)
+//                videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue.global(qos: .userInitiated))
+//            }
+//
+//            DispatchQueue.main.async {
+//                let previewLayer = AVCaptureVideoPreviewLayer(session: session)
+//                previewLayer.videoGravity = .resizeAspectFill
+//                previewLayer.frame = self.view.bounds
+//                self.view.layer.insertSublayer(previewLayer, at: 0)
+//            }
+//
+//            session.startRunning()
+//            self.captureSession = session
+//
+//        } catch {
+//           // print("❌ خطأ في إعداد الكاميرا: \(error.localizedDescription)")
+//        }
+//    }
+//
+//    func capturePhoto() {
+//        guard !isCapturing else { return }  // منع التقاط صور متكررة
+//        isCapturing = true
+//
+//        DispatchQueue.main.async {
+//            self.messageLabel.text = "تم التعرف على الوجه، سيتم التقاط الصورة، لا تتحرك"
+//            self.messageLabel.isHidden = false
+//            self.overlayView.isHidden = false
+//        }
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {  // تأخير لمدة 3 ثوانٍ قبل الالتقاط
+//            let settings = AVCapturePhotoSettings()
+//            self.cameraOutput.capturePhoto(with: settings, delegate: self)
+//
+//            DispatchQueue.main.async {
+//                self.messageLabel.isHidden = true
+//                self.overlayView.isHidden = true
+//            }
+//        }
+//    }
+//
+//    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+//        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+//
+//        let requestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
+//        do {
+//            try requestHandler.perform([faceDetectionRequest])
+//           
+//            if let results = faceDetectionRequest.results, !results.isEmpty {
+//             //   if let results = faceDetectionRequest.results as? [VNFaceObservation], !results.isEmpty {
+//
+//                capturePhoto()
+//            }
+//        } catch {
+//           // print("❌ خطأ في تحليل الصورة: \(error.localizedDescription)")
+//        }
+//    }
+//}
+//
+//// MARK: - Photo Capture Delegate
+//extension CameraViewController: AVCapturePhotoCaptureDelegate {
+//    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+//        guard let imageData = photo.fileDataRepresentation(), let image = UIImage(data: imageData) else { return }
+//        delegate?.didCapture(image: image)
+//        dismiss(animated: true)
+//    }
+//}
+//
+//// MARK: - Delegate Protocol
+//protocol CameraViewControllerDelegate {
+//    func didCapture(image: UIImage)
+//}
 
+
+//
 
 
 
