@@ -138,7 +138,7 @@ struct detailsRegisterPage1: View {
             }
 
             DropdownField1(
-                label: "القضاء",
+                label: "القضاء (مكان إقامة الدورة)",
                 text: $teacherData.province,
                 onTap: {
                     

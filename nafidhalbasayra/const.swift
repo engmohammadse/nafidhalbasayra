@@ -1278,6 +1278,7 @@ protocol CameraViewControllerDelegate {
 
 
 
+
 import SwiftUI
 import UIKit
 
@@ -1478,6 +1479,11 @@ struct ImagePicker: UIViewControllerRepresentable {
                 // فحص جميع حالات الزر
                 let states: [UIControl.State] = [.normal, .highlighted, .selected, .disabled]
                 
+                // حفظ حجم الخط الأصلي
+                let originalFontSize = button.titleLabel?.font.pointSize ?? 17
+                // حساب الحجم الجديد كنسبة مئوية (80% من الحجم الأصلي)
+                let newFontSize = originalFontSize * 0.8
+                
                 // الآن نقوم بتغيير النص
                 for state in states {
                     if let title = button.title(for: state) {
@@ -1487,11 +1493,11 @@ struct ImagePicker: UIViewControllerRepresentable {
                             
                             // ضبط خصائص النص لضمان ظهوره كاملاً
                             if let titleLabel = button.titleLabel {
-                                // جعل الخط أصغر
-                                titleLabel.font = UIFont.systemFont(ofSize: 14)
+                                // استخدام نسبة من الحجم الأصلي
+                                titleLabel.font = titleLabel.font.withSize(newFontSize)
                                 // السماح بتصغير الخط إذا لزم الأمر
                                 titleLabel.adjustsFontSizeToFitWidth = true
-                                titleLabel.minimumScaleFactor = 0.8
+                                titleLabel.minimumScaleFactor = 0.7
                                 // محاذاة في المنتصف
                                 titleLabel.textAlignment = .center
                                 // سطر واحد فقط
@@ -1500,8 +1506,10 @@ struct ImagePicker: UIViewControllerRepresentable {
                                 titleLabel.baselineAdjustment = .alignCenters
                             }
                             
-                            // تقليل الحشو الداخلي للزر
-                            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+                            // تقليل الحشو الداخلي للزر (نسبي أيضاً)
+                            let buttonWidth = button.frame.width
+                            let horizontalInset = buttonWidth * 0.05 // 5% من عرض الزر
+                            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: horizontalInset, bottom: 0, right: horizontalInset)
                             button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                             
                             // ضبط المحاذاة الرأسية
@@ -1517,16 +1525,18 @@ struct ImagePicker: UIViewControllerRepresentable {
                             
                             // نفس خصائص زر "استخدم الصورة" للحصول على نفس المستوى
                             if let titleLabel = button.titleLabel {
-                                titleLabel.font = UIFont.systemFont(ofSize: 14)  // نفس حجم الخط
+                                titleLabel.font = titleLabel.font.withSize(newFontSize)  // نفس النسبة
                                 titleLabel.adjustsFontSizeToFitWidth = true
-                                titleLabel.minimumScaleFactor = 0.8
+                                titleLabel.minimumScaleFactor = 0.7
                                 titleLabel.textAlignment = .center
                                 titleLabel.numberOfLines = 1
                                 titleLabel.baselineAdjustment = .alignCenters
                             }
                             
-                            // نفس الحشو والمحاذاة
-                            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+                            // نفس الحشو والمحاذاة (نسبي)
+                            let buttonWidth = button.frame.width
+                            let horizontalInset = buttonWidth * 0.05 // 5% من عرض الزر
+                            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: horizontalInset, bottom: 0, right: horizontalInset)
                             button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                             button.contentVerticalAlignment = .center
                             button.contentHorizontalAlignment = .center
@@ -1627,6 +1637,361 @@ struct ImagePicker: UIViewControllerRepresentable {
         }
     }
 }
+
+
+
+
+
+//
+//import SwiftUI
+//import UIKit
+//
+//struct ImagePicker: UIViewControllerRepresentable {
+//    @Binding var selectedImage: UIImage?
+//    var sourceType: UIImagePickerController.SourceType = .camera
+//    var uploadType: String
+//    var showToast: ((String?, Color?, Bool) -> Void)?
+//    var onUploadComplete: ((Bool, UIImage?) -> Void)?
+//    
+//    @Environment(\.presentationMode) var presentationMode
+//    
+//    func makeUIViewController(context: Context) -> UIImagePickerController {
+//        let picker = UIImagePickerController()
+//        picker.delegate = context.coordinator
+//        picker.sourceType = sourceType
+//        picker.modalPresentationStyle = .fullScreen
+//        
+//        if sourceType == .camera {
+//            picker.showsCameraControls = true
+//            
+//            // إنشاء Overlay
+//            let overlayView = UIView(frame: UIScreen.main.bounds)
+//            overlayView.backgroundColor = UIColor.clear
+//            overlayView.isUserInteractionEnabled = false
+//            
+//            // حساب الأبعاد نسبيًا
+//            let screenBounds = UIScreen.main.bounds
+//            let minSide = min(screenBounds.width, screenBounds.height)
+//            let scaleFactor: CGFloat = 0.7
+//            let frameWidth = minSide * scaleFactor
+//            let ratio: CGFloat = 5.5 / 8.5  // الارتفاع/العرض
+//            let frameHeight = frameWidth * ratio
+//            
+//            // حساب الارتفاع المناسب للتعتيم - يترك مساحة كبيرة للأزرار
+//            let totalBottomSpace: CGFloat = 220 // مساحة كافية لجميع الأزرار
+//            
+//            // إنشاء طبقة التعتيم - تتوقف قبل منطقة الأزرار
+//            let darkOverlay = UIView(frame: CGRect(
+//                x: 0,
+//                y: 0,
+//                width: screenBounds.width,
+//                height: screenBounds.height - totalBottomSpace
+//            ))
+//            darkOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+//            overlayView.addSubview(darkOverlay)
+//            
+//            // إنشاء مساحة شفافة في المنتصف
+//            let transparentRect = CGRect(
+//                x: (screenBounds.width - frameWidth) / 2,
+//                y: (darkOverlay.frame.height - frameHeight) / 2,
+//                width: frameWidth,
+//                height: frameHeight
+//            )
+//            
+//            let path = UIBezierPath(rect: darkOverlay.bounds)
+//            let transparentPath = UIBezierPath(roundedRect: transparentRect, cornerRadius: 15)
+//            path.append(transparentPath)
+//            path.usesEvenOddFillRule = true
+//            
+//            let maskLayer = CAShapeLayer()
+//            maskLayer.path = path.cgPath
+//            maskLayer.fillRule = .evenOdd
+//            darkOverlay.layer.mask = maskLayer
+//            
+//            // الإطار الأخضر مع الزوايا المقوسة
+//            let greenFrame = UIView(frame: transparentRect)
+//            greenFrame.layer.borderWidth = 4
+//            greenFrame.layer.borderColor = UIColor.green.cgColor
+//            greenFrame.layer.cornerRadius = 15
+//            greenFrame.backgroundColor = UIColor.clear
+//            greenFrame.isUserInteractionEnabled = false
+//            overlayView.addSubview(greenFrame)
+//            
+//            // التسمية فوق الإطار
+//            let label = UILabel()
+//            label.text = "ضع الهوية داخل الإطار والتقط الصورة"
+//            label.font = UIFont.boldSystemFont(ofSize: 16)
+//            label.textColor = .white
+//            label.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+//            label.textAlignment = .center
+//            label.numberOfLines = 2
+//            label.isUserInteractionEnabled = false
+//            
+//            let labelHeight = frameHeight * 0.15
+//            let labelY = greenFrame.frame.minY - labelHeight - 10
+//            label.frame = CGRect(x: greenFrame.frame.minX,
+//                                 y: labelY,
+//                                 width: greenFrame.frame.width,
+//                                 height: labelHeight)
+//            
+//            overlayView.addSubview(label)
+//            
+//            picker.cameraOverlayView = overlayView
+//            
+//            // تغيير الاتجاه للعربية
+//            picker.view.semanticContentAttribute = .forceRightToLeft
+//        }
+//        
+//        return picker
+//    }
+//    
+//    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {
+//        // لا شيء
+//    }
+//    
+//    func makeCoordinator() -> Coordinator {
+//        Coordinator(self)
+//    }
+//    
+//    // MARK: - Coordinator
+//    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+//        let parent: ImagePicker
+//        private var buttonTextTimer: Timer?
+//        
+//        init(_ parent: ImagePicker) {
+//            self.parent = parent
+//            super.init()
+//            
+//            // بدء مؤقت لتغيير نصوص الأزرار - مع تكرار أكثر
+//            buttonTextTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] _ in
+//                self?.updateButtonTexts()
+//            }
+//            
+//            // محاولة إضافية بعد تأخير للتأكد من تحميل الواجهة
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+//                self?.forceUpdateButtonTexts()
+//            }
+//        }
+//        
+//        // دالة إضافية لتحديث النصوص بقوة
+//        private func forceUpdateButtonTexts() {
+//            for _ in 0...10 {
+//                DispatchQueue.main.asyncAfter(deadline: .now() + Double.random(in: 0.1...1.0)) { [weak self] in
+//                    self?.updateButtonTexts()
+//                    // محاولة إضافية لضبط المحاذاة
+//                    self?.alignButtonsHorizontally()
+//                }
+//            }
+//        }
+//        
+//        // دالة لضبط المحاذاة الأفقية للأزرار
+//        private func alignButtonsHorizontally() {
+//            DispatchQueue.main.async {
+//                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+//                   let window = windowScene.windows.first {
+//                    var usePhotoButton: UIButton?
+//                    var retakeButton: UIButton?
+//                    
+//                    // البحث عن كلا الزرين
+//                    self.findButtons(in: window, usePhotoButton: &usePhotoButton, retakeButton: &retakeButton)
+//                    
+//                    // إذا وجدنا كلا الزرين، نضبط محاذاتهما
+//                    if let useButton = usePhotoButton, let retButton = retakeButton {
+//                        // التأكد من أن لهما نفس الارتفاع والمحاذاة
+//                        let sameY = min(useButton.frame.origin.y, retButton.frame.origin.y)
+//                        useButton.frame.origin.y = sameY
+//                        retButton.frame.origin.y = sameY
+//                    }
+//                }
+//            }
+//        }
+//        
+//        // دالة مساعدة للبحث عن الأزرار
+//        private func findButtons(in view: UIView, usePhotoButton: inout UIButton?, retakeButton: inout UIButton?) {
+//            if let button = view as? UIButton {
+//                if let title = button.titleLabel?.text {
+//                    if title.contains("استخدم") || title.contains("Use") {
+//                        usePhotoButton = button
+//                    } else if title.contains("أعد") || title.contains("Retake") {
+//                        retakeButton = button
+//                    }
+//                }
+//            }
+//            
+//            for subview in view.subviews {
+//                findButtons(in: subview, usePhotoButton: &usePhotoButton, retakeButton: &retakeButton)
+//            }
+//        }
+//        
+//        deinit {
+//            buttonTextTimer?.invalidate()
+//        }
+//        
+//        private func updateButtonTexts() {
+//            DispatchQueue.main.async {
+//                // استخدام الطريقة الحديثة للحصول على النافذة
+//                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+//                   let window = windowScene.windows.first {
+//                    self.findAndReplaceButtonTexts(in: window)
+//                }
+//            }
+//        }
+//        
+//        private func findAndReplaceButtonTexts(in view: UIView) {
+//            // دالة بسيطة للبحث عن الأزرار وتغيير نصوصها
+//            if let button = view as? UIButton {
+//                // فحص جميع حالات الزر
+//                let states: [UIControl.State] = [.normal, .highlighted, .selected, .disabled]
+//                
+//                // الآن نقوم بتغيير النص
+//                for state in states {
+//                    if let title = button.title(for: state) {
+//                        if title == "Use Photo" || title.contains("Use Photo") || title.contains("Use") {
+//                            // تغيير النص والخصائص
+//                            button.setTitle("استخدم الصورة", for: state)
+//                            
+//                            // ضبط خصائص النص لضمان ظهوره كاملاً
+//                            if let titleLabel = button.titleLabel {
+//                                // جعل الخط أصغر
+//                                titleLabel.font = UIFont.systemFont(ofSize: 14)
+//                                // السماح بتصغير الخط إذا لزم الأمر
+//                                titleLabel.adjustsFontSizeToFitWidth = true
+//                                titleLabel.minimumScaleFactor = 0.8
+//                                // محاذاة في المنتصف
+//                                titleLabel.textAlignment = .center
+//                                // سطر واحد فقط
+//                                titleLabel.numberOfLines = 1
+//                                // إزالة أي محاذاة رأسية إضافية
+//                                titleLabel.baselineAdjustment = .alignCenters
+//                            }
+//                            
+//                            // تقليل الحشو الداخلي للزر
+//                            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+//                            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//                            
+//                            // ضبط المحاذاة الرأسية
+//                            button.contentVerticalAlignment = .center
+//                            button.contentHorizontalAlignment = .center
+//                            
+//                            // إجبار إعادة التخطيط
+//                            button.setNeedsLayout()
+//                            button.layoutIfNeeded()
+//                            
+//                        } else if title == "Retake" || title.contains("Retake") {
+//                            button.setTitle("أعد الالتقاط", for: state)
+//                            
+//                            // نفس خصائص زر "استخدم الصورة" للحصول على نفس المستوى
+//                            if let titleLabel = button.titleLabel {
+//                                titleLabel.font = UIFont.systemFont(ofSize: 14)  // نفس حجم الخط
+//                                titleLabel.adjustsFontSizeToFitWidth = true
+//                                titleLabel.minimumScaleFactor = 0.8
+//                                titleLabel.textAlignment = .center
+//                                titleLabel.numberOfLines = 1
+//                                titleLabel.baselineAdjustment = .alignCenters
+//                            }
+//                            
+//                            // نفس الحشو والمحاذاة
+//                            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+//                            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//                            button.contentVerticalAlignment = .center
+//                            button.contentHorizontalAlignment = .center
+//                            
+//                            // إجبار إعادة التخطيط
+//                            button.setNeedsLayout()
+//                            button.layoutIfNeeded()
+//                            
+//                        } else if title == "Cancel" || title.contains("Cancel") {
+//                            button.setTitle("إلغاء", for: state)
+//                        }
+//                    }
+//                }
+//            }
+//            
+//            // البحث في العناصر الفرعية
+//            for subview in view.subviews {
+//                findAndReplaceButtonTexts(in: subview)
+//            }
+//        }
+//        
+//        func imagePickerController(
+//            _ picker: UIImagePickerController,
+//            didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+//        ) {
+//            buttonTextTimer?.invalidate()
+//            
+//            if let image = info[.originalImage] as? UIImage {
+//                DispatchQueue.main.async {
+//                    let imageType = self.parent.uploadType == "Face_id" ? "الوجه الأمامي" : "الوجه الخلفي"
+//                    self.parent.selectedImage = image
+//                    self.parent.showToast?(
+//                        "📤 جاري رفع \(imageType)...",
+//                        Color(red: 27/255, green: 62/255, blue: 93/255),
+//                        false
+//                    )
+//                    self.uploadImageToServer(image: image)
+//                    self.parent.presentationMode.wrappedValue.dismiss()
+//                }
+//            } else {
+//                DispatchQueue.main.async {
+//                    self.parent.presentationMode.wrappedValue.dismiss()
+//                }
+//            }
+//        }
+//        
+//        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//            buttonTextTimer?.invalidate()
+//            DispatchQueue.main.async {
+//                self.parent.presentationMode.wrappedValue.dismiss()
+//            }
+//        }
+//        
+//        private func uploadImageToServer(image: UIImage) {
+//            let uploader = IDUploader()
+//            
+//            uploader.uploadIDImage(image: image, for: parent.uploadType) { success, imageURL, responseType in
+//                DispatchQueue.main.async {
+//                    let imageType = (self.parent.uploadType == "Face_id") ? "الوجه الأمامي" : "الوجه الخلفي"
+//                    
+//                    if success, let imageURL = imageURL, let url = URL(string: imageURL), responseType != nil {
+//                        if responseType != self.parent.uploadType {
+//                            self.parent.showToast?(
+//                                " خطأ في التعرف على \(imageType)!\nيرجى المحاولة مجددًا.",
+//                                Color.orange.opacity(0.9),
+//                                true
+//                            )
+//                            return
+//                        }
+//                        self.downloadImage(from: url)
+//                    } else {
+//                        self.parent.showToast?(
+//                            "❌ فشل التعرف على \(imageType).\nيرجى المحاولة مجددًا.",
+//                            Color.orange.opacity(0.9),
+//                            true
+//                        )
+//                    }
+//                }
+//            }
+//        }
+//        
+//        private func downloadImage(from url: URL) {
+//            let imageType = (self.parent.uploadType == "Face_id") ? "الوجه الأمامي" : "الوجه الخلفي"
+//            
+//            URLSession.shared.dataTask(with: url) { data, response, error in
+//                if let data = data, let downloadedImage = UIImage(data: data) {
+//                    DispatchQueue.main.async {
+//                        self.parent.onUploadComplete?(true, downloadedImage)
+//                        self.parent.showToast?("✅ تم رفع \(imageType) بنجاح!", Color.green, true)
+//                    }
+//                } else {
+//                    DispatchQueue.main.async {
+//                        self.parent.showToast?("❌ فشل تحميل \(imageType) من السيرفر.", Color.red, true)
+//                        self.parent.onUploadComplete?(false, nil)
+//                    }
+//                }
+//            }.resume()
+//        }
+//    }
+//}
 
 
 
