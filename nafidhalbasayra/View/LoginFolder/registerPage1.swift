@@ -378,6 +378,7 @@ struct DropdownCityView: View {
             }
             .padding(.vertical)
         }
+        .alignmentGuide(.leading) { d in d[.trailing] } //add
         .frame(maxWidth: uiDevicePhone ? screenWidth * 0.8 : screenWidth * 0.6)
         .background(Color.white)
         .cornerRadius(5)
