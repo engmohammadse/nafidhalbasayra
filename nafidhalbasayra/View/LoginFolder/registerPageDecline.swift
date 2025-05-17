@@ -129,6 +129,9 @@ struct registerPageDecline: View {
         
         let coreDataViewModel = CoreDataViewModel.shared
         coreDataViewModel.deleteAllTeacherInfo()
+        
+        let coreDataNotificationVM = CoreDataNotificationViewModel.shared
+        coreDataNotificationVM.deleteAllNotifications()
     }
 }
 
