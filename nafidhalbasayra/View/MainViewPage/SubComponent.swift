@@ -151,7 +151,7 @@ struct DropdownField: View {
     var body: some View {
         
         //alignment: .trailing,
-        VStack(spacing: 8) {
+        VStack(alignment: .trailing, spacing: 8) {
             
             
             if UIDevice.current.userInterfaceIdiom == .phone {
