@@ -150,15 +150,47 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     // إعداد واجهة المستخدم
+    // Modify the setupUI() function to use proportional spacing:
+
+    // إعداد واجهة المستخدم
+  
+    
+    // إعداد واجهة المستخدم
     func setupUI() {
         view.backgroundColor = .black
         
-        // تحديد إطار البيضاوي
+        // حساب النسب المناسبة لحجم الشاشة مع جعل الإطار أكبر بشكل كبير
+        let screenHeight = view.bounds.height
+        let screenWidth = view.bounds.width
+        
+        // زيادة حجم الإطار بشكل كبير - خاصة للأجهزة الصغيرة
+        let ovalHeight: CGFloat
+        let ovalWidth: CGFloat
+        
+        if screenHeight < 700 { // ايفون 8 والأصغر
+            // جعل الإطار أكبر بكثير على الأجهزة الصغيرة
+            ovalHeight = screenHeight * 0.5 // 50% من ارتفاع الشاشة
+            ovalWidth = screenWidth * 0.85 // 85% من عرض الشاشة - عرض أكبر بكثير
+        } else {
+            // حجم أكبر للأجهزة الكبيرة أيضًا
+            ovalHeight = screenHeight * 0.45 // 45% من ارتفاع الشاشة
+            ovalWidth = screenWidth * 0.75 // 75% من عرض الشاشة
+        }
+        
+        // ضبط الموضع الرأسي - أعلى للإطار الأكبر
+        let verticalPosition: CGFloat
+        if screenHeight < 700 { // ايفون 8 والأصغر
+            verticalPosition = screenHeight * 0.17 // موضع أعلى للإطار الكبير
+        } else {
+            verticalPosition = screenHeight * 0.2 // موضع أعلى للشاشات الكبيرة أيضًا
+        }
+        
+        // حساب إطار البيضاوي بالأبعاد الجديدة
         ovalFrame = CGRect(
-            x: (view.bounds.width - 250) / 2,
-            y: (view.bounds.height - 350) / 2,
-            width: 250,
-            height: 350
+            x: (view.bounds.width - ovalWidth) / 2,
+            y: verticalPosition,
+            width: ovalWidth,
+            height: ovalHeight
         )
         
         // إضافة الخلفية السوداء شبه الشفافة
@@ -182,7 +214,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         ovalBorderView.backgroundColor = .clear
         ovalBorderView.layer.borderWidth = 3
         ovalBorderView.layer.borderColor = UIColor.red.cgColor
-        ovalBorderView.layer.cornerRadius = ovalFrame.width / 2
+        ovalBorderView.layer.cornerRadius = ovalWidth / 2 // تعديل الزاوية بناءً على العرض الجديد
         
         // رسم شكل بيضاوي للإطار
         let borderPath = UIBezierPath(ovalIn: ovalBorderView.bounds)
@@ -194,16 +226,27 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         ovalBorderView.layer.addSublayer(borderLayer)
         view.addSubview(ovalBorderView)
         
-        // إعداد زر الالتقاط
-        let buttonSize: CGFloat = 80
+        // زيادة المسافة بين الإطار وزر الالتقاط
+        let buttonSize: CGFloat = min(80, screenHeight * 0.12) // زيادة حجم الزر
+        
+        // حساب موضع Y للزر مع مراعاة الإطار الأكبر
+        let buttonYPosition: CGFloat
+        if screenHeight < 700 { // لأجهزة ايفون 8 والأصغر
+            // وضع الزر قريبًا من أسفل الشاشة مع مراعاة الإطار الكبير
+            buttonYPosition = screenHeight - buttonSize - 30 // مسافة 30 نقطة من الأسفل
+        } else {
+            // وضع الزر في مكان مناسب على الشاشات الكبيرة
+            buttonYPosition = verticalPosition + ovalHeight + (screenHeight * 0.07)
+        }
+        
         captureButton.frame = CGRect(
             x: (view.bounds.width - buttonSize) / 2,
-            y: view.bounds.height - 200,
+            y: buttonYPosition,
             width: buttonSize,
             height: buttonSize
         )
         
-        // الدائرة الخارجية البيضاء الكبيرة
+        // إعداد زر الالتقاط
         captureButton.backgroundColor = .white
         captureButton.layer.cornerRadius = buttonSize / 2
         captureButton.layer.shadowColor = UIColor.black.cgColor
@@ -213,7 +256,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         // إضافة أيقونة الكاميرا
         let cameraIcon = UIImageView()
-        cameraIcon.frame = CGRect(x: 20, y: 20, width: 40, height: 40)
+        cameraIcon.frame = CGRect(x: buttonSize * 0.25, y: buttonSize * 0.25, width: buttonSize * 0.5, height: buttonSize * 0.5)
         cameraIcon.contentMode = .scaleAspectFit
         cameraIcon.tintColor = .black
         
@@ -246,12 +289,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         view.addSubview(captureButton)
         
-        // إعداد نص التنبيه
+        // تعديل موضع نص التنبيه ليكون فوق الإطار البيضاوي
         messageLabel.frame = CGRect(
             x: 20,
-            y: 100,
+            y: verticalPosition - 50,
             width: view.bounds.width - 40,
-            height: 60
+            height: 40
         )
         messageLabel.textAlignment = .center
         messageLabel.font = UIFont.boldSystemFont(ofSize: 18)
@@ -261,6 +304,120 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         messageLabel.text = "جاري البحث عن وجه..."
         view.addSubview(messageLabel)
     }
+    
+    
+    
+//    func setupUI() {
+//        view.backgroundColor = .black
+//        
+//        // تحديد إطار البيضاوي
+//        ovalFrame = CGRect(
+//            x: (view.bounds.width - 250) / 2,
+//            y: (view.bounds.height - 350) / 2,
+//            width: 250,
+//            height: 350
+//        )
+//        
+//        // إضافة الخلفية السوداء شبه الشفافة
+//        blackOverlayView.frame = view.bounds
+//        blackOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+//        view.addSubview(blackOverlayView)
+//        
+//        // إنشاء مساحة شفافة بيضاوية في الوسط
+//        let path = UIBezierPath(rect: view.bounds)
+//        let ovalPath = UIBezierPath(ovalIn: ovalFrame)
+//        path.append(ovalPath)
+//        path.usesEvenOddFillRule = true
+//        
+//        transparentOvalPath.path = path.cgPath
+//        transparentOvalPath.fillRule = .evenOdd
+//        transparentOvalPath.fillColor = UIColor.black.withAlphaComponent(0.9).cgColor
+//        blackOverlayView.layer.mask = transparentOvalPath
+//        
+//        // إضافة إطار بيضاوي
+//        ovalBorderView.frame = ovalFrame
+//        ovalBorderView.backgroundColor = .clear
+//        ovalBorderView.layer.borderWidth = 3
+//        ovalBorderView.layer.borderColor = UIColor.red.cgColor
+//        ovalBorderView.layer.cornerRadius = ovalFrame.width / 2
+//        
+//        // رسم شكل بيضاوي للإطار
+//        let borderPath = UIBezierPath(ovalIn: ovalBorderView.bounds)
+//        let borderLayer = CAShapeLayer()
+//        borderLayer.path = borderPath.cgPath
+//        borderLayer.fillColor = UIColor.clear.cgColor
+//        borderLayer.strokeColor = UIColor.red.cgColor
+//        borderLayer.lineWidth = 3
+//        ovalBorderView.layer.addSublayer(borderLayer)
+//        view.addSubview(ovalBorderView)
+//        
+//        // إعداد زر الالتقاط
+//        let buttonSize: CGFloat = 80
+//        captureButton.frame = CGRect(
+//            x: (view.bounds.width - buttonSize) / 2,
+//            y: view.bounds.height - 200,
+//            width: buttonSize,
+//            height: buttonSize
+//        )
+//        
+//        // الدائرة الخارجية البيضاء الكبيرة
+//        captureButton.backgroundColor = .white
+//        captureButton.layer.cornerRadius = buttonSize / 2
+//        captureButton.layer.shadowColor = UIColor.black.cgColor
+//        captureButton.layer.shadowOpacity = 0.3
+//        captureButton.layer.shadowOffset = CGSize(width: 0, height: 2)
+//        captureButton.layer.shadowRadius = 4
+//        
+//        // إضافة أيقونة الكاميرا
+//        let cameraIcon = UIImageView()
+//        cameraIcon.frame = CGRect(x: 20, y: 20, width: 40, height: 40)
+//        cameraIcon.contentMode = .scaleAspectFit
+//        cameraIcon.tintColor = .black
+//        
+//        // رسم أيقونة الكاميرا باستخدام SF Symbols
+//        if let cameraImage = UIImage(systemName: "camera.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)) {
+//            cameraIcon.image = cameraImage
+//        } else {
+//            // بديل: رسم أيقونة كاميرا بسيطة
+//            cameraIcon.backgroundColor = .black
+//            cameraIcon.layer.cornerRadius = 10
+//            cameraIcon.layer.borderWidth = 2
+//            cameraIcon.layer.borderColor = UIColor.black.cgColor
+//        }
+//        
+//        cameraIcon.isUserInteractionEnabled = false
+//        captureButton.addSubview(cameraIcon)
+//        
+//        // إضافة حلقة خارجية للزيادة في الوضوح
+//        let ringLayer = CAShapeLayer()
+//        let ringPath = UIBezierPath(ovalIn: CGRect(x: 2, y: 2, width: buttonSize - 4, height: buttonSize - 4))
+//        ringLayer.path = ringPath.cgPath
+//        ringLayer.fillColor = UIColor.clear.cgColor
+//        ringLayer.strokeColor = UIColor.black.withAlphaComponent(0.1).cgColor
+//        ringLayer.lineWidth = 2
+//        captureButton.layer.addSublayer(ringLayer)
+//        
+//        captureButton.isEnabled = false
+//        captureButton.alpha = 0.5
+//        captureButton.addTarget(self, action: #selector(captureButtonTapped), for: .touchUpInside)
+//        
+//        view.addSubview(captureButton)
+//        
+//        // إعداد نص التنبيه
+//        messageLabel.frame = CGRect(
+//            x: 20,
+//            y: 100,
+//            width: view.bounds.width - 40,
+//            height: 60
+//        )
+//        messageLabel.textAlignment = .center
+//        messageLabel.font = UIFont.boldSystemFont(ofSize: 18)
+//        messageLabel.textColor = .white
+//        messageLabel.numberOfLines = 2
+//        messageLabel.backgroundColor = .clear
+//        messageLabel.text = "جاري البحث عن وجه..."
+//        view.addSubview(messageLabel)
+//    }
 
     func setupCamera() {
         let session = AVCaptureSession()
