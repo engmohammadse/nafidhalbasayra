@@ -18,6 +18,8 @@ struct StudentDataSection: View {
     @State private var showNoInternetToast = false
 
     @State private var showDeleteToast = false  // إضافة حالة التبيه للحذف
+    @State private var showMaxStudentsAlert = false // للتنبيه عند الوصول للحد الأقصى
+    let maxStudentsCount = 60 // الحد الأقصى لعدد الطلاب
 
     
     var body: some View {
@@ -42,6 +44,7 @@ struct StudentDataSection: View {
             
             
             ScrollView {
+                LazyVStack {
                 ForEach(Array(vmStudent.savedEntitiesStudent.enumerated()), id: \.element.studentID) { index, entity in
                     studentInfo(
                         vmStudent: vmStudent,
@@ -63,7 +66,7 @@ struct StudentDataSection: View {
                                     self.showDeleteToast = true
                                 }
                             }
-
+                            
                             // إخفاء الـ Toast بعد 2 ثانية
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 withAnimation {
@@ -75,7 +78,7 @@ struct StudentDataSection: View {
                     )
                     
                 }
-                
+              }
             }
             .scrollIndicators(.hidden) //  إخفاء شريط التمرير
             .frame(maxWidth: .infinity)
@@ -83,21 +86,63 @@ struct StudentDataSection: View {
         
 
             
-            //Button(action: {}){
-                NavigationLink(destination: AddStudentToStudentDataSection( )
-                    //.environmentObject(teacherData)
-                   
-                    .environmentObject(vmStudent)){
-                    Text("تسجيل بيانات طالب جديد")
-                        .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
-                        .foregroundStyle(.white)
-                        .frame(width: screenWidth * 0.85)
-                        .frame(height: screenHeight * 0.04)
-                        .background(Color(red: 27/255, green: 62/255, blue: 94/255))
-                        .cornerRadius(5)
-                    
-                }
-            //}
+//            Button(action: {}){
+//                NavigationLink(destination: AddStudentToStudentDataSection( )
+//                    //.environmentObject(teacherData)
+//                   
+//                    .environmentObject(vmStudent)){
+//                    Text("تسجيل بيانات طالب جديد")
+//                        .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+//                        .foregroundStyle(.white)
+//                        .frame(width: screenWidth * 0.85)
+//                        .frame(height: screenHeight * 0.04)
+//                        .background(Color(red: 27/255, green: 62/255, blue: 94/255))
+//                        .cornerRadius(5)
+//                    
+//                }
+//            }
+//            
+            
+            // زر إضافة طالب جديد مع التحقق من الحد الأقصى
+                       if vmStudent.savedEntitiesStudent.count < maxStudentsCount {
+                           NavigationLink(destination: AddStudentToStudentDataSection()
+                               .environmentObject(vmStudent)){
+                               Text("تسجيل بيانات طالب جديد")
+                                   .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+                                   .foregroundStyle(.white)
+                                   .frame(width: screenWidth * 0.85)
+                                   .frame(height: screenHeight * 0.04)
+                                   .background(Color(red: 27/255, green: 62/255, blue: 94/255))
+                                   .cornerRadius(5)
+                           }
+                       } else {
+                           // عرض زر معطل عند الوصول للحد الأقصى
+                           Button(action: {
+                               showMaxStudentsAlert = true
+                           }) {
+                               Text("تسجيل بيانات طالب جديد")
+                                   .font(.custom("BahijTheSansArabic-Bold", size: uiDevicePhone ? screenWidth * 0.04 : screenWidth * 0.023 ))
+                                   .foregroundStyle(.white)
+                                   .frame(width: screenWidth * 0.85)
+                                   .frame(height: screenHeight * 0.04)
+                                   .background(Color.gray)
+                                   .cornerRadius(5)
+                           }
+                           .alert("الحد الأقصى للطلاب", isPresented: $showMaxStudentsAlert) {
+                               Button("حسناً", role: .cancel) { }
+                           } message: {
+                               Text("لقد وصلت إلى الحد الأقصى لعدد الطلاب (60 طالب)")
+                           }
+                       }
+            
+
+                     
+            
+            
+            
+            
+            
+            
             
             
             Button(action: {
