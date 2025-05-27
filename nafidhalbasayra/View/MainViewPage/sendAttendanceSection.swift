@@ -436,41 +436,128 @@ struct sendAttendanceSection: View {
         }
         
         // ✅ **إرسال الحضور بعد التحقق**
+        
         if let numberOfStudentsInt = Int(numberOfStudents),
-           let location = locationManager.location,
-           let image = imageData,
-           let imageDataCompressed = image.jpegData(compressionQuality: 0.5) {
-            
-            vmAttendaceStatus.addAttendaceStatus(
-                numberOfStudents: numberOfStudentsInt,
-                imageData: imageDataCompressed,
-                notes: notes,
-                latitude: location.coordinate.latitude,
-                longitude: location.coordinate.longitude,
-                date: Date(),
-                state: 0
-            )
-            
-            
-            alertTitle = "تم الحفظ"
-            alertMessage = "تم حفظ موقف الحضور بنجاح!"
-            showAlert = true
-            
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
-                attendanceUploader.sendPendingAttendanceData()
-            }
-            
-            //  **إعادة تعيين القيم بعد الحفظ**
-            numberOfStudents = ""
-            imageData = nil
-            notes = ""
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                dismiss()
-            }
+          let location = locationManager.location,
+          let image = imageData {
+           
+           // ضغط الصورة لتصبح أقل من 1.5MB
+           var compressionQuality: CGFloat = 0.6
+           var imageDataCompressed = image.jpegData(compressionQuality: compressionQuality)
+           
+           // التحقق من حجم الصورة وضغطها حتى تصبح أقل من 1.5MB
+           while let data = imageDataCompressed, data.count > 1_500_000, compressionQuality > 0.1 {
+               compressionQuality -= 0.1
+               imageDataCompressed = image.jpegData(compressionQuality: compressionQuality)
+           }
+           
+           // إذا ما زال الحجم كبير، نقوم بتصغير الصورة نفسها
+           if let data = imageDataCompressed, data.count > 1_500_000 {
+               let resizedImage = resizeImage(image: image, targetSizeKB: 1500)
+               imageDataCompressed = resizedImage.jpegData(compressionQuality: 0.7)
+           }
+           
+           guard let finalImageData = imageDataCompressed else { return }
+           
+           vmAttendaceStatus.addAttendaceStatus(
+               numberOfStudents: numberOfStudentsInt,
+               imageData: finalImageData,
+               notes: notes,
+               latitude: location.coordinate.latitude,
+               longitude: location.coordinate.longitude,
+               date: Date(),
+               state: 0
+           )
+           
+           alertTitle = "تم الحفظ"
+           alertMessage = "تم حفظ موقف الحضور بنجاح!"
+           showAlert = true
+           
+           DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+               let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+               attendanceUploader.sendPendingAttendanceData()
+           }
+           
+           // إعادة تعيين القيم بعد الحفظ
+           numberOfStudents = ""
+           imageData = nil
+           notes = ""
+           
+           DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+               dismiss()
+           }
         }
+
+        // دالة مساعدة لتصغير الصورة (أضفها في نفس الكلاس)
+        func resizeImage(image: UIImage, targetSizeKB: Int) -> UIImage {
+           let targetBytes = targetSizeKB * 1000
+           var scale: CGFloat = 1.0
+           
+           while scale > 0.3 {
+               let newWidth = image.size.width * scale
+               let newHeight = image.size.height * scale
+               let newSize = CGSize(width: newWidth, height: newHeight)
+               
+               UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+               image.draw(in: CGRect(origin: .zero, size: newSize))
+               let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+               UIGraphicsEndImageContext()
+               
+               if let resized = resizedImage,
+                  let data = resized.jpegData(compressionQuality: 0.7),
+                  data.count <= targetBytes {
+                   return resized
+               }
+               
+               scale -= 0.1
+           }
+           
+           return image
+        }
+        
+        
+        
+        
+        
+//        if let numberOfStudentsInt = Int(numberOfStudents),
+//           let location = locationManager.location,
+//           let image = imageData,
+//           let imageDataCompressed = image.jpegData(compressionQuality: 0.5) {
+//            
+//            vmAttendaceStatus.addAttendaceStatus(
+//                numberOfStudents: numberOfStudentsInt,
+//                imageData: imageDataCompressed,
+//                notes: notes,
+//                latitude: location.coordinate.latitude,
+//                longitude: location.coordinate.longitude,
+//                date: Date(),
+//                state: 0
+//            )
+//            
+//            
+//            alertTitle = "تم الحفظ"
+//            alertMessage = "تم حفظ موقف الحضور بنجاح!"
+//            showAlert = true
+//            
+//            
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                let attendanceUploader = AttendanceUploader(database: vmAttendaceStatus)
+//                attendanceUploader.sendPendingAttendanceData()
+//            }
+//            
+//            //  **إعادة تعيين القيم بعد الحفظ**
+//            numberOfStudents = ""
+//            imageData = nil
+//            notes = ""
+//            
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                dismiss()
+//            }
+//        }
+        
+        
+        
+        
     }
 }
     
